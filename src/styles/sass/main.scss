@@ -1,7 +1,10 @@
-@import 'header';
+@import 'variables';
+@import 'animations';
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import 'reset';
+@import 'general';
+
+@import 'loginScreen';
+@import 'nav';
+@import 'mainContent';
+@import 'footer';

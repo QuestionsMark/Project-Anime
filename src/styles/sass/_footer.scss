@@ -1,0 +1,76 @@
+.footer {
+    background-color: rgba(00, 00, 00, 0.9);
+    user-select: none;
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        border-bottom: 1px solid $main-color;
+    }
+
+    &__socials {
+        flex-basis: 33.3333%;
+    }
+
+    &__links {
+        @extend .footer__socials;
+    }
+
+    &__additions {
+        @extend .footer__socials;
+    }
+
+    &__title {
+        color: $font-color2;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    &__linksWrapper {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__link {
+        flex-basis: 40%;
+        display: flex;
+        padding: 7px 15px;
+        border: 1px solid $font-color;
+        border-radius: 15px;
+        margin: 0 30% 10px 0;
+        font-size: 16px;
+        text-decoration: none;
+        color: $font-color;
+
+        &:hover {
+            color: $special-color;
+            border: 1px solid $special-color;
+        }
+    }
+
+    &__linkIcon.MuiSvgIcon-root {
+        width: 18px;
+        height: 18px;
+        margin-left: 5px;
+    }
+
+    &__smallLink {
+        flex-basis: 33%;
+        margin-bottom: 4px;
+        color: $font-color;
+        font-size: 13px;
+        text-decoration: none;
+    }
+
+    &__licence {
+        text-align: center;
+        line-height: 5vh;
+        font-size: 14px;
+    }
+
+    &__copyIcon.MuiSvgIcon-root {
+        height: 14px;
+        width: 14px;
+    }
+}

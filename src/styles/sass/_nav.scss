@@ -1,0 +1,125 @@
+.header {
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 5vh;
+    background-color: rgba(00, 00, 00, 0.9);
+    user-select: none;
+
+    &__login {
+        display: flex;
+        padding: 1vh 1.5vh;
+        width: 5vh;
+        overflow: hidden;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            width: 13vh;
+        }
+
+        &__loginIcon:hover .header__loginIcon.MuiIcon-root {
+            color: $main-color;
+        }
+    }
+
+    &__loginIcon.MuiIcon-root {
+        display: block;
+        margin-right: 1.5vh;
+        font-size: 2vh;
+        line-height: 2.9vh;
+        overflow: visible;
+    }
+
+    &__loginTxt {
+        font-size: 1.6vh;
+        line-height: 3vh;
+        text-transform: uppercase;
+        color: $main-color;
+        font-weight: bold;
+    }
+}
+
+.logo {
+    display: flex;
+    padding: 0.5vh;
+    margin-right: 10vh;
+
+    &__imgWrapper {
+        width: 4vh;
+        height: 4vh;
+        margin-right: 0.5vw;
+    }
+
+    &__title {
+        line-height: 4vh;
+    }
+
+    &__titleColor1 {
+        color: $main-color2;
+    }
+
+    &__titleColor2 {
+        color: $main-color3;
+    }
+
+    &__titleColor3 {
+        color: $main-color;
+    }
+}
+
+.menu {
+    flex-grow: 1;
+
+    &__list {
+        list-style: none;
+        display: flex;
+    }
+
+    &__item {
+        &:hover .menu__border {
+            width: 100%;
+        }
+    }
+
+    &__link {
+        display: flex;
+        padding: 1vh;
+        font-size: 1.6vh;
+        line-height: calc(3vh - 2px);
+        color: $font-color;
+        font-weight: bold;
+        text-decoration: none;
+
+        &.active {
+            color: $main-color;
+        }
+    }
+
+    &__border {
+        background-color: $font-color;
+        width: 0;
+        height: 2px;
+        transition: 0.2s;
+    }
+
+    &__icon.MuiSvgIcon-root {
+        width: 3vh;
+        height: calc(3vh - 2px);
+        padding: calc(0.5vh - 2px) 0.5vh;
+    }
+
+    &__icon.MuiIcon-root {
+        position: relative;
+        width: 3vh;
+        height: calc(3vh - 2px);
+        font-size: 1.4vh;
+    }
+
+    .fa-trophy:before {
+        width: 100%;
+        @include position-absolute(70%, 51%);
+    }
+}

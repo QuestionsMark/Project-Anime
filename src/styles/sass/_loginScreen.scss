@@ -1,0 +1,118 @@
+.loginScreen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    z-index: 1000;
+
+    &__curtain {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(20, 20, 20, 0.8);
+    }
+
+    &__panel {
+        display: flex;
+        flex-direction: column;
+        @include position-absolute(50%, 50%);
+        width: 500px;
+        height: 500px;
+        padding: 40px;
+        border: 2px solid #f50057;
+        border-radius: 10px;
+        background-color: #101010;
+    }
+
+    &__title {
+        flex-basis: 10%;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 30px;
+    }
+
+    &__form {
+        // flex-grow: 1;
+        margin: 0 auto 50px;
+    }
+
+    &__input {
+        display: block;
+        width: 300px;
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        margin: 20px auto;
+        color: $font-color;
+        background-color: #303030;
+        font-size: 17px;
+        font-weight: bold;
+        outline: none;
+
+        &::placeholder {
+            color: #909090;
+        }
+    }
+
+    &__submit {
+        display: block;
+        padding: 10px 30px;
+        border: none;
+        border-radius: 20px;
+        margin: 0 auto;
+        color: $font-color;
+        background-color: #303030;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.4s;
+
+        &:hover {
+            background-color: #606060;
+        }
+    }
+
+    &__help {
+        flex-basis: 15%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    &__text {
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    &__link {
+        color: $font-color;
+        text-decoration: none;
+    }
+
+    &__goRegister {
+        color: $main-color;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+label.MuiFormControlLabel-root {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.MuiFormControlLabel-root .MuiSvgIcon-root {
+    color: #f50057;
+}
+
+span.MuiTypography-body1 {
+    font-size: 14px;
+}

@@ -1,0 +1,13 @@
+$main-color: #f50057;
+$main-color2: #ffcccc;
+$main-color3: #b95ad1;
+$special-color: #ffb700;
+$font-color: #d0d0d0;
+$font-color2: #e0e0e0;
+
+@mixin position-absolute($left, $top) {
+    position: absolute;
+    left: $left;
+    top: $top;
+    transform: translate(-50%, -50%);
+}
