@@ -1,15 +1,39 @@
 .main {
+    display: flex;
     padding-top: 5vh;
     background-color: rgba(20, 20, 20, 0.7);
 
     &__content {
-        width: 70vw;
+        width: calc(62vw - 14px);
+        height: 200vh;
         max-width: 1600px;
         min-height: 100vh;
         padding: 20px;
-        margin: 0 auto;
+        // margin: 0 auto;
         background-color: rgba(10, 10, 10, 0.8);
     }
 
-    &__section {}
+    &__section {
+        background-color: rgba(40, 40, 40, 0.8);
+    }
+
+    &__leftSide {
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        right: 0;
+        top: 5vh;
+        width: 19vw;
+        height: 95vh;
+    }
+
+    &__rightSide {
+        position: sticky;
+        right: 0;
+        top: 5vh;
+        width: 19vw;
+        height: 95vh;
+        margin-right: 10px;
+        overflow-y: scroll;
+    }
 }

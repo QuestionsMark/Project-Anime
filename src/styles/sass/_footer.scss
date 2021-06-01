@@ -44,8 +44,8 @@
         color: $font-color;
 
         &:hover {
-            color: $special-color;
-            border: 1px solid $special-color;
+            color: $font-color2;
+            border: 1px solid $main-color;
         }
     }
 

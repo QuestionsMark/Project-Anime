@@ -1,7 +1,27 @@
 body {
-    background-color: #202020;
+    background-image: url(../../media/img/hos-back20502.jpg);
+    // hos, sao, shi, ten, kiminonawa
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     color: $font-color;
     font-family: 'Roboto Condensed', sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: black;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $main-color;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: darken($main-color, 10%);
 }
 
 .img {
