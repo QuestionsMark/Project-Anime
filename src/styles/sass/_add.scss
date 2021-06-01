@@ -1,0 +1,39 @@
+.add {
+    position: relative;
+    flex-grow: 1;
+    border-left: 1px solid $main-color;
+    border-bottom: 1px solid $main-color;
+    border-radius: 10px;
+    margin: 0 20px 20px 20px;
+    box-shadow: -5px 5px 10px 3px black;
+    overflow: hidden;
+
+    &__text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        width: 70vw;
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    &__txt1 {
+        display: block;
+        margin-left: -35px;
+        margin-bottom: 15px;
+    }
+
+    &__txt2 {
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    &__txt3 {
+        display: block;
+        margin-left: -70px;
+        margin-bottom: 15px;
+    }
+}

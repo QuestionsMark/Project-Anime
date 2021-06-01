@@ -1,0 +1,26 @@
+.leftNav {
+    padding: 20px 20px 10px;
+    user-select: none;
+
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        padding: 10px;
+        border-bottom: 1px solid $main-color;
+        border-left: 1px solid $main-color;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: -5px 5px 10px 3px black;
+        font-size: 18px;
+        font-weight: bold;
+        transition: 0.4s;
+
+        &:hover {
+            padding: 10px 10px 10px 25px;
+            background-color: rgba(10, 10, 10, 0.6);
+            color: white;
+        }
+    }
+}
