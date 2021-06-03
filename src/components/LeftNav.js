@@ -15,9 +15,6 @@ const LeftNav = () => {
                 scrollTop: $section.offset().top - navHeight
             }, 500)
         })
-        // const dataID = 
-        // const scrollValue
-
     }, [])
 
     return (
