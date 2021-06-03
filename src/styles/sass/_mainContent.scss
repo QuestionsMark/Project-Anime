@@ -5,16 +5,24 @@
 
     &__content {
         width: calc(62vw - 14px);
-        height: 200vh;
         max-width: 1600px;
         min-height: 100vh;
-        padding: 20px;
-        // margin: 0 auto;
-        background-color: rgba(10, 10, 10, 0.8);
+        padding: 30px;
+        background-color: rgba(10, 10, 10, 0.6);
     }
 
     &__section {
-        background-color: rgba(40, 40, 40, 0.8);
+        padding: 30px;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 10px 6px black;
+        user-select: none;
+        transition: 0.4s;
+
+        &:hover {
+            background-color: rgba(10, 10, 10, 0.5);
+        }
     }
 
     &__leftSide {

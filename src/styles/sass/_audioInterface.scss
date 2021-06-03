@@ -1,0 +1,177 @@
+.audioInterface {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__icon.MuiSvgIcon-root {
+        display: none;
+        width: 1.5vw;
+        height: 1.5vw;
+        padding: 0.1vw;
+        margin-top: -1px;
+        color: $main-color;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+            padding: 0;
+        }
+    }
+
+    &__playPause {
+        margin-right: -6px;
+
+        .active {
+            display: block;
+        }
+    }
+
+    &__time {
+        font-size: 0.75vw;
+    }
+
+
+
+
+    /* CAŁY INPUT */
+
+    &__progression {
+        -webkit-appearance: none;
+        width: 7.5vw;
+        height: 3vw;
+        background: transparent;
+        outline: none;
+        transition: 0.3s;
+
+
+
+        /* KÓŁKO */
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+            height: 7px;
+            width: 7px;
+            border-radius: 50%;
+            background: $main-color;
+            cursor: pointer;
+            margin-top: -2px;
+            transition: 0.2s;
+        }
+
+        &:hover::-webkit-slider-thumb {
+            height: 12px;
+            width: 12px;
+            margin-top: -5px;
+            transform: translateX(10%);
+        }
+
+        &::-moz-range-thumb {
+            border: none;
+            height: 7px;
+            width: 7px;
+            border-radius: 50%;
+            background: $main-color;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        &:hover::-moz-range-thumb {
+            height: 13px;
+            width: 13px;
+        }
+
+        /* ŚCIEŻKA */
+
+        &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: $main-color;
+            transition: 0.3s;
+        }
+
+        &::-moz-range-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: $main-color;
+            transition: 0.3s;
+        }
+    }
+
+
+    &__volume {
+        -webkit-appearance: none;
+        width: 0;
+        height: 3vw;
+        margin-right: -0.25vw;
+        background: transparent;
+        outline: none;
+        overflow: hidden;
+        transition: 0.3s;
+
+        /* KÓŁKO */
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+            height: 7px;
+            width: 7px;
+            border-radius: 50%;
+            background: $main-color;
+            cursor: pointer;
+            margin-top: -2px;
+            transition: 0.2s;
+        }
+
+        &:hover::-webkit-slider-thumb {
+            height: 12px;
+            width: 12px;
+            margin-top: -5px;
+            transform: translateX(10%);
+        }
+
+        &::-moz-range-thumb {
+            border: none;
+            height: 7px;
+            width: 7px;
+            border-radius: 50%;
+            background: $main-color;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        &:hover::-moz-range-thumb {
+            height: 13px;
+            width: 13px;
+        }
+
+        /* ŚCIEŻKA */
+
+        &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: $main-color;
+            transition: 0.3s;
+        }
+
+        &::-moz-range-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: $main-color;
+            transition: 0.3s;
+        }
+    }
+
+    &__sound {
+        display: flex;
+        align-items: center;
+
+        .active {
+            display: block;
+        }
+    }
+}

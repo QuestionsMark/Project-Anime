@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import StarRateIcon from '@material-ui/icons/StarRate';
+import { Button } from '@material-ui/core';
+import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
 import dailyAnime from '../media/img/sak6-spec.jpg';
 
@@ -14,7 +15,7 @@ const DailyAnime = () => {
                     <div className="DA__imgWrapper">
                         <img src={dailyAnime} alt="Daily anime" className="img" />
                     </div>
-                    <p className="DA__rate"><StarRateIcon className="DA__rateIcon"/><span className="DA__rateValue">10,00</span></p>
+                    <p className="DA__rate"><StarRateRoundedIcon className="DA__rateIcon"/><span className="DA__rateValue">10,00</span></p>
                 </div>
                 <div className="DA__right">
                     <Link to="/page/seis" className="DA__animeTitle">Sakurasou no Pet na Kanojo</Link>
@@ -39,7 +40,7 @@ const DailyAnime = () => {
                 </div>
             </div>
             <p className="DA__description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, sit aspernatur natus suscipit adipisci labore accusamus optio voluptatum, libero quasi incidunt quae! Reiciendis nam nobis officiis illum blanditiis totam esse...</p>
-            <p className="DA__more">Czytaj dalej</p>
+            <Link to="/" className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
         </div>
      );
 }

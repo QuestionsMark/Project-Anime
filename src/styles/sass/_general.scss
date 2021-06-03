@@ -1,5 +1,5 @@
 body {
-    background-image: url(../../media/img/hos-back20502.jpg);
+    background-image: url(../../media/img/sao1-back20502.jpg);
     // hos, sao, shi, ten, kiminonawa
     background-position: center;
     background-size: cover;
@@ -32,4 +32,20 @@ body {
 
 .none {
     display: none;
+}
+
+.MuiButtonBase-root.button {
+    display: block;
+    background-color: $main-color;
+    color: $font-color2;
+    font-weight: bold;
+    text-transform: none;
+
+    &:hover {
+        background-color: darken($main-color, 10%)
+    }
+}
+
+.MuiPaper-root.MuiMenu-paper {
+    // max-height: 30vw;
 }

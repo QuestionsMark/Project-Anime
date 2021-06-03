@@ -1,0 +1,92 @@
+.WTMC {
+    @extend .DA;
+    max-height: calc(95vh - 40px);
+
+    &__list {
+        height: calc(85vh - 40px - 20px);
+        margin-bottom: 10px;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+    }
+
+    &__title {
+        @extend .DA__title;
+    }
+
+    &__item {
+        display: flex;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    &__imgWrapper {
+        width: 2vw;
+        height: 2vw;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    &__commentContent {
+        width: calc(100% - 2vw);
+        padding-left: 10px;
+    }
+
+    &__commentInfo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    &__nick {
+        display: block;
+        text-decoration: none;
+        font-size: 16px;
+        color: $font-color2;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__date {
+        font-size: 13px;
+    }
+
+    &__text {
+        font-size: 14px;
+        user-select: text;
+    }
+
+    &__like {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 1.5vw;
+        padding: 0 10px;
+
+        .WTMC__likeIcon {
+            width: 1.1vw;
+            height: 1.1vw;
+            cursor: pointer;
+        }
+
+        .WTMC__likeIcon.active {
+            color: $main-color;
+        }
+
+        .WTMC__likeIcon:hover {
+            color: white;
+        }
+    }
+
+    &__likeAmount {
+        margin-right: 5px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+}

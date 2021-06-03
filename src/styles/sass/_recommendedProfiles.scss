@@ -1,0 +1,87 @@
+.RP {
+
+    &__title {
+        @extend .AOT__title
+    }
+
+    &__profiles {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    &__profile {
+        position: relative;
+        flex-basis: 18%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        border-right: 1px solid $main-color;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.2s;
+
+        &:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 1px 1px 0 1px $main-color, 2px 2px 0 1px $main-color, 3px 3px 0 1px $main-color, 4px 4px 0 1px $main-color, 5px 5px 0 1px $main-color, 6px 6px 0 1px $main-color;
+        }
+    }
+
+    &__curtain {
+        @include position-absolute(50%, 50%);
+        width: 110%;
+        height: 110%;
+        background-color: rgba(10, 10, 10, 0.4);
+        z-index: 0;
+    }
+
+    &__imgWrapper {
+        border: 2px solid $main-color;
+        border-radius: 50%;
+        margin: 20px 20px 20px;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    &__likes {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        z-index: 1;
+
+        .RP__likeIcon {
+            width: 1.5vw;
+            height: 1.5vw;
+            margin-right: 5px;
+            color: $main-color;
+        }
+    }
+
+    &__likesValue {
+        font-size: 20px;
+        // font-weight: bold;
+        color: white;
+    }
+
+    &__link {
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        z-index: 1;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__moreLink {
+        display: block;
+        text-decoration: none;
+        width: fit-content;
+        margin: 10px auto;
+    }
+}

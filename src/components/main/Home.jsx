@@ -3,6 +3,10 @@ import React from 'react';
 import LeftNav from '../LeftNav';
 import Add from '../Add';
 import RightSide from '../RightSide';
+import AnimeOnTop from '../AnimeOnTop';
+import RecommendedProfiles from '../RecommendedProfiles';
+import News from '../News';
+import MyProjects from '../MyProjects';
 
 const Home = () => {
     return ( 
@@ -12,14 +16,10 @@ const Home = () => {
                 <Add />
             </div>
             <div className="home main__content">
-                <section className="home__animest main__section">
-                    <div className="home__topAnime">
-
-                    </div>
-                    <div className="home__more">
-                        <p className="home__showMore">Zobacz więcej</p>
-                    </div>
-                </section>
+                <AnimeOnTop />
+                <RecommendedProfiles />
+                <News />
+                <MyProjects />
             </div>
             <RightSide />
         </main>

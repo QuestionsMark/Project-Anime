@@ -1,0 +1,89 @@
+.WTM {
+    @extend .DA;
+
+    &__title {
+        @extend .DA__title;
+    }
+
+    &__label.MuiFormControlLabel-root {
+        margin: 0;
+    }
+
+    &__send.MuiButtonBase-root {
+        margin: 10px auto;
+    }
+
+    &__userVote {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    &__userVoteResponse {
+        margin-right: 5px;
+    }
+
+    &__results {
+        margin-bottom: 20px;
+    }
+
+    &__result {
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: 5px;
+        border-bottom: 1px solid $main-color;
+        border-right: 1px solid $main-color;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 5px 5px 10px 3px black;
+        font-size: 18px;
+        font-weight: bold;
+        transition: 0.4s;
+
+        &:hover {
+            // padding: 5px;
+            background-color: rgba(10, 10, 10, 0.6);
+            color: white;
+        }
+    }
+
+    &__resultPercentCurtain {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10vw;
+        height: 100%;
+        border-radius: 10px;
+        background-color: rgba(245, 0, 87, 0.3);
+        // z-index: -1;
+    }
+
+    &__correct {
+        position: relative;
+        margin-right: 5px;
+
+        .MuiSvgIcon-root {
+            display: block;
+            margin: auto;
+        }
+    }
+
+    &__percent {
+        margin-right: 10px;
+        z-index: 1;
+    }
+
+    &__resultTitle {
+        z-index: 1;
+    }
+
+    &__votes {
+        text-align: center;
+        margin: 10px;
+    }
+}

@@ -1,0 +1,220 @@
+.AOT {
+    &__title {
+        margin-bottom: 30px;
+        text-align: center;
+        color: $main-color;
+        font-size: 36px;
+    }
+
+    &__animeContent {
+        display: flex;
+    }
+
+    &__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 30px;
+    }
+
+    &__imgWrapper {
+        width: 8vw;
+        height: 8vw;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__rate {
+        display: flex;
+        align-items: center;
+        height: 3vw;
+
+        .AOT__rateIcon {
+            width: 2vw;
+            height: 2vw;
+            color: $special-color;
+        }
+    }
+
+    &__rateValue {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    &__center {
+        flex-grow: 1;
+    }
+
+    &__animeTitle {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 24px;
+        color: $font-color2;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__types {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+
+    &__type {
+        padding: 5px 20px;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin: 0 10px 10px 0;
+        text-decoration: none;
+        color: $font-color;
+
+        &:hover {
+            color: $main-color;
+        }
+    }
+
+    &__description {
+        user-select: text;
+    }
+
+    &__right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 30px;
+    }
+
+    &__music {
+        position: relative;
+        width: 3vw;
+        height: 3vw;
+        border: 2px solid $main-color;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            box-shadow: 0 0 10px 3px $main-color;
+        }
+
+        &:hover .AOT__instruction {
+            opacity: 1;
+        }
+    }
+
+    &__hehe {
+        @include position-absolute(50%, 50%);
+        width: 2vw;
+        height: 2vw;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+    }
+
+    &__range {
+        width: 0;
+        height: 200000px;
+    }
+
+    &__instruction {
+        opacity: 0;
+        @include position-absolute(50%, -110%);
+        width: 120px;
+        padding: 5px;
+        border: 1px solid darken($main-color, 10%);
+        border-radius: 10px;
+        font-size: 13px;
+        transition: 0.4s;
+    }
+
+    span.AOT__instruction:hover {
+        opacity: 0;
+    }
+
+    &__mediaIcon {
+        @include position-absolute(50%, 50%);
+        color: $font-color2;
+    }
+
+    &__movie {
+        @extend .AOT__music;
+        margin-bottom: 0;
+    }
+
+    &__questionnaire {
+        padding: 30px;
+        border-bottom: 1px solid $main-color;
+        border-right: 1px solid $main-color;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px 5px black;
+    }
+
+    &__questionnaireTitle {
+        text-align: center;
+        color: $main-color;
+        margin-bottom: 30px;
+    }
+
+    &__form {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        .MuiFormControl-root {
+            width: 10vw;
+            color: $main-color;
+        }
+
+        .MuiFormLabel-root {
+            color: $main-color;
+        }
+
+        .MuiFormLabel-root.Mui-focused {
+            color: $main-color;
+        }
+
+        .MuiInputBase-input {
+            color: $font-color2;
+        }
+
+        .MuiInput-underline:before {
+            border-bottom: 2px solid darken($main-color, 20%);
+        }
+
+        .MuiInput-underline:after {
+            border-bottom: 2px solid $main-color;
+        }
+
+        .MuiInput-underline:hover:not(.Mui-disabled):before {
+            border-bottom: 2px solid $main-color;
+        }
+
+        .MuiSelect-icon {
+            color: $main-color;
+        }
+    }
+
+    &__resultTitle {
+        @extend .AOT__questionnaireTitle;
+    }
+
+    &__results {
+        @extend .AOT__questionnaire;
+    }
+
+    &__result {
+        @extend .WTM__result;
+        padding: 10px 20px;
+        border-right: none;
+        border-left: 1px solid $main-color;
+        box-shadow: -5px 5px 10px 3px black;
+    }
+}

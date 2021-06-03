@@ -1,0 +1,30 @@
+.news {
+
+    &__title {
+        @extend .AOT__title;
+    }
+
+    &__article {
+        @extend .AOT__questionnaire;
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    &__articleTitle {
+        @extend .AOT__questionnaireTitle;
+        text-align: left;
+    }
+
+    &__date {
+        position: absolute;
+        right: 30px;
+        top: 30px;
+    }
+
+    &__link {
+        display: block;
+        width: fit-content;
+        margin: auto;
+        text-decoration: none;
+    }
+}
