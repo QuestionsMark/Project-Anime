@@ -40,7 +40,7 @@ const DailyAnime = () => {
                 </div>
             </div>
             <p className="DA__description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, sit aspernatur natus suscipit adipisci labore accusamus optio voluptatum, libero quasi incidunt quae! Reiciendis nam nobis officiis illum blanditiis totam esse...</p>
-            <Link to="/" className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
+            <Link to="/page/coś" className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
         </div>
      );
 }

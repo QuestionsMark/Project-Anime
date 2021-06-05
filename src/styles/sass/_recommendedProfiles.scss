@@ -20,6 +20,7 @@
         border-right: 1px solid $main-color;
         border-bottom: 1px solid $main-color;
         border-radius: 10px;
+        text-decoration: none;
         overflow: hidden;
         transition: 0.2s;
 
@@ -72,10 +73,6 @@
         font-size: 20px;
         font-weight: bold;
         z-index: 1;
-
-        &:hover {
-            text-decoration: underline;
-        }
     }
 
     &__moreLink {

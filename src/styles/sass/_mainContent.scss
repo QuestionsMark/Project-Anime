@@ -2,6 +2,7 @@
     display: flex;
     padding-top: 5vh;
     background-color: rgba(20, 20, 20, 0.7);
+    user-select: none;
 
     &__content {
         width: calc(62vw - 14px);
@@ -17,7 +18,6 @@
         border-radius: 10px;
         margin-bottom: 30px;
         box-shadow: 0 5px 10px 6px black;
-        user-select: none;
         transition: 0.4s;
 
         &:hover {
@@ -44,4 +44,36 @@
         margin-right: 10px;
         overflow-y: scroll;
     }
+}
+
+.anime {
+
+    &__series {
+        padding-top: 20px;
+        border-top: 2px solid $main-color;
+        margin-bottom: 100px
+    }
+
+    &__movies {
+        @extend .anime__series;
+        margin-bottom: 0;
+    }
+
+    &__title {
+        margin-bottom: 20px;
+        color: $font-color2;
+    }
+}
+
+.top {
+    &__search {
+        border-bottom: 2px solid $main-color;
+        margin-bottom: 30px;
+    }
+}
+
+div.galery {
+    flex-basis: 100%;
+    max-width: none;
+    background: transparent;
 }

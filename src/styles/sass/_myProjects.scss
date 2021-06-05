@@ -12,6 +12,10 @@
         @extend .AOT__questionnaire;
     }
 
+    &__info {
+        flex-basis: calc(100% - 6vw - 20px)
+    }
+
     &__projectTitle {
         @extend .AOT__questionnaireTitle;
         text-align: left;
@@ -31,7 +35,9 @@
     }
 
     &__description {
-        width: calc(100% - 6vw - 20px);
+        flex-basis: calc(100% - 6vw - 20px);
+        user-select: text;
+        margin: 0;
     }
 
     &__link {

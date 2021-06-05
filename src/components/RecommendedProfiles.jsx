@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+// import $ from 'jquery';
 
 import { Button } from '@material-ui/core';
 import RecommendedProfile from './RecommendedProfile';
@@ -68,15 +69,23 @@ const RecommendedProfiles = () => {
         }
     ]);
 
+    // const goUp = () => {
+    //     $('body, html').animate({
+    //         scrollTop: '0'
+    //     }, 0)
+    // }
+
     const profilesList = profiles.map(profile => <RecommendedProfile key={profile.id} username={profile.username} avatar={profile.avatar} profileLikes={profile.profileLikes} profileTheme={profile.profileTheme} link={profile.link}/>)
 
     return ( 
-        <section className="RP main__section"  data-id="2">
+        <section className="RP main__section scrollNav"  data-id="2">
             <h2 className="RP__title">Polecane Profile!</h2>
             <div className="RP__profiles">
                 {profilesList}
             </div>
-            <Link to="/users" className="RP__moreLink"><Button className="button RP__more">Zobacz więcej</Button></Link>
+            {/* <div onClick={goUp}> */}
+                <Link to="/users" className="RP__moreLink"><Button className="button RP__more">Zobacz więcej</Button></Link>
+            {/* </div> */}
         </section>
      );
 }

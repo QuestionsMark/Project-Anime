@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
+import $ from 'jquery';
 
 import Icon from '@material-ui/core/Icon';
 import HomeIcon from '@material-ui/icons/Home';
@@ -18,6 +19,12 @@ const Nav = ({isUserLogged}) => {
         document.querySelector('.loginScreen').classList.toggle('none');
     }
 
+    const goUp = () => {
+        $('body, html').animate({
+            scrollTop: '0'
+        }, 0)
+    }
+
     return ( 
         <div className="header">
             <div className="logo">
@@ -28,27 +35,27 @@ const Nav = ({isUserLogged}) => {
             </div>
             <nav className="menu">
                 <ul className="menu__list">
-                    <li className="menu__item">
+                    <li className="menu__item" onClick={goUp}>
                         <NavLink to="/" exact className="menu__link"><HomeIcon className="menu__icon"/>Home</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    <li className="menu__item">
+                    <li className="menu__item" onClick={goUp}>
                         <NavLink to="/anime-list" className="menu__link"><MovieCreationOutlinedIcon className="menu__icon"/>Anime</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    <li className="menu__item">
+                    <li className="menu__item" onClick={goUp}>
                         <NavLink to="/top" className="menu__link"><Icon className="fas fa-trophy menu__icon"/>Top</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    <li className="menu__item">
+                    <li className="menu__item" onClick={goUp}>
                         <NavLink to="/users" className="menu__link"><GroupIcon className="menu__icon"/>Users</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    <li className="menu__item">
+                    <li className="menu__item" onClick={goUp}>
                         <NavLink to="/galery" className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    {isUserLogged ? <li className="menu__item"><NavLink to={`/user/${userID}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
+                    {isUserLogged ? <li className="menu__item" onClick={goUp}><NavLink to={`/user/${userID}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
                 </ul>
             </nav>
             <div className="header__login" onClick={handleSignIn}>

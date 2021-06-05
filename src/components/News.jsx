@@ -39,7 +39,7 @@ const News = () => {
     }
 
     return ( 
-        <section className="news main__section"  data-id="3">
+        <section className="news main__section scrollNav"  data-id="3">
             <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
             <div className="news__container">
                 {newsList()}

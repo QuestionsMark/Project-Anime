@@ -1,0 +1,159 @@
+.animeList {
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-right: 1px solid $main-color;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 3px 3px 8px 2px black;
+        transition: 0.4s;
+
+        &:hover {
+            background-color: rgba(10, 10, 10, 0.6);
+        }
+
+        &:nth-of-type(1) .animeList__top {
+            color: $special-color;
+            text-shadow: 0 0 10px $special-color;
+        }
+
+        &:nth-of-type(2) .animeList__top {
+            color: #adadad;
+            text-shadow: 0 0 10px #adadad;
+        }
+
+        &:nth-of-type(3) .animeList__top {
+            color: #6b2d1d;
+            text-shadow: 0 0 10px #6b2d1d;
+        }
+    }
+
+    &__item:nth-last-of-type(1) {
+        margin-bottom: 0;
+    }
+
+    &__top {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+
+        .MuiIcon-root::before {
+            @include position-absolute(50%, 50%);
+        }
+    }
+
+    &__animeContent {
+        flex-basis: 45%;
+        margin-left: 20px;
+    }
+
+    &__imgWrapper {
+        width: 4vw;
+        height: 4vw;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        overflow: hidden;
+    }
+
+    &__rate {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        color: $font-color2;
+
+        .animeList__rateIcon {
+            color: $special-color;
+        }
+    }
+
+    &__title {
+        display: block;
+        width: fit-content;
+        margin-bottom: 10px;
+        color: $font-color2;
+        text-decoration: none;
+        font-size: 20px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__types {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__type {
+        display: block;
+        padding: 5px 10px;
+        margin: 0 5px 10px 0;
+        text-decoration: none;
+        font-size: 14px;
+        background-color: rgba(10, 10, 10, 0.9);
+        color: $font-color;
+
+        &:hover {
+            color: $main-color;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+
+        .animeList__button {
+            margin-left: 5px;
+        }
+
+        .MuiButton-label {
+            height: 20px;
+        }
+
+        .animeList__buttonIcon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &__button.MuiButtonBase-root.button {
+        border-radius: 10px;
+        background-color: rgba(245, 0, 87, 0.4);
+
+        &:hover {
+            background-color: rgba(245, 0, 87, 0.2);
+        }
+
+        &:hover .animeList__buttonDescription {
+            opacity: 1;
+        }
+
+        .animeList__buttonDescription:hover {
+            opacity: 0;
+        }
+    }
+
+    &__button.MuiButtonBase-root.button.active {
+        background-color: $main-color;
+    }
+
+    &__buttonDescription {
+        display: block;
+        @include position-absolute(50%, -110%);
+        padding: 5px 20px;
+        border: 1px solid $main-color;
+        background-color: black;
+        border-radius: 10px;
+        opacity: 0;
+        transition: 0.3s;
+    }
+}

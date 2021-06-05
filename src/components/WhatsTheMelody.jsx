@@ -4,7 +4,7 @@ import WTMResults from './WTMResults';
 
 const WhatsTheMelody = () => {
 
-    const [didUserVote, setDidUserVote] = useState(false);
+    const [didUserVote, setDidUserVote] = useState(true);
 
     return ( 
         <div className="WTM">

@@ -1,0 +1,187 @@
+.filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    // padding-bottom: 30px;
+    // border-bottom: 2px solid $main-color;
+    margin-bottom: 30px;
+    user-select: none;
+
+    &__title {
+        @extend .AOT__title;
+        flex-basis: 100%;
+    }
+
+    &__instruction {
+        flex-basis: calc(15% - 10px);
+        padding: 10px;
+        border-bottom: 1px solid $main-color;
+        border-left: 1px solid $main-color;
+        border-radius: 10px;
+        box-shadow: -5px 5px 10px 3px black;
+        transition: 0.4s;
+
+        &:hover {
+            background-color: rgba(10, 10, 10, 0.6);
+        }
+    }
+
+    &__legendTitle {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    &__want {
+        display: flex;
+        align-items: center;
+    }
+
+    &__dontWant {
+        @extend .filter__want;
+    }
+
+    &__indifferent {
+        @extend .filter__want;
+    }
+
+    &__instructionIcon {
+        margin-right: 10px;
+    }
+
+    &__filters {
+        flex-basis: calc(85% - 10px);
+        // display: flex;
+        // flex-direction: column;
+        // justify-content: space-between;
+    }
+
+    &__container {
+        padding: 10px;
+        border-right: 1px solid $main-color;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 5px 5px 10px 3px black;
+        transition: 0.4s;
+
+        &:hover {
+            background-color: rgba(10, 10, 10, 0.6);
+        }
+    }
+
+    &__container.bottom {
+        margin-bottom: 0;
+    }
+
+    &__filtersTitle {
+        color: $font-color2;
+        margin-bottom: 10px;
+    }
+
+    &__types {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__kind {
+        @extend.filter__types;
+
+        .MuiFormControl-root {
+            width: 10vw;
+            margin-bottom: 20px;
+            color: $main-color;
+        }
+
+        .MuiFormLabel-root {
+            color: $font-color2;
+        }
+
+        .MuiFormLabel-root.Mui-focused {
+            color: $font-color2;
+        }
+
+        .MuiInputBase-input {
+            color: $font-color2;
+        }
+
+        .MuiInputBase-root {
+            color: $font-color2;
+        }
+
+        .MuiInput-underline:before {
+            border-bottom: 2px solid darken($main-color, 20%);
+        }
+
+        .MuiInput-underline:after {
+            border-bottom: 2px solid $main-color;
+        }
+
+        .MuiInput-underline:hover:not(.Mui-disabled):before {
+            border-bottom: 2px solid $main-color;
+        }
+
+        .MuiSelect-icon {
+            color: $main-color;
+        }
+    }
+
+    &__filterElement {
+        position: relative;
+        flex-basis: 22%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px 10px;
+        margin: 0 10px 10px 0;
+        background-color: rgba(10, 10, 10, 0.9);
+        font-size: 14px;
+    }
+
+    .filter__filterIcon {
+        display: none;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .filter__filterIcon.active {
+        display: block;
+    }
+
+    .filter__filterIcon:hover {
+        color: $main-color;
+    }
+
+    &__name {
+        margin-right: 5px;
+    }
+
+    &__typeDescription {
+        position: absolute;
+        left: 50%;
+        top: 120%;
+        transform: translateX(-50%);
+        opacity: 0;
+        z-index: -1000;
+    }
+
+    &__rate {
+        display: flex;
+    }
+
+    &__rateInput {
+        display: block;
+        width: 5vw;
+        padding: 10px;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        border-bottom: 2px solid $main-color;
+        margin-right: 20px;
+        color: $font-color2;
+        font-size: 16px;
+
+        &::placeholder {
+            color: #909090;
+        }
+    }
+}

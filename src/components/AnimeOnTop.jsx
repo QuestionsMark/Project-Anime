@@ -26,7 +26,7 @@ const AnimeOnTop = () => {
         //ścieżka do soundtracka
         movie: 'https://anime-odcinki.pl'
     })
-    const [didUserVote, setDidUserVote] = useState(false);
+    const [didUserVote, setDidUserVote] = useState(true);
 
     const handleMusic = () => {
         const audio = document.querySelector('.AOT__audio');
@@ -69,7 +69,7 @@ const AnimeOnTop = () => {
     },[])
 
     return ( 
-        <section className="AOT main__section" data-id="1">
+        <section className="AOT main__section scrollNav" data-id="1">
             <h2 className="AOT__title">Anime na Topie!</h2>
             <div className="AOT__animeContent">
                 <div className="AOT__left">

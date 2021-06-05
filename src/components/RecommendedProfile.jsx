@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const RecommendedProfile = ({username, avatar, profileLikes, profileTheme, link}) => {
     return ( 
-        <div className="RP__profile" style={{backgroundImage: `url('${profileTheme}')`, backgroundPosition: 'center',
+        <Link to={link} className="RP__profile" style={{backgroundImage: `url('${profileTheme}')`, backgroundPosition: 'center',
         backgroundSize: 'cover'}}>
             <div className="RP__curtain"></div>
             <div className="RP__imgWrapper">
@@ -15,8 +15,8 @@ const RecommendedProfile = ({username, avatar, profileLikes, profileTheme, link}
                 <FavoriteBorderRoundedIcon className="RP__likeIcon"/>
                 <p className="RP__likesValue">{profileLikes}</p>
             </div>
-            <Link to={link} className="RP__link">{username}</Link>
-        </div>
+            <p className="RP__link">{username}</p>
+        </Link>
      );
 }
  

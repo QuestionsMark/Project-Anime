@@ -1,0 +1,79 @@
+.galery {
+    padding: 0;
+
+    &__search {
+        padding: 40px 0 10px;
+        margin: 0 0 calc(16vw / 5 - 10px);
+        background-color: rgba(10, 10, 10, 0.5);
+    }
+
+    &__folderContainer {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        // padding: 50px 0 0 0;
+    }
+
+    &__folder {
+        flex-basis: 21%;
+        border-right: 1px solid $main-color;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin-bottom: 50px;
+        box-shadow: 5px 5px 10px 3px black;
+        overflow: hidden;
+        transition: 0.2s;
+
+        &:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 1px 1px 0 1px $main-color, 2px 2px 0 1px $main-color, 3px 3px 0 1px $main-color, 4px 4px 0 1px $main-color, 5px 5px 0 1px $main-color, 6px 6px 0 1px $main-color, 7px 7px 0 1px $main-color, 8px 8px 0 1px $main-color, 9px 9px 0 1px $main-color, 10px 10px 0 1px $main-color, 0 0 10px 3px black, 10px 10px 10px 3px black;
+        }
+    }
+
+    &__folderImg {
+        width: 100%;
+        height: 250px;
+        background-position: top;
+        background-size: cover;
+    }
+
+    &__folderTitle {
+        padding: 20px;
+        text-align: center;
+        background-color: rgba(10, 10, 10, 0.5);
+        color: $font-color2;
+    }
+
+    &__title {
+        padding: 30px;
+        font-size: 30px;
+        text-align: center;
+        color: $main-color;
+    }
+
+    &__imagesContainer {
+        display: flex;
+    }
+
+    &__image {
+        flex-basis: 21vw;
+        border-right: 1px solid $main-color;
+        border-bottom: 1px solid $main-color;
+        border-radius: 10px;
+        margin: 2vw;
+        box-shadow: 5px 5px 10px 3px black;
+        overflow: hidden;
+        transition: 0.2s;
+
+        &:hover {
+            transform: translateY(-10px);
+        }
+    }
+
+    &__imageTitle {
+        padding: 20px;
+        text-align: center;
+        color: $font-color2;
+        background-color: rgba(10, 10, 10, 0.5);
+    }
+}
