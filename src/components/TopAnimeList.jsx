@@ -17,7 +17,7 @@ const TopAnimeList = ({anime}) => {
         stopped={a.stopped}
         processOfWatching={a.processOfWatching}
         planned={a.planned}
-        />)
+        />);
 
     return ( 
         <div className="animeList scrollNav" data-id="3">

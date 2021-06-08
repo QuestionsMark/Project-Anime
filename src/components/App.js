@@ -11,6 +11,11 @@ import Anime from './main/Anime';
 import Top from './main/Top';
 import Users from './main/Users';
 import Galery from './main/Galery';
+import Page from './main/Page';
+import Types from './main/Types';
+import Rules from './main/Rules';
+import News from './main/News';
+import Source from './main/Source';
 
 function App() {
 
@@ -45,23 +50,20 @@ function App() {
         <Route path="/galery">
           <Galery />
         </Route>
-        <Route path="/page">
-          {/* <Page /> */}
+        <Route path="/pages">
+          <Page />
         </Route>
         <Route path="/types">
-          {/* <Types /> */}
+          <Types />
         </Route>
         <Route path="/news">
-          {/* <News /> */}
+          <News />
         </Route>
         <Route path="/rules">
-          {/* <Rules /> */}
+          <Rules />
         </Route>
         <Route path="/source">
-          {/* <Source /> */}
-        </Route>
-        <Route path="/help">
-          {/* <Help /> */}
+          <Source />
         </Route>
       </Switch>
       {/* ---BottomSide--- */}

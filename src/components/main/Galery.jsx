@@ -225,6 +225,7 @@ const Galery = ({history}) => {
 
     return ( 
         <main className="main">
+            <div className="curtain"></div>
             <div className="galery main__content">
                 <Switch>
                     <Route path="/galery" exact>

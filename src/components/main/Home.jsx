@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import LeftNav from '../LeftNav';
-import Add from '../Add';
+import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import AnimeOnTop from '../AnimeOnTop';
 import RecommendedProfiles from '../RecommendedProfiles';
@@ -21,10 +20,8 @@ const Home = ({history}) => {
 
     return ( 
         <main className="main">
-            <div className="main__leftSide">
-                <LeftNav />
-                <Add />
-            </div>
+            <div className="curtain"></div>
+            <LeftSide />
             <div className="home main__content">
                 <AnimeOnTop />
                 <RecommendedProfiles />

@@ -8,6 +8,7 @@ import Search from '../Search';
 import AnimeList from '../AnimeList';
 
 import img from '../../media/img/sak6-spec.jpg';
+import LeftSide from '../LeftSide';
 
 const Anime = ({history}) => {
 
@@ -276,10 +277,8 @@ const Anime = ({history}) => {
 
     return ( 
         <main className="main">
-            <div className="main__leftSide">
-                <LeftNav />
-                <Add />
-            </div>
+            <div className="curtain"></div>
+            <LeftSide />
             <div className="anime main__content">
                 <Search handleSearch={handleSearch}/>
                 <div className="anime__series scrollNav" data-id="2">

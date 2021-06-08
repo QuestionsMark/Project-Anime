@@ -66,9 +66,19 @@ const LeftNav = () => {
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
                     </Route>
                     <Route path="/types">
-                        <li className="leftNav__item">Anime na czasie</li>
-                        <li className="leftNav__item">Anime na czasie</li>
-                        <li className="leftNav__item">Anime na czasie</li>
+                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    </Route>
+                    <Route path="/rules">
+                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    </Route>
+                    <Route path="/news">
+                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    </Route>
+                    <Route path="/source">
+                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    </Route>
+                    <Route path="/help">
+                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
                     </Route>
                 </Switch>
             </ul>

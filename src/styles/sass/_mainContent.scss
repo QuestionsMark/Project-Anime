@@ -1,10 +1,16 @@
 .main {
+    // position: relative;
     display: flex;
     padding-top: 5vh;
-    background-color: rgba(20, 20, 20, 0.7);
+    background-image: url(../../media/img/sao1-back20502.jpg);
+    // hos, sao, shi, ten, kiminonawa
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
     user-select: none;
 
     &__content {
+        position: relative;
         width: calc(62vw - 14px);
         max-width: 1600px;
         min-height: 100vh;
@@ -13,16 +19,13 @@
     }
 
     &__section {
+        @include main-style;
         padding: 30px;
-        border-bottom: 1px solid $main-color;
-        border-radius: 10px;
         margin-bottom: 30px;
-        box-shadow: 0 5px 10px 6px black;
-        transition: 0.4s;
+    }
 
-        &:hover {
-            background-color: rgba(10, 10, 10, 0.5);
-        }
+    &__section:nth-last-of-type(1) {
+        margin-bottom: 0;
     }
 
     &__leftSide {

@@ -5,7 +5,8 @@
     }
 
     &__article {
-        @extend .AOT__questionnaire;
+        @include main-style;
+        padding: 20px;
         position: relative;
         margin-bottom: 30px;
     }

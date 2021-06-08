@@ -1,20 +1,254 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import Search from '../Search';
-import UserList from '../UserList';
-import UserLegend from '../UserLegend';
-import Profile from './Profile';
+import SingleTopAnime from '../SingleTopAnime';
+import SingleTypeLover from '../SingleTypeLover';
 
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
-
-import img from '../../media/img/sak6-spec.jpg';
+import img from '../../media/img/vios1-spec.jpg';
 import img2 from '../../media/img/hos-back20502.jpg';
 
-const Users = ({history}) => {
+const TypePage = ({types, match}) => {
 
-    const [userList, setUserList] = useState([
+    const [anime, setAnime] = useState({
+        movies: [
+            {
+                id: 13,
+                title: "Charlotte",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Dramat",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Psychologiczne",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 7.43,
+                planned: ["1"],
+                watched: ["1"],
+                favorite: ["1"],
+                stopped: ["1"],
+                processOfWatching: ["1"],
+            },
+            {
+                id: 23,
+                title: "Violet Evergarden",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Psychologiczne",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Okruchy Życia",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 6.54,
+                planned: ["1"],
+                watched: ["1"],
+                favorite: ["1"],
+                stopped: ["1"],
+                processOfWatching: ["1"],
+            },
+            {
+                id: 33,
+                title: "Naruto",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Komedia",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Dramat",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 8.20,
+                planned: ["1"],
+                watched: ["1"],
+                favorite: ["1"],
+                stopped: ["1"],
+                processOfWatching: ["1"],
+            }
+        ],
+        series: [
+            {
+                id: 1,
+                title: "Charlotte",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Komedia",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Okruchy Życia",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 4,
+                        name: "Dramat",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 5,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 6,
+                        name: "Okruchy Życia",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 7,
+                        name: "Dramat",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 8,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 9,
+                        name: "Okruchy Życia",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 7.43,
+                planned: ["1"],
+                watched: ["1"],
+                favorite: ["1"],
+                stopped: ["1"],
+                processOfWatching: ["1"],
+            },
+            {
+                id: 2,
+                title: "Shuumatsu Nani Shitemasu ka? Isogashii desu ka? Sukutte Moratte Ii desu ka?",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Dramat",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Komedia",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Psychologiczne",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 10.00,
+                planned: [],
+                watched: [],
+                favorite: [],
+                stopped: ["1"],
+                processOfWatching: [],
+            },
+            {
+                id: 3,
+                title: "Naruto",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Fantasy",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Szkolne",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 9.32,
+                planned: ["1"],
+                watched: ["1"],
+                favorite: ["1"],
+                stopped: ["1"],
+                processOfWatching: ["1"],
+            },
+            {
+                id: 4,
+                title: "Naruto Shippuden",
+                link: "/page/coś",
+                img: img,
+                types: [
+                    {
+                        id: 1,
+                        name: "Dramat",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 2,
+                        name: "Romans",
+                        link: "/type/coś"
+                    },
+                    {
+                        id: 3,
+                        name: "Okruchy Życia",
+                        link: "/type/coś"
+                    },
+                ],
+                rate: 6.12,
+                planned: ["1"],
+                watched: ["1"],
+                favorite: ["1"],
+                stopped: ["1"],
+                processOfWatching: ["1"],
+            }
+        ]
+    })
+    const [users, setUsers] = useState([
         {
             id: 1,
             name: "Question Mark",
@@ -27,7 +261,7 @@ const Users = ({history}) => {
                 name: "Shuumatsu Nani Shitemasu ka? Isogashii desu ka? Sukutte Moratte Ii desu ka?",
                 img: img,
             },
-            favoriteType: "Okruchy Życia",
+            favoriteType: "Dramat",
             achievements: [
                 {
                     id: 1,
@@ -328,59 +562,81 @@ const Users = ({history}) => {
             ]
         },
     ]);
-    const [searchPhrase, setSearchPhrase] = useState('');
 
-    const handleSearch = (e) => {
-        setSearchPhrase(e.target.value);
-    }
+    const typeMatch = match.params.type;
+    const { name, description } = types.find(({match}) => match === typeMatch );
 
-    const filteredUsers = () => {
-        const filtered = userList.filter(user => user.name.toLowerCase().includes(searchPhrase.toLowerCase()));
+    const animeList = () => {
+        const animeList = [...anime.series, ...anime.movies];
+        const filtered = animeList.filter(a => {
+            let has = true;
+            let types = [];
+            a.types.forEach(t => {
+                types.push(t.name);
+            });
+            if (types.indexOf(name) === -1) {
+                has = false;
+            }
+            return has;
+        })
         const sorted = filtered.sort((a, b) => {
-            if (a.achievements.length > b.achievements.length) {
+            if (a.rate > b.rate) {
                 return -1;
-            } else if (a.achievements.length < b.achievements.length) {
+            } else if (a.rate < b.rate) {
                 return 1;
             } else {
-                if (a.likes > b.likes) {
-                    return -1;
-                } else if (a.likes < b.likes) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                return 0;
             }
         })
-        return sorted;
+        const bestThree = sorted.slice(0, 3); 
+        return bestThree.map((a, index) => <SingleTopAnime 
+        key={a.id}
+        title={a.title}
+        link={a.link}
+        place={index + 1}
+        img={a.img}
+        types={a.types}
+        rate={a.rate}
+        favorite={a.favorite}
+        watched={a.watched}
+        stopped={a.stopped}
+        processOfWatching={a.processOfWatching}
+        planned={a.planned}
+        />);
     }
 
-    const goUp = history.listen(() => {
-        window.scrollTo(0, 0);
-    });
-
-    useEffect(() => {
-        goUp();
-    }, []);
+    const userList = () => {
+        const filtered = users.filter(u => u.favoriteType === name);
+        const sorted = filtered.sort((a, b) => {
+            if (a.likes > b.likes) {
+                return -1;
+            } else if (a.likes < b.likes) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+        return sorted.map(u => <SingleTypeLover key={u.id} img={u.avatar} name={u.name} link={u.link} likes={u.likes}/>)
+    }
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-                <Switch>
-                    <Route path="/users" exact>
-                        <div className="users main__content">
-                            <Search handleSearch={handleSearch}/>
-                            <UserLegend />
-                            <UserList users={filteredUsers()}/>
-                        </div>
-                    </Route>
-                    <Route path="/users/:userID">
-                        <Profile />
-                    </Route>
-                </Switch>
-            <RightSide />
-        </main>
+        <div className="typePage">
+            <h2 className="typePage__title largeTitle scrollNav" data-id="4">{name}</h2>
+            <p className="typePage__description">{description}</p>
+            <div className="typePage__bestAnimeWithType">
+                <h3 className="typePage__BAWTTitle mediumTitle">Najlepsze anime z tym gatunkiem:</h3>
+                <ul className="typePage__list column">
+                    {animeList()}
+                </ul>
+            </div>
+            <div className="typePage__typeLovers">
+                <h3 className="typePage__TLTitle mediumTitle">Type Lovers</h3>
+                <ul className="typePage__list typePage__list--maxHeight">
+                    {userList()}
+                </ul>
+            </div>
+        </div>
      );
 }
  
-export default withRouter(Users);
+export default withRouter(TypePage);

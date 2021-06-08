@@ -1,0 +1,123 @@
+.types {
+
+    &__container {
+        @include main-style;
+        padding: 20px;
+    }
+
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        display: flex;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    &__index {
+        margin-right: 5px;
+        color: $font-color2;
+    }
+
+    &__link {
+        display: block;
+        text-decoration: none;
+        color: $font-color;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.typePage {
+    &__description {
+        @include main-style;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    &__bestAnimeWithType {
+        @include main-style;
+        padding: 20px;
+        margin-bottom: 30px;
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    &__typeLovers {
+        @include main-style;
+        padding: 20px;
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    &__BAWTTitle {
+        margin-bottom: 20px;
+    }
+
+    &__TLTitle {
+        @extend .typePage__BAWTTitle;
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__list--maxHeight {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+    &__link {
+        @include main-style;
+        flex-basis: 31.3333%;
+        padding: 10px;
+        margin: 0 1% 20px 1%;
+        text-decoration: none;
+        color: $font-color2;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+    }
+
+    &__imgWrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 20px;
+        overflow: hidden;
+    }
+
+    &__username {
+        width: 150px;
+        font-size: 18px;
+    }
+
+    &__likes {
+        display: flex;
+        align-items: center;
+
+        .typePage__likeIcon {
+            margin-right: 5px;
+            color: $main-color;
+        }
+    }
+
+    &__likesValue {
+        font-weight: bold;
+    }
+
+}

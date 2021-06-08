@@ -1,0 +1,12 @@
+.rules {
+    &__content {
+        @include main-style;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    &__rule {
+        margin-bottom: 20px;
+    }
+}

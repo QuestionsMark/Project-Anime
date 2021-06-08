@@ -11,6 +11,7 @@ import Add from '../Add';
 import RightSide from '../RightSide';
 
 import img from '../../media/img/sak6-spec.jpg';
+import LeftSide from '../LeftSide';
 
 const Top = ({history}) => {
 
@@ -19,23 +20,23 @@ const Top = ({history}) => {
             {
                 id: 13,
                 title: "Charlotte",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Dramat",
-                        link: "/type/coś"
+                        link: "/types/dramat"
                     },
                     {
                         id: 2,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/romans"
                     },
                     {
                         id: 3,
                         name: "Psychologiczne",
-                        link: "/type/coś"
+                        link: "/types/psychologiczne"
                     },
                 ],
                 rate: 7.43,
@@ -48,23 +49,23 @@ const Top = ({history}) => {
             {
                 id: 23,
                 title: "Violet Evergarden",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Psychologiczne",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 2,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 3,
                         name: "Okruchy Życia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                 ],
                 rate: 6.54,
@@ -77,23 +78,23 @@ const Top = ({history}) => {
             {
                 id: 33,
                 title: "Naruto",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Komedia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 2,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 3,
                         name: "Dramat",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                 ],
                 rate: 8.20,
@@ -108,53 +109,53 @@ const Top = ({history}) => {
             {
                 id: 1,
                 title: "Charlotte",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Komedia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 2,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 3,
                         name: "Okruchy Życia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 4,
                         name: "Dramat",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 5,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 6,
                         name: "Okruchy Życia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 7,
                         name: "Dramat",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 8,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 9,
                         name: "Okruchy Życia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                 ],
                 rate: 7.43,
@@ -167,23 +168,23 @@ const Top = ({history}) => {
             {
                 id: 2,
                 title: "Shuumatsu Nani Shitemasu ka? Isogashii desu ka? Sukutte Moratte Ii desu ka?",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Dramat",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 2,
                         name: "Komedia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 3,
                         name: "Psychologiczne",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                 ],
                 rate: 10.00,
@@ -196,23 +197,23 @@ const Top = ({history}) => {
             {
                 id: 3,
                 title: "Naruto",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Fantasy",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 2,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 3,
                         name: "Szkolne",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                 ],
                 rate: 9.32,
@@ -225,23 +226,23 @@ const Top = ({history}) => {
             {
                 id: 4,
                 title: "Naruto Shippuden",
-                link: "/page/coś",
+                link: "/pages/coś",
                 img: img,
                 types: [
                     {
                         id: 1,
                         name: "Dramat",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 2,
                         name: "Romans",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                     {
                         id: 3,
                         name: "Okruchy Życia",
-                        link: "/type/coś"
+                        link: "/types/coś"
                     },
                 ],
                 rate: 6.12,
@@ -360,11 +361,7 @@ const Top = ({history}) => {
                     has = false;
                 }
             })
-            if (has) {
-                return true;
-            } else {
-                return false;
-            }
+            return has;
         })
         const FDWT = FWT.filter(anime => {
             let hasNot = true;
@@ -377,11 +374,7 @@ const Top = ({history}) => {
                     hasNot = false;
                 }
             })
-            if (hasNot) {
-                return true;
-            } else {
-                return false;
-            }
+            return hasNot;
         })
         const FMinR = FDWT.filter(anime => anime.rate >= rateMinFilter);
         const FMaxR = FMinR.filter(anime => {
@@ -417,10 +410,8 @@ const Top = ({history}) => {
 
     return ( 
         <main className="main">
-            <div className="main__leftSide">
-                <LeftNav />
-                <Add />
-            </div>
+            <div className="curtain"></div>
+            <LeftSide />
             <div className="top main__content">
                 <div className="top__search">
                     <Search handleSearch={handleSearch}/>
