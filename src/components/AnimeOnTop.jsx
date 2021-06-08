@@ -26,7 +26,7 @@ const AnimeOnTop = () => {
         //ścieżka do soundtracka
         movie: 'https://anime-odcinki.pl'
     })
-    const [didUserVote, setDidUserVote] = useState(true);
+    const [didUserVote, setDidUserVote] = useState(false);
 
     const handleMusic = () => {
         const audio = document.querySelector('.AOT__audio');

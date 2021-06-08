@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter, Switch, Route } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
 import SingleFolder from '../SingleFolder';
@@ -8,7 +8,7 @@ import GaleryImages from '../GaleryImages';
 import img from '../../media/img/hos-back20502.jpg';
 import Search from '../Search';
 
-const Galery = () => {
+const Galery = ({history}) => {
 
     const [anime, setAnime] = useState({
         series: [
@@ -215,6 +215,14 @@ const Galery = () => {
         return filtered.map(f => <SingleFolder key={f.id} anime={f.title} link={f.link} images={f.galeryImages}/>)
     }
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+
+    useEffect(() => {
+        goUp();
+    }, []);
+
     return ( 
         <main className="main">
             <div className="galery main__content">
@@ -238,4 +246,4 @@ const Galery = () => {
      );
 }
  
-export default Galery;
+export default withRouter(Galery);

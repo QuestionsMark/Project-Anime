@@ -62,6 +62,13 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.mediumTitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #f50057;
+}
+
 .audioInterface {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -465,6 +472,7 @@ span.MuiTypography-body1 {
   display: flex;
   padding: 0.5vh;
   margin-right: 10vh;
+  text-decoration: none;
 }
 
 .logo__imgWrapper {
@@ -503,7 +511,7 @@ span.MuiTypography-body1 {
   display: flex;
 }
 
-.menu__item:hover .menu__border {
+.menu__item:hover .menu__border, .profileNav__item:hover .menu__border {
   width: 100%;
 }
 
@@ -1787,7 +1795,7 @@ div.galery {
 }
 
 .animeList__button.MuiButtonBase-root.button:hover {
-  background-color: rgba(245, 0, 87, 0.2);
+  background-color: rgba(245, 0, 87, 0.6);
 }
 
 .animeList__button.MuiButtonBase-root.button:hover .animeList__buttonDescription {
@@ -2435,6 +2443,668 @@ div.galery {
   text-align: center;
   color: #f0f0f0;
   background-color: rgba(10, 10, 10, 0.5);
+}
+
+.profile {
+  position: relative;
+  padding: 0;
+}
+
+.profile__content {
+  position: relative;
+  padding: 20px;
+}
+
+.profile__curtain {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 0.6);
+  z-index: 0;
+}
+
+.profile__homeContent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.profile__leftSide {
+  -ms-flex-preferred-size: 20%;
+      flex-basis: 20%;
+}
+
+.profile__imgWrapper {
+  border: 2px solid #f50057;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.profile__username {
+  padding: 10px;
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #f0f0f0;
+}
+
+.profile__username:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profile__info {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+}
+
+.profile__info:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profile__infoBlock {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.profile__rightSide {
+  -ms-flex-preferred-size: calc(80% - 20px);
+      flex-basis: calc(80% - 20px);
+}
+
+.profile__introTitle {
+  margin-bottom: 10px;
+}
+
+.profile__intro {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-indent: 20px;
+}
+
+.profile__intro:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profile__statistics {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.profile__statistics:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profile__statisticsTitle {
+  margin-bottom: 10px;
+}
+
+.profile__statistic {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.profile__statistic:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profile__statistic:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+
+.profile__statisticInfo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile__button.MuiButtonBase-root.button {
+  border-radius: 10px;
+  margin-right: 10px;
+  background-color: #f50057;
+}
+
+.profile__button.MuiButtonBase-root.button .profile__statisticsIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.profile__button.MuiButtonBase-root.button:hover {
+  background-color: rgba(245, 0, 87, 0.8);
+}
+
+.profile__button .MuiButton-label {
+  display: block;
+  height: 20px;
+}
+
+.profile__statisticTitle {
+  margin-right: 10px;
+}
+
+.profile__statisticValue {
+  font-weight: bold;
+}
+
+.profile__statisticAnimeList {
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.profile__statisticAnimeItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile__statisticAnimeIndex {
+  margin-right: 10px;
+}
+
+.profile__statisticAnimeLink {
+  text-decoration: none;
+  color: #d0d0d0;
+}
+
+.profile__statisticAnimeLink:hover {
+  text-decoration: underline;
+}
+
+.profile__statisticAnimeRate {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile__statisticAnimeRate .profile__statisticAnimeIcon {
+  color: #ffb700;
+}
+
+.profile__statisticAnimeRateValue {
+  font-weight: bold;
+}
+
+.profile__totalPoints {
+  padding-top: 10px;
+  border-top: 2px solid #f50057;
+}
+
+.profile__favoriteAnime {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+}
+
+.profile__favoriteAnime:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profile__FAFlex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile__FATitle {
+  margin-bottom: 10px;
+}
+
+.profile__FAImgWrapper {
+  width: 4vw;
+  height: 4vw;
+  border-radius: 10px;
+  margin-right: 30px;
+  overflow: hidden;
+}
+
+.profile__FALink {
+  margin-right: 30px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #f0f0f0;
+}
+
+.profile__FALink:hover {
+  text-decoration: underline;
+}
+
+.profile__FARate {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profile__FARate .profile__FARateIcon {
+  width: 30px;
+  height: 30px;
+  color: #ffb700;
+}
+
+.profile__FARateValue {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.profileNav {
+  position: relative;
+  border-top: 2px solid #f50057;
+  background-color: black;
+}
+
+.profileNav__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+}
+
+.profileNav__link {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #d0d0d0;
+  font-weight: bold;
+}
+
+.profileNav__link.active {
+  color: #f50057;
+}
+
+.profileTop__item {
+  padding: 10px 50px 10px 10px;
+}
+
+.profileAchievements__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.profileAchievements__item:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profileAchievements__item:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+
+.profileAchievements__index {
+  -ms-flex-preferred-size: 50px;
+      flex-basis: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.profileAchievements__imgWrapper {
+  -ms-flex-preferred-size: 4vw;
+      flex-basis: 4vw;
+  height: 4vw;
+  border-radius: 50%;
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.profileAchievements__info {
+  -ms-flex-preferred-size: calc(100% - 4vw - 70px);
+      flex-basis: calc(100% - 4vw - 70px);
+}
+
+.profileAchievements__link {
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-bottom: 5px;
+  text-decoration: none;
+  color: #f50057;
+  font-size: 20px;
+}
+
+.profileAchievements__link:hover {
+  text-decoration: underline;
+}
+
+.profileEdit__section {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profileEdit__section:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profileEdit__section:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+
+.profileEdit__title {
+  margin-bottom: 20px;
+}
+
+.profileEdit__description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profileEdit__descriptionTitle {
+  padding: 5px;
+  border: none;
+  border-bottom: 2px solid #8f0033;
+  background-color: transparent;
+  margin-bottom: 20px;
+  font-size: 18px;
+  outline: none;
+  color: #d0d0d0;
+  font-weight: bold;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.profileEdit__descriptionTitle::-webkit-input-placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionTitle:-ms-input-placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionTitle::-ms-input-placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionTitle::placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionTitle:focus {
+  border-bottom: 2px solid #f50057;
+}
+
+.profileEdit__descriptionText {
+  width: 100%;
+  min-height: 300px;
+  padding: 10px;
+  border: 2px solid #8f0033;
+  outline: none;
+  margin-bottom: 20px;
+  resize: none;
+  background-color: transparent;
+  color: #d0d0d0;
+  font-size: 16px;
+  font-weight: bold;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.profileEdit__descriptionText::-webkit-input-placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionText:-ms-input-placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionText::-ms-input-placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionText::placeholder {
+  color: #909090;
+}
+
+.profileEdit__descriptionText:focus {
+  border: 2px solid #f50057;
+}
+
+.profileEdit .profileEdit__save {
+  padding: 6px 20px;
+  margin: auto;
+}
+
+.profileEdit .MuiFormControl-root {
+  width: 12vw;
+  color: #f50057;
+}
+
+.profileEdit .MuiFormLabel-root {
+  color: #f50057;
+  font-size: 18px;
+}
+
+.profileEdit .MuiFormLabel-root.Mui-focused {
+  color: #f50057;
+}
+
+.profileEdit .MuiInputBase-input {
+  color: #f0f0f0;
+}
+
+.profileEdit .MuiInput-underline:before {
+  border-bottom: 2px solid #8f0033;
+}
+
+.profileEdit .MuiInput-underline:after {
+  border-bottom: 2px solid #f50057;
+}
+
+.profileEdit .MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: 2px solid #f50057;
+}
+
+.profileEdit .MuiSelect-icon {
+  color: #f50057;
+}
+
+.profileEdit__changeBackground, .profileEdit__addCustomBackground {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.profileEdit__changeBackground:hover, .profileEdit__addCustomBackground:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profileEdit__addCustomBackground {
+  margin-bottom: 0;
+}
+
+.profileEdit__backgroundsTitle {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #f0f0f0;
+}
+
+.profileEdit__defaultBackgrounds, .profileEdit__customBackgrounds {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.profileEdit__backgroundImg {
+  border-right: 1px solid #f50057;
+  border-bottom: 1px solid #f50057;
+  border-radius: 10px;
+  -webkit-box-shadow: 5px 5px 10px 3px black;
+          box-shadow: 5px 5px 10px 3px black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-top: 2px solid transparent;
+  border-right: 2px solid #f50057;
+  border-bottom: 2px solid #f50057;
+  border-left: 2px solid transparent;
+  display: block;
+  width: 18%;
+  margin: 0 1% 20px;
+  cursor: pointer;
+}
+
+.profileEdit__backgroundImg:hover {
+  background-color: rgba(10, 10, 10, 0.6);
+}
+
+.profileEdit__backgroundImg:hover {
+  -webkit-transform: translateY(-10px);
+          transform: translateY(-10px);
+}
+
+.profileEdit__addFileForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 20px;
+}
+
+.profileEdit__addFile {
+  display: none;
+}
+
+.profileEdit__addFileLabel {
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 8px 20px;
+  border-radius: 5px;
+  margin-right: 100px;
+  background-color: #f50057;
+  font-weight: bold;
+  color: #f0f0f0;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.profileEdit__addFileLabel:hover {
+  background-color: #c20045;
+}
+
+.profileEdit__AFIName, .profileEdit__AFISize, .profileEdit__AFIMessage {
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.profileEdit__preview {
+  width: 50%;
+  margin: 0 auto 20px;
+}
+
+.profileEdit__previewImg {
+  display: block;
+  width: 100%;
+}
+
+.slider {
+  height: 300px;
+  margin-top: 10px;
+  overflow-y: scroll;
+}
+
+.chosedBG {
+  border: 2px solid #ffb700;
 }
 
 .footer {

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import TopAnimeList from '../TopAnimeList';
 
@@ -11,7 +12,7 @@ import RightSide from '../RightSide';
 
 import img from '../../media/img/sak6-spec.jpg';
 
-const Top = () => {
+const Top = ({history}) => {
 
     const [animeList, setAnimeList] = useState({
         movies: [
@@ -406,6 +407,14 @@ const Top = () => {
         return sorted;
     }
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+
+    useEffect(() => {
+        goUp();
+    }, []);
+
     return ( 
         <main className="main">
             <div className="main__leftSide">
@@ -424,4 +433,4 @@ const Top = () => {
      );
 }
  
-export default Top;
+export default withRouter(Top);

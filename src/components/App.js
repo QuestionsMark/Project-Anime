@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Footer from './Footer';
 import Home from './main/Home';
 
@@ -45,14 +45,23 @@ function App() {
         <Route path="/galery">
           <Galery />
         </Route>
-        <Route path="/user">
-          {/* <User /> */}
-        </Route>
-        <Route path="/type">
-          {/* <Type /> */}
-        </Route>
         <Route path="/page">
           {/* <Page /> */}
+        </Route>
+        <Route path="/types">
+          {/* <Types /> */}
+        </Route>
+        <Route path="/news">
+          {/* <News /> */}
+        </Route>
+        <Route path="/rules">
+          {/* <Rules /> */}
+        </Route>
+        <Route path="/source">
+          {/* <Source /> */}
+        </Route>
+        <Route path="/help">
+          {/* <Help /> */}
         </Route>
       </Switch>
       {/* ---BottomSide--- */}

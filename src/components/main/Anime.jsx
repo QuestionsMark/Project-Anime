@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import LeftNav from '../LeftNav';
 import Add from '../Add';
@@ -8,7 +9,7 @@ import AnimeList from '../AnimeList';
 
 import img from '../../media/img/sak6-spec.jpg';
 
-const Anime = () => {
+const Anime = ({history}) => {
 
     const [searchValue, setSearchValue] = useState('');
     const [animeList, setAnimeList] = useState({
@@ -265,6 +266,14 @@ const Anime = () => {
         }
     }
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+
+    useEffect(() => {
+        goUp();
+    }, []);
+
     return ( 
         <main className="main">
             <div className="main__leftSide">
@@ -287,4 +296,4 @@ const Anime = () => {
      );
 }
  
-export default Anime;
+export default withRouter(Anime);

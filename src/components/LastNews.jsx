@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import SingleNews from './SingleNews';
 
-const News = () => {
+const LastNews = () => {
 
     const [news, setNews] = useState([
         {
@@ -49,4 +49,4 @@ const News = () => {
      );
 }
  
-export default News;
+export default LastNews;

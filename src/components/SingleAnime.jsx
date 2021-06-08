@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
-import TimerRoundedIcon from '@material-ui/icons/TimerRounded';
+import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
@@ -66,7 +66,7 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
             <div className="animeList__buttons">
                 <Button className={`button animeList__button ${checkActive("favorite")}`}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
                 <Button className={`button animeList__button ${checkActive("watched")}`}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button animeList__button ${checkActive("stopped")}`}><TimerRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
+                <Button className={`button animeList__button ${checkActive("stopped")}`}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
                 <Button className={`button animeList__button ${checkActive("processOfWatching")}`}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
                 <Button className={`button animeList__button ${checkActive("planned")}`}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
             </div>

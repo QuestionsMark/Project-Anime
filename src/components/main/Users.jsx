@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Search from '../Search';
 import UserList from '../UserList';
 import UserLegend from '../UserLegend';
+import Profile from './Profile';
 
-import LeftNav from '../LeftNav';
-import Add from '../Add';
+import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 
 import img from '../../media/img/sak6-spec.jpg';
 import img2 from '../../media/img/hos-back20502.jpg';
 
-const Users = () => {
+const Users = ({history}) => {
 
     const [userList, setUserList] = useState([
         {
             id: 1,
             name: "Question Mark",
-            link: "/page/4034",
+            link: "/users/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 57,
@@ -81,7 +82,7 @@ const Users = () => {
         {
             id: 2,
             name: "Przemcioss",
-            link: "/page/4034",
+            link: "/users/9845",
             avatar: img,
             backgroundTheme: img2,
             likes: 123,
@@ -139,7 +140,7 @@ const Users = () => {
         {
             id: 3,
             name: "PpekKOX",
-            link: "/page/4034",
+            link: "/users/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 748,
@@ -191,7 +192,7 @@ const Users = () => {
         {
             id: 4,
             name: "T0NY",
-            link: "/page/4034",
+            link: "/users/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 932,
@@ -243,7 +244,7 @@ const Users = () => {
         {
             id: 6,
             name: "Turbo Bocz",
-            link: "/page/4034",
+            link: "/users/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 80,
@@ -283,7 +284,7 @@ const Users = () => {
         {
             id: 5,
             name: "ButSmokes",
-            link: "/page/4034",
+            link: "/users/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 12,
@@ -353,20 +354,32 @@ const Users = () => {
         return sorted;
     }
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+
+    useEffect(() => {
+        goUp();
+    }, []);
+
     return ( 
         <main className="main">
-            <div className="main__leftSide">
-                <LeftNav />
-                <Add />
-            </div>
-            <div className="users main__content">
-                <Search handleSearch={handleSearch}/>
-                <UserLegend />
-                <UserList users={filteredUsers()}/>
-            </div>
+            <LeftSide />
+                <Switch>
+                    <Route path="/users" exact>
+                        <div className="users main__content">
+                            <Search handleSearch={handleSearch}/>
+                            <UserLegend />
+                            <UserList users={filteredUsers()}/>
+                        </div>
+                    </Route>
+                    <Route path="/users/:userID">
+                        <Profile />
+                    </Route>
+                </Switch>
             <RightSide />
         </main>
      );
 }
  
-export default Users;
+export default withRouter(Users);

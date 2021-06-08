@@ -49,9 +49,21 @@ const LeftNav = () => {
                         <li className="leftNav__item" data-id="2">Filtruj</li>
                         <li className="leftNav__item" data-id="3">Lista Anime</li>
                     </Route>
-                    <Route path="/users">
+                    <Route path="/users" exact>
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                         <li className="leftNav__item" data-id="2">Lista Użytkowników</li>
+                    </Route>
+                    <Route path="/users/:userID" exact>
+                        <li className="leftNav__item" data-id="3">Wróć do góry</li>
+                    </Route>
+                    <Route path="/users/:userID/user-top">
+                        <li className="leftNav__item" data-id="1">Szukaj</li>
+                    </Route>
+                    <Route path="/users/:userID/achievements">
+                        <li className="leftNav__item" data-id="1">Szukaj</li>
+                    </Route>
+                    <Route path="/users/:userID/settings">
+                        <li className="leftNav__item" data-id="3">Wróć do góry</li>
                     </Route>
                     <Route path="/types">
                         <li className="leftNav__item">Anime na czasie</li>

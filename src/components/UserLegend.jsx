@@ -2,7 +2,7 @@ import React from 'react'
 
 const UserLegend = () => {
     return ( 
-        <div className="userLegend">
+        <div className="userLegend scrollNav" data-id="2">
             <p className="userLegend__property">Miejsce</p>
             <p className="userLegend__property">Avatar</p>
             <p className="userLegend__property">Nick</p>

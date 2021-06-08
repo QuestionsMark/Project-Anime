@@ -19,7 +19,7 @@ const UserList = ({users}) => {
     />)
 
     return ( 
-        <div className="userList scrollNav" data-id="2">
+        <div className="userList">
             <ul className="userList__list">
                 {userList}
             </ul>
