@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Search from '../Search';
 import UserList from '../UserList';
 import UserLegend from '../UserLegend';
-import Profile from './Profile';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
@@ -18,7 +17,7 @@ const Users = ({history}) => {
         {
             id: 1,
             name: "Question Mark",
-            link: "/users/4034",
+            link: "/profile/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 57,
@@ -82,7 +81,7 @@ const Users = ({history}) => {
         {
             id: 2,
             name: "Przemcioss",
-            link: "/users/9845",
+            link: "/profile/9845",
             avatar: img,
             backgroundTheme: img2,
             likes: 123,
@@ -140,7 +139,7 @@ const Users = ({history}) => {
         {
             id: 3,
             name: "PpekKOX",
-            link: "/users/4034",
+            link: "/profile/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 748,
@@ -192,7 +191,7 @@ const Users = ({history}) => {
         {
             id: 4,
             name: "T0NY",
-            link: "/users/4034",
+            link: "/profile/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 932,
@@ -244,7 +243,7 @@ const Users = ({history}) => {
         {
             id: 6,
             name: "Turbo Bocz",
-            link: "/users/4034",
+            link: "/profile/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 80,
@@ -284,7 +283,7 @@ const Users = ({history}) => {
         {
             id: 5,
             name: "ButSmokes",
-            link: "/users/4034",
+            link: "/profile/4034",
             avatar: img,
             backgroundTheme: img2,
             likes: 12,
@@ -366,18 +365,11 @@ const Users = ({history}) => {
         <main className="main">
             <div className="curtain"></div>
             <LeftSide />
-                <Switch>
-                    <Route path="/users" exact>
-                        <div className="users main__content">
-                            <Search handleSearch={handleSearch}/>
-                            <UserLegend />
-                            <UserList users={filteredUsers()}/>
-                        </div>
-                    </Route>
-                    <Route path="/users/:userID">
-                        <Profile />
-                    </Route>
-                </Switch>
+            <div className="users main__content">
+                <Search handleSearch={handleSearch}/>
+                <UserLegend />
+                <UserList users={filteredUsers()}/>
+            </div>
             <RightSide />
         </main>
      );

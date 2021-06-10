@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
+import LeftSide from '../LeftSide';
+import RightSide from '../RightSide';
 import ProfileNav from '../ProfileNav';
 import ProfileHome from '../ProfileHome';
 import ProfileTop from '../ProfileTop';
@@ -11,7 +13,7 @@ import img2 from '../../media/img/vios1-spec.jpg';
 import background from '../../media/img/hos-back20502.jpg';
 import ProfileEdit from '../ProfileEdit';
 
-const Profile = () => {
+const Profile = ({history, match}) => {
 
     const [profileData, setProfileData] = useState({
         id: 1,
@@ -143,26 +145,38 @@ const Profile = () => {
         return filtered;
     }
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+
+    useEffect(() => {
+        goUp();
+    }, []);
+
     return ( 
-        <div className="profile main__content" style={{backgroundImage: `url(${profileData.background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
-            <div className="profile__curtain"></div>
-            <ProfileNav />
-            <Switch>
-                <Route path="/users/:userID" exact>
-                    <ProfileHome data={profileData}/>
-                </Route>
-                <Route path="/users/:userID/user-top">
-                    <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>
-                </Route>
-                <Route path="/users/:userID/achievements">
-                    <ProfileAchievements achievements={achievementsList()} handleSearch={handleSearchAchievement}/>
-                </Route>
-                <Route path="/users/:userID/settings">
-                    <ProfileEdit favAnime={profileData.favoriteAnime} watchedAnimeList={profileData.statistics.watched} background={background}/>
-                </Route>
-            </Switch>
-        </div>
+        <main className="main" style={{backgroundImage: `url(${profileData.background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
+            <div className="curtain"></div>
+            <LeftSide />
+            <div className="profile main__content">
+                <ProfileNav />
+                <Switch>
+                    <Route path="/profile/:userID" exact>
+                        <ProfileHome data={profileData}/>
+                    </Route>
+                    <Route path="/profile/:userID/user-top">
+                        <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>
+                    </Route>
+                    <Route path="/profile/:userID/achievements">
+                        <ProfileAchievements achievements={achievementsList()} handleSearch={handleSearchAchievement}/>
+                    </Route>
+                    <Route path="/profile/:userID/settings">
+                        <ProfileEdit favAnime={profileData.favoriteAnime} watchedAnimeList={profileData.statistics.watched} background={background}/>
+                    </Route>
+                </Switch>
+            </div>
+            <RightSide />
+        </main>
      );
 }
  
-export default Profile;
+export default withRouter(Profile);

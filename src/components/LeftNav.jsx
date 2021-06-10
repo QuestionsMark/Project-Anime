@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { Switch, Route } from 'react-router-dom';
-import { BottomNavigation } from '@material-ui/core';
 
 const LeftNav = () => {
 
@@ -53,17 +53,24 @@ const LeftNav = () => {
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                         <li className="leftNav__item" data-id="2">Lista Użytkowników</li>
                     </Route>
-                    <Route path="/users/:userID" exact>
+                    <Route path="/profile/:userID" exact>
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
                     </Route>
-                    <Route path="/users/:userID/user-top">
+                    <Route path="/profile/:userID/user-top">
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
-                    <Route path="/users/:userID/achievements">
+                    <Route path="/profile/:userID/achievements">
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
-                    <Route path="/users/:userID/settings">
+                    <Route path="/profile/:userID/settings">
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
+                    </Route>
+                    <Route path="/pages/:anime">
+                        <li className="leftNav__item" data-id="1">Oglądaj</li>
+                        <li className="leftNav__item" data-id="2">Informacje</li>
+                        <li className="leftNav__item" data-id="3">Opis</li>
+                        <li className="leftNav__item" data-id="4">Posłuchaj Soundtracku</li>
+                        <li className="leftNav__item" data-id="5">Komentarze</li>
                     </Route>
                     <Route path="/types">
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>
@@ -77,8 +84,8 @@ const LeftNav = () => {
                     <Route path="/source">
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>
                     </Route>
-                    <Route path="/help">
-                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    <Route path="/">
+                        <Link to="/" className="leftNav__Link">Strona główna</Link>
                     </Route>
                 </Switch>
             </ul>

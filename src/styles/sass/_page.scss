@@ -1,0 +1,541 @@
+.page {
+    padding: 20px;
+
+    &__title {
+        user-select: text;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+        border-top: 2px solid $main-color;
+    }
+
+    &__left {
+        flex-basis: 20%;
+    }
+
+    &__imgWrapper {
+        border: 2px solid $main-color;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    &__rate {
+        @include page-style;
+        padding: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+
+        .page__infoRateIcon {
+            width: 30px;
+            height: 30px;
+            margin-left: -10px;
+            color: $special-color;
+        }
+    }
+
+    &__rateValue {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    &__properties {
+        @include page-style;
+        padding: 10px;
+    }
+
+    &__inf {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    &__userPanel {
+        @include page-style;
+        padding: 10px 10px 0;
+
+        .page__userStar {
+            width: 10%;
+            height: 1vw;
+        }
+    }
+
+    &__userTitle {
+        margin-bottom: 10px;
+    }
+
+    &__userRate {
+        margin-bottom: 10px;
+    }
+
+    &__userOptions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    &__button.MuiButton-root {
+        min-width: 0;
+        padding: 5px 20px 7px;
+    }
+
+    &__button.MuiButtonBase-root.button {
+        border-radius: 10px;
+        margin: 0 10px 10px 0;
+        background-color: darken($main-color, 20%);
+
+        .page__statisticsIcon {
+            width: 15px;
+            height: 15px;
+        }
+
+        &:hover {
+            background-color: rgba(245, 0, 87, 0.8);
+        }
+
+        &:hover .page__buttonDescription {
+            opacity: 1;
+            z-index: 0;
+        }
+
+        & .page__buttonDescription:hover {
+            opacity: 0;
+            z-index: -1;
+        }
+    }
+
+    &__button.MuiButtonBase-root.button.active {
+        background-color: $main-color;
+    }
+
+    &__button .MuiButton-label {
+        position: relative;
+        display: block;
+        height: 15px;
+    }
+
+    &__buttonDescription {
+        @include position-absolute(50%, -220%);
+        width: max-content;
+        padding: 5px 10px;
+        border: 1px solid $main-color;
+        border-radius: 10px;
+        background-color: rgba(10, 10, 10, 0.9);
+        opacity: 0;
+        z-index: -1;
+    }
+
+    &__galery {
+        @include page-style;
+        max-height: 1000px;
+        padding: 20px 20px 0;
+        overflow-y: scroll;
+    }
+
+    &__galery::-webkit-scrollbar {
+        width: 0;
+    }
+
+    &__galeryTitle {
+        margin-bottom: 20px;
+    }
+
+    &__galeryImgWrapper {
+        border-radius: 8px;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    &__right {
+        flex-basis: calc(80% - 20px);
+    }
+
+    &__baner {
+        position: relative;
+        height: 23.5vw;
+        border-bottom: 2px solid $main-color;
+        // margin-bottom: 20px;
+    }
+
+    &__effect {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: 0.5s;
+        background-color: rgba(10, 10, 10, 0.6);
+
+        &:hover {
+            background-color: rgba(10, 10, 10, 0.7);
+        }
+
+        &:hover .page__banerIcon {
+            opacity: 1;
+        }
+
+        .page__banerIcon {
+            display: block;
+            position: absolute;
+            width: 1.6vw;
+            height: 1.6vw;
+            color: darken($main-color, 20%);
+            opacity: 0;
+            transition: 0.5s;
+
+            &:hover {
+                color: $main-color;
+            }
+        }
+
+        .watchLink {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 3.2vw;
+            height: 3.2vw;
+        }
+
+        .watchIcon {
+            width: 3.2vw;
+            height: 3.2vw;
+            cursor: pointer;
+        }
+
+        .page__banerIcon.corner1Icon {
+            left: 0.25vw;
+            top: 0.25vw;
+            transform: rotate(45deg);
+        }
+
+        .page__banerIcon.corner2Icon {
+            right: 0.25vw;
+            top: 0.25vw;
+            transform: rotate(135deg);
+        }
+
+        .page__banerIcon.corner3Icon {
+            right: 0.25vw;
+            bottom: 0.25vw;
+            transform: rotate(-135deg);
+        }
+
+        .page__banerIcon.corner4Icon {
+            left: 0.25vw;
+            bottom: 0.25vw;
+            transform: rotate(-45deg);
+        }
+
+        .page__banerIcon.playIcon {
+            left: 2vw;
+            bottom: 2vw;
+            width: 1.5vw;
+            height: 1.5vw;
+        }
+
+        .page__banerIcon.volumeIcon {
+            left: 3.5vw;
+            bottom: 2vw;
+            width: 1.5vw;
+            height: 1.5vw;
+        }
+
+        .page__banerIcon.lineIcon {
+            left: 5.5vw;
+            bottom: 2.75vw;
+            transform: translateY(50%);
+            width: 79.5%;
+            height: 3px;
+            background-color: darken($main-color, 20%);
+        }
+
+        .page__banerIcon.dotIcon {
+            left: 10vw;
+            bottom: 2.75vw;
+            transform: translateY(50%);
+            width: 0.5vw;
+            height: 0.5vw;
+            border-radius: 50%;
+            background-color: darken($main-color, 20%);
+
+            &:hover {
+                background-color: $main-color;
+            }
+        }
+
+        .page__banerIcon.fullScreenIcon {
+            right: 2vw;
+            bottom: 2vw;
+            width: 1.5vw;
+            height: 1.5vw;
+        }
+    }
+
+    &__banerRecommend {
+        position: absolute;
+        left: 1.75vw;
+        top: 1.75vw;
+        font-size: 1vw;
+        font-weight: bold;
+        color: $main-color;
+    }
+
+    &__banerTitle {
+        position: absolute;
+        left: 1.75vw;
+        top: 13.5vw;
+        font-size: 1.1vw;
+        color: $font-color2;
+    }
+
+    &__banerInfo {
+        position: absolute;
+        left: 1.75vw;
+        top: 15.25vw;
+        font-size: 0.8vw;
+    }
+
+    &__banerInf {
+        margin-right: 20px
+    }
+
+    &__banerRate {
+        position: absolute;
+        left: 1.6vw;
+        top: 16.4vw;
+        display: flex;
+        align-items: center;
+
+        .page__banerRateIcon {
+            width: 1.8vw;
+            height: 1.8vw;
+            color: $special-color;
+        }
+    }
+
+    &__banerRateValue {
+        font-weight: bold;
+    }
+
+    &__audioInterface {
+        padding-top: 20px;
+        border-bottom: 2px solid $main-color;
+        background-color: rgba(10, 10, 10, 0.5);
+    }
+
+    &__soundtrack {
+        display: flex;
+        align-items: center;
+    }
+
+    &__types {
+        @include page-style;
+        padding: 10px;
+        margin-bottom: 20px
+    }
+
+    &__typesTitle {
+        margin-bottom: 15px;
+    }
+
+    &__typesList {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__type {
+        @extend .AOT__type;
+        text-decoration: none;
+        color: $font-color;
+    }
+
+    &__type.active {
+        color: $special-color;
+    }
+
+    &__favoriteAnime {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+
+        .page__favoriteAnimeIcon {
+            color: $main-color;
+        }
+    }
+
+    &__favoriteAnimeText {
+        margin: 0 10px;
+    }
+
+    &__seasons {
+        @include page-style;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__seasonsTitle {
+        flex-basis: 100%;
+        margin-bottom: 20px
+    }
+
+    &__season {
+        @include main-style;
+        box-shadow: none;
+        transition: 0.2s;
+        display: block;
+        position: relative;
+        flex-basis: 18%;
+        height: 200px;
+        margin: 0 1% 20px;
+        text-decoration: none;
+        overflow: hidden;
+
+        &:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 1px 1px 0 1px $main-color, 2px 2px 0 1px $main-color, 3px 3px 0 1px $main-color, 4px 4px 0 1px $main-color, 5px 5px 0 1px $main-color, 6px 6px 0 1px $main-color;
+        }
+    }
+
+    &__seasonLink {
+        @include position-absolute(50%, 50%);
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: $font-color2;
+    }
+
+    &__description {
+        @include page-style;
+    }
+
+    &__author {
+        margin: 10px 10px 0;
+        display: block;
+        text-align: end;
+        font-size: 18px;
+        font-weight: bold;
+        color: $font-color2;
+    }
+}
+
+.comments {
+    @include page-style;
+    padding: 20px 0 0;
+
+    &__title {
+        margin-bottom: 20px;
+    }
+
+    &__item {
+        @include page-style;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__imgWrapper {
+        flex-basis: 5vw;
+        height: 5vw;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__content {
+        flex-basis: calc(100% - 5vw - 20px);
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    &__text {
+        margin-bottom: 10px;
+    }
+
+    &__likes {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .comments__likeIcon {
+            color: $font-color;
+            cursor: pointer;
+
+            &:hover {
+                color: $font-color2;
+            }
+        }
+
+        .comments__likeIcon.active {
+            color: $main-color;
+        }
+    }
+
+    &__likesValue {
+        margin-right: 5px;
+    }
+}
+
+.addComment {
+    @include page-style;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__imgWrapper {
+        width: 5vw;
+        height: 5vw;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__form {
+        width: calc(100% - 5vw - 20px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .addComment__sendIcon {
+            width: 1.3vw;
+            height: 1.3vw;
+            color: $font-color2;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                color: $main-color;
+            }
+        }
+    }
+
+    &__textarea {
+        padding: 10px;
+        border: 2px solid darken($main-color, 20%);
+        background-color: transparent;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        color: $font-color;
+        outline: none;
+        resize: none;
+        width: calc(100% - 1.3vw - 20px);
+        height: 5vw;
+        transition: 0.3s;
+
+        &::placeholder {
+            color: #909090;
+        }
+
+        &:focus {
+            border: 2px solid $main-color;
+            color: $font-color2;
+        }
+    }
+}

@@ -24,6 +24,12 @@ $font-color2: #f0f0f0;
     }
 }
 
+@mixin page-style {
+    padding: 20px;
+    border-bottom: 2px solid $main-color;
+    background-color: rgba(10, 10, 10, 0.5);
+}
+
 @mixin curtain {
     @include position-absolute(50%, 50%);
     width: 100%;

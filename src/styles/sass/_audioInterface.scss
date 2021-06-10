@@ -1,14 +1,15 @@
 .audioInterface {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
+    width: 300px;
 
     &__icon.MuiSvgIcon-root {
         display: none;
-        width: 1.5vw;
-        height: 1.5vw;
-        padding: 0.1vw;
-        margin-top: -1px;
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        margin-right: 8px;
         color: $main-color;
         cursor: pointer;
         transition: 0.2s;
@@ -16,6 +17,10 @@
         &:hover {
             padding: 0;
         }
+    }
+
+    &__icon.MuiSvgIcon-root.last {
+        margin-right: 0;
     }
 
     &__playPause {
@@ -27,7 +32,8 @@
     }
 
     &__time {
-        font-size: 0.75vw;
+        margin-right: 8px;
+        font-size: 13px;
     }
 
 
@@ -35,10 +41,12 @@
 
     /* CAŁY INPUT */
 
-    &__progression {
+    &__progression,
+    &__pageProgression {
         -webkit-appearance: none;
-        width: 7.5vw;
-        height: 3vw;
+        width: 130px;
+        height: 50px;
+        margin-right: 8px;
         background: transparent;
         outline: none;
         transition: 0.3s;
@@ -101,11 +109,12 @@
     }
 
 
-    &__volume {
+    &__volume,
+    &__pageVolume {
         -webkit-appearance: none;
         width: 0;
-        height: 3vw;
-        margin-right: -0.25vw;
+        height: 50px;
+        margin-right: 0;
         background: transparent;
         outline: none;
         overflow: hidden;
@@ -174,4 +183,10 @@
             display: block;
         }
     }
+}
+
+.audioInterface--borderSize {
+    width: 340px;
+    padding: 20px;
+    // margin: auto;
 }

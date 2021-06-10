@@ -106,9 +106,9 @@ const WTMQuestionnaire = () => {
     const handleSoundHoverOn = () => {
         const inpProgression = document.querySelector('.audioInterface__progression');
         const inpVolume = document.querySelector('.audioInterface__volume');
-        inpProgression.style.width = '2.5vw';
-        inpVolume.style.width = '4.45vw';
-        inpVolume.style.marginRight = '0.3vw';
+        inpProgression.style.width = '50px';
+        inpVolume.style.width = '75px';
+        inpVolume.style.marginRight = '5px';
         inpVolume.style.overflow = 'visible';
     }
 
@@ -144,8 +144,8 @@ const WTMQuestionnaire = () => {
                 <input type="range" min="0" max="100" value={progression} onChange={handleProgressionChange} className="audioInterface__progression" />
                 <div className="audioInterface__sound" onMouseEnter={handleSoundHoverOn} onMouseLeave={handleSoundHoverOff}>
                     <input type="range" min="0" max="100" value={volume} className="audioInterface__volume" onChange={handleVolumeChange}/>
-                    <VolumeUpRoundedIcon className="audioInterface__icon volumeOn active" onClick={handleSoundClick} />
-                    <VolumeOffRoundedIcon className="audioInterface__icon VolumOff" onClick={handleSoundClick} />
+                    <VolumeUpRoundedIcon className="audioInterface__icon volumeOn last active" onClick={handleSoundClick} />
+                    <VolumeOffRoundedIcon className="audioInterface__icon VolumOff last" onClick={handleSoundClick} />
                 </div>
             </div>
             <div className="WTM__answears">

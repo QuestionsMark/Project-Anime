@@ -16,10 +16,12 @@ import Types from './main/Types';
 import Rules from './main/Rules';
 import News from './main/News';
 import Source from './main/Source';
+import NotFound from './main/NotFound';
+import Profile from './main/Profile';
 
 function App() {
 
-  const [isUserLogged, setIsUserLogged] = useState(false);
+  const [isUserLogged, setIsUserLogged] = useState(true);
 
   return (
     <Router>
@@ -50,6 +52,9 @@ function App() {
         <Route path="/galery">
           <Galery />
         </Route>
+        <Route path="/profile/:userID">
+          <Profile />
+        </Route>
         <Route path="/pages">
           <Page />
         </Route>
@@ -64,6 +69,9 @@ function App() {
         </Route>
         <Route path="/source">
           <Source />
+        </Route>
+        <Route path="/">
+          <NotFound />
         </Route>
       </Switch>
       {/* ---BottomSide--- */}

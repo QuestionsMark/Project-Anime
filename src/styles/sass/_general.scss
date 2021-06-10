@@ -27,6 +27,16 @@ body {
     background-color: rgba(10, 10, 10, 0.6);
 }
 
+.blockCurtain {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 101%;
+    height: 101%;
+    background-color: rgba(10, 10, 10, 0.6);
+}
+
 .img {
     display: block;
     width: 100%;

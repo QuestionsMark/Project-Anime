@@ -25,6 +25,14 @@
         }
     }
 
+    &__Link {
+        @extend .leftNav__item;
+        display: block;
+        text-decoration: none;
+        color: $font-color;
+
+    }
+
     &__item.active {
         padding: 10px 10px 10px 25px;
         background-color: rgba(10, 10, 10, 0.6);

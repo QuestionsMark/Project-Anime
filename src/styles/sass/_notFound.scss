@@ -1,0 +1,17 @@
+.notFound {
+    &__alert {
+        @include position-absolute(50%, 50%);
+        width: 100%;
+        height: 20vw;
+    }
+
+    .notFound__icon {
+        @include position-absolute(50%, 30%);
+        width: 5vw;
+        height: 5vw;
+    }
+
+    &__text {
+        @include position-absolute(50%, 50%);
+    }
+}

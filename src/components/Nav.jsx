@@ -12,7 +12,7 @@ import logo from '../media/img/icon.jpg';
 
 const Nav = ({isUserLogged}) => {
 
-    const [userID, setUserID] = useState(null);
+    const [profileLink, setProfileLink] = useState("cos");
 
     const handleSignIn = () => {
         document.querySelector('.loginScreen').classList.toggle('none');
@@ -48,7 +48,7 @@ const Nav = ({isUserLogged}) => {
                         <NavLink to="/galery" className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    {isUserLogged ? <li className="menu__item"><NavLink to={`/user/${userID}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
+                    {isUserLogged ? <li className="menu__item"><NavLink to={`/profile/${profileLink}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
                 </ul>
             </nav>
             <div className="header__login" onClick={handleSignIn}>

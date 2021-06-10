@@ -7,11 +7,6 @@
         padding: 20px;
     }
 
-    &__curtain {
-        @include curtain;
-        z-index: 0;
-    }
-
     &__homeContent {
         display: flex;
         justify-content: space-between;
@@ -333,6 +328,7 @@
     }
 
     &__descriptionText {
+        font-family: 'Roboto Condensed', sans-serif;
         width: 100%;
         min-height: 300px;
         padding: 10px;
