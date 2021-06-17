@@ -111,7 +111,6 @@ const Page = ({match, history}) => {
     }
 
     const callAPI = () => {
-        console.log('działamy')
         fetch(`http://localhost:9000/anime/${match.params.anime}`)
             .then(res => res.json())
             .then(res => {

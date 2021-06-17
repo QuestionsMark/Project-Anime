@@ -83,7 +83,7 @@ function App() {
           <Galery />
         </Route>
         <Route path="/profile/:userLink">
-          <Profile />
+          <Profile isUserLogged={isUserLogged} />
         </Route>
         <Route path="/pages/create">
           <PageCreate />

@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 
-const ProfileNav = ({match}) => {
+const ProfileNav = ({match, isUserLogged}) => {
 
-    const [isAuthorized, setIsAuthorized] = useState(true);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    const checkAuthorization = () => {
+        if (isUserLogged && match.params.userLink === localStorage.getItem('l')) {
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
+        }
+    }
+    
+    useEffect(() => {
+        checkAuthorization();
+    },[match])
 
     return ( 
         <div className="profileNav scrollNav" data-id="3">

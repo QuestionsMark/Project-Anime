@@ -12,7 +12,7 @@ import ProfileEdit from '../ProfileEdit';
 
 import background from '../../media/img/sao1-back20502.jpg';
 
-const Profile = ({history, match}) => {
+const Profile = ({history, match, isUserLogged}) => {
 
     const [profileData, setProfileData] = useState({
         id: 1,
@@ -23,7 +23,6 @@ const Profile = ({history, match}) => {
         createAccountDate: '',
         rank: '',
         likes: [],
-        profileLikes: [],
         achievements: [],
         // {
         //     id: 2,
@@ -92,15 +91,19 @@ const Profile = ({history, match}) => {
         callAPI();
     }, []);
 
+    useEffect(() => {
+        callAPI();
+    },[match])
+
     return ( 
         <main className="main" style={{backgroundImage: `url(${profileData.background ? `http://localhost:9000/images/${profileData.background}` : background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
             <div className="curtain"></div>
             <LeftSide />
             <div className="profile main__content">
-                <ProfileNav />
+                <ProfileNav isUserLogged={isUserLogged}/>
                 <Switch>
                     <Route path="/profile/:userID" exact>
-                        <ProfileHome data={profileData} match={match}/>
+                        <ProfileHome data={profileData} match={match} callAPI={callAPI}/>
                     </Route>
                     <Route path="/profile/:userID/user-top">
                         <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>

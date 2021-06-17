@@ -90,13 +90,55 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 });
         }
         else if (type === 'stopped') {
-            
+            fetch('http://localhost:9000/profile/change/stopped', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
         }
         else if (type === 'processOfWatching') {
-            
+            fetch('http://localhost:9000/profile/change/process-of-watching', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
         }
         else if (type === 'planned') {
-            
+            fetch('http://localhost:9000/profile/change/planned', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
         }
     }
 

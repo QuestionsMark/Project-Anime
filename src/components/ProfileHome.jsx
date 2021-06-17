@@ -12,9 +12,9 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import { Button } from '@material-ui/core';
 import { useEffect } from 'react';
 
-const ProfileHome = ({data, match}) => {
+const ProfileHome = ({data, match, callAPI}) => {
 
-    const { username, avatar, createAccountDate, rank, likes, profileLikes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
+    const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
 
     const [isUserProfileLover, setIsUserProfileLover] = useState(false);
 
@@ -40,7 +40,7 @@ const ProfileHome = ({data, match}) => {
                 return 0;
             }
         })
-        return sorted.map((a, i) => <SingleWatchedAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link} rate={a.rate}/>);
+        return sorted.map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link} rate={a.rate}/>);
     }
 
     const statisticAnimeList = (type) => {
@@ -54,7 +54,7 @@ const ProfileHome = ({data, match}) => {
                     return 0;
                 }
             })
-            return sorted.map((a, i) => <SingleStatisticAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link}/>);
+            return sorted.map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
         } else if (type === "processOfWatching") {
             const sorted = userAnimeData.processOfWatching.sort((a, b) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) {
@@ -65,7 +65,7 @@ const ProfileHome = ({data, match}) => {
                     return 0;
                 }
             })
-            return sorted.map((a, i) => <SingleStatisticAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link}/>);
+            return sorted.map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
         } else if (type === "planned") {
             const sorted = userAnimeData.planned.sort((a, b) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) {
@@ -76,16 +76,14 @@ const ProfileHome = ({data, match}) => {
                     return 0;
                 }
             })
-            return sorted.map((a, i) => <SingleStatisticAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link}/>);
+            return sorted.map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
         }
     }
 
     const isUserLover = () => {
         const link = match.params.userLink;
-        console.log(link)
-        console.log(link === localStorage.getItem('l'))
         let isUserLover = false;
-        const index = profileLikes.findIndex(p => p.username === username);
+        const index = likes.findIndex(l => l === localStorage.getItem('UID'));
         if (index !== -1 || link === localStorage.getItem('l')) {
             isUserLover = true;
         }
@@ -104,6 +102,25 @@ const ProfileHome = ({data, match}) => {
         return string;
     }
 
+    const handleLikeProfile = () => {
+        fetch('http://localhost:9000/profile/change/like', {
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem('token')
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                user: localStorage.getItem('UID'),
+                profile: match.params.userLink
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                callAPI();
+            })
+    }
+
     useEffect(() => {
         setIsUserProfileLover(isUserLover())
     },[data])
@@ -113,7 +130,7 @@ const ProfileHome = ({data, match}) => {
             <div className="profile__homeContent">
                 <div className="profile__leftSide">
                     <div className="profile__imgWrapper">
-                        <img src={avatar} alt="" className="img" />
+                        <img src={`http://localhost:9000/images/${avatar}`} alt="" className="img" />
                     </div>
                     <p className="profile__username">{username}</p>
                     <div className="profile__info">
@@ -125,7 +142,7 @@ const ProfileHome = ({data, match}) => {
                         <p className="profile__infoBlock">Punkty: {points}</p>
                     </div>
                     {match.params.userLink === localStorage.getItem('l') ? null : <div className="profile__likeProfile">
-                        <Button className="button profile__likeProfileButton">{isUserLover() ? 'Usuń polubienie' : 'Polub profil'}</Button>
+                        <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserLover() ? 'Usuń polubienie' : 'Polub profil'}</Button>
                     </div>}
                 </div>
                 <div className="profile__rightSide">

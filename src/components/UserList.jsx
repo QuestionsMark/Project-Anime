@@ -7,13 +7,13 @@ const UserList = ({users}) => {
     const userList = users.map((user, index) => <SingleUser
     key={user.id}
     place={index + 1}
-    username={user.name}
+    username={user.username}
     link={user.link}
-    backgroundTheme={user.backgroundTheme}
+    background={user.background}
     img={user.avatar}
     likes={user.likes}
-    favoriteAnimeTitle={user.favoriteAnime.name}
-    favoriteAnimeImg={user.favoriteAnime.img}
+    favoriteAnimeTitle={user.favoriteAnime.title}
+    favoriteAnimeImg={user.favoriteAnime.img.img}
     favoriteType={user.favoriteType}
     achievements={user.achievements}
     />)

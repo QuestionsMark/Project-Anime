@@ -8,201 +8,24 @@ import GaleryImages from '../GaleryImages';
 import img from '../../media/img/hos-back20502.jpg';
 import Search from '../Search';
 
-const Galery = ({history}) => {
+const Galery = ({history, match}) => {
 
-    const [anime, setAnime] = useState({
-        series: [
+    const [anime, setAnime] = useState([
             {
-                id: 1,
-                title: "Violet Evergarden",
-                link: "/galery/vios",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Violet Evergarden"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Violet Evergarden"
-                    }
-                ]
-            },
-            {
-                id: 2,
-                title: "Naruto",
-                link: "/galery/nar",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Naruto"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Naruto"
-                    }
-                ]
+                _id: '',
+                title: '',
+                link: '',
+                images: {
+                    galeryImages: [
+                        {
+                            id: '',
+                            img: '',
+                            fromAnime: ''
+                        }
+                    ]
+                }
             }
-        ],
-        movies: [
-            {
-                id: 3,
-                title: "Koe no Katachi",
-                link: "/galery/koe",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Koe no Katachi"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Koe no Katachi"
-                    }
-                ]
-            },
-            {
-                id: 4,
-                title: "Kimi no Na Wa",
-                link: "/galery/kimi",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Kimi no Na Wa"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Kimi no Na Wa"
-                    }
-                ]
-            },
-            {
-                id: 5,
-                title: "Tenko no Ko",
-                link: "/galery/ten",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Tenko no Ko"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Tenko no Ko"
-                    }
-                ]
-            },
-            {
-                id: 6,
-                title: "Koe no Katachi",
-                link: "/galery/koe",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Koe no Katachi"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Koe no Katachi"
-                    }
-                ]
-            },
-            {
-                id: 7,
-                title: "Kimi no Na Wa",
-                link: "/galery/kimi",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Kimi no Na Wa"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Kimi no Na Wa"
-                    }
-                ]
-            },
-            {
-                id: 8,
-                title: "Tenko no Ko",
-                link: "/galery/ten",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Tenko no Ko"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Tenko no Ko"
-                    }
-                ]
-            },
-            {
-                id: 9,
-                title: "Koe no Katachi",
-                link: "/galery/koe",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Koe no Katachi"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Koe no Katachi"
-                    }
-                ]
-            },
-            {
-                id: 10,
-                title: "Kimi no Na Wa",
-                link: "/galery/kimi",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Kimi no Na Wa"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Kimi no Na Wa"
-                    }
-                ]
-            },
-            {
-                id: 11,
-                title: "Tenko no Ko",
-                link: "/galery/ten",
-                galeryImages: [
-                    {
-                        id: 1,
-                        img: img,
-                        fromAnime: "Tenko no Ko"
-                    },
-                    {
-                        id: 2,
-                        img: img,
-                        fromAnime: "Tenko no Ko"
-                    }
-                ]
-            }
-        ]
-    });
+        ]);
     const [searchPhrase, setSearchPhrase] = useState('');
 
     const handleSearch = (e) => {
@@ -210,18 +33,29 @@ const Galery = ({history}) => {
     }
 
     const folderList = () => {
-        const folders = [...anime.series, ...anime.movies];
+        const folders = anime;
         const filtered = folders.filter(f => f.title.toLowerCase().includes(searchPhrase.toLowerCase()));
-        return filtered.map(f => <SingleFolder key={f.id} anime={f.title} link={f.link} images={f.galeryImages}/>)
+        return filtered.map(f => <SingleFolder key={f._id} anime={f.title} link={f.link} images={f.images.galeryImages}/>)
     }
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
 
+    const callAPI = () => {
+        fetch('http://localhost:9000/anime')
+            .then(res => res.json())
+            .then(res => setAnime(res));
+    }
+
     useEffect(() => {
         goUp();
+        callAPI();
     }, []);
+
+    useEffect(() => {
+        setSearchPhrase('');
+    },[match])
 
     return ( 
         <main className="main">
@@ -238,7 +72,7 @@ const Galery = ({history}) => {
                     </Route>
                     <Route path="/galery/:anime">
                         <SRLWrapper>
-                            <GaleryImages anime={[...anime.series, ...anime.movies]}/>
+                            <GaleryImages anime={anime}/>
                         </SRLWrapper>
                     </Route>
                 </Switch>

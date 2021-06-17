@@ -81,11 +81,9 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                 .then(res => res.json())
                 .then(res => {
                     console.log(res.response);
+                    callAPI();
                 })
-            // console.log(descriptionTitle);
-            // console.log(descriptionText);
         } else if (type === "favAnime") {
-            // console.log(favoriteAnime);
             fetch('http://localhost:9000/profile/change/favorite-anime', {
                 headers: {
                     'Content-Type': 'application/json',
@@ -93,16 +91,16 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                 },
                 method: 'POST',
                 body: JSON.stringify({
-                    UID: localStorage.getItem('UID'),
-                    favoriteAnime
+                    user: localStorage.getItem('UID'),
+                    anime: favoriteAnime
                 })
             })
                 .then(res => res.json())
                 .then(res => {
                     console.log(res.response);
+                    callAPI();
                 })
         } else if (type === "background") {
-            // console.log(file);
             const data = new FormData();
             data.append('myImg',file);
             fetch('http://localhost:9000/images/upload', {
@@ -126,6 +124,11 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                             img: res
                         })
                     })
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(res.response);
+                            callAPI();
+                        })
                 })
         } 
     }

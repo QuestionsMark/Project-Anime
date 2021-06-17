@@ -1,26 +1,34 @@
 import React from 'react';
-import { withRouter, useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import SingleImage from './SingleImage';
 
 import KeyboardArrowLeftRoundedIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
 
-const GaleryImages = ({anime, history}) => {
-    const location = useLocation();
+const GaleryImages = ({anime, history, match}) => {
 
     const handleGoBack = () => {
         history.goBack();
     }
 
     const setTitle = () => {
-        const thisAnime = anime.find(a => a.link === location.pathname);
-        return thisAnime.title;
+        const thisAnime = anime.find(a => a.link === match.params.anime);
+        if (thisAnime) {
+            return thisAnime.title;
+        } else {
+            return '';
+        }
     }
 
     const getImages = () => {
-        const thisAnime = anime.find(a => a.link === location.pathname);
-        const images = thisAnime.galeryImages.map(a => <SingleImage key={a.id} img={a.img} fromAnime={a.fromAnime}/>);
-        return images;
+        const thisAnime = anime.find(a => a.link === match.params.anime);
+        if (thisAnime) {
+            const images = thisAnime.images.galeryImages.map(i => <SingleImage key={i.id} img={i.img} fromAnime={i.fromAnime}/>);
+            return images;
+        } else {
+            return null;
+        }
+        
     }
 
     return ( 

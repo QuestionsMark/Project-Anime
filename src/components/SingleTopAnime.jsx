@@ -51,6 +51,97 @@ const SingleTopAnime = ({title, link, place, img, types, rate, favorite, watched
         }
     }
 
+    const handleAnimeStatusChange = (type, title, e) => {
+        let target = e.target;
+        if (target.localName === 'path') {
+            target = target.parentElement;
+        }
+        if (type === 'favAnime') {
+            fetch('http://localhost:9000/profile/change/favorite-anime', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        } else if (type === 'watched') {
+            fetch('http://localhost:9000/profile/change/watched', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'stopped') {
+            fetch('http://localhost:9000/profile/change/stopped', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'processOfWatching') {
+            fetch('http://localhost:9000/profile/change/process-of-watching', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'planned') {
+            fetch('http://localhost:9000/profile/change/planned', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+    }
+
     const animeTypes = types.map(t => <Link to={`/types/${t.link}`} key={t.id} className="animeList__type">{t.name}</Link>)
 
     return ( 
@@ -70,11 +161,11 @@ const SingleTopAnime = ({title, link, place, img, types, rate, favorite, watched
                 <p className="animeList__rateValue">{rate}</p>
             </div>
             <div className="animeList__buttons">
-                <Button className={`button animeList__button ${checkActive("favorite")}`}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
-                <Button className={`button animeList__button ${checkActive("watched")}`}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button animeList__button ${checkActive("stopped")}`}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button animeList__button ${checkActive("processOfWatching")}`}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button animeList__button ${checkActive("planned")}`}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
+                <Button className={`button animeList__button ${checkActive("favorite")}`} onClick={(e) => {handleAnimeStatusChange('favAnime', title, e)}}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
+                <Button className={`button animeList__button ${checkActive("watched")}`} onClick={(e) => {handleAnimeStatusChange('watched', title, e)}}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
+                <Button className={`button animeList__button ${checkActive("stopped")}`} onClick={(e) => {handleAnimeStatusChange('stopped', title, e)}}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
+                <Button className={`button animeList__button ${checkActive("processOfWatching")}`} onClick={(e) => {handleAnimeStatusChange('processOfWatching', title, e)}}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
+                <Button className={`button animeList__button ${checkActive("planned")}`} onClick={(e) => {handleAnimeStatusChange('planned', title, e)}}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
             </div>
         </li>
      );

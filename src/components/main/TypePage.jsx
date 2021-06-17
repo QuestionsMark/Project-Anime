@@ -10,245 +10,24 @@ import img2 from '../../media/img/hos-back20502.jpg';
 const TypePage = ({ typesList, match }) => {
 
     const [types, setTypes] = useState(typesList);
-    const [anime, setAnime] = useState({
-        movies: [
+    const [anime, setAnime] = useState([
             {
-                id: 13,
-                title: "Charlotte",
-                link: "/page/coś",
-                img: img,
+                id: '',
+                title: '',
+                link: '',
+                images: {
+                    mini: ''
+                },
                 types: [
                     {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Psychologiczne",
-                        link: "/type/coś"
-                    },
+                        id: '',
+                        name: '',
+                        link: ''
+                    }
                 ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 23,
-                title: "Violet Evergarden",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Psychologiczne",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 6.54,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 33,
-                title: "Naruto",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Komedia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 8.20,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
+                rate: [],
             }
-        ],
-        series: [
-            {
-                id: 1,
-                title: "Charlotte",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Komedia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 4,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 5,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 6,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 7,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 8,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 9,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 2,
-                title: "Shuumatsu Nani Shitemasu ka? Isogashii desu ka? Sukutte Moratte Ii desu ka?",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Komedia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Psychologiczne",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 10.00,
-                planned: [],
-                watched: [],
-                favorite: [],
-                stopped: ["1"],
-                processOfWatching: [],
-            },
-            {
-                id: 3,
-                title: "Naruto",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Fantasy",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Szkolne",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 9.32,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 4,
-                title: "Naruto Shippuden",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 6.12,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            }
-        ]
-    })
+        ])
     const [users, setUsers] = useState([
         {
             id: 1,
@@ -568,7 +347,7 @@ const TypePage = ({ typesList, match }) => {
     const [description, setDescription] = useState('');
 
     const animeList = () => {
-        const animeList = [...anime.series, ...anime.movies];
+        const animeList = [...anime];
         const filtered = animeList.filter(a => {
             let has = true;
             let types = [];
@@ -589,21 +368,32 @@ const TypePage = ({ typesList, match }) => {
                 return 0;
             }
         })
-        const bestThree = sorted.slice(0, 3); 
-        return bestThree.map((a, index) => <SingleTopAnime 
-        key={a.id}
-        title={a.title}
-        link={a.link}
-        place={index + 1}
-        img={a.img}
-        types={a.types}
-        rate={a.rate}
-        favorite={a.favorite}
-        watched={a.watched}
-        stopped={a.stopped}
-        processOfWatching={a.processOfWatching}
-        planned={a.planned}
-        />);
+        const bestThree = sorted.slice(0, 3);  
+        return bestThree.map((a, index) => {
+            let rate; 
+            if (a.rate.length > 0) {
+                let rateValue = 0;
+                a.rate.forEach(r => rateValue += r.value);
+                const average = (rateValue / a.rate.length).toFixed(2);
+                rate = average;
+            } else {
+                rate = 0;
+            }
+            return <SingleTopAnime 
+            key={a._id}
+            title={a.title}
+            link={a.link}
+            place={index + 1}
+            img={a.images.mini.img}
+            types={a.types}
+            rate={rate}
+            favorite={a.favorite}
+            watched={a.watched}
+            stopped={a.stopped}
+            processOfWatching={a.processOfWatching}
+            planned={a.planned}
+            />
+        });
     }
 
     const userList = () => {
@@ -619,6 +409,16 @@ const TypePage = ({ typesList, match }) => {
         })
         return sorted.map(u => <SingleTypeLover key={u.id} img={u.avatar} name={u.name} link={u.link} likes={u.likes}/>)
     }
+
+    const callAPI = () => {
+        fetch('http://localhost:9000/anime')
+            .then(res => res.json())
+            .then(res => setAnime(res));
+    }
+
+    useEffect(() => {
+        callAPI();
+    },[])
 
     useEffect(() => {
         if (typesList.length > 0) {

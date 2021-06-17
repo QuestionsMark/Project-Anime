@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import HomeIcon from '@material-ui/icons/Home';
@@ -12,9 +12,7 @@ import logo from '../media/img/icon.jpg';
 
 const Nav = ({isUserLogged, handleSignIn, handleLogOut}) => {
 
-    const history = useHistory();
-
-    const [profileLink, setProfileLink] = useState("cos");
+    // const [profileLink, setProfileLink] = useState("cos");
 
     return ( 
         <div className="header">

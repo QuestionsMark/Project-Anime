@@ -21,7 +21,6 @@ const Anime = ({history}) => {
 
     const searchAnimeList = (type) => {
         if (type === "series") {
-            console.log(animeList)
             const series = animeList.filter(a => a.kind === "series");
             const filtered = series.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
             return filtered;

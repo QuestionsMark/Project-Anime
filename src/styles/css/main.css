@@ -2520,6 +2520,9 @@ div.galery {
 .galery__image {
   -ms-flex-preferred-size: 21vw;
       flex-basis: 21vw;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   border-right: 1px solid #f50057;
   border-bottom: 1px solid #f50057;
   border-radius: 10px;
@@ -2536,7 +2539,12 @@ div.galery {
           transform: translateY(-10px);
 }
 
+.galery__imgWrapper {
+  overflow: hidden;
+}
+
 .galery__imageTitle {
+  min-height: 50px;
   padding: 20px;
   text-align: center;
   color: #f0f0f0;

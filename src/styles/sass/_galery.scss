@@ -74,6 +74,7 @@
 
     &__image {
         flex-basis: 21vw;
+        height: fit-content;
         border-right: 1px solid $main-color;
         border-bottom: 1px solid $main-color;
         border-radius: 10px;
@@ -87,7 +88,12 @@
         }
     }
 
+    &__imgWrapper {
+        overflow: hidden;
+    }
+
     &__imageTitle {
+        min-height: 50px;
         padding: 20px;
         text-align: center;
         color: $font-color2;
