@@ -7,6 +7,10 @@
     user-select: none;
     z-index: 1000;
 
+    .loginScreen__submit {
+        margin: 0 auto 20px;
+    }
+
     &__curtain {
         width: 100%;
         height: 100%;
@@ -18,7 +22,6 @@
         flex-direction: column;
         @include position-absolute(50%, 50%);
         width: 500px;
-        height: 500px;
         padding: 40px;
         border: 2px solid #f50057;
         border-radius: 10px;
@@ -34,7 +37,7 @@
 
     &__form {
         // flex-grow: 1;
-        margin: 0 auto 50px;
+        margin: 0 auto;
     }
 
     &__input {
@@ -42,34 +45,21 @@
         width: 300px;
         padding: 10px;
         border: none;
-        border-radius: 20px;
-        margin: 20px auto;
+        border-bottom: 2px solid darken($main-color, 20%);
+        margin: 0 auto 20px;
+        background-color: transparent;
         color: $font-color;
-        background-color: #303030;
         font-size: 17px;
         font-weight: bold;
         outline: none;
+        transition: 0.3s;
 
         &::placeholder {
             color: #909090;
         }
-    }
 
-    &__submit {
-        display: block;
-        padding: 10px 30px;
-        border: none;
-        border-radius: 20px;
-        margin: 0 auto;
-        color: $font-color;
-        background-color: #303030;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.4s;
-
-        &:hover {
-            background-color: #606060;
+        &:focus {
+            border-bottom: 2px solid $main-color;
         }
     }
 
@@ -97,6 +87,20 @@
         &:hover {
             text-decoration: underline;
         }
+    }
+
+    &__list {
+        margin-bottom: 20px;
+        color: red;
+    }
+
+    &__response {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    &__response--red {
+        color: red;
     }
 }
 

@@ -1,0 +1,151 @@
+.create {
+    width: 100%;
+    max-width: none;
+    background-color: transparent;
+
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    &__createAnime {
+        @include page-style;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 40px;
+    }
+
+    &__send {
+        @include page-style;
+
+        .create__add {
+            padding: 10px 50px;
+            margin: 20px auto;
+            font-size: 30px;
+        }
+    }
+
+    &__title {
+        margin-bottom: 10px;
+        color: $font-color2;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .MuiFormLabel-root {
+        @extend .create__title;
+        // text-align: center;
+    }
+
+    .MuiFormLabel-root.Mui-focused {
+        color: $font-color2;
+    }
+
+    .MuiFormGroup-root {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .MuiFormControlLabel-root {
+        margin: 0 20px 0 0;
+    }
+
+    &__left {
+        border-bottom: 2px solid $main-color;
+        background-color: rgba(10, 10, 10, 0.5);
+        flex-basis: calc(50% - 15px);
+    }
+
+    &__right {
+        @extend .create__left;
+    }
+
+    &__section {
+        @include page-style;
+    }
+
+    &__inputText {
+        padding: 5px;
+        border: none;
+        border-bottom: 2px solid darken($main-color, 20%);
+        outline: none;
+        background-color: transparent;
+        color: $font-color;
+        font-size: 16px;
+        font-weight: bold;
+        transition: 0.3s;
+
+        &::placeholder {
+            color: #909090;
+        }
+
+        &:focus {
+            border-bottom: 2px solid $main-color;
+        }
+    }
+
+    &__scenarioInp {
+        margin: 0 20px 20px 0;
+    }
+
+    &__duration1Inp {
+        margin-right: 20px;
+    }
+
+    &__composerInp {
+        margin-right: 20px;
+    }
+
+    &__imageInp {
+        display: none;
+    }
+
+    &__soundtrackInp {
+        @extend .create__imageInp;
+    }
+
+    &__imageLabel {
+        display: block;
+        width: fit-content;
+        min-width: 5vw;
+        padding: 7px 12px;
+        border-radius: 5px;
+        margin: 0 20px 20px 0;
+        background-color: $main-color;
+        color: $font-color2;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: darken($main-color, 20%);
+        }
+    }
+
+    &__preview {
+        width: 70%;
+        margin: 0 auto 100px;
+        cursor: pointer;
+    }
+
+    &__preview--mini {
+        width: 15vw;
+        height: 15vw;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__preview:nth-last-of-type(1) {
+        margin: 0 auto;
+    }
+
+    &__size {
+        margin-bottom: 20px;
+    }
+
+    &__sizeInf {
+        margin-right: 30px;
+    }
+}

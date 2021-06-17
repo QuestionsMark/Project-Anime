@@ -7,14 +7,16 @@ import img2 from '../media/img/kiminonawa-back20502.jpg';
 import img3 from '../media/img/pla3-back20502.png';
 import img4 from '../media/img/sao1-back20502.jpg';
 import img5 from '../media/img/shi-back20502.jpg';
+import { useEffect } from 'react';
 
-const ProfileEdit = ({favAnime, watchedAnimeList, background}) => {
+const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction, customBackgroundsList, callAPI}) => {
 
     const [descriptionTitle, setDescriptionTitle] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
     const [favoriteAnime, setFavoriteAnime] = useState(favAnime.title);
-    const [defaultBackgrounds, setDefaultBackgrounds] = useState([img, img2, img3, img4, img5]);
-    const [customBackgrounds, setCustomBackgrounds] = useState([img, img2, img3, img4, img5]);
+    const [defaultBackgrounds, setDefaultBackgrounds] = useState(["myImg-1623824273692.png", "myImg-1623824284002.jpg", "myImg-1623824323392.jpg", "myImg-1623824334616.jpg", "myImg-1623824344703.jpg",]);
+    const [customBackgrounds, setCustomBackgrounds] = useState(customBackgroundsList);
+    const [background, setBackground] = useState(actualBackground);
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(img);
 
@@ -33,14 +35,27 @@ const ProfileEdit = ({favAnime, watchedAnimeList, background}) => {
     const handleBGChange = (e) => {
         const dataType = e.target.parentElement.getAttribute('data-type');
         let backgrounds;
-        if (dataType === "1") {
+        if (dataType === "default") {
             backgrounds = [...e.target.parentElement.children, ...e.target.parentElement.nextSibling.nextSibling.children];
-        } else {
+        } else if (dataType === "custom") {
             backgrounds = [...e.target.parentElement.children, ...e.target.parentElement.previousSibling.previousSibling.children];
         }
         backgrounds.forEach(b => b.classList.remove('chosedBG'));
         e.target.classList.add('chosedBG');
-        console.log(e.target.src);
+        const src = e.target.src;
+        console.log(e)
+        fetch(`http://localhost:9000/images/change/${src.slice(29)}`, {
+            headers: {
+                'authorization': localStorage.getItem('UID'),
+                'user': localStorage.getItem('UID')
+            },
+            method: 'PUT'
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            callAPI();
+        })
     }
 
     const handleChooseFile = (e) => {
@@ -51,12 +66,67 @@ const ProfileEdit = ({favAnime, watchedAnimeList, background}) => {
 
     const handleSave = (type) => {
         if (type === "description") {
-            console.log(descriptionTitle);
-            console.log(descriptionText);
+            fetch('http://localhost:9000/profile/change/introduction', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    UID: localStorage.getItem('UID'),
+                    title: descriptionTitle,
+                    description: descriptionText
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res.response);
+                })
+            // console.log(descriptionTitle);
+            // console.log(descriptionText);
         } else if (type === "favAnime") {
-            console.log(favoriteAnime);
+            // console.log(favoriteAnime);
+            fetch('http://localhost:9000/profile/change/favorite-anime', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    UID: localStorage.getItem('UID'),
+                    favoriteAnime
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res.response);
+                })
         } else if (type === "background") {
-            console.log(file);
+            // console.log(file);
+            const data = new FormData();
+            data.append('myImg',file);
+            fetch('http://localhost:9000/images/upload', {
+                headers: {
+                    'authorization': localStorage.getItem('UID'),
+                    'user': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: data
+            })
+                .then(res => res.json())
+                .then(res => {
+                    fetch('http://localhost:9000/profile/change/background', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': localStorage.getItem('UID')
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            UID: localStorage.getItem('UID'),
+                            img: res
+                        })
+                    })
+                })
         } 
     }
 
@@ -100,26 +170,39 @@ const ProfileEdit = ({favAnime, watchedAnimeList, background}) => {
 
     const defaultBackgroundList = defaultBackgrounds.map(b => {
         if (b === background) {
-            return <img className="profileEdit__backgroundImg active" src={b} alt="asd" onClick={handleBGChange}/>;
+            return <img className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } else {
-            return <img className="profileEdit__backgroundImg" src={b} alt="asd" onClick={handleBGChange}/>;
+            return <img className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } 
     });
 
     const customBackgroundList = customBackgrounds.map(b => {
-        if (b === background) {
-            return <img className="profileEdit__backgroundImg active" src={b} alt="asd" onClick={handleBGChange}/>;
+        if (b.img === background) {
+            return <img className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }  else {
-            return <img className="profileEdit__backgroundImg" src={b} alt="asd" onClick={handleBGChange}/>;
+            return <img className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }
     });
+
+    useEffect(() => {
+        setCustomBackgrounds(customBackgroundsList);
+    },[customBackgroundsList])
+
+    useEffect(() => {
+        setBackground(actualBackground);
+    },[actualBackground])
+
+    useEffect(() => {
+        setDescriptionText(introduction.description);
+        setDescriptionTitle(introduction.title);
+    },[introduction])
 
     return ( 
         <div className="profileEdit profile__content">
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Opis</h2>
                 <div className="profileEdit__description">
-                    <input type="text" className="profileEdit__descriptionTitle" placeholder="Tytuł" vlaue={descriptionTitle} onChange={handleDescriptionTitleChange}/>
+                    <input type="text" className="profileEdit__descriptionTitle" placeholder="Tytuł" value={descriptionTitle} onChange={handleDescriptionTitleChange}/>
                     <textarea className="profileEdit__descriptionText" placeholder="Napisz coś o sobie..." value={descriptionText} onChange={handleDescriptionTextChange}/>
                 </div>
                 <Button className="button profileEdit__save" onClick={() => {handleSave('description')}}>Zapisz</Button>
@@ -138,11 +221,11 @@ const ProfileEdit = ({favAnime, watchedAnimeList, background}) => {
                 <h2 className="profileEdit__title mediumTitle">Zmień Tło Profilu</h2>
                 <div className="profileEdit__changeBackground">
                     <h3 className="profileEdit__backgroundsTitle">Tła standardowe:</h3>
-                    <div className="profileEdit__defaultBackgrounds" data-type="1">
+                    <div className="profileEdit__defaultBackgrounds" data-type="default">
                         {defaultBackgroundList}
                     </div>
                     <h3 className="profileEdit__backgroundsTitle">Tła Własne:</h3>
-                    <div className="profileEdit__customBackgrounds" data-type="2">
+                    <div className="profileEdit__customBackgrounds" data-type="custom">
                         {customBackgroundList}
                     </div>
                 </div>

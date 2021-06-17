@@ -1,10 +1,14 @@
 import React from 'react';
 
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
-const SingleComment = ({id, img, username, date, text, likes}) => {
+const SingleComment = ({id, img, username, date, text, likes, isAuthorized, handleRemove}) => {
     return ( 
         <div className="comments__item">
+            {isAuthorized ? <div className="page__adminChanges page__adminChanges--com">
+                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
+            </div> : null}
             <div className="comments__imgWrapper">
                 <img src={img} alt="avatar" className="img" />
             </div>

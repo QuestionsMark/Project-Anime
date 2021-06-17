@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import SingleWatchedAnimeItem from './SingleWatchedAnimeItem';
@@ -10,10 +10,13 @@ import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import { Button } from '@material-ui/core';
+import { useEffect } from 'react';
 
-const ProfileHome = ({data}) => {
+const ProfileHome = ({data, match}) => {
 
-    const { username, avatar, accountCreateDate, rank, likes, achievements, points,introductionTitle, introduction, statistics, favoriteAnime, favoriteType } = data;
+    const { username, avatar, createAccountDate, rank, likes, profileLikes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
+
+    const [isUserProfileLover, setIsUserProfileLover] = useState(false);
 
     const handleSlide = (e) => {
         let target = e.target;
@@ -28,7 +31,7 @@ const ProfileHome = ({data}) => {
     }
 
     const watchedAnimeList = () => {
-        const sorted = statistics.watched.sort((a, b) => {
+        const sorted = userAnimeData.watched.sort((a, b) => {
             if (a.title.toLowerCase() > b.title.toLowerCase()) {
                 return 1;
             } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
@@ -42,7 +45,7 @@ const ProfileHome = ({data}) => {
 
     const statisticAnimeList = (type) => {
         if (type === "stopped") {
-            const sorted = statistics.stopped.sort((a, b) => {
+            const sorted = userAnimeData.stopped.sort((a, b) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) {
                     return 1;
                 } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
@@ -53,7 +56,7 @@ const ProfileHome = ({data}) => {
             })
             return sorted.map((a, i) => <SingleStatisticAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link}/>);
         } else if (type === "processOfWatching") {
-            const sorted = statistics.processOfWatching.sort((a, b) => {
+            const sorted = userAnimeData.processOfWatching.sort((a, b) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) {
                     return 1;
                 } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
@@ -64,7 +67,7 @@ const ProfileHome = ({data}) => {
             })
             return sorted.map((a, i) => <SingleStatisticAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link}/>);
         } else if (type === "planned") {
-            const sorted = statistics.planned.sort((a, b) => {
+            const sorted = userAnimeData.planned.sort((a, b) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) {
                     return 1;
                 } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
@@ -76,6 +79,34 @@ const ProfileHome = ({data}) => {
             return sorted.map((a, i) => <SingleStatisticAnimeItem key={i} index={i + 1 + '.'} title={a.title} link={a.link}/>);
         }
     }
+
+    const isUserLover = () => {
+        const link = match.params.userLink;
+        console.log(link)
+        console.log(link === localStorage.getItem('l'))
+        let isUserLover = false;
+        const index = profileLikes.findIndex(p => p.username === username);
+        if (index !== -1 || link === localStorage.getItem('l')) {
+            isUserLover = true;
+        }
+        return isUserLover;
+    }
+
+    const showRank = () => {
+        let string;
+        if (rank === "3") {
+            string = "Administrator"
+        } else if (rank === "2") {
+            string = "Moderator"
+        } else {
+            string = "Użytkownik"
+        }
+        return string;
+    }
+
+    useEffect(() => {
+        setIsUserProfileLover(isUserLover())
+    },[data])
 
     return ( 
         <div className="profile__content">
@@ -89,15 +120,18 @@ const ProfileHome = ({data}) => {
                         <p className="profile__infoBlock">Polubienia: {likes.length}</p>
                         <p className="profile__infoBlock">Osiągnięcia: {achievements.length}</p>
                         <p className="profile__infoBlock">Ulubiony Gatunek: {favoriteType}</p>
-                        <p className="profile__infoBlock">Dołączono: {accountCreateDate}</p>
-                        <p className="profile__infoBlock">Ranga: {rank}</p>
+                        <p className="profile__infoBlock">Dołączono: {createAccountDate}</p>
+                        <p className="profile__infoBlock">Ranga: {showRank()}</p>
                         <p className="profile__infoBlock">Punkty: {points}</p>
                     </div>
+                    {match.params.userLink === localStorage.getItem('l') ? null : <div className="profile__likeProfile">
+                        <Button className="button profile__likeProfileButton">{isUserLover() ? 'Usuń polubienie' : 'Polub profil'}</Button>
+                    </div>}
                 </div>
                 <div className="profile__rightSide">
                     <div className="profile__intro">
-                        <h3 className="profile__introTitle mediumTitle">{introductionTitle}</h3>
-                        <p className="profile__introText">{introduction}</p>
+                        <h3 className="profile__introTitle mediumTitle">{introduction.title}</h3>
+                        <p className="profile__introText">{introduction.description}</p>
                     </div>
                     <div className="profile__statistics">
                         <h3 className="profile__statisticsTitle mediumTitle">Statystyki Anime:</h3>
@@ -106,7 +140,7 @@ const ProfileHome = ({data}) => {
                                 <div className="profile__statisticInfo">
                                     <Button className="button profile__button" onClick={handleSlide}><DoneRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">Obejrzane:</p>
-                                    <p className="profile__statisticValue">{statistics.watched.length}</p>
+                                    <p className="profile__statisticValue">{userAnimeData.watched.length}</p>
                                 </div>
                                 <ul className="profile__statisticAnimeList">
                                     {watchedAnimeList().length > 0 ? watchedAnimeList() : <p className="profile__emptyList">Lista jest pusta</p>}
@@ -116,7 +150,7 @@ const ProfileHome = ({data}) => {
                                 <div className="profile__statisticInfo">
                                     <Button className="button profile__button" onClick={handleSlide}><AccessAlarmRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">Wstrzymane:</p>
-                                    <p className="profile__statisticValue">{statistics.stopped.length}</p>
+                                    <p className="profile__statisticValue">{userAnimeData.stopped.length}</p>
                                 </div>
                                 <ul className="profile__statisticAnimeList">
                                     {statisticAnimeList("stopped").length > 0 ? statisticAnimeList("stopped") : <p className="profile__emptyList">Lista jest pusta</p>}
@@ -126,7 +160,7 @@ const ProfileHome = ({data}) => {
                                 <div className="profile__statisticInfo">
                                     <Button className="button profile__button" onClick={handleSlide}><VisibilityRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">W trakcie oglądania:</p>
-                                    <p className="profile__statisticValue">{statistics.processOfWatching.length}</p>
+                                    <p className="profile__statisticValue">{userAnimeData.processOfWatching.length}</p>
                                 </div>
                                 <ul className="profile__statisticAnimeList">
                                     {statisticAnimeList("processOfWatching").length > 0 ? statisticAnimeList("processOfWatching") : <p className="profile__emptyList">Lista jest pusta</p>}
@@ -136,7 +170,7 @@ const ProfileHome = ({data}) => {
                                 <div className="profile__statisticInfo">
                                     <Button className="button profile__button" onClick={handleSlide}><CreateRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">Planowane:</p>
-                                    <p className="profile__statisticValue">{statistics.planned.length}</p>
+                                    <p className="profile__statisticValue">{userAnimeData.planned.length}</p>
                                 </div>
                                 <ul className="profile__statisticAnimeList">
                                     {statisticAnimeList("planned").length > 0 ? statisticAnimeList("planned") : <p className="profile__emptyList">Lista jest pusta</p>}
@@ -146,16 +180,18 @@ const ProfileHome = ({data}) => {
                     </div>
                     <div className="profile__favoriteAnime">
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
-                        <div className="profile__FAFlex">
+                        {favoriteAnime.title ? <div className="profile__FAFlex">
                             <div className="profile__FAImgWrapper">
-                                <img src={favoriteAnime.img} alt="favAnime" className="img" />
+                                <img src={`http://localhost:9000/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
                             </div>
-                            <Link to={favoriteAnime.link} className="profile__FALink">{favoriteAnime.title}</Link>
+                            <Link to={`/pages/${favoriteAnime.link}`} className="profile__FALink">{favoriteAnime.title}</Link>
                             <div className="profile__FARate">
                                 <StarRateRoundedIcon className="profile__FARateIcon"/>
                                 <p className="profile__FARateValue">{favoriteAnime.rate}</p>
                             </div>
-                        </div>
+                        </div> : <div className="profile__FAFlex">
+                            <p className="profile__noFavorite">Brak ulubionego anime</p>
+                        </div>}
                     </div>
                 </div>
             </div>

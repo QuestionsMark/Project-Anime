@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import QMAImg from '../media/img/icon.jpg';
 import SAOImg from '../media/img/SAOIcon.png';
 
-const MyProjects = () => {
+const MyProjectsList = () => {
     return ( 
         <section className="myProjects main__section scrollNav" data-id="4">
             <h2 className="myProjects__title">Inne Moje Projekty</h2>
@@ -38,4 +38,4 @@ const MyProjects = () => {
      );
 }
  
-export default MyProjects;
+export default MyProjectsList;

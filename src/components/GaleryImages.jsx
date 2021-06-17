@@ -1,11 +1,16 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { withRouter, useLocation } from 'react-router-dom';
 
 import SingleImage from './SingleImage';
 
-const GaleryImages = ({anime}) => {
+import KeyboardArrowLeftRoundedIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
 
+const GaleryImages = ({anime, history}) => {
     const location = useLocation();
+
+    const handleGoBack = () => {
+        history.goBack();
+    }
 
     const setTitle = () => {
         const thisAnime = anime.find(a => a.link === location.pathname);
@@ -20,6 +25,9 @@ const GaleryImages = ({anime}) => {
 
     return ( 
         <>
+            <div className="galery__goBack">
+                <KeyboardArrowLeftRoundedIcon className="galery__goBackIcon" onClick={handleGoBack}/>
+            </div>
             <h2 className="galery__title">{setTitle()}</h2>
             <div className="galery__imagesContainer">
                 {getImages()}
@@ -28,4 +36,4 @@ const GaleryImages = ({anime}) => {
      );
 }
  
-export default GaleryImages;
+export default withRouter(GaleryImages);

@@ -45,7 +45,9 @@
         width: 19vw;
         height: 95vh;
         margin-right: 10px;
-        overflow-y: scroll;
+        // overflow-y: scroll;
+        overflow: auto;
+        overscroll-behavior-y: contain;
     }
 }
 

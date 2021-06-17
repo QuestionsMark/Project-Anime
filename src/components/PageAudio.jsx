@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
-const Audio = ({mp3}) => {
+const PageAudio = ({id, mp3, composer, title, isAuthorized, handleRemove}) => {
 
-    const [melody, setMelody] = useState(mp3);
-    const [duration, setDuration] = useState(0);
+    const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00 : 00');
     const [volume, setVolume] = useState(50);
     const [progression, setProgression] = useState(0);
@@ -97,8 +97,8 @@ const Audio = ({mp3}) => {
     }
 
     const handleSoundHoverOff = () => {
-        const inpProgression = document.querySelectorAll('.audioInterface__createProgression');
-        const inpVolume = document.querySelectorAll('.audioInterface__createVolume');
+        const inpProgression = document.querySelectorAll('.audioInterface__pageProgression');
+        const inpVolume = document.querySelectorAll('.audioInterface__pageVolume');
         inpProgression.forEach(i => i.style = '');
         inpVolume.forEach(i => i.style = '');
     }
@@ -113,13 +113,12 @@ const Audio = ({mp3}) => {
         setDuration(duration);
     }
 
-    useEffect(() => {
-        setMelody(mp3);
-    },[mp3])
-
     return ( 
-        <>
-            <audio src={melody} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+        <div className="page__soundtrack">
+            {isAuthorized ? <div className="page__adminChanges">
+                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
+            </div> : null}
+            <audio src={`http://localhost:9000/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface audioInterface--borderSize">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />
@@ -128,15 +127,16 @@ const Audio = ({mp3}) => {
                 <div className="audioInterface__time">
                     <p className="audioInterface__time"><span className="audioInterface__actualDuration">{currentTime}</span> / <span className="audioInterface__duration">{duration}</span></p>
                 </div>
-                <input type="range" min="0" max="100" value={progression} onChange={handleProgressionChange} className="audioInterface__pageProgression audioInterface__createProgression" />
+                <input type="range" min="0" max="100" value={progression} onChange={handleProgressionChange} className="audioInterface__pageProgression" data-id={id}/>
                 <div className="audioInterface__sound" onMouseEnter={handleSoundHoverOn} onMouseLeave={handleSoundHoverOff}>
-                    <input type="range" min="0" max="100" value={volume} className="audioInterface__pageVolume audioInterface__createVolume" onChange={handleVolumeChange}/>
+                    <input type="range" min="0" max="100" value={volume} className="audioInterface__pageVolume" data-id={id} onChange={handleVolumeChange}/>
                     <VolumeUpRoundedIcon className="audioInterface__icon volumeOn last active" onClick={handleSoundClick} />
                     <VolumeOffRoundedIcon className="audioInterface__icon VolumOff last" onClick={handleSoundClick} />
                 </div>
             </div>
-        </>
+            <p className="page__soundtrackInfo">{composer}&nbsp;&nbsp;-&nbsp;&nbsp;"{title}"</p>
+        </div>
      );
 }
  
-export default Audio;
+export default PageAudio;

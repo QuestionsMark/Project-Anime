@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import HomeIcon from '@material-ui/icons/Home';
@@ -10,13 +10,11 @@ import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 import logo from '../media/img/icon.jpg';
 
-const Nav = ({isUserLogged}) => {
+const Nav = ({isUserLogged, handleSignIn, handleLogOut}) => {
+
+    const history = useHistory();
 
     const [profileLink, setProfileLink] = useState("cos");
-
-    const handleSignIn = () => {
-        document.querySelector('.loginScreen').classList.toggle('none');
-    }
 
     return ( 
         <div className="header">
@@ -48,12 +46,10 @@ const Nav = ({isUserLogged}) => {
                         <NavLink to="/galery" className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    {isUserLogged ? <li className="menu__item"><NavLink to={`/profile/${profileLink}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
+                    {isUserLogged ? <li className="menu__item"><NavLink to={`/profile/${localStorage.getItem('l')}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
                 </ul>
             </nav>
-            <div className="header__login" onClick={handleSignIn}>
-                {isUserLogged ? <><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></> : <><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></> }
-            </div>
+            {isUserLogged ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleSignIn}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }
         </div>
      );
 }

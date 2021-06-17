@@ -5,12 +5,12 @@ import SingleComment from './SingleComment';
 
 import img from '../media/img/sak6-spec.jpg';
 
-const Comments = ({comments}) => {
+const Comments = ({comments, isAuthorized, handleRemove}) => {
 
-    const commentsList = comments.map(c => <SingleComment key={c.id} id={c.id} username={c.username} img={c.img} date={c.date} text={c.text} likes={c.likes}/>)
+    const commentsList = comments.map(c => <SingleComment key={c.id} id={c.id} username={c.username} img={c.img} date={c.date} text={c.text} likes={c.likes} isAuthorized={isAuthorized} handleRemove={handleRemove}/>)
 
     return ( 
-        <div className="comments scrollNav" data-id="5">
+        <div className="comments scrollNav" data-id="6">
             <h2 className="comments__title largeTitle">Komentarze</h2>
             <AddComment avatar={img}/>
             <div className="comments__container">

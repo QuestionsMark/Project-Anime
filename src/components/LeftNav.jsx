@@ -67,10 +67,11 @@ const LeftNav = () => {
                     </Route>
                     <Route path="/pages/:anime">
                         <li className="leftNav__item" data-id="1">Oglądaj</li>
-                        <li className="leftNav__item" data-id="2">Informacje</li>
+                        <li className="leftNav__item" data-id="2">Gatunek</li>
                         <li className="leftNav__item" data-id="3">Opis</li>
                         <li className="leftNav__item" data-id="4">Posłuchaj Soundtracku</li>
-                        <li className="leftNav__item" data-id="5">Komentarze</li>
+                        <li className="leftNav__item" data-id="5">Powiązane Anime</li>
+                        <li className="leftNav__item" data-id="6">Komentarze</li>
                     </Route>
                     <Route path="/types">
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>

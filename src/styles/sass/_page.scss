@@ -25,6 +25,7 @@
 
     &__rate {
         @include page-style;
+        position: relative;
         padding: 10px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
@@ -133,6 +134,7 @@
 
     &__galery {
         @include page-style;
+        position: relative;
         max-height: 1000px;
         padding: 20px 20px 0;
         overflow-y: scroll;
@@ -150,6 +152,12 @@
         border-radius: 8px;
         margin-bottom: 20px;
         overflow: hidden;
+    }
+
+    &__imageLink {
+        position: relative;
+        color: $main-color;
+        cursor: pointer;
     }
 
     &__right {
@@ -322,12 +330,14 @@
     }
 
     &__audioInterface {
+        position: relative;
         padding-top: 20px;
         border-bottom: 2px solid $main-color;
         background-color: rgba(10, 10, 10, 0.5);
     }
 
     &__soundtrack {
+        position: relative;
         display: flex;
         align-items: center;
     }
@@ -373,6 +383,7 @@
 
     &__seasons {
         @include page-style;
+        position: relative;
         display: flex;
         flex-wrap: wrap;
     }
@@ -411,6 +422,11 @@
 
     &__description {
         @include page-style;
+        position: relative;
+    }
+
+    &__descriptionTitle {
+        margin-bottom: 20px;
     }
 
     &__author {
@@ -420,6 +436,37 @@
         font-size: 18px;
         font-weight: bold;
         color: $font-color2;
+    }
+
+    &__adminChanges {
+        @include position-absolute(20px, 20px);
+        display: flex;
+        z-index: 100;
+
+        .page__adminIcon {
+            width: 20px;
+            height: 20px;
+            color: $main-color;
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:hover {
+                color: $special-color;
+            }
+        }
+
+        .page__adminIcon--border {
+            border: 1px solid $main-color;
+            border-radius: 50%;
+
+            &:hover {
+                border: 1px solid $special-color;
+            }
+        }
+    }
+
+    &__adminChanges--com {
+        @include position-absolute(20px, calc(100% - 20px));
     }
 }
 
@@ -433,6 +480,7 @@
 
     &__item {
         @include page-style;
+        position: relative;
         display: flex;
         justify-content: space-between;
     }
@@ -453,10 +501,12 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
+        user-select: text;
     }
 
     &__text {
         margin-bottom: 10px;
+        user-select: text;
     }
 
     &__likes {
@@ -537,5 +587,69 @@
             border: 2px solid $main-color;
             color: $font-color2;
         }
+    }
+}
+
+.changes {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+
+
+    &__content {
+        @include position-absolute(50%, 50%);
+        width: 1000px;
+        height: 500px;
+        padding: 20px;
+        border-bottom: 2px solid $main-color;
+        background-color: black;
+        overflow-y: scroll;
+
+        .changes__button {
+            margin: auto;
+        }
+    }
+
+    &__title {
+        margin-bottom: 20px;
+    }
+
+    &__scenario {
+        margin: 0 20px 20px 0;
+    }
+
+    &__productionDate {
+        margin-right: 20px;
+    }
+
+    &__preview {
+        width: 70%;
+        margin: 0 auto 20px;
+    }
+
+    .MuiFormLabel-root {
+        @extend .create__title;
+        // text-align: center;
+    }
+
+    .MuiFormLabel-root.Mui-focused {
+        color: $font-color2;
+    }
+
+    .MuiFormGroup-root {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .MuiFormControlLabel-root {
+        margin: 0 20px 0 0;
+    }
+
+    &__composer {
+        margin: 0 20px 20px 0;
     }
 }

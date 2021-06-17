@@ -1,7 +1,12 @@
+// html {
+//     overscroll-behavior: none;
+// }
+
 body {
     background-color: black;
     color: $font-color;
     font-family: 'Roboto Condensed', sans-serif;
+    overscroll-behavior: none;
 }
 
 ::-webkit-scrollbar {

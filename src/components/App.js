@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Footer from './Footer';
 import Home from './main/Home';
@@ -18,10 +18,40 @@ import News from './main/News';
 import Source from './main/Source';
 import NotFound from './main/NotFound';
 import Profile from './main/Profile';
+import PageCreate from './main/PageCreate';
+import MyProjects from './main/MyProjects';
 
 function App() {
 
-  const [isUserLogged, setIsUserLogged] = useState(true);
+  const [isUserLogged, setIsUserLogged] = useState(false);
+
+  const handleSignIn = () => {
+    document.querySelector('.loginScreen').classList.toggle('none');
+  }
+
+  const handleLogOut = () => {
+    localStorage.removeItem('UID')
+    localStorage.removeItem('token');
+    localStorage.removeItem('l');
+    window.location.href = "http://localhost:3000";
+  }
+
+  const checkUserState = () => {
+    fetch("http://localhost:9000/users/is-user-logged", {
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      },
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(res => {
+        setIsUserLogged(res.userState)
+      })
+  }
+
+  useEffect(() => {
+    checkUserState()
+  }, [])
 
   return (
     <Router>
@@ -29,11 +59,11 @@ function App() {
       {/* ---Hidden elements--- */}
 
       {isUserLogged ? null : <LoginScreen />}
-      {isUserLogged ? null : <RegisterScreen />}
+      {isUserLogged ? null : <RegisterScreen handleSignIn={handleSignIn} />}
 
       {/* ---TopSide--- */}
 
-      <Nav isUserLogged={isUserLogged} />
+      <Nav isUserLogged={isUserLogged} handleSignIn={handleSignIn} handleLogOut={handleLogOut} />
 
       {/* ---Main--- */}
       <Switch>
@@ -52,10 +82,13 @@ function App() {
         <Route path="/galery">
           <Galery />
         </Route>
-        <Route path="/profile/:userID">
+        <Route path="/profile/:userLink">
           <Profile />
         </Route>
-        <Route path="/pages">
+        <Route path="/pages/create">
+          <PageCreate />
+        </Route>
+        <Route path="/pages/:anime">
           <Page />
         </Route>
         <Route path="/types">
@@ -69,6 +102,9 @@ function App() {
         </Route>
         <Route path="/source">
           <Source />
+        </Route>
+        <Route path="/my-projects">
+          <MyProjects />
         </Route>
         <Route path="/">
           <NotFound />

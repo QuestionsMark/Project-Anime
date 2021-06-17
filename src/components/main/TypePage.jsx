@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import SingleTopAnime from '../SingleTopAnime';
@@ -7,8 +7,9 @@ import SingleTypeLover from '../SingleTypeLover';
 import img from '../../media/img/vios1-spec.jpg';
 import img2 from '../../media/img/hos-back20502.jpg';
 
-const TypePage = ({types, match}) => {
+const TypePage = ({ typesList, match }) => {
 
+    const [types, setTypes] = useState(typesList);
     const [anime, setAnime] = useState({
         movies: [
             {
@@ -563,8 +564,8 @@ const TypePage = ({types, match}) => {
         },
     ]);
 
-    const typeMatch = match.params.type;
-    const { name, description } = types.find(({match}) => match === typeMatch );
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
 
     const animeList = () => {
         const animeList = [...anime.series, ...anime.movies];
@@ -618,6 +619,24 @@ const TypePage = ({types, match}) => {
         })
         return sorted.map(u => <SingleTypeLover key={u.id} img={u.avatar} name={u.name} link={u.link} likes={u.likes}/>)
     }
+
+    useEffect(() => {
+        if (typesList.length > 0) {
+            const typeMatch = match.params.type;
+            setName(() => {
+                const type = types.find(t => t.link === typeMatch );
+                return type.name;
+            })
+            setDescription(() => {
+                const type = types.find(t => t.link === typeMatch );
+                return type.description;
+            })
+        }
+    },[types])
+
+    useEffect(() => {
+        setTypes(typesList);
+    },[typesList])
 
     return ( 
         <div className="typePage">

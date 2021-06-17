@@ -6,7 +6,7 @@ import RightSide from '../RightSide';
 import AnimeOnTop from '../AnimeOnTop';
 import RecommendedProfiles from '../RecommendedProfiles';
 import LastNews from '../LastNews';
-import MyProjects from '../MyProjects';
+import MyProjectsList from '../MyProjectsList';
 
 const Home = ({history}) => {
 
@@ -26,7 +26,7 @@ const Home = ({history}) => {
                 <AnimeOnTop />
                 <RecommendedProfiles />
                 <LastNews />
-                <MyProjects />
+                <MyProjectsList />
             </div>
             <RightSide />
         </main>

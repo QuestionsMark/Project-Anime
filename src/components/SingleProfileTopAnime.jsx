@@ -5,15 +5,15 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
 const SingleProfileTopAnime = ({title, link, img, types, rate}) => {
 
-    const animeTypes = types.map(t => <Link key={t.id} to={t.link} className="animeList__type">{t.name}</Link>)
+    const animeTypes = types.map(t => <Link key={t.id} to={`/types/${t.link}`} className="animeList__type">{t.name}</Link>)
 
     return ( 
         <li className="animeList__item profileTop__item">
             <div className="animeList__imgWrapper">
-                <img src={img} alt="anime" className="img" />
+                <img src={`http://localhost:9000/images/${img.img}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={link} className="animeList__title">{title}</Link>
+                <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>
                 <div className="animeList__types">
                     {animeTypes}
                 </div>

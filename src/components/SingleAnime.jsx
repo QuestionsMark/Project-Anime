@@ -14,47 +14,101 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
 
     const checkActive = (type) => {
         if (type === "favorite") {
-            if (favorite.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (favorite.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "watched") {
-            if (watched.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (watched.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "stopped") {
-            if (stopped.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (stopped.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "processOfWatching") {
-            if (processOfWatching.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (processOfWatching.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "planned") {
-            if (planned.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (planned.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         }
     }
 
-    const animeTypes = types.map(t => <Link to={t.link} key={t.id} className="animeList__type">{t.name}</Link>)
+    const handleAnimeStatusChange = (type, title, e) => {
+        let target = e.target;
+        if (target.localName === 'path') {
+            target = target.parentElement;
+        }
+        if (type === 'favAnime') {
+            fetch('http://localhost:9000/profile/change/favorite-anime', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        } else if (type === 'watched') {
+            fetch('http://localhost:9000/profile/change/watched', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'stopped') {
+            
+        }
+        else if (type === 'processOfWatching') {
+            
+        }
+        else if (type === 'planned') {
+            
+        }
+    }
+
+    const animeTypes = types.map(t => <Link to={`/types/${t.link}`} key={t.id} className="animeList__type">{t.name}</Link>);
 
     return ( 
         <li className="animeList__item">
             <div className="animeList__imgWrapper">
-                <img src={img} alt="anime" className="img" />
+                <img src={`http://localhost:9000/images/${img}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={link} className="animeList__title">{title}</Link>
+                <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>
                 <div className="animeList__types">
                     {animeTypes}
                 </div>
@@ -64,11 +118,11 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 <p className="animeList__rateValue">{rate}</p>
             </div>
             <div className="animeList__buttons">
-                <Button className={`button animeList__button ${checkActive("favorite")}`}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
-                <Button className={`button animeList__button ${checkActive("watched")}`}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button animeList__button ${checkActive("stopped")}`}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button animeList__button ${checkActive("processOfWatching")}`}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button animeList__button ${checkActive("planned")}`}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
+                <Button className={`button animeList__button ${checkActive("favorite")}`} onClick={(e) => {handleAnimeStatusChange('favAnime', title, e)}}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
+                <Button className={`button animeList__button ${checkActive("watched")}`} onClick={(e) => {handleAnimeStatusChange('watched', title, e)}}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
+                <Button className={`button animeList__button ${checkActive("stopped")}`} onClick={(e) => {handleAnimeStatusChange('stopped', title, e)}}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
+                <Button className={`button animeList__button ${checkActive("processOfWatching")}`} onClick={(e) => {handleAnimeStatusChange('processOfWatching', title, e)}}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
+                <Button className={`button animeList__button ${checkActive("planned")}`} onClick={(e) => {handleAnimeStatusChange('planned', title, e)}}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
             </div>
         </li>
      );

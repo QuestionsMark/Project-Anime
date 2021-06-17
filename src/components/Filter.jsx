@@ -7,50 +7,23 @@ import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
+import { useEffect } from 'react';
 
 const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, handleFilterKind, handleFilterRate}) => {
 
-    const [types, setTypes] = useState([
-        {
-            id: 1,
-            name: "Dramat",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-        {
-            id: 2,
-            name: "Romans",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-        {
-            id: 3,
-            name: "Okruchy Życia",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-        {
-            id: 4,
-            name: "Psychologiczne",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-        {
-            id: 5,
-            name: "Fantasy",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-        {
-            id: 6,
-            name: "Szkolne",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-        {
-            id: 7,
-            name: "Komedia",
-            description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste molestiae architecto dolorum suscipit alias. Tenetur adipisci nulla ipsa nihil, unde porro distinctio minima? Quas magnam accusamus corporis illo est delectus?"
-        },
-    ]);
+    const [types, setTypes] = useState([]);
 
-    
+    const typesList = types.map(t => <SingleTypeFilter key={t._id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>)
 
-    const typesList = types.map(t => <SingleTypeFilter key={t.id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>)
+    const callAPI = () => {
+        fetch('http://localhost:9000/types')
+        .then(res => res.json())
+        .then(res => setTypes(res));
+    }
+
+    useEffect(() => {
+        callAPI();
+    },[])
 
     return ( 
         <div className="filter scrollNav" data-id="2">

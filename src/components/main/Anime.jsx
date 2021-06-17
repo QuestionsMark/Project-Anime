@@ -13,245 +13,7 @@ import LeftSide from '../LeftSide';
 const Anime = ({history}) => {
 
     const [searchValue, setSearchValue] = useState('');
-    const [animeList, setAnimeList] = useState({
-        movies: [
-            {
-                id: 1,
-                title: "Charlotte",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 2,
-                title: "Violet Evergarden",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 3,
-                title: "Naruto",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            }
-        ],
-        series: [
-            {
-                id: 1,
-                title: "Charlotte",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 4,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 5,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 6,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 7,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 8,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 9,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 2,
-                title: "Shuumatsu Nani Shitemasu ka? Isogashii desu ka? Sukutte Moratte Ii desu ka?",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: [],
-                watched: [],
-                favorite: [],
-                stopped: ["1"],
-                processOfWatching: [],
-            },
-            {
-                id: 3,
-                title: "Naruto",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            },
-            {
-                id: 4,
-                title: "Naruto Shippuden",
-                link: "/page/coś",
-                img: img,
-                types: [
-                    {
-                        id: 1,
-                        name: "Dramat",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 2,
-                        name: "Romans",
-                        link: "/type/coś"
-                    },
-                    {
-                        id: 3,
-                        name: "Okruchy Życia",
-                        link: "/type/coś"
-                    },
-                ],
-                rate: 7.43,
-                planned: ["1"],
-                watched: ["1"],
-                favorite: ["1"],
-                stopped: ["1"],
-                processOfWatching: ["1"],
-            }
-        ]
-    })
+    const [animeList, setAnimeList] = useState([])
 
     const handleSearch = (e) => {
         setSearchValue(e.target.value);
@@ -259,11 +21,14 @@ const Anime = ({history}) => {
 
     const searchAnimeList = (type) => {
         if (type === "series") {
-            const searchAnime = animeList.series.filter(anime => anime.title.toLowerCase().includes(searchValue.toLowerCase()))
-            return searchAnime;
+            console.log(animeList)
+            const series = animeList.filter(a => a.kind === "series");
+            const filtered = series.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
+            return filtered;
         } else if (type === "movies") {
-            const searchAnime = animeList.movies.filter(anime => anime.title.toLowerCase().includes(searchValue.toLowerCase()))
-            return searchAnime;
+            const movies = animeList.filter(a => a.kind === "movie");
+            const filtered = movies.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
+            return filtered;
         }
     }
 
@@ -271,8 +36,15 @@ const Anime = ({history}) => {
         window.scrollTo(0, 0);
     });
 
+    const callAPI = () => {
+        fetch('http://localhost:9000/anime')
+        .then(res => res.json())
+        .then(res => setAnimeList(res));
+    }
+
     useEffect(() => {
         goUp();
+        callAPI();
     }, []);
 
     return ( 

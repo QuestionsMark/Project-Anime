@@ -14,48 +14,53 @@ const SingleTopAnime = ({title, link, place, img, types, rate, favorite, watched
 
     const checkActive = (type) => {
         if (type === "favorite") {
-            if (favorite.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (favorite.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "watched") {
-            if (watched.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (watched.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "stopped") {
-            if (stopped.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (stopped.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "processOfWatching") {
-            if (processOfWatching.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (processOfWatching.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         } else if (type === "planned") {
-            if (planned.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            return '';
+            // if (planned.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
         }
     }
 
-    const animeTypes = types.map(t => <Link to={t.link} key={t.id} className="animeList__type">{t.name}</Link>)
+    const animeTypes = types.map(t => <Link to={`/types/${t.link}`} key={t.id} className="animeList__type">{t.name}</Link>)
 
     return ( 
         <li className="animeList__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
-                <img src={img} alt="anime" className="img" />
+                <img src={`http://localhost:9000/images/${img}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={link} className="animeList__title">{title}</Link>
+                <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>
                 <div className="animeList__types">
                     {animeTypes}
                 </div>
