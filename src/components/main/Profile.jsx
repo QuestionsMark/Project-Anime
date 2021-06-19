@@ -47,8 +47,15 @@ const Profile = ({history, match, isUserLogged}) => {
             img: '',
             rate: 0
         },
-        favoriteType: "Science Fiction"
+        favoriteType: ''
     });
+    const [types, setTypes] = useState([
+        {
+            _id: '',
+            name: '',
+            description: '',
+        }
+    ])
     const [searchPhraseAnime, setSearchPhraseAnime] = useState('');
     const [searchPhraseAchievement, setSearchPhraseAchievement] = useState('');
 
@@ -84,6 +91,10 @@ const Profile = ({history, match, isUserLogged}) => {
                     setProfileData(res)
                 }
             });
+        
+        fetch('http://localhost:9000/types')
+            .then(res => res.json())
+            .then(res => setTypes(res));
     }
 
     useEffect(() => {
@@ -113,7 +124,11 @@ const Profile = ({history, match, isUserLogged}) => {
                     </Route>
                     <Route path="/profile/:userID/settings">
                         <ProfileEdit
+                        types={types}
+                        avatar={profileData.avatar}
+                        username={profileData.username}
                         favAnime={profileData.favoriteAnime}
+                        favType={profileData.favoriteType}
                         watchedAnimeList={profileData.userAnimeData.watched}
                         actualBackground={profileData.background}
                         introduction={profileData.introduction}

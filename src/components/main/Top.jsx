@@ -3,15 +3,10 @@ import { withRouter } from 'react-router-dom';
 
 import TopAnimeList from '../TopAnimeList';
 
+import LeftSide from '../LeftSide';
+import RightSide from '../RightSide';
 import Filter from '../Filter';
 import Search from '../Search';
-
-import LeftNav from '../LeftNav';
-import Add from '../Add';
-import RightSide from '../RightSide';
-
-import img from '../../media/img/sak6-spec.jpg';
-import LeftSide from '../LeftSide';
 
 const Top = ({history}) => {
 
@@ -185,7 +180,7 @@ const Top = ({history}) => {
                 <div className="top__search">
                     <Search handleSearch={handleSearch}/>
                 </div>
-                <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterKind={handleFilterKind} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
+                <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
                 <TopAnimeList anime={filteredAnimeList()}/>
             </div>
             <RightSide />

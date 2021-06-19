@@ -4,15 +4,12 @@ import { withRouter } from 'react-router-dom';
 import SingleTopAnime from '../SingleTopAnime';
 import SingleTypeLover from '../SingleTypeLover';
 
-import img from '../../media/img/vios1-spec.jpg';
-import img2 from '../../media/img/hos-back20502.jpg';
-
 const TypePage = ({ typesList, match }) => {
 
     const [types, setTypes] = useState(typesList);
     const [anime, setAnime] = useState([
             {
-                id: '',
+                _id: '',
                 title: '',
                 link: '',
                 images: {
@@ -30,317 +27,14 @@ const TypePage = ({ typesList, match }) => {
         ])
     const [users, setUsers] = useState([
         {
-            id: 1,
-            name: "Question Mark",
-            link: "/users/4034",
-            avatar: img,
-            backgroundTheme: img2,
-            likes: 57,
-            favoriteAnime: 
-            {
-                name: "Shuumatsu Nani Shitemasu ka? Isogashii desu ka? Sukutte Moratte Ii desu ka?",
-                img: img,
-            },
-            favoriteType: "Dramat",
-            achievements: [
-                {
-                    id: 1,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 2,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 3,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 4,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 5,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 6,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 7,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 8,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-            ]
-        },
-        {
-            id: 2,
-            name: "Przemcioss",
-            link: "/users/9845",
-            avatar: img,
-            backgroundTheme: img2,
-            likes: 123,
-            favoriteAnime: 
-            {
-                name: "Violet Evergarden",
-                img: img,
-            },
-            favoriteType: "Science Fiction",
-            achievements: [
-                {
-                    id: 1,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 2,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 3,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 4,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 5,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 6,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 7,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-            ]
-        },
-        {
-            id: 3,
-            name: "PpekKOX",
-            link: "/users/4034",
-            avatar: img,
-            backgroundTheme: img2,
-            likes: 748,
-            favoriteAnime: 
-            {
-                name: "Violet Evergarden",
-                img: img,
-            },
-            favoriteType: "Nadprzyrodzone",
-            achievements: [
-                {
-                    id: 1,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 2,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 3,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 4,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 5,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 6,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-            ]
-        },
-        {
-            id: 4,
-            name: "T0NY",
-            link: "/users/4034",
-            avatar: img,
-            backgroundTheme: img2,
-            likes: 932,
-            favoriteAnime: 
-            {
-                name: "Violet Evergarden",
-                img: img,
-            },
-            favoriteType: "Akcja",
-            achievements: [
-                {
-                    id: 1,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 2,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 3,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 4,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 5,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 6,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-            ]
-        },
-        {
-            id: 6,
-            name: "Turbo Bocz",
-            link: "/users/4034",
-            avatar: img,
-            backgroundTheme: img2,
-            likes: 80,
-            favoriteAnime: 
-            {
-                name: "Violet Evergarden",
-                img: img,
-            },
-            favoriteType: "Ecchi",
-            achievements: [
-                {
-                    id: 1,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 2,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 3,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 4,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-            ]
-        },
-        {
-            id: 5,
-            name: "ButSmokes",
-            link: "/users/4034",
-            avatar: img,
-            backgroundTheme: img2,
-            likes: 12,
-            favoriteAnime: 
-            {
-                name: "Violet Evergarden",
-                img: img,
-            },
-            favoriteType: "Romans",
-            achievements: [
-                {
-                    id: 1,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 2,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 3,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 4,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-                {
-                    id: 5,
-                    name: "Pierwsze koty za płoty!",
-                    description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae facere tempore nulla natus deserunt et perferendis laudantium dolorum, rerum laborum mollitia illo. Sint ratione error distinctio, necessitatibus iusto vel? Ut.",
-                    img: img
-                },
-            ]
-        },
+            id: '',
+            name: '',
+            link: '',
+            avatar: '',
+            backgroundTheme: '',
+            likes: [],
+            favoriteType: ''
+        }
     ]);
 
     const [name, setName] = useState('');
@@ -369,7 +63,7 @@ const TypePage = ({ typesList, match }) => {
             }
         })
         const bestThree = sorted.slice(0, 3);  
-        return bestThree.map((a, index) => {
+        const bestAnimeList =  bestThree.map((a, index) => {
             let rate; 
             if (a.rate.length > 0) {
                 let rateValue = 0;
@@ -379,7 +73,7 @@ const TypePage = ({ typesList, match }) => {
             } else {
                 rate = 0;
             }
-            return <SingleTopAnime 
+            return (<SingleTopAnime 
             key={a._id}
             title={a.title}
             link={a.link}
@@ -392,8 +86,9 @@ const TypePage = ({ typesList, match }) => {
             stopped={a.stopped}
             processOfWatching={a.processOfWatching}
             planned={a.planned}
-            />
+            />)
         });
+        return bestAnimeList;
     }
 
     const userList = () => {
@@ -414,6 +109,9 @@ const TypePage = ({ typesList, match }) => {
         fetch('http://localhost:9000/anime')
             .then(res => res.json())
             .then(res => setAnime(res));
+        fetch('http://localhost:9000/users')
+            .then(res => res.json())
+            .then(res => setUsers(res));
     }
 
     useEffect(() => {
@@ -425,14 +123,20 @@ const TypePage = ({ typesList, match }) => {
             const typeMatch = match.params.type;
             setName(() => {
                 const type = types.find(t => t.link === typeMatch );
-                return type.name;
+                if (type) {
+                    return type.name;
+                }
+                return '';
             })
             setDescription(() => {
                 const type = types.find(t => t.link === typeMatch );
-                return type.description;
+                if (type) {
+                    return type.description;
+                }
+                return '';
             })
         }
-    },[types])
+    },[types, typesList, match])
 
     useEffect(() => {
         setTypes(typesList);

@@ -289,7 +289,7 @@
         top: 1.75vw;
         font-size: 1vw;
         font-weight: bold;
-        color: $main-color;
+        color: $special-color;
     }
 
     &__banerTitle {
@@ -345,7 +345,6 @@
     &__types {
         @include page-style;
         padding: 10px;
-        margin-bottom: 20px
     }
 
     &__typesTitle {
@@ -502,6 +501,10 @@
         align-items: center;
         margin-bottom: 10px;
         user-select: text;
+    }
+
+    &__nick {
+        color: $font-color2;
     }
 
     &__text {

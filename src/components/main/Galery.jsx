@@ -5,7 +5,6 @@ import { SRLWrapper } from "simple-react-lightbox";
 import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
 
-import img from '../../media/img/hos-back20502.jpg';
 import Search from '../Search';
 
 const Galery = ({history, match}) => {

@@ -116,7 +116,7 @@ const PageAudio = ({id, mp3, composer, title, isAuthorized, handleRemove}) => {
     return ( 
         <div className="page__soundtrack">
             {isAuthorized ? <div className="page__adminChanges">
-                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
+                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} data-name={mp3} onClick={(e) => {handleRemove("soundtrack", e)}}/>
             </div> : null}
             <audio src={`http://localhost:9000/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface audioInterface--borderSize">

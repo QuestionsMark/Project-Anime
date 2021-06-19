@@ -8,7 +8,14 @@ import TypePage from './TypePage';
 
 const Types = () => {
 
-    const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState([
+        {
+            _id: '',
+            name: '',
+            link: '',
+            description: ''
+        }
+    ]);
 
     const typesList = types.map((t, i) => (
         <li className="types__item" key={t._id}>

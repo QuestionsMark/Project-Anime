@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 
 import Audio from './Audio';
@@ -6,40 +7,12 @@ import Search from './Search';
 
 import img from '../media/img/hos-back20502.jpg';
 
-const Changes = ({changes}) => {
+const Changes = ({changes, isUserLogged, match}) => {
 
     const [animeList, setAnimeList] = useState([
         {
-            id: 1,
-            title: "Violet Evergarden",
-        },
-        {
-            id: 2,
-            title: "Plastic Memories",
-        },
-        {
-            id: 3,
-            title: "Koe no Katachi",
-        },
-        {
-            id: 4,
-            title: "Kimi no Na Wa",
-        },
-        {
-            id: 5,
-            title: "Tenki no ko",
-        },
-        {
-            id: 6,
-            title: "Naruto",
-        },
-        {
-            id: 7,
-            title: "Shigatsu wa Kimi no Uso",
-        },
-        {
-            id: 8,
-            title: "Charlotte",
+            _id: '',
+            title: '',
         }
     ]);
     const [seasons, setSeasons] = useState([]);
@@ -139,7 +112,119 @@ const Changes = ({changes}) => {
     }
 
     const handleSendChange = (type) => {
-        console.log(type)
+        if (type === 'info') {
+            fetch('http://localhost:9000/pages/change/info', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    anime: match.params.anime,
+                    scenario,
+                    productionDate,
+                    duration
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    window.location.reload();
+                })
+        } else if (type === 'galery') {
+            const data = new FormData();
+            data.append('myImg', galery);
+            fetch('http://localhost:9000/images/upload', {
+                headers: {
+                    'authorization': localStorage.getItem('token'),
+                    'user': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: data
+            })
+                .then(res => res.json())
+                .then(res => {
+                    fetch('http://localhost:9000/pages/change/add-galery-image', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': localStorage.getItem('token')
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            anime: match.params.anime,
+                            img: res
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(res.response);
+                            window.location.reload();
+                        })
+                })
+        } else if (type === 'description') {
+            fetch('http://localhost:9000/pages/change/description', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: match.params.anime,
+                    description
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    window.location.reload();
+                })
+        } else if (type === 'soundtrack') {
+            const data = new FormData();
+            data.append('myMp3', soundtrack);
+            fetch(`http://localhost:9000/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+                headers: {
+                    'authorization': localStorage.getItem('token'),
+                    'user': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: data
+            })
+                .then(res => res.json())
+                .then(res => {
+                    fetch('http://localhost:9000/pages/change/add-soundtrack', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': localStorage.getItem('token')
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            anime: match.params.anime,
+                            mp3: res,
+                            composer,
+                            soundtrackTitle
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(() => {
+                            window.location.reload();
+                        })
+                })
+        } else if (type === 'seasons') {
+            fetch('http://localhost:9000/pages/change/add-season', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    anime: match.params.anime,
+                    seasons
+                })
+            })
+                .then(res => res.json())
+                .then(() => {
+                    window.location.reload();
+                })
+        }
     }
 
     const handleChangesClose = () => {
@@ -157,8 +242,18 @@ const Changes = ({changes}) => {
                 return 0;
             }
         })
-        return sorted.map(a => <FormControlLabel key={a.id} checked={isChecked(a.title)} value={a.title} control={<Checkbox />} label={a.title} onChange={handleSeasonsChange}/>);
+        return sorted.map(a => <FormControlLabel key={a._id} checked={isChecked(a.title)} value={a.title} control={<Checkbox />} label={a.title} onChange={handleSeasonsChange}/>);
     }
+
+    const callAPI = () => {
+        fetch('http://localhost:9000/anime')
+            .then(res => res.json())
+            .then(res => setAnimeList(res));
+    }
+
+    useEffect(() => {
+        callAPI();
+    },[])
 
     return ( 
         <div className="changes none">
@@ -175,7 +270,7 @@ const Changes = ({changes}) => {
                 <div className="changes__preview">
                     <img src={galeryPreview} alt="galery" className="img" />
                 </div>
-                <Button className="button changes__button" onClick={() => {handleSendChange("galery")}}>Zmień</Button>
+                <Button className="button changes__button" onClick={() => {handleSendChange("galery")}}>Dodaj</Button>
             </div> : null}
             {changes === "description" ? <div className="changes__content">
                 <h3 className="changes__title mediumTitle">Zmień Opis</h3>
@@ -192,8 +287,8 @@ const Changes = ({changes}) => {
                     {soundtrackSize}
                 </div>
                 {soundtrackPreview ? <Audio mp3={soundtrackPreview}/> : null}
-                <input type="text" className="changes__composer create__inputText" placeholder="Kompozytor" value={composer} onChnage={(e) => {handleInputChange("composer", e)}}/>
-                <input type="text" className="changes__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChnage={(e) => {handleInputChange("soundtrackTitle", e)}}/>
+                <input type="text" className="changes__composer create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInputChange("composer", e)}}/>
+                <input type="text" className="changes__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChange={(e) => {handleInputChange("soundtrackTitle", e)}}/>
                 <Button className="button changes__button" onClick={() => {handleSendChange("soundtrack")}}>Dodaj</Button>
             </div> : null}
             {changes === "seasons" ? <div className="changes__content">
@@ -218,4 +313,4 @@ const Changes = ({changes}) => {
      );
 }
  
-export default Changes;
+export default withRouter(Changes);

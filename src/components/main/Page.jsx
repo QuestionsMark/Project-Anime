@@ -20,19 +20,13 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 
-import backgroundImg from '../../media/img/pla3-back20502.png';
-import img from '../../media/img/sak6-spec.jpg';
-import img2 from '../../media/img/ten5-back20502.jpg';
-import mp3 from '../../media/mp3/sak.mp3';
 import SingleSeason from '../SingleSeason';
 import PageAudio from '../PageAudio';
 import { useEffect } from 'react';
 
-const Page = ({match, history}) => {
+const Page = ({match, history, isUserLogged}) => {
 
-    const [isAuthorized, setIsAuthorized] = useState(true);
-    // const [isUserLogged, setIsUserLogged] = useState(false);
-    // żeby rozróżnić userPanel i adminChanges
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const [changes, setChanges] = useState('galery');
     const [animeData, setAnimeData] = useState({
         _id: 1,
@@ -60,7 +54,10 @@ const Page = ({match, history}) => {
         },
         comments: []
     });
-    const [isFavoriteType, setIsFavoriteType] = useState(true);
+    const [userData, setUserData] = useState({
+
+    })
+    const [isFavoriteType, setIsFavoriteType] = useState(false);
 
     const handleMouseEnter = (e) => {
         const effect = document.querySelector('.page__effect');
@@ -80,8 +77,112 @@ const Page = ({match, history}) => {
         })
     }
 
-    const handleRemove = () => {
-        console.log('usuwamy');
+    const handleRemove = (type, e) => {
+        let target = e.target;
+        if (target.localName === "path") {
+            target = target.parentElement;
+        }
+        if (type === "galery") {
+            const id = target.getAttribute('data-id');
+            console.log(id)
+            const name = target.getAttribute('data-name');
+            console.log(name)
+            fetch('http://localhost:9000/images/remove', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'DELETE',
+                body: JSON.stringify({
+                    name
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    fetch('http://localhost:9000/pages/change/remove-galery-image', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': localStorage.getItem('token')
+                        },
+                        method: 'DELETE',
+                        body: JSON.stringify({
+                            anime: match.params.anime,
+                            id
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            window.location.reload();
+                        })
+                })
+        } else if (type === "soundtrack") {
+            const id = target.getAttribute('data-id');
+            console.log(id)
+            const name = target.getAttribute('data-name');
+            console.log(name)
+            fetch('http://localhost:9000/soundtracks/remove', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'DELETE',
+                body: JSON.stringify({
+                    name
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    fetch('http://localhost:9000/pages/change/remove-soundtrack', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': localStorage.getItem('token')
+                        },
+                        method: 'DELETE',
+                        body: JSON.stringify({
+                            anime: match.params.anime,
+                            id
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            window.location.reload();
+                        })
+                })
+        } else if (type === "seasons") {
+            const id = target.getAttribute('data-id');
+            fetch('http://localhost:9000/pages/change/remove-season', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'DELETE',
+                body: JSON.stringify({
+                    anime: match.params.anime,
+                    id
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    window.location.reload();
+                })
+        } else if (type === "comment") {
+            const id = target.getAttribute('data-id');
+            fetch('http://localhost:9000/pages/change/remove-comment', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'DELETE',
+                body: JSON.stringify({
+                    anime: match.params.anime,
+                    id
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    window.location.reload();
+                })
+        }
     }
 
     const handleChanges = (type) => {
@@ -102,7 +203,7 @@ const Page = ({match, history}) => {
     const showRate = () => {
         if (animeData.rate.length > 0) {
             let rateValue = 0;
-            animeData.rate.forEach(r => rateValue += r.value);
+            animeData.rate.forEach(r => rateValue += r.rate);
             const average = (rateValue / animeData.rate.length).toFixed(2);
             return average;
         } else {
@@ -110,22 +211,12 @@ const Page = ({match, history}) => {
         }
     }
 
-    const callAPI = () => {
-        fetch(`http://localhost:9000/anime/${match.params.anime}`)
-            .then(res => res.json())
-            .then(res => {
-                setAnimeData(res);
-            });
-    }
-
-    const seasonsList = animeData.seasons.map(s => <SingleSeason key={s.id} title={s.title} background={s.background} link={s.link} isAuthorized={isAuthorized} handleRemove={handleRemove} callAPI={callAPI}/>);
-
     const typesList = animeData.types.map(t => <Link to={`/types/${t.link}`} key={t.id} className="page__type">{t.name}</Link>);
 
     const imageGalery = animeData.images.galeryImages.map(i => (
         <div key={i.id} className="page__imageLink">
             {isAuthorized ? <div className="page__adminChanges">
-                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
+                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={i.id} data-name={i.img} onClick={(e) => {handleRemove("galery", e)}}/>
             </div> : null}
             <div className="page__galeryImgWrapper">
                 <img src={`http://localhost:9000/images/${i.img}`} alt={i.fromAnime} className="img" srl_gallery_image="true"/>
@@ -135,10 +226,59 @@ const Page = ({match, history}) => {
 
     const audioList = animeData.soundtracks.map(s => <PageAudio key={s.id} id={s.id} mp3={s.mp3} composer={s.composer} title={s.title} isAuthorized={isAuthorized} handleRemove={handleRemove}/>);
 
+    const seasonsList = animeData.seasons.map(s => <SingleSeason key={s.id} id={s.id} title={s.title} background={s.background} link={s.link} isAuthorized={isAuthorized} handleRemove={handleRemove}/>);
+
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
-        window.location.reload();
     });
+
+    const callAPI = () => {
+        fetch(`http://localhost:9000/anime/${match.params.anime}`)
+            .then(res => res.json())
+            .then(res => {
+                setAnimeData(res);
+            });
+        if (isUserLogged) {
+            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+                .then(res => res.json())
+                .then(res => {
+                    setUserData(res);
+                });
+        }
+    }
+
+    const checkAuthorization = () => {
+        if (isUserLogged && (userData.rank === '2' || userData.rank === '3')) {
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
+        }
+    }
+
+    const checkFavoriteType = () => {
+        const favType = userData.favoriteType;
+        console.log(animeData.types.findIndex(t => t.name === favType))
+        const index = animeData.types.findIndex(t => t.name === favType);
+        if (index !== -1) {
+            setIsFavoriteType(true);
+        } else {
+            setIsFavoriteType(false);
+        }
+    }
+
+    useEffect(() => {
+        callAPI();
+    },[match])
+
+    useEffect(() => {
+        checkAuthorization();
+        checkFavoriteType();
+    },[userData])
+
+    useEffect(() => {
+        callAPI();
+        checkAuthorization();
+    },[isUserLogged])
 
     useEffect(() => {
         callAPI();
@@ -174,7 +314,7 @@ const Page = ({match, history}) => {
                                     <FavoriteBorderRoundedIcon className="page__favoriteAnimeIcon" />
                                 </div>
                             </div>
-                            {isAuthorized ? <UserRate /> : null}
+                            {isUserLogged ? <UserRate animeData={animeData} callAPI={callAPI}/> : null}
                         </div>
                         <div className="page__galery">
                             {isAuthorized ? <div className="page__adminChanges">
@@ -219,7 +359,7 @@ const Page = ({match, history}) => {
                             </div>
                         </div>
                         <div className="page__description scrollNav" data-id="3">
-                            {animeData.description.description.includes('Lorem ipsum') ? <div className="page__adminChanges">
+                            {isUserLogged && animeData.description.description.includes('Lorem ipsum') ? <div className="page__adminChanges">
                                 <SettingsRoundedIcon className="page__adminIcon" onClick={() => {handleChanges("description")}}/>
                             </div> : null}
                             <h3 className="page__descriptionTitle mediumTitle">Opis</h3>
@@ -244,8 +384,8 @@ const Page = ({match, history}) => {
                         </div>
                     </div>
                 </div>
-                <Comments comments={animeData.comments} isAuthorized={isAuthorized} handleRemove={handleRemove}/>
-                {isAuthorized || animeData.description.text.includes('Lorem ipsum') ? <Changes changes={changes}/> : null}
+                <Comments comments={animeData.comments} isAuthorized={isAuthorized} handleRemove={handleRemove} callAPI={callAPI}/>
+                {isAuthorized || animeData.description.description.includes('Lorem ipsum') ? <Changes changes={changes} isUserLogged={isUserLogged}/> : null}
             </div>
             <RightSide />
         </main>

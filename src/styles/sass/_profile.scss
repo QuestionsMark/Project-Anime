@@ -361,6 +361,10 @@
         }
     }
 
+    &__username {
+        @extend .create__inputText;
+    }
+
     .profileEdit__save {
         padding: 6px 20px;
         margin: auto;
@@ -401,13 +405,11 @@
     }
 
     &__changeBackground {
-        @include main-style;
         padding: 10px;
         margin-bottom: 20px;
     }
 
     &__addCustomBackground {
-        @extend .profileEdit__changeBackground;
         margin-bottom: 0;
     }
 
@@ -480,6 +482,13 @@
     &__preview {
         width: 50%;
         margin: 0 auto 20px;
+    }
+
+    &__preview--square {
+        width: 13vw;
+        height: 13vw;
+        border-radius: 10px;
+        overflow: hidden;
     }
 
     &__previewImg {

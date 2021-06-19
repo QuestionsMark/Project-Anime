@@ -86,10 +86,10 @@ function App() {
           <Profile isUserLogged={isUserLogged} />
         </Route>
         <Route path="/pages/create">
-          <PageCreate />
+          <PageCreate isUserLogged={isUserLogged} />
         </Route>
         <Route path="/pages/:anime">
-          <Page />
+          <Page isUserLogged={isUserLogged} />
         </Route>
         <Route path="/types">
           <Types />

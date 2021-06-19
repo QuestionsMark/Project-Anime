@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import $ from 'jquery';
-import { Switch, Route } from 'react-router-dom';
 
 const LeftNav = () => {
 
@@ -18,7 +17,6 @@ const LeftNav = () => {
         $(window).on('scroll', function () {
             const scrollValue = window.scrollY;
             const scrollNavs = document.querySelectorAll('.scrollNav');
-            const navs = $('.leftNav__item');
             scrollNavs.forEach(s => {
                 if (scrollValue >= s.offsetTop - navHeight - 30 && scrollValue < s.offsetTop + s.offsetHeight) {
                     const dataID = s.getAttribute('data-id');

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import LeftNav from '../LeftNav';
-import Add from '../Add';
+import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import Search from '../Search';
 import AnimeList from '../AnimeList';
-
-import img from '../../media/img/sak6-spec.jpg';
-import LeftSide from '../LeftSide';
 
 const Anime = ({history}) => {
 

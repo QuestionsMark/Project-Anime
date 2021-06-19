@@ -1521,7 +1521,7 @@ div.galery {
 .RP__imgWrapper {
   border: 2px solid #f50057;
   border-radius: 50%;
-  margin: 20px 20px 20px;
+  margin: 18px;
   overflow: hidden;
   z-index: 1;
 }
@@ -3102,20 +3102,9 @@ div.galery {
   color: #f50057;
 }
 
-.profileEdit__changeBackground, .profileEdit__addCustomBackground {
-  border-right: 1px solid #f50057;
-  border-bottom: 1px solid #f50057;
-  border-radius: 10px;
-  -webkit-box-shadow: 5px 5px 10px 3px black;
-          box-shadow: 5px 5px 10px 3px black;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+.profileEdit__changeBackground {
   padding: 10px;
   margin-bottom: 20px;
-}
-
-.profileEdit__changeBackground:hover, .profileEdit__addCustomBackground:hover {
-  background-color: rgba(10, 10, 10, 0.6);
 }
 
 .profileEdit__addCustomBackground {
@@ -3208,6 +3197,13 @@ div.galery {
 .profileEdit__preview {
   width: 50%;
   margin: 0 auto 20px;
+}
+
+.profileEdit__preview--square {
+  width: 13vw;
+  height: 13vw;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .profileEdit__previewImg {
@@ -3559,7 +3555,7 @@ div.galery {
   top: 1.75vw;
   font-size: 1vw;
   font-weight: bold;
-  color: #f50057;
+  color: #ffb700;
 }
 
 .page__banerTitle {
@@ -3625,7 +3621,6 @@ div.galery {
   border-bottom: 2px solid #f50057;
   background-color: rgba(10, 10, 10, 0.5);
   padding: 10px;
-  margin-bottom: 20px;
 }
 
 .page__typesTitle {
@@ -3845,6 +3840,10 @@ div.galery {
      -moz-user-select: text;
       -ms-user-select: text;
           user-select: text;
+}
+
+.comments__nick {
+  color: #f0f0f0;
 }
 
 .comments__text {
@@ -4113,7 +4112,7 @@ div.galery {
   background-color: rgba(10, 10, 10, 0.5);
 }
 
-.create__inputText {
+.create__inputText, .profileEdit__username {
   padding: 5px;
   border: none;
   border-bottom: 2px solid #8f0033;
@@ -4126,23 +4125,23 @@ div.galery {
   transition: 0.3s;
 }
 
-.create__inputText::-webkit-input-placeholder {
+.create__inputText::-webkit-input-placeholder, .profileEdit__username::-webkit-input-placeholder {
   color: #909090;
 }
 
-.create__inputText:-ms-input-placeholder {
+.create__inputText:-ms-input-placeholder, .profileEdit__username:-ms-input-placeholder {
   color: #909090;
 }
 
-.create__inputText::-ms-input-placeholder {
+.create__inputText::-ms-input-placeholder, .profileEdit__username::-ms-input-placeholder {
   color: #909090;
 }
 
-.create__inputText::placeholder {
+.create__inputText::placeholder, .profileEdit__username::placeholder {
   color: #909090;
 }
 
-.create__inputText:focus {
+.create__inputText:focus, .profileEdit__username:focus {
   border-bottom: 2px solid #f50057;
 }
 

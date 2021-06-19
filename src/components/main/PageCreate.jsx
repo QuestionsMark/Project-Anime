@@ -295,7 +295,7 @@ const PageCreate = () => {
                                     .then(res => {
                                         soundtrackObj = {
                                             id: res.id,
-                                            mp3: res.name,
+                                            mp3: res.mp3,
                                             title: soundtrackTitle,
                                             composer,
                                             likes: [],

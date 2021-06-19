@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import React from 'react';
 
 import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
@@ -8,11 +9,30 @@ import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
-import { useState } from 'react';
 
-const UserRate = ({favorite = ["1"], watched = [], stopped = [], processOfWatching = [], planned = []}) => {
+const UserRate = ({animeData, callAPI, match}) => {
 
-    const [userRate, setUserRate] = useState(6);
+    const [userRate, setUserRate] = useState(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
+    const handleUserRateChange = (e) => {
+        const rateValue = e.target.getAttribute('data-id') * 1;
+        fetch('http://localhost:9000/pages/change/rate', {
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem('token')
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                user: localStorage.getItem('UID'),
+                anime: match.params.anime,
+                rateValue
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.response);
+                callAPI();
+            })
+    }
 
     const handleMouseEnter = (e) => {
         const index = e.target.getAttribute('data-id');
@@ -39,49 +59,149 @@ const UserRate = ({favorite = ["1"], watched = [], stopped = [], processOfWatchi
 
     const checkActive = (type) => {
         if (type === "favorite") {
-            if (favorite.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            // if (favorite.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
+            return '';
         } else if (type === "watched") {
-            if (watched.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            // if (watched.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
+            return '';
         } else if (type === "stopped") {
-            if (stopped.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            // if (stopped.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
+            return '';
         } else if (type === "processOfWatching") {
-            if (processOfWatching.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            // if (processOfWatching.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
+            return '';
         } else if (type === "planned") {
-            if (planned.indexOf('1') !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
+            // if (planned.indexOf('1') !== -1) {
+            //     return "active";
+            // } else {
+            //     return '';
+            // }
+            return '';
         }
     }
     
     const starList = (rateValue = userRate) => {
         const stars = [];
         for (let i = 1; i <= rateValue; i++) {
-            stars.push(<i key={i} className="fas fa-star page__userStar" data-id={i} style={{color: '#ffb700'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {setUserRate(i)}}/>);
+            stars.push(<i key={i} className="fas fa-star page__userStar" data-id={i} style={{color: '#ffb700'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(e) => {handleUserRateChange(e)}}/>);
         }
         const emptyStarsAmount = rateValue * 1 + 1;
         for (let i = emptyStarsAmount; i <= 10; i++) {
-            stars.push(<i key={i} className="far fa-star page__userStar" data-id={i} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {setUserRate(i)}}/>);
+            stars.push(<i key={i} className="far fa-star page__userStar" data-id={i} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(e) => {handleUserRateChange(e)}}/>);
         }
         return stars;
     }
+
+    const handleAnimeStatusChange = (type, title, e) => {
+        let target = e.target;
+        if (target.localName === 'path') {
+            target = target.parentElement;
+        }
+        if (type === 'favAnime') {
+            fetch('http://localhost:9000/profile/change/favorite-anime', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        } else if (type === 'watched') {
+            fetch('http://localhost:9000/profile/change/watched', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'stopped') {
+            fetch('http://localhost:9000/profile/change/stopped', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'processOfWatching') {
+            fetch('http://localhost:9000/profile/change/process-of-watching', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+        else if (type === 'planned') {
+            fetch('http://localhost:9000/profile/change/planned', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    anime: title
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                });
+        }
+    }
+
+    useEffect(() => {
+        setUserRate(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
+    },[animeData])
 
     return ( 
         <div className="page__userPanel">
@@ -90,14 +210,14 @@ const UserRate = ({favorite = ["1"], watched = [], stopped = [], processOfWatchi
                 {starList()}
             </div>
             <div className="page__userOptions">
-                <Button className={`button page__button ${checkActive("favorite")}`}><FavoriteRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Ulubione</span></Button>
-                <Button className={`button page__button ${checkActive("watched")}`}><DoneRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button page__button ${checkActive("stopped")}`}><AccessAlarmRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button page__button ${checkActive("processOfWatching")}`}><VisibilityIcon className="page__statisticsIcon"/><span className="page__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button page__button ${checkActive("planned")}`}><CreateRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Planowane</span></Button>
+                <Button className={`button page__button ${checkActive("favorite")}`} onClick={(e) => {handleAnimeStatusChange('favAnime', animeData.title, e)}}><FavoriteRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Ulubione</span></Button>
+                <Button className={`button page__button ${checkActive("watched")}`} onClick={(e) => {handleAnimeStatusChange('watched', animeData.title, e)}}><DoneRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Obejrzane</span></Button>
+                <Button className={`button page__button ${checkActive("stopped")}`} onClick={(e) => {handleAnimeStatusChange('stopped', animeData.title, e)}}><AccessAlarmRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Wstrzymane</span></Button>
+                <Button className={`button page__button ${checkActive("processOfWatching")}`} onClick={(e) => {handleAnimeStatusChange('processOfWatching', animeData.title, e)}}><VisibilityIcon className="page__statisticsIcon"/><span className="page__buttonDescription">W trakcie oglądania</span></Button>
+                <Button className={`button page__button ${checkActive("planned")}`} onClick={(e) => {handleAnimeStatusChange('planned', animeData.title, e)}}><CreateRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Planowane</span></Button>
             </div>
         </div>
      );
 }
  
-export default UserRate;
+export default withRouter(UserRate);

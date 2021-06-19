@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 
 import img from '../media/img/hos-back20502.jpg';
-import img2 from '../media/img/kiminonawa-back20502.jpg';
-import img3 from '../media/img/pla3-back20502.png';
-import img4 from '../media/img/sao1-back20502.jpg';
-import img5 from '../media/img/shi-back20502.jpg';
-import { useEffect } from 'react';
 
-const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction, customBackgroundsList, callAPI}) => {
+const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeList, actualBackground, introduction, customBackgroundsList, callAPI, history}) => {
 
+    const [userChoosed, setUserChoosed] = useState(false);
+    const [typesList, setTypesList] = useState(types);
+    const [nick, setNick] = useState(username);
     const [descriptionTitle, setDescriptionTitle] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
     const [favoriteAnime, setFavoriteAnime] = useState(favAnime.title);
-    const [defaultBackgrounds, setDefaultBackgrounds] = useState(["myImg-1623824273692.png", "myImg-1623824284002.jpg", "myImg-1623824323392.jpg", "myImg-1623824334616.jpg", "myImg-1623824344703.jpg",]);
+    const [favoriteType, setFavoriteType] = useState(favType);
+    const defaultBackgrounds = ["myImg-1623824273692.png", "myImg-1623824284002.jpg", "myImg-1623824323392.jpg", "myImg-1623824334616.jpg", "myImg-1623824344703.jpg",];
     const [customBackgrounds, setCustomBackgrounds] = useState(customBackgroundsList);
     const [background, setBackground] = useState(actualBackground);
-    const [file, setFile] = useState(null);
-    const [preview, setPreview] = useState(img);
+    const [choosedBackground, setChoosedBackground] = useState(null);
+    const [choosedAvatar, setChoosedAvatar] = useState(null);
+    const [backgroundPreview, setBackgroundPreview] = useState(img);
+    const [avatarPreview, setAvatarPreview] = useState(avatar);
 
     const handleDescriptionTextChange = (e) => {
         setDescriptionText(e.target.value);
@@ -28,8 +30,16 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
         setDescriptionTitle(e.target.value);
     }
 
+    const handleNickChange = (e) => {
+        setNick(e.target.value);
+    } 
+
     const handleFavoriteAnimeChange = (e) => {
         setFavoriteAnime(e.target.value);
+    }
+
+    const handleFavoriteTypeChange = (e) => {
+        setFavoriteType(e.target.value);
     }
 
     const handleBGChange = (e) => {
@@ -43,7 +53,6 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
         backgrounds.forEach(b => b.classList.remove('chosedBG'));
         e.target.classList.add('chosedBG');
         const src = e.target.src;
-        console.log(e)
         fetch(`http://localhost:9000/images/change/${src.slice(29)}`, {
             headers: {
                 'authorization': localStorage.getItem('UID'),
@@ -58,10 +67,19 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
         })
     }
 
-    const handleChooseFile = (e) => {
+    const handleChooseAvatar = (e) => {
+        if (e.target.files.length > 0) {
+            setUserChoosed(true);
+            const url = URL.createObjectURL(e.target.files[0]);
+            setAvatarPreview(url);
+            setChoosedAvatar(e.target.files[0]);
+        }
+    }
+
+    const handleChooseBackground = (e) => {
         const url = URL.createObjectURL(e.target.files[0]);
-        setPreview(url);
-        setFile(e.target.files[0]);
+        setBackgroundPreview(url);
+        setChoosedBackground(e.target.files[0]);
     }
 
     const handleSave = (type) => {
@@ -102,7 +120,7 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                 })
         } else if (type === "background") {
             const data = new FormData();
-            data.append('myImg',file);
+            data.append('myImg',choosedBackground);
             fetch('http://localhost:9000/images/upload', {
                 headers: {
                     'authorization': localStorage.getItem('UID'),
@@ -120,7 +138,7 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                         },
                         method: 'POST',
                         body: JSON.stringify({
-                            UID: localStorage.getItem('UID'),
+                            user: localStorage.getItem('UID'),
                             img: res
                         })
                     })
@@ -130,7 +148,73 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                             callAPI();
                         })
                 })
-        } 
+        }  else if (type === "avatar") {
+            const data = new FormData();
+            data.append('myImg', choosedAvatar);
+            fetch('http://localhost:9000/images/upload', {
+                headers: {
+                    'authorization': localStorage.getItem('UID'),
+                    'user': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: data
+            })
+                .then(res => res.json())
+                .then(res => {
+                    fetch('http://localhost:9000/profile/change/avatar', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': localStorage.getItem('UID')
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            user: localStorage.getItem('UID'),
+                            img: res
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(res.response);
+                            setUserChoosed(false);
+                            callAPI();
+                        })
+                })
+        }  else if (type === "username") {
+            fetch('http://localhost:9000/profile/change/username', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    username: nick
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    localStorage.setItem('l', res.link)
+                    history.push(`/profile/${res.link}/settings`)
+                })
+        }  else if (type === "favType") {
+            fetch('http://localhost:9000/profile/change/favorite-type', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('UID')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    user: localStorage.getItem('UID'),
+                    favType: favoriteType
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res.response);
+                    callAPI();
+                })
+        }
     }
 
     const formAnimeList = () => {
@@ -147,45 +231,87 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
         return list;
     }
 
-    const fileColor = () => {
-        if (file) {
-            let color;
-            if (file.size <= 1048576) {
-                color = "green";
-            } else {
-                color = "red";
+    const formTypeList = () => {
+        const formTypesList = [...typesList].sort((a, b) => {
+            if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+              return -1;
             }
-            return color;
+            if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+              return 1;
+            }
+            return 0;
+        });
+        const list = formTypesList.map(t => <MenuItem key={t._id} value={t.name}>{t.name}</MenuItem>);
+        return list;
+    }
+
+    const fileColor = (type) => {
+        if (type === 'avatar') {
+            if (choosedAvatar) {
+                let color;
+                if (choosedAvatar.size <= 1048576) {
+                    color = "green";
+                } else {
+                    color = "red";
+                }
+                return color;
+            }
+        } else if (type === 'background') {
+            if (choosedBackground) {
+                let color;
+                if (choosedBackground.size <= 1048576) {
+                    color = "green";
+                } else {
+                    color = "red";
+                }
+                return color;
+            }
         }
     }
 
-    const fileMessage = () => {
-        if (file) {
-            let message;
-            if (file.size <= 1048576) {
-                message = "OK";
-            } else {
-                message = "Za duży rozmiar pliku!";
+    const fileMessage = (type) => {
+        if (type === 'avatar') {
+            if (choosedAvatar) {
+                let message;
+                if (choosedAvatar.size <= 1048576) {
+                    message = "OK";
+                } else {
+                    message = "Za duży rozmiar pliku!";
+                }
+                return message;
             }
-            return message;
+        } else if (type === 'background') {
+            if (choosedBackground) {
+                let message;
+                if (choosedBackground.size <= 1048576) {
+                    message = "OK";
+                } else {
+                    message = "Za duży rozmiar pliku!";
+                }
+                return message;
+            }
         }
     }
 
     const defaultBackgroundList = defaultBackgrounds.map(b => {
         if (b === background) {
-            return <img className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b} className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } else {
-            return <img className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b} className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } 
     });
 
     const customBackgroundList = customBackgrounds.map(b => {
         if (b.img === background) {
-            return <img className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b.id} className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }  else {
-            return <img className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b.id} className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }
     });
+
+    useEffect(() => {
+        setTypesList(types);
+    },[types])
 
     useEffect(() => {
         setCustomBackgrounds(customBackgroundsList);
@@ -200,8 +326,36 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
         setDescriptionTitle(introduction.title);
     },[introduction])
 
+    useEffect(() => {
+        setFavoriteAnime(favAnime.title);
+        setFavoriteType(favType);
+        setAvatarPreview(avatar);
+        setNick(username);
+    },[favAnime, favType, avatar, username])
+
     return ( 
         <div className="profileEdit profile__content">
+            <div className="profileEdit__section">
+                <h2 className="profileEdit__title mediumTitle">Zmień Avatar</h2>
+                <form className="profileEdit__addFileForm">
+                    <label htmlFor="avatar-upload" className="profileEdit__addFileLabel">Wybierz swoje tło</label>
+                    <input type="file" id="avatar-upload" className="profileEdit__addFile" onChange={handleChooseAvatar}/>
+                    <p className="profileEdit__addFileInfo">
+                        <span className="profileEdit__AFIName">{choosedAvatar ? choosedAvatar.name : null}</span>
+                        <span className="profileEdit__AFISize" style={{color: `${fileColor('avatar')}`}}>{choosedAvatar ? `${(choosedAvatar.size / 1024 /1024).toFixed(2)} MB` : null}</span>
+                        <span className="profileEdit__AFIMessage" style={{color: `${fileColor('avatar')}`}}>{choosedAvatar ? `${fileMessage('avatar')}` : null}</span>
+                    </p>
+                </form>
+                <div className="profileEdit__preview profileEdit__preview--square">
+                    {userChoosed ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : <img src={`http://localhost:9000/images/${avatarPreview}`} alt="dasdas" className="profileEdit__previewImg" />}
+                </div>
+                <Button className="button profileEdit__save" onClick={() => {handleSave('avatar')}}>Zapisz</Button>
+            </div>
+            <div className="profileEdit__section">
+                <h2 className="profileEdit__title mediumTitle">Zmień Swój Nick</h2>
+                <input type="text" className="profileEdit__username" placeholder="Nick" value={nick} onChange={handleNickChange}/>
+                <Button className="button profileEdit__save" onClick={() => {handleSave('username')}}>Zapisz</Button>
+            </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Opis</h2>
                 <div className="profileEdit__description">
@@ -221,6 +375,16 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                 <Button className="button profileEdit__save" onClick={() => {handleSave('favAnime')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
+                <h2 className="profileEdit__title mediumTitle">Ulubiony Gatunek</h2>
+                <FormControl>
+                    <InputLabel id="demo-simple-select-label">Ulubiony gatunek</InputLabel>
+                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={favoriteType} onChange={handleFavoriteTypeChange}>
+                        {formTypeList()}
+                    </Select>
+                </FormControl>
+                <Button className="button profileEdit__save" onClick={() => {handleSave('favType')}}>Zapisz</Button>
+            </div>
+            <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Tło Profilu</h2>
                 <div className="profileEdit__changeBackground">
                     <h3 className="profileEdit__backgroundsTitle">Tła standardowe:</h3>
@@ -231,26 +395,27 @@ const ProfileEdit = ({favAnime, watchedAnimeList, actualBackground, introduction
                     <div className="profileEdit__customBackgrounds" data-type="custom">
                         {customBackgroundList}
                     </div>
-                </div>
-                <div className="profileEdit__addCustomBackground">
-                    <h3 className="profileEdit__backgroundsTitle">Dodaj Własne Tło</h3>
-                    <form className="profileEdit__addFileForm">
-                        <label htmlFor="file-upload" className="profileEdit__addFileLabel">Wybierz swoje tło</label>
-                        <input type="file" id="file-upload" className="profileEdit__addFile" onChange={handleChooseFile}/>
-                        <p className="profileEdit__addFileInfo">
-                            <span className="profileEdit__AFIName">{file ? file.name : null}</span>
-                            <span className="profileEdit__AFISize" style={{color: `${fileColor()}`}}>{file ? `${(file.size / 1024 /1024).toFixed(2)} MB` : null}</span>
-                            <span className="profileEdit__AFIMessage" style={{color: `${fileColor()}`}}>{file ? `${fileMessage()}` : null}</span>
-                        </p>
-                    </form>
-                    <div className="profileEdit__preview">
-                        <img src={preview} alt="dasdas" className="profileEdit__previewImg" />
+                    <div className="profileEdit__addCustomBackground">
+                        <h3 className="profileEdit__backgroundsTitle">Dodaj Własne Tło</h3>
+                        <form className="profileEdit__addFileForm">
+                            <label htmlFor="background-upload" className="profileEdit__addFileLabel">Wybierz swoje tło</label>
+                            <input type="file" id="background-upload" className="profileEdit__addFile" onChange={handleChooseBackground}/>
+                            <p className="profileEdit__addFileInfo">
+                                <span className="profileEdit__AFIName">{choosedBackground ? choosedBackground.name : null}</span>
+                                <span className="profileEdit__AFISize" style={{color: `${fileColor('background')}`}}>{choosedBackground ? `${(choosedBackground.size / 1024 /1024).toFixed(2)} MB` : null}</span>
+                                <span className="profileEdit__AFIMessage" style={{color: `${fileColor('background')}`}}>{choosedBackground ? `${fileMessage('background')}` : null}</span>
+                            </p>
+                        </form>
+                        <div className="profileEdit__preview">
+                            <img src={backgroundPreview} alt="dasdas" className="profileEdit__previewImg" />
+                        </div>
+                        <Button className="button profileEdit__save" onClick={() => {handleSave('background')}}>Dodaj</Button>
                     </div>
-                    <Button className="button profileEdit__save" onClick={() => {handleSave('background')}}>Dodaj</Button>
                 </div>
+                
             </div>
         </div>
      );
 }
  
-export default ProfileEdit;
+export default withRouter(ProfileEdit);

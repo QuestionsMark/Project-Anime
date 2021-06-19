@@ -142,7 +142,7 @@ const ProfileHome = ({data, match, callAPI}) => {
                         <p className="profile__infoBlock">Punkty: {points}</p>
                     </div>
                     {match.params.userLink === localStorage.getItem('l') ? null : <div className="profile__likeProfile">
-                        <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserLover() ? 'Usuń polubienie' : 'Polub profil'}</Button>
+                        <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserProfileLover ? 'Usuń polubienie' : 'Polub profil'}</Button>
                     </div>}
                 </div>
                 <div className="profile__rightSide">
@@ -197,7 +197,7 @@ const ProfileHome = ({data, match, callAPI}) => {
                     </div>
                     <div className="profile__favoriteAnime">
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
-                        {favoriteAnime.title ? <div className="profile__FAFlex">
+                        {favoriteAnime.link ? <div className="profile__FAFlex">
                             <div className="profile__FAImgWrapper">
                                 <img src={`http://localhost:9000/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
                             </div>
