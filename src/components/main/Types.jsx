@@ -6,7 +6,7 @@ import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import TypePage from './TypePage';
 
-const Types = () => {
+const Types = ({isUserLogged}) => {
 
     const [types, setTypes] = useState([
         {
@@ -53,7 +53,7 @@ const Types = () => {
                     </Route>
                 </Switch>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

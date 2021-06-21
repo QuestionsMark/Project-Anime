@@ -3,7 +3,7 @@ import React from 'react';
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 
-const Source = () => {
+const Source = ({isUserLogged}) => {
     return ( 
         <main className="main">
             <div className="curtain"></div>
@@ -18,7 +18,7 @@ const Source = () => {
                     <p className="source__item">Anime &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://anime-odcinki.pl/" target="_blank" rel="noreferrer" className="source__link">https://anime-odcinki.pl/</a></p>
                 </div>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

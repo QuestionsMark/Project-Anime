@@ -1,9 +1,10 @@
 .WTMC {
     @extend .DA;
-    max-height: calc(95vh - 40px);
+    max-height: calc(95vh);
+    overflow: hidden;
 
     &__list {
-        height: calc(85vh - 40px - 20px);
+        max-height: calc(85vh - 40px - 18px);
         margin-bottom: 10px;
         // overflow-y: scroll;
         overflow: auto;

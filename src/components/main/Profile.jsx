@@ -137,7 +137,7 @@ const Profile = ({history, match, isUserLogged}) => {
                     </Route>
                 </Switch>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

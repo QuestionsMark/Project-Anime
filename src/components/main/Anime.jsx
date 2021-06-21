@@ -6,10 +6,37 @@ import RightSide from '../RightSide';
 import Search from '../Search';
 import AnimeList from '../AnimeList';
 
-const Anime = ({history}) => {
+const Anime = ({history, match, isUserLogged}) => {
 
     const [searchValue, setSearchValue] = useState('');
     const [animeList, setAnimeList] = useState([])
+    const [userData, setUserData] = useState({
+        favoriteAnime: {
+            link: '',
+        },
+        userAnimeData: {
+            watched: [
+                {
+                    link: '',
+                }
+            ],
+            stopped: [
+                {
+                    link: '',
+                }
+            ],
+            processOfWatching: [
+                {
+                    link: '',
+                }
+            ],
+            planned: [
+                {
+                    link: '',
+                }
+            ],
+        }
+    });
 
     const handleSearch = (e) => {
         setSearchValue(e.target.value);
@@ -33,14 +60,24 @@ const Anime = ({history}) => {
 
     const callAPI = () => {
         fetch('http://localhost:9000/anime')
-        .then(res => res.json())
-        .then(res => setAnimeList(res));
+            .then(res => res.json())
+            .then(res => setAnimeList(res));
+        if (isUserLogged) {
+            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+                .then(res => res.json())
+                .then(res => {
+                    setUserData(res);
+                });
+        }
     }
 
     useEffect(() => {
-        goUp();
         callAPI();
-    }, []);
+    }, [isUserLogged]);
+
+    useEffect(() => {
+        goUp();
+    }, [match]);
 
     return ( 
         <main className="main">
@@ -50,14 +87,14 @@ const Anime = ({history}) => {
                 <Search handleSearch={handleSearch}/>
                 <div className="anime__series scrollNav" data-id="2">
                     <h2 className="anime__title">Serie Anime</h2>
-                    <AnimeList anime={searchAnimeList("series")}/>
+                    <AnimeList anime={searchAnimeList("series")} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
                 </div>
                 <div className="anime__movies scrollNav" data-id="3">
                     <h2 className="anime__title">Filmy Anime</h2>
-                    <AnimeList anime={searchAnimeList("movies")}/>
+                    <AnimeList anime={searchAnimeList("movies")} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
                 </div>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

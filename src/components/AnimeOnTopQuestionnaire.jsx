@@ -1,79 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 
-const AnimeOnTopQuestionnaire = () => {
+const AnimeOnTopQuestionnaire = ({id, refresh}) => {
 
     const [animeList, setAnimeList] = useState([
         {
-            id: 1,
-            title: "Violet Evergarden"
-        },
-        {
-            id: 2,
-            title: "Sword Art Online"
-        },
-        {
-            id: 3,
-            title: "Charlotte"
-        },
-        {
-            id: 4,
-            title: "Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai"
-        },
-        {
-            id: 5,
-            title: "Sakurasou no Pet na Kanojo"
-        },
-        {
-            id: 6,
-            title: "Fruits Bbasket"
-        },
-        {
-            id: 7,
-            title: "Bleach"
-        },
-        {
-            id: 1,
-            title: "Violet Evergarden"
-        },
-        {
-            id: 2,
-            title: "Sword Art Online"
-        },
-        {
-            id: 3,
-            title: "Charlotte"
-        },
-        {
-            id: 4,
-            title: "Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai"
-        },
-        {
-            id: 5,
-            title: "Sakurasou no Pet na Kanojo"
-        },
-        {
-            id: 6,
-            title: "Fruits Bbasket"
-        },
-        {
-            id: 7,
-            title: "Bleach"
+            _id: '',
+            title: ''
         }
     ]);
     const [AOTQuestionnaire, setAOTQuestionnaire] = useState('');
 
     const handleSendVote = (e) => {
-        const vote = AOTQuestionnaire;
         let target = e.target;
         if (target.localName === "span") {
             target = target.parentElement;
         }
-        if (vote !== '') {
+        if (AOTQuestionnaire !== '') {
             target.disabled = true;
-            console.log(`fetchujemy z ${vote}`);
             target.classList.add('Mui-disabled');
+            const AOTID = id;
+            fetch('http://localhost:9000/aot/vote', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    AOTID,
+                    user: localStorage.getItem('UID'),
+                    vote: AOTQuestionnaire
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res.response);
+                    refresh()
+                });
         } else {
             console.log('jesteś zjebem');
         }
@@ -93,9 +57,19 @@ const AnimeOnTopQuestionnaire = () => {
             }
             return 0;
         });
-        const list = formAnimeList.map(anime => <MenuItem key={anime.id} value={anime.title}>{anime.title}</MenuItem>);
+        const list = formAnimeList.map(anime => <MenuItem key={anime._id} value={anime.title}>{anime.title}</MenuItem>);
         return list;
     }
+
+    const callAPI = () => {
+        fetch('http://localhost:9000/anime')
+        .then(res => res.json())
+        .then(res => setAnimeList(res));
+    }
+
+    useEffect(() => {
+        callAPI();
+    },[])
 
     return ( 
         <div className="AOT__questionnaire">

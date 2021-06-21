@@ -4,7 +4,7 @@ import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import SentimentVeryDissatisfiedRoundedIcon from '@material-ui/icons/SentimentVeryDissatisfiedRounded';
 
-const NotFound = () => {
+const NotFound = ({isUserLogged}) => {
     return ( 
         <main className="main">
             <div className="curtain"></div>
@@ -15,7 +15,7 @@ const NotFound = () => {
                     <p className="notFound__text">Nie odnaleziono strony o takim adresie URL. Sprawdź czy Twój adres jest poprawny!</p>
                 </div>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

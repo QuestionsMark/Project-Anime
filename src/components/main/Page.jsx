@@ -55,7 +55,31 @@ const Page = ({match, history, isUserLogged}) => {
         comments: []
     });
     const [userData, setUserData] = useState({
-
+        favoriteAnime: {
+            link: '',
+        },
+        userAnimeData: {
+            watched: [
+                {
+                    link: '',
+                }
+            ],
+            stopped: [
+                {
+                    link: '',
+                }
+            ],
+            processOfWatching: [
+                {
+                    link: '',
+                }
+            ],
+            planned: [
+                {
+                    link: '',
+                }
+            ],
+        }
     })
     const [isFavoriteType, setIsFavoriteType] = useState(false);
 
@@ -257,7 +281,6 @@ const Page = ({match, history, isUserLogged}) => {
 
     const checkFavoriteType = () => {
         const favType = userData.favoriteType;
-        console.log(animeData.types.findIndex(t => t.name === favType))
         const index = animeData.types.findIndex(t => t.name === favType);
         if (index !== -1) {
             setIsFavoriteType(true);
@@ -314,7 +337,7 @@ const Page = ({match, history, isUserLogged}) => {
                                     <FavoriteBorderRoundedIcon className="page__favoriteAnimeIcon" />
                                 </div>
                             </div>
-                            {isUserLogged ? <UserRate animeData={animeData} callAPI={callAPI}/> : null}
+                            {isUserLogged ? <UserRate animeData={animeData} userData={userData} callAPI={callAPI}/> : null}
                         </div>
                         <div className="page__galery">
                             {isAuthorized ? <div className="page__adminChanges">
@@ -387,7 +410,7 @@ const Page = ({match, history, isUserLogged}) => {
                 <Comments comments={animeData.comments} isAuthorized={isAuthorized} handleRemove={handleRemove} callAPI={callAPI}/>
                 {isAuthorized || animeData.description.description.includes('Lorem ipsum') ? <Changes changes={changes} isUserLogged={isUserLogged}/> : null}
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FormControl, FormControlLabel, RadioGroup, Radio, Button } from '@material-ui/core';
 
@@ -7,11 +7,8 @@ import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 
-import whatsTheMelody from '../media/mp3/sak.mp3';
+const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
 
-const WTMQuestionnaire = () => {
-
-    const [melody, setMelody] = useState(whatsTheMelody);
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00 : 00');
     const [volume, setVolume] = useState(50);
@@ -32,15 +29,30 @@ const WTMQuestionnaire = () => {
     }
 
     const handleSendAnswear = (e) => {
-        const answear = WTMAnswear;
         let target = e.target;
         if (target.localName === "span") {
             target = target.parentElement;
         }
-        if (answear !== '') {
+        if (WTMAnswear !== '') {
             target.disabled = true;
-            console.log(`fetchujemy z ${answear}`);
             target.classList.add('Mui-disabled');
+            const WTMID = id;
+            fetch('http://localhost:9000/wtm/vote', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    WTMID,
+                    user: localStorage.getItem('UID'),
+                    vote: WTMAnswear
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    refresh()
+                });
         } else {
             console.log('jesteś zjebem');
         }
@@ -127,12 +139,15 @@ const WTMQuestionnaire = () => {
         const seconds = time.toFixed() - Math.floor(time / 60) * 60;
         const duration = `${minutes < 10 ? '0'+minutes : minutes} : ${seconds < 10 ? '0'+seconds : seconds}`
         setDuration(duration);
+        setProgression(0);
     }
+
+    const answearList = answears.map((a, i) => <FormControlLabel key={i} className="WTM__label" value={a} control={<Radio />} label={a} />);
 
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            <audio src={melody} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+            <audio src={`http://localhost:9000/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />
@@ -151,10 +166,11 @@ const WTMQuestionnaire = () => {
             <div className="WTM__answears">
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="gender" name="gender1" value={WTMAnswear} onChange={handleWTMAnswearChange}>
-                        <FormControlLabel className="WTM__label" value="Kimi no Na Wa" control={<Radio />} label="Kimi no Na Wa" />
+                        {answearList}
+                        {/* <FormControlLabel className="WTM__label" value="Kimi no Na Wa" control={<Radio />} label="Kimi no Na Wa" />
                         <FormControlLabel className="WTM__label" value="Koe no Katachi" control={<Radio />} label="Koe no Katachi" />
                         <FormControlLabel className="WTM__label" value="Sakurasou no Pet na Kanojo" control={<Radio />} label="Sakurasou no Pet na Kanojo" />
-                        <FormControlLabel className="WTM__label" value="Violet Evergarden" control={<Radio />} label="Violet Evergarden" />
+                        <FormControlLabel className="WTM__label" value="Violet Evergarden" control={<Radio />} label="Violet Evergarden" /> */}
                     </RadioGroup>
                 </FormControl>
             </div>

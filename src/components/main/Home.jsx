@@ -8,7 +8,7 @@ import RecommendedProfiles from '../RecommendedProfiles';
 import LastNews from '../LastNews';
 import MyProjectsList from '../MyProjectsList';
 
-const Home = ({history}) => {
+const Home = ({isUserLogged, history}) => {
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
@@ -23,12 +23,12 @@ const Home = ({history}) => {
             <div className="curtain"></div>
             <LeftSide />
             <div className="home main__content">
-                <AnimeOnTop />
+                <AnimeOnTop isUserLogged={isUserLogged}/>
                 <RecommendedProfiles />
                 <LastNews />
                 <MyProjectsList />
             </div>
-            <RightSide />
+            <RightSide  isUserLogged={isUserLogged}/>
         </main>
      );
 }

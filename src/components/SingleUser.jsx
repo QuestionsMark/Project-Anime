@@ -28,7 +28,7 @@ const SingleUser = ({place, username, link, background, img, likes, favoriteAnim
             </div>
             <div className="userList__favoriteAnime">
                 <div className="userList__imgWrapper userList__imgWrapper--favAnime">
-                    <img src={`http://localhost:9000/images/${favoriteAnimeImg}`} alt="anime" className="img" />
+                    {favoriteAnimeImg ? <img src={`http://localhost:9000/images/${favoriteAnimeImg}`} alt="anime" className="img" /> : null}
                 </div>
                 <span className="userList__favoriteAnimeTitle">{favoriteAnimeTitle}</span>
             </div>

@@ -8,7 +8,7 @@ import UserLegend from '../UserLegend';
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 
-const Users = ({history}) => {
+const Users = ({isUserLogged, history}) => {
 
     const [userList, setUserList] = useState([
         {
@@ -83,7 +83,7 @@ const Users = ({history}) => {
                 <UserLegend />
                 <UserList users={filteredUsers()}/>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

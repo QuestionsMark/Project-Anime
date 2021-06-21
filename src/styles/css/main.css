@@ -699,6 +699,7 @@ span.MuiTypography-body1 {
 }
 
 .DA, .WTM, .WTMC {
+  position: relative;
   max-height: 40vh;
   padding: 10px;
   border-right: 1px solid #f50057;
@@ -932,11 +933,12 @@ span.MuiTypography-body1 {
 }
 
 .WTMC {
-  max-height: calc(95vh - 40px);
+  max-height: calc(95vh);
+  overflow: hidden;
 }
 
 .WTMC__list {
-  height: calc(85vh - 40px - 20px);
+  max-height: calc(85vh - 40px - 18px);
   margin-bottom: 10px;
   overflow: auto;
   overscroll-behavior-y: contain;
@@ -1201,6 +1203,31 @@ div.galery {
   background: transparent;
 }
 
+.AOT {
+  position: relative;
+}
+
+.AOT__adminPanel {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+
+.AOT__finish {
+  padding: 3px 15px;
+  border: 1px solid #8f0033;
+  border-radius: 10px;
+  color: #8f0033;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.AOT__finish:hover {
+  color: #f50057;
+  border: 1px solid #f50057;
+}
+
 .AOT__title, .RP__title, .news__title, .myProjects__title, .filter__title {
   margin-bottom: 30px;
   text-align: center;
@@ -1212,6 +1239,10 @@ div.galery {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin-bottom: 30px;
 }
 
 .AOT__left {
@@ -1342,6 +1373,7 @@ div.galery {
 
 .AOT__music:hover .AOT__instruction, .AOT__movie:hover .AOT__instruction {
   opacity: 1;
+  z-index: 1;
 }
 
 .AOT__hehe {
@@ -1376,12 +1408,14 @@ div.galery {
   border: 1px solid #c20045;
   border-radius: 10px;
   font-size: 13px;
+  z-index: -1;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 .AOT span.AOT__instruction:hover {
   opacity: 0;
+  z-index: -1;
 }
 
 .AOT__mediaIcon {
@@ -1455,6 +1489,12 @@ div.galery {
 
 .AOT__form .MuiSelect-icon {
   color: #f50057;
+}
+
+.AOT__resultsContainer {
+  max-height: 300px;
+  overflow: auto;
+  overscroll-behavior-y: contain;
 }
 
 .AOT__result {

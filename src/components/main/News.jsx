@@ -5,7 +5,7 @@ import RightSide from '../RightSide';
 
 import SingleNews from '../SingleNews';
 
-const News = () => {
+const News = ({isUserLogged}) => {
 
     const [news, setNews] = useState([
         {
@@ -46,7 +46,7 @@ const News = () => {
                     {newsList}
                 </div>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

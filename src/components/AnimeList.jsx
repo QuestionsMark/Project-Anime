@@ -2,13 +2,13 @@ import React from 'react';
 
 import SingleAnime from './SingleAnime';
 
-const AnimeList = ({anime}) => {
+const AnimeList = ({anime, isUserLogged, user, callAPI}) => {
 
     const animeList = anime.map(a => {
         let rate; 
         if (a.rate.length > 0) {
             let rateValue = 0;
-            a.rate.forEach(r => rateValue += r.value);
+            a.rate.forEach(r => rateValue += r.rate);
             const average = (rateValue / a.rate.length).toFixed(2);
             rate = average;
         } else {
@@ -21,11 +21,9 @@ const AnimeList = ({anime}) => {
             img={a.images.mini.img}
             types={a.types}
             rate={rate}
-            // favorite={a.favorite}
-            // watched={a.watched}
-            // stopped={a.stopped}
-            // processOfWatching={a.processOfWatching}
-            // planned={a.planned}
+            isUserLogged={isUserLogged}
+            user={user}
+            callAPI={callAPI}
         />
     })
 

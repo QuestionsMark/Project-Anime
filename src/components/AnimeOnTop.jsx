@@ -1,113 +1,116 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
-import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
-import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
-import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
-
-import AOTImg from '../media/img/sak6-spec.jpg';
-import AOTMp3 from '../media/mp3/sak.mp3';
+import AnimeOnTopAnimeInfo from './AnimeOnTopAnimeInfo';
 import AnimeOnTopQuestionnaire from './AnimeOnTopQuestionnaire';
 import AnimeOnTopResults from './AnimeOnTopResults';
 
-let audio;
-let volumeXD;
-let prevScroll;
+const AnimeOnTop = ({isUserLogged}) => {
 
-const AnimeOnTop = () => {
-
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [AOTData, setAOTData] = useState('');
     const [animeOnTop, setAnimeOnTop] = useState({
-        title: 'Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai',
-        img: AOTImg,
+        _id: '',
+        title: '',
+        images: {
+            mini: {
+                img: '',
+            },
+        },
+        description: {
+            description: '',
+        },
         // ścieżka do obrazka w public
-        rate: 9.45,
-        types: ["Dramat", "Komedia", "Psychologiczne", "Romans", "Okruchy Życia"],
-        soundtrack: AOTMp3,
-        //ścieżka do soundtracka
-        movie: 'https://anime-odcinki.pl'
-    })
-    const [didUserVote, setDidUserVote] = useState(false);
-
-    const handleMusic = () => {
-        const audio = document.querySelector('.AOT__audio');
-        if (audio.paused) {
-            audio.currentTime = 0;
-            audio.play();
-        } else {
-            audio.pause();
-        }
-    }
-
-    const setScroll = (volume, prevscroll) => {
-        document.querySelector('.AOT__hehe').scrollTop = 100000;
-        audio.volume = volume
-        prevScroll = prevscroll
-    }
-
-    const handleVolumeChange = (e) => {
-        if(!audio.paused) {
-            if (prevScroll > e.target.scrollTop) {
-                if(audio.volume < 0.98) {
-                    audio.volume = audio.volume + 0.01;
-                }
-                prevScroll = e.target.scrollTop;
-            } else if (prevScroll < e.target.scrollTop) {
-                if(audio.volume > 0.02) {
-                    audio.volume = audio.volume - 0.01;
-                }
-                prevScroll = e.target.scrollTop;
+        link: '',
+        rate: [],
+        types: [
+            {
+                id: '',
+                name: '',
             }
+        ],
+        soundtracks: [
+            {
+                id: '',
+                mp3: '',
+            }
+        ],
+        //ścieżka do soundtracka
+        watchLink: ''
+    })
+    const [didUserVote, setDidUserVote] = useState(true);
+
+    const checkAuthorization = (rank) => {
+        if (rank === '3') {
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
         }
     }
 
-    const types = [...animeOnTop.types].map(type => <Link to="/type" key={type} className="AOT__type">{type}</Link>);
+    const checkDidUserVote = (aotData) => {
+        const users = [];
+        aotData.votes.forEach(v => {
+            users.push(...v.value);
+        })
+        // console.log(users)
+        const index = users.findIndex(u => u === localStorage.getItem('UID'));
+        // console.log(index)
+        if (index !== - 1) {
+            setDidUserVote(true);
+        } else {
+            setDidUserVote(false);
+        }
+    }
+
+    const callAPI = () => {
+        fetch('http://localhost:9000/aot/actual')
+            .then(res => res.json())
+            .then(res => {
+                setAOTData(res);
+                if (isUserLogged) {
+                    checkDidUserVote(res)
+                }
+                if (res.winner !== '') {
+                    const link = res.winner.toLowerCase().replace(/ /g, '-').replace(/\!/g, '').replace(/\,/, '').replace(/\./g, '').replace(/\?/g, '');
+                    // console.log(link)
+                    fetch(`http://localhost:9000/anime/${link}`)
+                        .then(res => res.json())
+                        .then(res => {
+                            // console.log(res)
+                            setAnimeOnTop(res)
+                        });
+                }
+            })
+        if (isUserLogged) {
+            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+                .then(res => res.json())
+                .then(res => {
+                    checkAuthorization(res.rank);
+                });
+        }
+    }
 
     useEffect(() => {
-        audio = document.querySelector('.AOT__audio');
-        volumeXD = 0.5;
-        setScroll(0.5, 100000);
-    },[])
+        callAPI();
+    },[isUserLogged])
 
     return ( 
         <section className="AOT main__section scrollNav" data-id="1">
-            <h2 className="AOT__title">Anime na Topie!</h2>
-            <div className="AOT__animeContent">
-                <div className="AOT__left">
-                    <div className="AOT__imgWrapper">
-                        <img src={animeOnTop.img} alt="Anime" className="img" />
-                    </div>
-                    <div className="AOT__rate">
-                        <StarRateRoundedIcon className="AOT__rateIcon"/>
-                        <p className="AOT__rateValue">{animeOnTop.rate}</p>
-                    </div>
-                </div>
-                <div className="AOT__center">
-                    <Link to="/page/coś" className="AOT__animeTitle">{animeOnTop.title}</Link>
-                    {/* link zrobić! */}
-                    <div className="AOT__types">
-                        {types}
-                    </div>
-                    <p className="AOT__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem porro provident ex accusantium magnam deserunt, praesentium delectus quae molestiae, officia ut tenetur recusandae soluta corrupti tempore? Commodi consequatur totam dignissimos! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iure alias facilis nihil praesentium id! Voluptatibus quasi mollitia quod! Delectus eius eveniet dignissimos sunt? Expedita provident quos repellendus! Beatae, sapiente!</p>
-                </div>
-                <div className="AOT__right">
-                    <div className="AOT__music" onClick={handleMusic}>
-                        <audio src={animeOnTop.soundtrack} className="AOT__audio"></audio>
-                        <MusicNoteRoundedIcon className="AOT__mediaIcon"/>
-                        <span className="AOT__instruction">Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.</span>
-                        <div className="AOT__hehe" onScroll={handleVolumeChange}>
-                            <div className="AOT__range">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div className="AOT__movie">
-                        <a href={animeOnTop.movie} target="_blank" rel="noreferrer" className="AOT__link">
-                            <MovieCreationRoundedIcon className="AOT__mediaIcon"/>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {didUserVote ? <AnimeOnTopResults /> : <AnimeOnTopQuestionnaire />}
+            {animeOnTop.title !== '' ? <AnimeOnTopAnimeInfo
+            isAuthorized={isAuthorized}
+            id={animeOnTop._id}
+            img={animeOnTop.images.mini.img}
+            rate={animeOnTop.rate}
+            title={animeOnTop.title}
+            link={animeOnTop.link}
+            animeTypes={animeOnTop.types}
+            description={animeOnTop.description.description}
+            soundtrack={animeOnTop.soundtracks[0].mp3}
+            watchLink={animeOnTop.watchLink}
+            callAPI={callAPI}
+            /> : null }
+            
+            {didUserVote ? <AnimeOnTopResults AOTData={AOTData}/> : <AnimeOnTopQuestionnaire id={AOTData._id} refresh={callAPI}/>}
         </section>
      );
 }

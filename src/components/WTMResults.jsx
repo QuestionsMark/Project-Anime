@@ -1,50 +1,86 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
-import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import SingleVoteResult from './SingleVoteResult';
 
-const WTMResults = () => {
+const WTMResults = ({id, results, isUserLogged}) => {
 
-    const [userVote, setUserVote] = useState('1');
-    const [results, setResults] = useState({
-        correct: '1',
-        votes: {
-            a1: 23,
-            a2: 120,
-            a3: 156,
-            a4: 78
+    const [correctAnswear, setCorrectAnswear] = useState('');
+
+    const isVoteCorrect = () => {
+        if (results[0].title) {
+            let userAnswear;
+            results.forEach(r => {
+                const index = r.value.findIndex(v => v === localStorage.getItem('UID'));
+                if (index !== -1) {
+                    userAnswear = r.title;
+                }
+            }); 
+            if (userAnswear === correctAnswear) {
+                return true;
+            } else {
+                return false;
+            }
         }
-    });
-    // null
-
-    const isVoteCorrect = (vote) => {
-        if (vote === results.correct) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    const percentage = (a) => {
-        const answearAmount = results.votes[a];
-        const { a1, a2, a3 ,a4 } = results.votes;
-        const votesAmount = a1 + a2 + a3 + a4;
-        const percent = (answearAmount * 100 / votesAmount).toFixed(1);
-        return percent;
     }
 
     const votesAmount = () => {
-        const { a1, a2, a3, a4 } = results.votes;
-        const votesAmount = a1 + a2 + a3 + a4;
-        return votesAmount;
+        const votesAmount = [];
+        results.forEach(r => votesAmount.push(...r.value));
+        return votesAmount.length;
     }
+
+    const checkColor = (v) => {
+        if (v.title === correctAnswear) {
+            return '#2e9100';
+        }
+        return '';
+    }
+
+    const resultsList = () => {
+        if (results[0].title) {
+            let allVotes = 0;
+            results.forEach(r => allVotes += r.value.length);
+            const votes = [...results];
+            const sorted = votes.sort((a, b) => {
+                if (a.value.length > b.value.length) {
+                    return -1;
+                } else if (a.value.length < b.value.length) {
+                    return 1;
+                }
+                return 0;
+            })
+            sorted.forEach(v => {
+                v.percent = `${(v.value.length * 100 / allVotes).toFixed(1)}%`;
+            })
+            return sorted.map((v, i) => <SingleVoteResult key={i} percent={v.percent} title={v.title} color={checkColor(v)}/>)
+        } else {
+            return null;
+        }
+    }
+
+    const getCorrect = () => {
+        fetch(`http://localhost:9000/wtm/correct/${id}`)
+            .then(res => res.json())
+            .then(res => {
+                setCorrectAnswear(res.correct);
+            })
+    }
+
+    useEffect(() => {
+        if (id) {
+            getCorrect();
+        }
+    },[id])
 
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            <div className="WTM__userVote">{isVoteCorrect(userVote) ? <span className="WTM__userVoteResponse" style={{color: 'green'}}>Oj tak byczku!</span> : <span className="WTM__userVoteResponse" style={{color: 'red'}}>Oj nie byczku!</span>}{isVoteCorrect(userVote) ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
+            {isUserLogged ? <div className="WTM__userVote">
+                {isVoteCorrect() ? <span className="WTM__userVoteResponse" style={{color: 'green'}}>Dobrze!</span> : <span className="WTM__userVoteResponse" style={{color: 'red'}}>Ty parzydlaku!</span>}
+            </div> : null}
             <div className="WTM__results">
-                <div className="WTM__result" data-key="1">
+                {resultsList()}
+                {/* <div className="WTM__result" data-key="1">
                     <span className="WTM__resultPercentCurtain" style={{width: `${percentage('a1')}%`}} ></span>
                     <div className="WTM__correct">{isVoteCorrect('1') ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
                     <p className="WTM__percent">{percentage('a1')}%</p>
@@ -67,7 +103,7 @@ const WTMResults = () => {
                     <div className="WTM__correct">{isVoteCorrect('4') ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
                     <p className="WTM__percent">{percentage('a4')}%</p>
                     <p className="WTM__resultTitle">Kimi no Na Wa</p>
-                </div>
+                </div> */}
             </div>
             <p className="WTM__votes"><strong>{votesAmount()}</strong> oddanych głosów</p>
         </>

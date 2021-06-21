@@ -8,10 +8,36 @@ import RightSide from '../RightSide';
 import Filter from '../Filter';
 import Search from '../Search';
 
-const Top = ({history}) => {
+const Top = ({history, isUserLogged, match}) => {
 
     const [animeList, setAnimeList] = useState([])
-
+    const [userData, setUserData] = useState({
+        favoriteAnime: {
+            link: '',
+        },
+        userAnimeData: {
+            watched: [
+                {
+                    link: '',
+                }
+            ],
+            stopped: [
+                {
+                    link: '',
+                }
+            ],
+            processOfWatching: [
+                {
+                    link: '',
+                }
+            ],
+            planned: [
+                {
+                    link: '',
+                }
+            ],
+        }
+    });
     const [searchPhrase, setSearchPhrase] = useState('');
     const [wantTypesFilter, setWantTypesFilter] = useState([]);
     const [dontWantTypesFilter, setDontWantTypesFilter] = useState([]);
@@ -133,24 +159,45 @@ const Top = ({history}) => {
             })
             return hasNot;
         })
-        const FMinR = FDWT.filter(anime => anime.rate >= rateMinFilter);
-        const FMaxR = FMinR.filter(anime => {
+        const FMinR = FDWT.filter(a => {
+            let average = 0;
+            if (a.rate.length > 0) {
+                let rateValueA = 0;
+                a.rate.forEach(r => rateValueA += r.rate);
+                average = (rateValueA / a.rate.length).toFixed(2) * 1;
+            }
+            return average >= rateMinFilter;
+        });
+        const FMaxR = FMinR.filter(a => {
             if (rateMaxFilter === '') {
                 return true;
             } else {
-                if (anime.rate <= rateMaxFilter) {
-                    return true;
-                } else {
-                    return false;
+                let average = 0;
+                if (a.rate.length > 0) {
+                    let rateValueA = 0;
+                    a.rate.forEach(r => rateValueA += r.rate);
+                    average = (rateValueA / a.rate.length).toFixed(2) * 1;
                 }
+                return average <= rateMaxFilter;
             }
         });
         const sorted = FMaxR.sort((a, b) => {
-            if (a.rate > b.rate) {
-                return -1;
-            } else if (a.rate < b.rate) {
+            let rateValueA = 0;
+            a.rate.forEach(r => rateValueA += r.rate);
+            const averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
+            let rateValueB = 0;
+            b.rate.forEach(r => rateValueB += r.rate);
+            const averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
+            if (averageA < averageB) {
                 return 1;
+            } else if (averageA > averageB) {
+                return -1;
             } else {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                    return -1;
+                } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                    return 1
+                }
                 return 0;
             }
         })
@@ -163,14 +210,25 @@ const Top = ({history}) => {
 
     const callAPI = () => {
         fetch('http://localhost:9000/anime')
-        .then(res => res.json())
-        .then(res => setAnimeList(res));
+            .then(res => res.json())
+            .then(res => setAnimeList(res));
+        if (isUserLogged) {
+            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+                .then(res => res.json())
+                .then(res => {
+                    setUserData(res);
+                });
+        }
     }
 
     useEffect(() => {
-        goUp();
         callAPI();
-    }, []);
+    }, [isUserLogged]);
+
+    useEffect(() => {
+        goUp();
+        // callAPI();
+    }, [match]);
 
     return ( 
         <main className="main">
@@ -181,9 +239,9 @@ const Top = ({history}) => {
                     <Search handleSearch={handleSearch}/>
                 </div>
                 <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
-                <TopAnimeList anime={filteredAnimeList()}/>
+                <TopAnimeList anime={filteredAnimeList()} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

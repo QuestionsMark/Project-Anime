@@ -1,14 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WTMQuestionnaire from './WTMQuestionnaire';
 import WTMResults from './WTMResults';
 
-const WhatsTheMelody = () => {
+const WhatsTheMelody = ({isUserLogged}) => {
 
-    const [didUserVote, setDidUserVote] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const checkAuthorization = (rank) => {
+        if (rank === '3') {
+            setIsAuthorized(true);
+        } else {
+            setIsAuthorized(false);
+        }
+    }
+    const [whatsTheMelody, setWhatsTheMelody] = useState({
+        mp3: '',
+        answears: [],
+        votes: [
+            {
+                title: '',
+                value: [1,2],
+            }
+        ]
+    })
+    const [didUserVote, setDidUserVote] = useState(true);
+    const checkDidUserVote = (wtmData) => {
+        const users = [];
+        wtmData.votes.forEach(v => users.push(...v.value))
+        const index = users.findIndex(u => u === localStorage.getItem('UID'));
+        if (index !== -1) {
+            setDidUserVote(true);
+        } else {
+            setDidUserVote(false);
+        }
+    }
+
+    const handleFinish = () => {
+        fetch('http://localhost:9000/wtm/create', {
+            headers: {
+                'authorization': localStorage.getItem('token')
+            },
+            method: 'POST'
+        })
+            .then(() => callAPI())
+    }
+
+    const callAPI = () => {
+        fetch('http://localhost:9000/wtm/actual/questionnaire')
+            .then(res => res.json())
+            .then(res => {
+                setWhatsTheMelody(res)
+                if (isUserLogged) {
+                    checkDidUserVote(res)
+                }
+            })
+        if (isUserLogged) {
+            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+                .then(res => res.json())
+                .then(res => {
+                    checkAuthorization(res.rank);
+                });
+        }
+    }
+
+    useEffect(() => {
+        callAPI();
+    },[isUserLogged])
 
     return ( 
         <div className="WTM">
-            {didUserVote ? <WTMResults /> : <WTMQuestionnaire />}
+            {isAuthorized ? <div className="AOT__adminPanel">
+                <p className="AOT__finish" onClick={handleFinish}>Zakończ</p>
+            </div> : null}
+            {didUserVote ? <WTMResults id={whatsTheMelody.id} results={whatsTheMelody.votes} isUserLogged={isUserLogged}/> : <WTMQuestionnaire id={whatsTheMelody.id} mp3={whatsTheMelody.mp3} answears={whatsTheMelody.answears} refresh={callAPI}/>}
         </div>
      );
 }

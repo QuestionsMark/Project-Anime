@@ -20,7 +20,7 @@ const Nav = ({isUserLogged, handleSignIn, handleLogOut}) => {
                 <div className="logo__imgWrapper">
                     <img src={logo} alt="logo" className="img" />
                 </div>
-                <h3 className="logo__title"><span className="logo__titleColor1">Ani</span><span className="logo__titleColor2">Marktion</span><span className="logo__titleColor3">.pl</span></h3>
+                <h3 className="logo__title"><span className="logo__titleColor1">Ani</span><span className="logo__titleColor2">Mark</span><span className="logo__titleColor3">.pl</span></h3>
             </Link>
             <nav className="menu">
                 <ul className="menu__list">

@@ -3,7 +3,7 @@ import React from 'react';
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 
-const Rules = () => {
+const Rules = ({isUserLogged}) => {
     return ( 
         <main className="main">
             <div className="curtain"></div>
@@ -25,7 +25,7 @@ const Rules = () => {
                     <span className="rules__rule">12. Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident modi, quis, nihil, possimus in sint iusto nulla repellendus praesentium adipisci cumque est vel eum quaerat illo ipsam dignissimos quasi dolore? Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident modi, quis, nihil, possimus in sint iusto nulla repellendus praesentium adipisci cumque est vel eum quaerat illo ipsam dignissimos quasi dolore?</span>
                 </p>
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

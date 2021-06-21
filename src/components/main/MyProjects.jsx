@@ -4,7 +4,7 @@ import LeftSide from '../LeftSide';
 import MyProjectsList from '../MyProjectsList';
 import RightSide from '../RightSide';
 
-const MyProjects = () => {
+const MyProjects = ({isUserLogged}) => {
     return ( 
         <main className="main">
             <div className="curtain"></div>
@@ -12,7 +12,7 @@ const MyProjects = () => {
             <div className="home main__content">
                 <MyProjectsList />
             </div>
-            <RightSide />
+            <RightSide isUserLogged={isUserLogged}/>
         </main>
      );
 }

@@ -10,7 +10,7 @@ import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
-const UserRate = ({animeData, callAPI, match}) => {
+const UserRate = ({animeData, userData, callAPI, match}) => {
 
     const [userRate, setUserRate] = useState(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
     const handleUserRateChange = (e) => {
@@ -59,40 +59,43 @@ const UserRate = ({animeData, callAPI, match}) => {
 
     const checkActive = (type) => {
         if (type === "favorite") {
-            // if (favorite.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
-            return '';
+            if (userData.favoriteAnime.link === match.params.anime) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "watched") {
-            // if (watched.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
-            return '';
+            const watched = userData.userAnimeData.watched;
+            const index = watched.findIndex(w => w.link === match.params.anime);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "stopped") {
-            // if (stopped.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
-            return '';
+            const stopped = userData.userAnimeData.stopped;
+            const index = stopped.findIndex(w => w.link === match.params.anime);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "processOfWatching") {
-            // if (processOfWatching.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
-            return '';
+            const processOfWatching = userData.userAnimeData.processOfWatching;
+            const index = processOfWatching.findIndex(w => w.link === match.params.anime);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "planned") {
-            // if (planned.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
-            return '';
+            const planned = userData.userAnimeData.planned;
+            const index = planned.findIndex(w => w.link === match.params.anime);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         }
     }
     
@@ -128,6 +131,7 @@ const UserRate = ({animeData, callAPI, match}) => {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
+                    callAPI();
                 });
         } else if (type === 'watched') {
             fetch('http://localhost:9000/profile/change/watched', {
@@ -144,6 +148,7 @@ const UserRate = ({animeData, callAPI, match}) => {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
+                    callAPI();
                 });
         }
         else if (type === 'stopped') {
@@ -161,6 +166,7 @@ const UserRate = ({animeData, callAPI, match}) => {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
+                    callAPI();
                 });
         }
         else if (type === 'processOfWatching') {
@@ -178,6 +184,7 @@ const UserRate = ({animeData, callAPI, match}) => {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
+                    callAPI();
                 });
         }
         else if (type === 'planned') {
@@ -195,6 +202,7 @@ const UserRate = ({animeData, callAPI, match}) => {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
+                    callAPI();
                 });
         }
     }

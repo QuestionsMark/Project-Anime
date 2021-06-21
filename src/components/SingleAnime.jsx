@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
@@ -10,44 +10,75 @@ import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
-const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped, processOfWatching, planned}) => {
+const SingleAnime = ({title, link, img, types, rate, user, callAPI}) => {
+
+    const [userData, setUserData] = useState({
+        favoriteAnime: {
+            link: '',
+        },
+        userAnimeData: {
+            watched: [
+                {
+                    link: '',
+                }
+            ],
+            stopped: [
+                {
+                    link: '',
+                }
+            ],
+            processOfWatching: [
+                {
+                    link: '',
+                }
+            ],
+            planned: [
+                {
+                    link: '',
+                }
+            ],
+        }
+    });
 
     const checkActive = (type) => {
         if (type === "favorite") {
-            return '';
-            // if (favorite.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
+            if (userData.favoriteAnime.link === link) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "watched") {
-            return '';
-            // if (watched.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
+            const watched = userData.userAnimeData.watched;
+            const index = watched.findIndex(w => w.link === link);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "stopped") {
-            return '';
-            // if (stopped.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
+            const stopped = userData.userAnimeData.stopped;
+            const index = stopped.findIndex(w => w.link === link);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "processOfWatching") {
-            return '';
-            // if (processOfWatching.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
+            const processOfWatching = userData.userAnimeData.processOfWatching;
+            const index = processOfWatching.findIndex(w => w.link === link);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         } else if (type === "planned") {
-            return '';
-            // if (planned.indexOf('1') !== -1) {
-            //     return "active";
-            // } else {
-            //     return '';
-            // }
+            const planned = userData.userAnimeData.planned;
+            const index = planned.findIndex(w => w.link === link);
+            if (index !== -1) {
+                return "active";
+            } else {
+                return '';
+            }
         }
     }
 
@@ -69,8 +100,8 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 })
             })
                 .then(res => res.json())
-                .then(res => {
-                    console.log(res);
+                .then(() => {
+                    callAPI();
                 });
         } else if (type === 'watched') {
             fetch('http://localhost:9000/profile/change/watched', {
@@ -85,8 +116,8 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 })
             })
                 .then(res => res.json())
-                .then(res => {
-                    console.log(res);
+                .then(() => {
+                    callAPI();
                 });
         }
         else if (type === 'stopped') {
@@ -102,8 +133,8 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 })
             })
                 .then(res => res.json())
-                .then(res => {
-                    console.log(res);
+                .then(() => {
+                    callAPI();
                 });
         }
         else if (type === 'processOfWatching') {
@@ -119,8 +150,8 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 })
             })
                 .then(res => res.json())
-                .then(res => {
-                    console.log(res);
+                .then(() => {
+                    callAPI();
                 });
         }
         else if (type === 'planned') {
@@ -136,13 +167,17 @@ const SingleAnime = ({title, link, img, types, rate, favorite, watched, stopped,
                 })
             })
                 .then(res => res.json())
-                .then(res => {
-                    console.log(res);
+                .then(() => {
+                    callAPI();
                 });
         }
     }
 
     const animeTypes = types.map(t => <Link to={`/types/${t.link}`} key={t.id} className="animeList__type">{t.name}</Link>);
+
+    useEffect(() => {
+        setUserData(user)
+    },[user])
 
     return ( 
         <li className="animeList__item">

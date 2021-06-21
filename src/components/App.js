@@ -66,18 +66,19 @@ function App() {
       <Nav isUserLogged={isUserLogged} handleSignIn={handleSignIn} handleLogOut={handleLogOut} />
 
       {/* ---Main--- */}
+
       <Switch>
         <Route path="/" exact>
-          <Home />
+          <Home isUserLogged={isUserLogged} />
         </Route>
         <Route path="/anime-list">
-          <Anime />
+          <Anime isUserLogged={isUserLogged} />
         </Route>
         <Route path="/top">
-          <Top />
+          <Top isUserLogged={isUserLogged} />
         </Route>
         <Route path="/users">
-          <Users />
+          <Users isUserLogged={isUserLogged} />
         </Route>
         <Route path="/galery">
           <Galery />
@@ -92,24 +93,25 @@ function App() {
           <Page isUserLogged={isUserLogged} />
         </Route>
         <Route path="/types">
-          <Types />
+          <Types isUserLogged={isUserLogged} />
         </Route>
         <Route path="/news">
-          <News />
+          <News isUserLogged={isUserLogged} />
         </Route>
         <Route path="/rules">
-          <Rules />
+          <Rules isUserLogged={isUserLogged} />
         </Route>
         <Route path="/source">
-          <Source />
+          <Source isUserLogged={isUserLogged} />
         </Route>
         <Route path="/my-projects">
-          <MyProjects />
+          <MyProjects isUserLogged={isUserLogged} />
         </Route>
         <Route path="/">
-          <NotFound />
+          <NotFound isUserLogged={isUserLogged} />
         </Route>
       </Switch>
+
       {/* ---BottomSide--- */}
 
       <Footer />
