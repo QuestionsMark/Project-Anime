@@ -6,7 +6,7 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
 const DailyAnime = ({isUserLogged}) => {
 
-    const [isAuthorized, setIsAuthorized] = useState(true);
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const [dailyAnime, setDailyAnime] = useState({
         title: '',
         types: [
@@ -48,9 +48,7 @@ const DailyAnime = ({isUserLogged}) => {
         fetch(`http://localhost:9000/anime`)
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 const index = Math.floor(Math.random() * res.length);
-                console.log(index)
                 fetch(`http://localhost:9000/da/create`, {
                     headers: {
                         'Content-Type': 'application/json',

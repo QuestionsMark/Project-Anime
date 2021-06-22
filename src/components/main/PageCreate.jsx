@@ -15,36 +15,8 @@ const PageCreate = () => {
     const [typesList, setTypesList] = useState([]);
     const [animeList, setAnimeList] = useState([
         {
-            id: 1,
-            title: "Violet Evergarden",
-        },
-        {
-            id: 2,
-            title: "Plastic Memories",
-        },
-        {
-            id: 3,
-            title: "Koe no Katachi",
-        },
-        {
-            id: 4,
-            title: "Kimi no Na Wa",
-        },
-        {
-            id: 5,
-            title: "Tenki no ko",
-        },
-        {
-            id: 6,
-            title: "Naruto",
-        },
-        {
-            id: 7,
-            title: "Shigatsu wa Kimi no Uso",
-        },
-        {
-            id: 8,
-            title: "Charlotte",
+            _id: '',
+            title: '',
         }
     ]);
     const [searchPhrase, setSearchPhrase] = useState('');
@@ -111,7 +83,6 @@ const PageCreate = () => {
             }
         })
         setTypes(sorted);
-        console.log(types)
     }
 
     const [seasons, setSeasons] = useState([]);
@@ -217,122 +188,139 @@ const PageCreate = () => {
     const handleChange = (e) => {
     }
 
-    const handleAddNewAnime = () => {
-        const type = kind;
-        let duration;
-        if (type === "series") {
-            duration = `${episodesValue}odc. ${episodeDuration}min.`;
-        } else {
-            duration = `${hoursValue}godz. ${minutesValue}min.`;
+    const handleAddNewAnime = (e) => {
+        let target = e.target;
+        if (target.localName === "span") {
+            target = target.parentElement;
         }
-        const data = new FormData();
-        data.append('myImg', background);
-        fetch('http://localhost:9000/images/upload', {
-            headers: {
-                'authorization': localStorage.getItem('token'),
-                'rank': localStorage.getItem('r'),
-                'user': localStorage.getItem('UID'),
-            },
-            method: 'POST',
-            body: data
-        })
-            .then(res => res.json())
-            .then(res => {
-                backgroundObj = {
-                    id: res.id,
-                    img: res.img,
-                    fromAnime: title
-                }
-                const data2 = new FormData();
-                data2.append('myImg', baner);
-                fetch('http://localhost:9000/images/upload', {
+        if (title !== '' && link !== '' && types.length > 0 && mini !== null && background !== null && baner !== null) {
+            target.disabled = true;
+            target.classList.add('Mui-disabled');
+            fetch('http://localhost:9000/users/rank', {
                 headers: {
                     'authorization': localStorage.getItem('token'),
-                    'rank': localStorage.getItem('r'),
-                    'user': localStorage.getItem('UID'),
-                },
-                method: 'POST',
-                body: data2
-                })
-                    .then(res => res.json())
-                    .then(res => {
-                        banerObj = {
-                            id: res.id,
-                            img: res.img,
-                            fromAnime: title
+                    'user': localStorage.getItem('UID')
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.rank === '2' || res.rank === '3') {
+                        const type = kind;
+                        let duration;
+                        if (type === "series") {
+                            duration = `${episodesValue}odc. ${episodeDuration}min.`;
+                        } else {
+                            duration = `${hoursValue}godz. ${minutesValue}min.`;
                         }
-                        const data3 = new FormData();
-                        data3.append('myImg', mini);
+                        const data = new FormData();
+                        data.append('myImg', background);
                         fetch('http://localhost:9000/images/upload', {
-                        headers: {
-                            'authorization': localStorage.getItem('token'),
-                            'rank': localStorage.getItem('r'),
-                            'user': localStorage.getItem('UID'),
-                        },
-                        method: 'POST',
-                        body: data3
+                            headers: {
+                                'authorization': localStorage.getItem('token'),
+                                'user': localStorage.getItem('UID'),
+                            },
+                            method: 'POST',
+                            body: data
                         })
                             .then(res => res.json())
                             .then(res => {
-                                miniObj = {
+                                backgroundObj = {
                                     id: res.id,
                                     img: res.img,
                                     fromAnime: title
                                 }
-                                const data4 = new FormData();
-                                data4.append('myMp3', soundtrack);
-
-                                fetch(`http://localhost:9000/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+                                const data2 = new FormData();
+                                data2.append('myImg', baner);
+                                fetch('http://localhost:9000/images/upload', {
                                 headers: {
                                     'authorization': localStorage.getItem('token'),
-                                    'rank': localStorage.getItem('r'),
                                     'user': localStorage.getItem('UID'),
                                 },
                                 method: 'POST',
-                                body: data4
+                                body: data2
                                 })
                                     .then(res => res.json())
                                     .then(res => {
-                                        soundtrackObj = {
+                                        banerObj = {
                                             id: res.id,
-                                            mp3: res.mp3,
-                                            title: soundtrackTitle,
-                                            composer,
-                                            likes: [],
+                                            img: res.img,
+                                            fromAnime: title
                                         }
-                                        const obj = {
-                                            kind,
-                                            title,
-                                            scenario,
-                                            productionDate,
-                                            duration,
-                                            link,
-                                            types,
-                                            seasons,
-                                            mini: miniObj,
-                                            background: backgroundObj,
-                                            baner: banerObj,
-                                            soundtrack: soundtrackObj,
-                                            galeryImages: [backgroundObj, banerObj]
-                                        }
-                                        fetch('http://localhost:9000/anime/create', {
-                                            headers: {
-                                                'Content-Type': 'application/json; charset=utf-8',
-                                                'authorization': localStorage.getItem('token'),
-                                                'rank': localStorage.getItem('r'),
-                                                'user': localStorage.getItem('UID')
-                                            },
-                                            method: 'POST',
-                                            body: JSON.stringify(obj)
+                                        const data3 = new FormData();
+                                        data3.append('myImg', mini);
+                                        fetch('http://localhost:9000/images/upload', {
+                                        headers: {
+                                            'authorization': localStorage.getItem('token'),
+                                            'user': localStorage.getItem('UID'),
+                                        },
+                                        method: 'POST',
+                                        body: data3
                                         })
-                                        .then(res => res.json())
-                                        .then(res => {
-                                            console.log(res);
-                                        });
+                                            .then(res => res.json())
+                                            .then(res => {
+                                                miniObj = {
+                                                    id: res.id,
+                                                    img: res.img,
+                                                    fromAnime: title
+                                                }
+                                                const data4 = new FormData();
+                                                data4.append('myMp3', soundtrack);
+        
+                                                fetch(`http://localhost:9000/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+                                                headers: {
+                                                    'authorization': localStorage.getItem('token'),
+                                                    'user': localStorage.getItem('UID'),
+                                                },
+                                                method: 'POST',
+                                                body: data4
+                                                })
+                                                    .then(res => res.json())
+                                                    .then(res => {
+                                                        soundtrackObj = {
+                                                            id: res.id,
+                                                            mp3: res.mp3,
+                                                            title: soundtrackTitle,
+                                                            composer,
+                                                            likes: [],
+                                                        }
+                                                        const obj = {
+                                                            kind,
+                                                            title,
+                                                            scenario,
+                                                            productionDate,
+                                                            duration,
+                                                            link,
+                                                            types,
+                                                            seasons,
+                                                            mini: miniObj,
+                                                            background: backgroundObj,
+                                                            baner: banerObj,
+                                                            soundtrack: soundtrackObj,
+                                                            galeryImages: [backgroundObj, banerObj]
+                                                        }
+                                                        fetch('http://localhost:9000/anime/create', {
+                                                            headers: {
+                                                                'Content-Type': 'application/json; charset=utf-8',
+                                                                'authorization': localStorage.getItem('token'),
+                                                                'user': localStorage.getItem('UID')
+                                                            },
+                                                            method: 'POST',
+                                                            body: JSON.stringify(obj)
+                                                        })
+                                                        .then(res => res.json())
+                                                        .then(res => {
+                                                            console.log(res);
+                                                            window.location.reload();
+                                                        });
+                                                    })
+                                            })
                                     })
                             })
-                    })
+                    } else {
+                        console.log('Brak autoryzacji!');
+                    }
             })
+        }
     }
 
     const typesLabelList = typesList.map(t => <FormControlLabel key={t._id} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);

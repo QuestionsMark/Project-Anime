@@ -43,22 +43,17 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
     }
 
     const handleBGChange = (e) => {
-        const dataType = e.target.parentElement.getAttribute('data-type');
-        let backgrounds;
-        if (dataType === "default") {
-            backgrounds = [...e.target.parentElement.children, ...e.target.parentElement.nextSibling.nextSibling.children];
-        } else if (dataType === "custom") {
-            backgrounds = [...e.target.parentElement.children, ...e.target.parentElement.previousSibling.previousSibling.children];
-        }
-        backgrounds.forEach(b => b.classList.remove('chosedBG'));
-        e.target.classList.add('chosedBG');
-        const src = e.target.src;
-        fetch(`http://localhost:9000/images/change/${src.slice(29)}`, {
+        const img = e.target.getAttribute('data-img');
+        fetch(`http://localhost:9000/profile/change/background`, {
             headers: {
-                'authorization': localStorage.getItem('UID'),
-                'user': localStorage.getItem('UID')
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem('token'),
             },
-            method: 'PUT'
+            method: 'POST',
+            body: JSON.stringify({
+                user: localStorage.getItem('UID'),
+                img
+            })
         })
         .then(res => res.json())
         .then(res => {
@@ -87,7 +82,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             fetch('http://localhost:9000/profile/change/introduction', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('UID')
+                    'authorization': localStorage.getItem('token')
                 },
                 method: 'POST',
                 body: JSON.stringify({
@@ -105,7 +100,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             fetch('http://localhost:9000/profile/change/favorite-anime', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('UID')
+                    'authorization': localStorage.getItem('token')
                 },
                 method: 'POST',
                 body: JSON.stringify({
@@ -123,7 +118,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             data.append('myImg',choosedBackground);
             fetch('http://localhost:9000/images/upload', {
                 headers: {
-                    'authorization': localStorage.getItem('UID'),
+                    'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
                 },
                 method: 'POST',
@@ -131,10 +126,10 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('http://localhost:9000/profile/change/background', {
+                    fetch('http://localhost:9000/profile/change/add-background', {
                         headers: {
                             'Content-Type': 'application/json',
-                            'authorization': localStorage.getItem('UID')
+                            'authorization': localStorage.getItem('token')
                         },
                         method: 'POST',
                         body: JSON.stringify({
@@ -153,7 +148,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             data.append('myImg', choosedAvatar);
             fetch('http://localhost:9000/images/upload', {
                 headers: {
-                    'authorization': localStorage.getItem('UID'),
+                    'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
                 },
                 method: 'POST',
@@ -164,7 +159,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     fetch('http://localhost:9000/profile/change/avatar', {
                         headers: {
                             'Content-Type': 'application/json',
-                            'authorization': localStorage.getItem('UID')
+                            'authorization': localStorage.getItem('token')
                         },
                         method: 'POST',
                         body: JSON.stringify({
@@ -183,7 +178,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             fetch('http://localhost:9000/profile/change/username', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('UID')
+                    'authorization': localStorage.getItem('token')
                 },
                 method: 'POST',
                 body: JSON.stringify({
@@ -201,7 +196,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             fetch('http://localhost:9000/profile/change/favorite-type', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('UID')
+                    'authorization': localStorage.getItem('token')
                 },
                 method: 'POST',
                 body: JSON.stringify({
@@ -295,17 +290,17 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
 
     const defaultBackgroundList = defaultBackgrounds.map(b => {
         if (b === background) {
-            return <img key={b} className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b} className="profileEdit__backgroundImg chosedBG" data-img={b} src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } else {
-            return <img key={b} className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b} className="profileEdit__backgroundImg" data-img={b} src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } 
     });
 
     const customBackgroundList = customBackgrounds.map(b => {
         if (b.img === background) {
-            return <img key={b.id} className="profileEdit__backgroundImg chosedBG" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b.id} className="profileEdit__backgroundImg chosedBG" data-img={b.img} src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }  else {
-            return <img key={b.id} className="profileEdit__backgroundImg" src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b.id} className="profileEdit__backgroundImg" data-img={b.img} src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }
     });
 

@@ -184,7 +184,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
         <li className="animeList__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
-                <img src={`http://localhost:9000/images/${img}`} alt="anime" className="img" />
+                <img src={img ? `http://localhost:9000/images/${img}` : ''} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
                 <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>

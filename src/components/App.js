@@ -45,7 +45,9 @@ function App() {
     })
       .then(res => res.json())
       .then(res => {
-        setIsUserLogged(res.userState)
+        if (res.response !== "No access") {
+          setIsUserLogged(res.userState)
+        }
       })
   }
 

@@ -5,10 +5,10 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 
 const SingleTypeLover = ({name, link, img, likes}) => {
     return ( 
-        <Link to={link} className="typePage__link">
+        <Link to={`/profile/${link}`} className="typePage__link">
             <li className="typePage__item">
                 <div className="typePage__imgWrapper">
-                    <img src={img} alt="asdas" className="img" />
+                    <img src={`http://localhost:9000/images/${img}`} alt="asdas" className="img" />
                 </div>
                 <p className="typePage__username">{name}</p>
                 <div className="typePage__likes">

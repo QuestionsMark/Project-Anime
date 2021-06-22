@@ -50,7 +50,11 @@ const WTMResults = ({id, results, isUserLogged}) => {
                 return 0;
             })
             sorted.forEach(v => {
-                v.percent = `${(v.value.length * 100 / allVotes).toFixed(1)}%`;
+                if (allVotes !== 0) {
+                    v.percent = `${(v.value.length * 100 / allVotes).toFixed(1)}%`;
+                } else {
+                    v.percent = `0.0%`;
+                }
             })
             return sorted.map((v, i) => <SingleVoteResult key={i} percent={v.percent} title={v.title} color={checkColor(v)}/>)
         } else {
@@ -67,10 +71,16 @@ const WTMResults = ({id, results, isUserLogged}) => {
     }
 
     useEffect(() => {
-        if (id) {
+        if (isUserLogged && id) {
             getCorrect();
         }
     },[id])
+
+    useEffect(() => {
+        if (isUserLogged && id) {
+            getCorrect();
+        }
+    },[isUserLogged])
 
     return ( 
         <>

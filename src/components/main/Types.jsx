@@ -49,7 +49,7 @@ const Types = ({isUserLogged}) => {
                         </div>
                     </Route>
                     <Route path="/types/:type">
-                        <TypePage typesList={types}/>
+                        <TypePage typesList={types} isUserLogged={isUserLogged}/>
                     </Route>
                 </Switch>
             </div>

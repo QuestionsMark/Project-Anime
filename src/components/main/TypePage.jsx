@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import SingleTopAnime from '../SingleTopAnime';
 import SingleTypeLover from '../SingleTypeLover';
 
-const TypePage = ({ typesList, match }) => {
+const TypePage = ({ typesList, isUserLogged, match }) => {
 
     const [types, setTypes] = useState(typesList);
     const [anime, setAnime] = useState([
@@ -63,30 +63,49 @@ const TypePage = ({ typesList, match }) => {
             }
         })
         const bestThree = sorted.slice(0, 3);  
-        const bestAnimeList =  bestThree.map((a, index) => {
+        const bestAnimeList =  bestThree.map(a => {
             let rate; 
             if (a.rate.length > 0) {
                 let rateValue = 0;
-                a.rate.forEach(r => rateValue += r.value);
+                a.rate.forEach(r => rateValue += r.rate);
                 const average = (rateValue / a.rate.length).toFixed(2);
                 rate = average;
             } else {
                 rate = 0;
             }
-            return (<SingleTopAnime 
-            key={a._id}
-            title={a.title}
-            link={a.link}
-            place={index + 1}
-            img={a.images.mini.img}
-            types={a.types}
-            rate={rate}
-            favorite={a.favorite}
-            watched={a.watched}
-            stopped={a.stopped}
-            processOfWatching={a.processOfWatching}
-            planned={a.planned}
-            />)
+            let userData;
+            if (isUserLogged && users.length > 1) {
+                userData = users.find(u => u.link === localStorage.getItem('l'));
+            } else {
+                userData = {
+                    favoriteAnime: {
+                        link: '',
+                    },
+                    userAnimeData: {
+                        watched: [
+                            {
+                                link: '',
+                            }
+                        ],
+                        stopped: [
+                            {
+                                link: '',
+                            }
+                        ],
+                        processOfWatching: [
+                            {
+                                link: '',
+                            }
+                        ],
+                        planned: [
+                            {
+                                link: '',
+                            }
+                        ],
+                    }
+                }
+            }
+            return <SingleTopAnime key={a._id} title={a.title} link={a.link} img={a.images.mini.img} types={a.types} rate={rate} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
         });
         return bestAnimeList;
     }
@@ -102,7 +121,7 @@ const TypePage = ({ typesList, match }) => {
                 return 0;
             }
         })
-        return sorted.map(u => <SingleTypeLover key={u.id} img={u.avatar} name={u.name} link={u.link} likes={u.likes}/>)
+        return sorted.map(u => <SingleTypeLover key={u.id} img={u.avatar} name={u.username} link={u.link} likes={u.likes.length}/>)
     }
 
     const callAPI = () => {
@@ -117,6 +136,10 @@ const TypePage = ({ typesList, match }) => {
     useEffect(() => {
         callAPI();
     },[])
+
+    useEffect(() => {
+        callAPI();
+    },[match])
 
     useEffect(() => {
         if (typesList.length > 0) {

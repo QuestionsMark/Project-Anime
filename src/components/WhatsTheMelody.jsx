@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import WTMQuestionnaire from './WTMQuestionnaire';
 import WTMResults from './WTMResults';
 
-const WhatsTheMelody = ({isUserLogged}) => {
+const WhatsTheMelody = ({isUserLogged, match}) => {
 
     const [isAuthorized, setIsAuthorized] = useState(false);
     const checkAuthorization = (rank) => {
@@ -64,7 +65,7 @@ const WhatsTheMelody = ({isUserLogged}) => {
 
     useEffect(() => {
         callAPI();
-    },[isUserLogged])
+    },[isUserLogged, match])
 
     return ( 
         <div className="WTM">
@@ -76,7 +77,7 @@ const WhatsTheMelody = ({isUserLogged}) => {
      );
 }
  
-export default WhatsTheMelody;
+export default withRouter(WhatsTheMelody);
 
 // MuiButtonBase-root MuiButton-root MuiButton-text WTM__send Mui-disabled Mui-disabled
 // MuiButtonBase-root MuiButton-root MuiButton-text WTM__send
