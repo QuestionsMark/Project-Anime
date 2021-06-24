@@ -270,7 +270,7 @@ const Changes = ({changes, isUserLogged, match}) => {
                 <div className="changes__preview">
                     <img src={galeryPreview} alt="galery" className="img" />
                 </div>
-                <Button className="button changes__button" onClick={() => {handleSendChange("galery")}}>Dodaj</Button>
+                <Button className="button changes__button" disabled={galeryPreview !== img ? true : true} onClick={() => {handleSendChange("galery")}}>Dodaj</Button>
             </div> : null}
             {changes === "description" ? <div className="changes__content">
                 <h3 className="changes__title mediumTitle">Zmień Opis</h3>
@@ -289,7 +289,7 @@ const Changes = ({changes, isUserLogged, match}) => {
                 {soundtrackPreview ? <Audio mp3={soundtrackPreview}/> : null}
                 <input type="text" className="changes__composer create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInputChange("composer", e)}}/>
                 <input type="text" className="changes__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChange={(e) => {handleInputChange("soundtrackTitle", e)}}/>
-                <Button className="button changes__button" onClick={() => {handleSendChange("soundtrack")}}>Dodaj</Button>
+                <Button className="button changes__button" disabled={soundtrackPreview !== '' ? '' : true} onClick={() => {handleSendChange("soundtrack")}}>Dodaj</Button>
             </div> : null}
             {changes === "seasons" ? <div className="changes__content">
                 <h3 className="changes__title mediumTitle">Dodaj Powiązane Anime</h3>

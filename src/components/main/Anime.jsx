@@ -46,11 +46,27 @@ const Anime = ({history, match, isUserLogged}) => {
         if (type === "series") {
             const series = animeList.filter(a => a.kind === "series");
             const filtered = series.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
-            return filtered;
+            const sorted = filtered.sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                    return 1;
+                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                    return -1;
+                }
+                return 0;
+            })
+            return sorted;
         } else if (type === "movies") {
             const movies = animeList.filter(a => a.kind === "movie");
             const filtered = movies.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
-            return filtered;
+            const sorted = filtered.sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                    return 1;
+                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                    return -1;
+                }
+                return 0;
+            })
+            return sorted;
         }
     }
 

@@ -182,12 +182,18 @@ const Top = ({history, isUserLogged, match}) => {
             }
         });
         const sorted = FMaxR.sort((a, b) => {
-            let rateValueA = 0;
-            a.rate.forEach(r => rateValueA += r.rate);
-            const averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
-            let rateValueB = 0;
-            b.rate.forEach(r => rateValueB += r.rate);
-            const averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
+            let averageA = 0;
+            if (a.rate.length > 0) {
+                let rateValueA = 0;
+                a.rate.forEach(r => rateValueA += r.rate);
+                averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
+            }
+            let averageB = 0;
+            if (b.rate.length > 0) {
+                let rateValueB = 0;
+                b.rate.forEach(r => rateValueB += r.rate);
+                averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
+            }
             if (averageA < averageB) {
                 return 1;
             } else if (averageA > averageB) {

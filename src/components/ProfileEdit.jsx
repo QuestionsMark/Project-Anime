@@ -72,6 +72,10 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
     }
 
     const handleChooseBackground = (e) => {
+        let target = e.target;
+        if (target.localName === 'span') {
+            target = target.parentElement;
+        }
         const url = URL.createObjectURL(e.target.files[0]);
         setBackgroundPreview(url);
         setChoosedBackground(e.target.files[0]);
@@ -344,7 +348,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                 <div className="profileEdit__preview profileEdit__preview--square">
                     {userChoosed ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : <img src={`http://localhost:9000/images/${avatarPreview}`} alt="dasdas" className="profileEdit__previewImg" />}
                 </div>
-                <Button className="button profileEdit__save" onClick={() => {handleSave('avatar')}}>Zapisz</Button>
+                <Button className="button profileEdit__save avatarButton" disabled={avatarPreview !== avatar ? true : true} onClick={() => {handleSave('avatar')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Swój Nick</h2>
@@ -367,7 +371,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                         {formAnimeList()}
                     </Select>
                 </FormControl>
-                <Button className="button profileEdit__save" onClick={() => {handleSave('favAnime')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={favoriteAnime !== favAnime.title ? '' : true} onClick={() => {handleSave('favAnime')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Ulubiony Gatunek</h2>
@@ -404,7 +408,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                         <div className="profileEdit__preview">
                             <img src={backgroundPreview} alt="dasdas" className="profileEdit__previewImg" />
                         </div>
-                        <Button className="button profileEdit__save" onClick={() => {handleSave('background')}}>Dodaj</Button>
+                        <Button className="button profileEdit__save backgroundButton" disabled={backgroundPreview !== img ? true : true} onClick={() => {handleSave('background')}}>Dodaj</Button>
                     </div>
                 </div>
                 
