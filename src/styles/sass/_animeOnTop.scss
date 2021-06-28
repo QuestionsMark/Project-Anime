@@ -239,8 +239,9 @@
 
     &__resultsContainer {
         max-height: 300px;
-        overflow: auto;
-        overscroll-behavior-y: contain;
+        overflow-y: scroll;
+        // overflow: auto;
+        // overscroll-behavior-y: contain;
     }
 
     &__result {

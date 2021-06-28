@@ -5,7 +5,7 @@ import Search from './Search';
 
 const UserAchievements = ({achievements, handleSearch}) => {
     return ( 
-        <div className="profileTop profile__content">
+        <div className="profileAchievements profile__content">
             <Search handleSearch={handleSearch}/>
             <ProfileAchievementsList achievements={achievements}/>
         </div>

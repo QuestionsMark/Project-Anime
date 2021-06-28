@@ -34,7 +34,7 @@ const LoginScreen = () => {
         } else if (password.indexOf(' ') !== -1) {
             setLoginResponse("Nie prawidłowy login lub hasło!");
         } else {
-            fetch('http://localhost:9000/users/login', {
+            fetch('https://question-mark-project-anime.herokuapp.com/users/login', {
                 headers: {
                     'Content-Type': 'application/json'
                 },

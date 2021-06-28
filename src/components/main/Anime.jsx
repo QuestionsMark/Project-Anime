@@ -75,11 +75,11 @@ const Anime = ({history, match, isUserLogged}) => {
     });
 
     const callAPI = () => {
-        fetch('http://localhost:9000/anime')
+        fetch('https://question-mark-project-anime.herokuapp.com/anime')
             .then(res => res.json())
             .then(res => setAnimeList(res));
         if (isUserLogged) {
-            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     setUserData(res);

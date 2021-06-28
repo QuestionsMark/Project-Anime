@@ -50,7 +50,7 @@ const Galery = ({history, match}) => {
     });
 
     const callAPI = () => {
-        fetch('http://localhost:9000/anime')
+        fetch('https://question-mark-project-anime.herokuapp.com/anime')
             .then(res => res.json())
             .then(res => setAnime(res));
     }

@@ -1492,8 +1492,7 @@ div.galery {
 
 .AOT__resultsContainer {
   max-height: 300px;
-  overflow: auto;
-  overscroll-behavior-y: contain;
+  overflow-y: scroll;
 }
 
 .AOT__result {
@@ -1558,6 +1557,8 @@ div.galery {
 }
 
 .RP__imgWrapper {
+  width: 7vw;
+  height: 7vw;
   border: 2px solid #f50057;
   border-radius: 50%;
   margin: 18px;
@@ -2488,6 +2489,9 @@ div.galery {
 .galery__folder {
   -ms-flex-preferred-size: 21%;
       flex-basis: 21%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   border-right: 1px solid #f50057;
   border-bottom: 1px solid #f50057;
   border-radius: 10px;
@@ -3250,6 +3254,37 @@ div.galery {
   width: 100%;
 }
 
+.profileEdit__inpWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 20px;
+}
+
+.profileEdit__inpWrapper--save {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.profilePrivate .profilePrivate__passIcon {
+  margin-left: 10px;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.profilePrivate .profilePrivate__passIcon:hover {
+  color: #f50057;
+}
+
+.profilePrivate .profilePrivate__save {
+  margin-left: 20px;
+}
+
 .slider {
   height: 300px;
   margin-top: 10px;
@@ -3324,6 +3359,10 @@ div.galery {
 .page__rateValue {
   font-size: 20px;
   font-weight: bold;
+}
+
+.page__rateAmount {
+  margin-left: 10px;
 }
 
 .page__properties {

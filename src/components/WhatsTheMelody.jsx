@@ -36,7 +36,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
     }
 
     const handleFinish = () => {
-        fetch('http://localhost:9000/wtm/create', {
+        fetch('https://question-mark-project-anime.herokuapp.com/wtm/create', {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
@@ -46,7 +46,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
     }
 
     const callAPI = () => {
-        fetch('http://localhost:9000/wtm/actual/questionnaire')
+        fetch('https://question-mark-project-anime.herokuapp.com/wtm/actual/questionnaire')
             .then(res => res.json())
             .then(res => {
                 setWhatsTheMelody(res)
@@ -55,7 +55,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
                 }
             })
         if (isUserLogged) {
-            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     checkAuthorization(res.rank);

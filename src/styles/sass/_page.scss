@@ -47,6 +47,10 @@
         font-weight: bold;
     }
 
+    &__rateAmount {
+        margin-left: 10px
+    }
+
     &__properties {
         @include page-style;
         padding: 10px;

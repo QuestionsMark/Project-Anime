@@ -13,13 +13,13 @@ const SingleUser = ({place, username, link, background, img, likes, favoriteAnim
 
     return ( 
         <li className="userList__item">
-            <div className="userList__background" style={{backgroundImage: `url(http://localhost:9000/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}></div>
+            <div className="userList__background" style={{backgroundImage: `url(https://question-mark-project-anime.herokuapp.com/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}></div>
             <div className="userList__curtain"></div>
             <div className="userList__place">
                 {place <= 3 ? <Icon className="fas fa-trophy userList__placeIcon" /> : <p className="userList__placeValue">{place}</p>}
             </div>
             <div className="userList__imgWrapper">
-                <img src={`http://localhost:9000/images/${img}`} alt="avatar" className="img" />
+                <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="avatar" className="img" />
             </div>
             <Link to={`/profile/${link}`} className="userList__link">{username}</Link>
             <div className="userList__likes">
@@ -28,7 +28,7 @@ const SingleUser = ({place, username, link, background, img, likes, favoriteAnim
             </div>
             <div className="userList__favoriteAnime">
                 <div className="userList__imgWrapper userList__imgWrapper--favAnime">
-                    {favoriteAnimeImg ? <img src={`http://localhost:9000/images/${favoriteAnimeImg}`} alt="anime" className="img" /> : null}
+                    {favoriteAnimeImg ? <img src={`https://question-mark-project-anime.herokuapp.com/images/${favoriteAnimeImg}`} alt="anime" className="img" /> : null}
                 </div>
                 <span className="userList__favoriteAnimeTitle">{favoriteAnimeTitle}</span>
             </div>

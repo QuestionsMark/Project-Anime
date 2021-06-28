@@ -54,11 +54,28 @@ const TypePage = ({ typesList, isUserLogged, match }) => {
             return has;
         })
         const sorted = filtered.sort((a, b) => {
-            if (a.rate > b.rate) {
-                return -1;
-            } else if (a.rate < b.rate) {
+            let averageA = 0;
+            if (a.rate.length > 0) {
+                let rateValueA = 0;
+                a.rate.forEach(r => rateValueA += r.rate);
+                averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
+            }
+            let averageB = 0;
+            if (b.rate.length > 0) {
+                let rateValueB = 0;
+                b.rate.forEach(r => rateValueB += r.rate);
+                averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
+            }
+            if (averageA < averageB) {
                 return 1;
+            } else if (averageA > averageB) {
+                return -1;
             } else {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                    return -1;
+                } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                    return 1
+                }
                 return 0;
             }
         })
@@ -125,10 +142,10 @@ const TypePage = ({ typesList, isUserLogged, match }) => {
     }
 
     const callAPI = () => {
-        fetch('http://localhost:9000/anime')
+        fetch('https://question-mark-project-anime.herokuapp.com/anime')
             .then(res => res.json())
             .then(res => setAnime(res));
-        fetch('http://localhost:9000/users')
+        fetch('https://question-mark-project-anime.herokuapp.com/users')
             .then(res => res.json())
             .then(res => setUsers(res));
     }

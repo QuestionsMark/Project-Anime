@@ -88,7 +88,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
             target = target.parentElement;
         }
         if (type === 'favAnime') {
-            fetch('http://localhost:9000/profile/change/favorite-anime', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-anime', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -104,7 +104,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                     callAPI();
                 });
         } else if (type === 'watched') {
-            fetch('http://localhost:9000/profile/change/watched', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/watched', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -121,7 +121,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                 });
         }
         else if (type === 'stopped') {
-            fetch('http://localhost:9000/profile/change/stopped', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/stopped', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -138,7 +138,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                 });
         }
         else if (type === 'processOfWatching') {
-            fetch('http://localhost:9000/profile/change/process-of-watching', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/process-of-watching', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -155,7 +155,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                 });
         }
         else if (type === 'planned') {
-            fetch('http://localhost:9000/profile/change/planned', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/planned', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -184,7 +184,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
         <li className="animeList__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
-                <img src={img ? `http://localhost:9000/images/${img}` : ''} alt="anime" className="img" />
+                <img src={img ? `https://question-mark-project-anime.herokuapp.com/images/${img}` : ''} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
                 <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>

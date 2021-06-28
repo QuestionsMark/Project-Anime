@@ -118,7 +118,7 @@ const PageAudio = ({id, mp3, composer, title, isAuthorized, handleRemove}) => {
             {isAuthorized ? <div className="page__adminChanges">
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} data-name={mp3} onClick={(e) => {handleRemove("soundtrack", e)}}/>
             </div> : null}
-            <audio src={`http://localhost:9000/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+            <audio src={`https://question-mark-project-anime.herokuapp.com/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface audioInterface--borderSize">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />

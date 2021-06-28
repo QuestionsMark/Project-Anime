@@ -24,11 +24,11 @@ const DailyAnime = ({isUserLogged}) => {
     const { title, link, types, img, rate, description } = dailyAnime;
 
     const callAPI = () => {
-        fetch('http://localhost:9000/da')
+        fetch('https://question-mark-project-anime.herokuapp.com/da')
             .then(res => res.json())
             .then(res => setDailyAnime(res));
         if (isUserLogged) {
-            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     checkAuthorization(res.rank);
@@ -45,11 +45,11 @@ const DailyAnime = ({isUserLogged}) => {
     }
 
     const handleRoll = () => {
-        fetch(`http://localhost:9000/anime`)
+        fetch(`https://question-mark-project-anime.herokuapp.com/anime`)
             .then(res => res.json())
             .then(res => {
                 const index = Math.floor(Math.random() * res.length);
-                fetch(`http://localhost:9000/da/create`, {
+                fetch(`https://question-mark-project-anime.herokuapp.com/da/create`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'authorization': localStorage.getItem('token')
@@ -80,7 +80,7 @@ const DailyAnime = ({isUserLogged}) => {
             <div className="DA__info">
                 <div className="DA__left">
                     <div className="DA__imgWrapper">
-                        <img src={`http://localhost:9000/images/${img}`} alt="Daily anime" className="img" />
+                        <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="Daily anime" className="img" />
                     </div>
                     <p className="DA__rate"><StarRateRoundedIcon className="DA__rateIcon"/><span className="DA__rateValue">{rate}</span></p>
                 </div>

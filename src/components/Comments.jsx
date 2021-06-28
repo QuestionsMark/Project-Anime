@@ -8,7 +8,7 @@ import img from '../media/img/sak6-spec.jpg';
 const Comments = ({comments, isAuthorized, handleRemove, callAPI}) => {
 
     const commentsList = () => {
-        const sorted = [...comments]
+        const sorted = [...comments].reverse();
         return sorted.map(c => <SingleComment key={c.id} id={c.id} username={c.username} img={c.img} date={c.date} text={c.text} likes={c.likes} isAuthorized={isAuthorized} handleRemove={handleRemove} callAPI={callAPI}/>)
     }
 

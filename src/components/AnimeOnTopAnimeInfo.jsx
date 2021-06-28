@@ -43,7 +43,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
     }
     
     const handleFinishAOT = () => {
-        fetch('http://localhost:9000/aot/create', {
+        fetch('https://question-mark-project-anime.herokuapp.com/aot/create', {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
@@ -53,11 +53,15 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
     }
 
     const showRate = () => {
-        let rateValue = 0;
-        rate.forEach(r => {
-            rateValue += r.rate;
-        })
-        const average = (rateValue / rate.length).toFixed(2) * 1;
+        let average = 0;
+        if (rate.length > 0) {
+            let rateValue = 0;
+            rate.forEach(r => {
+                rateValue += r.rate;
+            })
+            average = (rateValue / rate.length).toFixed(2) * 1;
+        }
+        
         return average;
     }
 
@@ -77,7 +81,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
             <div className="AOT__animeContent">
                 <div className="AOT__left">
                     <div className="AOT__imgWrapper">
-                        <img src={`http://localhost:9000/images/${img}`} alt="Anime" className="img" />
+                        <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="Anime" className="img" />
                     </div>
                     <div className="AOT__rate">
                         <StarRateRoundedIcon className="AOT__rateIcon"/>
@@ -93,7 +97,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
                 </div>
                 <div className="AOT__right">
                     <div className="AOT__music" onClick={handleMusic}>
-                        <audio src={`http://localhost:9000/soundtracks/${soundtrack}`} className="AOT__audio"></audio>
+                        <audio src={`https://question-mark-project-anime.herokuapp.com/soundtracks/${soundtrack}`} className="AOT__audio"></audio>
                         <MusicNoteRoundedIcon className="AOT__mediaIcon"/>
                         <span className="AOT__instruction">Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.</span>
                         <div className="AOT__hehe" onScroll={handleVolumeChange}>

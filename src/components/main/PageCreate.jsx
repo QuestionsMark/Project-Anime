@@ -12,7 +12,11 @@ import { useEffect } from 'react';
 
 const PageCreate = () => {
 
-    const [typesList, setTypesList] = useState([]);
+    const [typesList, setTypesList] = useState([
+        {
+            name: ''
+        }
+    ]);
     const [animeList, setAnimeList] = useState([
         {
             _id: '',
@@ -65,7 +69,7 @@ const PageCreate = () => {
     const handleTypesChange = async function (e) {
         const typesList = [...types];
         if (typesList.findIndex(t => t.name === e.target.value) === -1) {
-            await fetch(`http://localhost:9000/types/${e.target.value}`)
+            await fetch(`https://question-mark-project-anime.herokuapp.com/types/${e.target.value}`)
                 .then(res => res.json())
                 .then(res => {
                     typesList.push({id: res._id, name: res.name, link: res.link});
@@ -196,7 +200,7 @@ const PageCreate = () => {
         if (title !== '' && link !== '' && types.length > 0 && mini !== null && background !== null && baner !== null) {
             target.disabled = true;
             target.classList.add('Mui-disabled');
-            fetch('http://localhost:9000/users/rank', {
+            fetch('https://question-mark-project-anime.herokuapp.com/users/rank', {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -214,7 +218,7 @@ const PageCreate = () => {
                         }
                         const data = new FormData();
                         data.append('myImg', background);
-                        fetch('http://localhost:9000/images/upload', {
+                        fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
                             headers: {
                                 'authorization': localStorage.getItem('token'),
                                 'user': localStorage.getItem('UID'),
@@ -231,7 +235,7 @@ const PageCreate = () => {
                                 }
                                 const data2 = new FormData();
                                 data2.append('myImg', baner);
-                                fetch('http://localhost:9000/images/upload', {
+                                fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
                                 headers: {
                                     'authorization': localStorage.getItem('token'),
                                     'user': localStorage.getItem('UID'),
@@ -248,7 +252,7 @@ const PageCreate = () => {
                                         }
                                         const data3 = new FormData();
                                         data3.append('myImg', mini);
-                                        fetch('http://localhost:9000/images/upload', {
+                                        fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
                                         headers: {
                                             'authorization': localStorage.getItem('token'),
                                             'user': localStorage.getItem('UID'),
@@ -266,7 +270,7 @@ const PageCreate = () => {
                                                 const data4 = new FormData();
                                                 data4.append('myMp3', soundtrack);
         
-                                                fetch(`http://localhost:9000/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+                                                fetch(`https://question-mark-project-anime.herokuapp.com/soundtracks/upload/${composer}/${soundtrackTitle}`, {
                                                 headers: {
                                                     'authorization': localStorage.getItem('token'),
                                                     'user': localStorage.getItem('UID'),
@@ -298,7 +302,7 @@ const PageCreate = () => {
                                                             soundtrack: soundtrackObj,
                                                             galeryImages: [backgroundObj, banerObj]
                                                         }
-                                                        fetch('http://localhost:9000/anime/create', {
+                                                        fetch('https://question-mark-project-anime.herokuapp.com/anime/create', {
                                                             headers: {
                                                                 'Content-Type': 'application/json; charset=utf-8',
                                                                 'authorization': localStorage.getItem('token'),
@@ -323,7 +327,17 @@ const PageCreate = () => {
         }
     }
 
-    const typesLabelList = typesList.map(t => <FormControlLabel key={t._id} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
+    const typesLabelList = () => {
+        const sorted = typesList.sort((a, b) => {
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            } else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1;
+            }
+            return 0;
+        })
+        return sorted.map(t => <FormControlLabel key={t._id} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
+    }
 
     const animeLabelList =  () => {
         const filtered = animeList.filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()));
@@ -340,10 +354,10 @@ const PageCreate = () => {
     }
 
     const callAPI = () => {
-        fetch('http://localhost:9000/types')
+        fetch('https://question-mark-project-anime.herokuapp.com/types')
         .then(res => res.json())
         .then(res => setTypesList(res));
-        fetch('http://localhost:9000/anime')
+        fetch('https://question-mark-project-anime.herokuapp.com/anime')
         .then(res => res.json())
         .then(res => {
             setAnimeList(res)
@@ -397,7 +411,7 @@ const PageCreate = () => {
                             <FormControl component="fieldset">
                                 <FormLabel component="legend" className="create__title">Gatunki</FormLabel>
                                 <RadioGroup aria-label="gender" name="gender1" value={types} onChange={handleChange}>
-                                    {typesLabelList}
+                                    {typesLabelList()}
                                 </RadioGroup>
                             </FormControl>
                         </div>

@@ -8,7 +8,7 @@ const SingleTypeLover = ({name, link, img, likes}) => {
         <Link to={`/profile/${link}`} className="typePage__link">
             <li className="typePage__item">
                 <div className="typePage__imgWrapper">
-                    <img src={`http://localhost:9000/images/${img}`} alt="asdas" className="img" />
+                    <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="asdas" className="img" />
                 </div>
                 <p className="typePage__username">{name}</p>
                 <div className="typePage__likes">

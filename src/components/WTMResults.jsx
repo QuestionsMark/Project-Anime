@@ -63,7 +63,7 @@ const WTMResults = ({id, results, isUserLogged}) => {
     }
 
     const getCorrect = () => {
-        fetch(`http://localhost:9000/wtm/correct/${id}`)
+        fetch(`https://question-mark-project-anime.herokuapp.com/wtm/correct/${id}`)
             .then(res => res.json())
             .then(res => {
                 setCorrectAnswear(res.correct);

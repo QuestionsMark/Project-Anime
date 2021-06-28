@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { withRouter, Link, NavLink } from 'react-router-dom';
 
 import Icon from '@material-ui/core/Icon';
 import HomeIcon from '@material-ui/icons/Home';
@@ -10,9 +10,17 @@ import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 import logo from '../media/img/icon.jpg';
 
-const Nav = ({isUserLogged, handleSignIn, handleLogOut}) => {
+const Nav = ({isUserLogged, handleSignIn, history}) => {
 
     // const [profileLink, setProfileLink] = useState("cos");
+
+    const handleLogOut = () => {
+        localStorage.removeItem('UID')
+        localStorage.removeItem('token');
+        localStorage.removeItem('l');
+        history.push('/');
+        window.location.reload();
+      }
 
     return ( 
         <div className="header">
@@ -52,4 +60,4 @@ const Nav = ({isUserLogged, handleSignIn, handleLogOut}) => {
      );
 }
  
-export default Nav;
+export default withRouter(Nav);

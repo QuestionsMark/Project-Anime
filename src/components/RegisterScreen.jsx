@@ -60,7 +60,7 @@ const RegisterScreen = ({handleSignIn}) => {
         if (validationErrors.length === 0) {
             const date = new Date();
             const createAccountDate = `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
-            fetch('http://localhost:9000/users/register', {
+            fetch('https://question-mark-project-anime.herokuapp.com/users/register', {
                 headers: {
                     'Content-Type': 'application/json'
                 },

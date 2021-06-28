@@ -36,6 +36,10 @@ const ProfileNav = ({match, isUserLogged}) => {
                     <NavLink to={`/profile/${match.params.userLink}/settings`} className="profileNav__link">Edytuj</NavLink>
                     <div className="menu__border"></div>
                 </li> : null}
+                {isAuthorized ? <li className="profileNav__item">
+                    <NavLink to={`/profile/${match.params.userLink}/private`} className="profileNav__link">Ustawienia Prywatności</NavLink>
+                    <div className="menu__border"></div>
+                </li> : null}
             </ul>
         </div>
      );

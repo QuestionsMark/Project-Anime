@@ -44,7 +44,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
 
     const handleBGChange = (e) => {
         const img = e.target.getAttribute('data-img');
-        fetch(`http://localhost:9000/profile/change/background`, {
+        fetch(`https://question-mark-project-anime.herokuapp.com/profile/change/background`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token'),
@@ -83,7 +83,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
 
     const handleSave = (type) => {
         if (type === "description") {
-            fetch('http://localhost:9000/profile/change/introduction', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/introduction', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -101,7 +101,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     callAPI();
                 })
         } else if (type === "favAnime") {
-            fetch('http://localhost:9000/profile/change/favorite-anime', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-anime', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -120,7 +120,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
         } else if (type === "background") {
             const data = new FormData();
             data.append('myImg',choosedBackground);
-            fetch('http://localhost:9000/images/upload', {
+            fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -130,7 +130,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('http://localhost:9000/profile/change/add-background', {
+                    fetch('https://question-mark-project-anime.herokuapp.com/profile/change/add-background', {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -150,7 +150,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
         }  else if (type === "avatar") {
             const data = new FormData();
             data.append('myImg', choosedAvatar);
-            fetch('http://localhost:9000/images/upload', {
+            fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -160,7 +160,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('http://localhost:9000/profile/change/avatar', {
+                    fetch('https://question-mark-project-anime.herokuapp.com/profile/change/avatar', {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -179,7 +179,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                         })
                 })
         }  else if (type === "username") {
-            fetch('http://localhost:9000/profile/change/username', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/username', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -197,7 +197,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     history.push(`/profile/${res.link}/settings`)
                 })
         }  else if (type === "favType") {
-            fetch('http://localhost:9000/profile/change/favorite-type', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-type', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -294,17 +294,17 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
 
     const defaultBackgroundList = defaultBackgrounds.map(b => {
         if (b === background) {
-            return <img key={b} className="profileEdit__backgroundImg chosedBG" data-img={b} src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b} className="profileEdit__backgroundImg chosedBG" data-img={b} src={`https://question-mark-project-anime.herokuapp.com/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } else {
-            return <img key={b} className="profileEdit__backgroundImg" data-img={b} src={`http://localhost:9000/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b} className="profileEdit__backgroundImg" data-img={b} src={`https://question-mark-project-anime.herokuapp.com/images/${b}`} alt="asd" onClick={handleBGChange}/>;
         } 
     });
 
     const customBackgroundList = customBackgrounds.map(b => {
         if (b.img === background) {
-            return <img key={b.id} className="profileEdit__backgroundImg chosedBG" data-img={b.img} src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b.id} className="profileEdit__backgroundImg chosedBG" data-img={b.img} src={`https://question-mark-project-anime.herokuapp.com/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }  else {
-            return <img key={b.id} className="profileEdit__backgroundImg" data-img={b.img} src={`http://localhost:9000/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+            return <img key={b.id} className="profileEdit__backgroundImg" data-img={b.img} src={`https://question-mark-project-anime.herokuapp.com/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
         }
     });
 
@@ -346,7 +346,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     </p>
                 </form>
                 <div className="profileEdit__preview profileEdit__preview--square">
-                    {userChoosed ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : <img src={`http://localhost:9000/images/${avatarPreview}`} alt="dasdas" className="profileEdit__previewImg" />}
+                    {userChoosed ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : <img src={`https://question-mark-project-anime.herokuapp.com/images/${avatarPreview}`} alt="dasdas" className="profileEdit__previewImg" />}
                 </div>
                 <Button className="button profileEdit__save avatarButton" disabled={avatarPreview !== avatar ? true : true} onClick={() => {handleSave('avatar')}}>Zapisz</Button>
             </div>

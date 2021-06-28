@@ -25,7 +25,7 @@ const Types = ({isUserLogged}) => {
     ));
 
     const callAPI = () => {
-        fetch('http://localhost:9000/types')
+        fetch('https://question-mark-project-anime.herokuapp.com/types')
         .then(res => res.json())
         .then(res => setTypes(res));
     }

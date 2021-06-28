@@ -37,7 +37,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
             target.disabled = true;
             target.classList.add('Mui-disabled');
             const WTMID = id;
-            fetch('http://localhost:9000/wtm/vote', {
+            fetch('https://question-mark-project-anime.herokuapp.com/wtm/vote', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -147,7 +147,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            <audio src={`http://localhost:9000/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+            <audio src={`https://question-mark-project-anime.herokuapp.com/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />

@@ -15,6 +15,7 @@
 
     &__folder {
         flex-basis: 21%;
+        height: fit-content;
         border-right: 1px solid $main-color;
         border-bottom: 1px solid $main-color;
         border-radius: 10px;

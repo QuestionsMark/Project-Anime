@@ -15,7 +15,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
     const [userRate, setUserRate] = useState(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
     const handleUserRateChange = (e) => {
         const rateValue = e.target.getAttribute('data-id') * 1;
-        fetch('http://localhost:9000/pages/change/rate', {
+        fetch('https://question-mark-project-anime.herokuapp.com/pages/change/rate', {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -117,7 +117,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
             target = target.parentElement;
         }
         if (type === 'favAnime') {
-            fetch('http://localhost:9000/profile/change/favorite-anime', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-anime', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -134,7 +134,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                     callAPI();
                 });
         } else if (type === 'watched') {
-            fetch('http://localhost:9000/profile/change/watched', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/watched', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -152,7 +152,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 });
         }
         else if (type === 'stopped') {
-            fetch('http://localhost:9000/profile/change/stopped', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/stopped', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -170,7 +170,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 });
         }
         else if (type === 'processOfWatching') {
-            fetch('http://localhost:9000/profile/change/process-of-watching', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/process-of-watching', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -188,7 +188,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 });
         }
         else if (type === 'planned') {
-            fetch('http://localhost:9000/profile/change/planned', {
+            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/planned', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')

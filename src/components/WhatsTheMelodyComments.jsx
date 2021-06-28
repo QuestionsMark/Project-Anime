@@ -21,7 +21,7 @@ const WhatsTheMelodyComments = ({isUserLogged, match}) => {
     ]);
 
     const callAPI = () => {
-        fetch('http://localhost:9000/wtm/comments')
+        fetch('https://question-mark-project-anime.herokuapp.com/wtm/comments')
             .then(res => res.json())
             .then(res => setWTMComments(res));
     }

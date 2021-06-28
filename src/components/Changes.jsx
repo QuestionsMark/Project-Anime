@@ -113,7 +113,7 @@ const Changes = ({changes, isUserLogged, match}) => {
 
     const handleSendChange = (type) => {
         if (type === 'info') {
-            fetch('http://localhost:9000/pages/change/info', {
+            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/info', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -133,7 +133,7 @@ const Changes = ({changes, isUserLogged, match}) => {
         } else if (type === 'galery') {
             const data = new FormData();
             data.append('myImg', galery);
-            fetch('http://localhost:9000/images/upload', {
+            fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -143,7 +143,7 @@ const Changes = ({changes, isUserLogged, match}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('http://localhost:9000/pages/change/add-galery-image', {
+                    fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-galery-image', {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -161,7 +161,7 @@ const Changes = ({changes, isUserLogged, match}) => {
                         })
                 })
         } else if (type === 'description') {
-            fetch('http://localhost:9000/pages/change/description', {
+            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/description', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -180,7 +180,7 @@ const Changes = ({changes, isUserLogged, match}) => {
         } else if (type === 'soundtrack') {
             const data = new FormData();
             data.append('myMp3', soundtrack);
-            fetch(`http://localhost:9000/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+            fetch(`https://question-mark-project-anime.herokuapp.com/soundtracks/upload/${composer}/${soundtrackTitle}`, {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -190,7 +190,7 @@ const Changes = ({changes, isUserLogged, match}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('http://localhost:9000/pages/change/add-soundtrack', {
+                    fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-soundtrack', {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -209,7 +209,7 @@ const Changes = ({changes, isUserLogged, match}) => {
                         })
                 })
         } else if (type === 'seasons') {
-            fetch('http://localhost:9000/pages/change/add-season', {
+            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-season', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -246,7 +246,7 @@ const Changes = ({changes, isUserLogged, match}) => {
     }
 
     const callAPI = () => {
-        fetch('http://localhost:9000/anime')
+        fetch('https://question-mark-project-anime.herokuapp.com/anime')
             .then(res => res.json())
             .then(res => setAnimeList(res));
     }

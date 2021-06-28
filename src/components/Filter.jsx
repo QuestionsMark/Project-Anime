@@ -16,7 +16,7 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
     const typesList = types.map(t => <SingleTypeFilter key={t._id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>)
 
     const callAPI = () => {
-        fetch('http://localhost:9000/types')
+        fetch('https://question-mark-project-anime.herokuapp.com/types')
         .then(res => res.json())
         .then(res => setTypes(res));
     }

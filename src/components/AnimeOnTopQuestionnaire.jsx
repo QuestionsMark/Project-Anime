@@ -21,7 +21,7 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
             target.disabled = true;
             target.classList.add('Mui-disabled');
             const AOTID = id;
-            fetch('http://localhost:9000/aot/vote', {
+            fetch('https://question-mark-project-anime.herokuapp.com/aot/vote', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -62,7 +62,7 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
     }
 
     const callAPI = () => {
-        fetch('http://localhost:9000/anime')
+        fetch('https://question-mark-project-anime.herokuapp.com/anime')
         .then(res => res.json())
         .then(res => setAnimeList(res));
     }

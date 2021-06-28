@@ -16,7 +16,7 @@ const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) 
         if (target.localName === "path") {
             target = target.parentElement;
         }
-        fetch('http://localhost:9000/wtm/comment-like', {
+        fetch('https://question-mark-project-anime.herokuapp.com/wtm/comment-like', {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -36,7 +36,7 @@ const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) 
     return ( 
         <li className="WTMC__item">
             <div className="WTMC__imgWrapper">
-                <img src={`http://localhost:9000/images/${img}`} alt="User Avatar" className="img" />
+                <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="User Avatar" className="img" />
             </div>
             <div className="WTMC__commentContent">
                 <div className="WTMC__commentInfo">

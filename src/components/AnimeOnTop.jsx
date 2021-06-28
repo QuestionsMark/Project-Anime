@@ -63,7 +63,7 @@ const AnimeOnTop = ({isUserLogged}) => {
     }
 
     const callAPI = () => {
-        fetch('http://localhost:9000/aot/actual')
+        fetch('https://question-mark-project-anime.herokuapp.com/aot/actual')
             .then(res => res.json())
             .then(res => {
                 setAOTData(res);
@@ -73,7 +73,7 @@ const AnimeOnTop = ({isUserLogged}) => {
                 if (res.winner !== '') {
                     const link = res.winner.toLowerCase().replace(/ /g, '-').replace(/\!/g, '').replace(/\,/, '').replace(/\./g, '').replace(/\?/g, '');
                     // console.log(link)
-                    fetch(`http://localhost:9000/anime/${link}`)
+                    fetch(`https://question-mark-project-anime.herokuapp.com/anime/${link}`)
                         .then(res => res.json())
                         .then(res => {
                             // console.log(res)
@@ -82,7 +82,7 @@ const AnimeOnTop = ({isUserLogged}) => {
                 }
             })
         if (isUserLogged) {
-            fetch(`http://localhost:9000/users/${localStorage.getItem('l')}`)
+            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     checkAuthorization(res.rank);

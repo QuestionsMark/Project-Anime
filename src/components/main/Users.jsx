@@ -64,7 +64,7 @@ const Users = ({isUserLogged, history}) => {
     });
 
     const callAPI = () => {
-        fetch('http://localhost:9000/users')
+        fetch('https://question-mark-project-anime.herokuapp.com/users')
             .then(res => res.json())
             .then(res => setUserList(res));
     }

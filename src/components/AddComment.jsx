@@ -11,25 +11,30 @@ const AddComment = ({avatar, callAPI, match}) => {
     }
 
     const handleSend = () => {
-        const date = new Date();
+        if (text.length > 1) {
+            const date = new Date();
 
-        fetch('http://localhost:9000/pages/change/add-comment', {
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token')
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                anime: match.params.anime,
-                user: localStorage.getItem('UID'),
-                date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
-                text
+            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-comment', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem('token')
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    anime: match.params.anime,
+                    user: localStorage.getItem('UID'),
+                    date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
+                    text
+                })
             })
-        })
-            .then(res => res.json())
-            .then(res => {
-                callAPI();
-            })
+                .then(res => res.json())
+                .then(res => {
+                    callAPI();
+                    setText('');
+                })
+        } else {
+            setText('');
+        }
     }
 
     return ( 

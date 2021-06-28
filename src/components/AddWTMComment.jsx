@@ -11,7 +11,7 @@ const AddWTMComment = ({callAPI}) => {
 
     const handleAddComment = () => {
         const date = new Date();
-        fetch('http://localhost:9000/wtm/add-comment', {
+        fetch('https://question-mark-project-anime.herokuapp.com/wtm/add-comment', {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')

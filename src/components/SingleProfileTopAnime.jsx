@@ -10,7 +10,7 @@ const SingleProfileTopAnime = ({title, link, img, types, rate}) => {
     return ( 
         <li className="animeList__item profileTop__item">
             <div className="animeList__imgWrapper">
-                <img src={`http://localhost:9000/images/${img.img}`} alt="anime" className="img" />
+                <img src={`https://question-mark-project-anime.herokuapp.com/images/${img.img}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
                 <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>

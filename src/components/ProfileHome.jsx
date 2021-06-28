@@ -12,7 +12,7 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import { Button } from '@material-ui/core';
 import { useEffect } from 'react';
 
-const ProfileHome = ({data, match, callAPI}) => {
+const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
 
     const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
 
@@ -103,7 +103,7 @@ const ProfileHome = ({data, match, callAPI}) => {
     }
 
     const handleLikeProfile = () => {
-        fetch('http://localhost:9000/profile/change/like', {
+        fetch('https://question-mark-project-anime.herokuapp.com/profile/change/like', {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -130,7 +130,7 @@ const ProfileHome = ({data, match, callAPI}) => {
             <div className="profile__homeContent">
                 <div className="profile__leftSide">
                     <div className="profile__imgWrapper">
-                        <img src={`http://localhost:9000/images/${avatar}`} alt="" className="img" />
+                        <img src={`https://question-mark-project-anime.herokuapp.com/images/${avatar}`} alt="" className="img" />
                     </div>
                     <p className="profile__username">{username}</p>
                     <div className="profile__info">
@@ -141,9 +141,9 @@ const ProfileHome = ({data, match, callAPI}) => {
                         <p className="profile__infoBlock">Ranga: {showRank()}</p>
                         <p className="profile__infoBlock">Punkty: {points}</p>
                     </div>
-                    {match.params.userLink === localStorage.getItem('l') ? null : <div className="profile__likeProfile">
+                    {isUserLogged && match.params.userLink !== localStorage.getItem('l') ? <div className="profile__likeProfile">
                         <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserProfileLover ? 'Usuń polubienie' : 'Polub profil'}</Button>
-                    </div>}
+                    </div> : null}
                 </div>
                 <div className="profile__rightSide">
                     <div className="profile__intro">
@@ -199,7 +199,7 @@ const ProfileHome = ({data, match, callAPI}) => {
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
                         {favoriteAnime.link ? <div className="profile__FAFlex">
                             <div className="profile__FAImgWrapper">
-                                <img src={`http://localhost:9000/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
+                                <img src={`https://question-mark-project-anime.herokuapp.com/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
                             </div>
                             <Link to={`/pages/${favoriteAnime.link}`} className="profile__FALink">{favoriteAnime.title}</Link>
                             <div className="profile__FARate">

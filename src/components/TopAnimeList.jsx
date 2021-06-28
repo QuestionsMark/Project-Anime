@@ -5,7 +5,7 @@ import SingleTopAnime from './SingleTopAnime';
 const TopAnimeList = ({anime, isUserLogged, user, callAPI}) => {
 
     const animeList = () => {
-        return anime.map(a => {
+        return anime.map((a, i) => {
             let rate; 
             if (a.rate.length > 0) {
                 let rateValue = 0;
@@ -15,7 +15,7 @@ const TopAnimeList = ({anime, isUserLogged, user, callAPI}) => {
             } else {
                 rate = 0;
             }
-            return <SingleTopAnime key={a._id} title={a.title} link={a.link} img={a.images.mini.img} types={a.types} rate={rate} isUserLogged={isUserLogged} user={user} callAPI={callAPI}/>
+            return <SingleTopAnime key={a._id} title={a.title} link={a.link} place={i + 1} img={a.images.mini.img} types={a.types} rate={rate} isUserLogged={isUserLogged} user={user} callAPI={callAPI}/>
         });
     }
 

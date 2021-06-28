@@ -29,15 +29,8 @@ function App() {
     document.querySelector('.loginScreen').classList.toggle('none');
   }
 
-  const handleLogOut = () => {
-    localStorage.removeItem('UID')
-    localStorage.removeItem('token');
-    localStorage.removeItem('l');
-    window.location.href = "http://localhost:3000";
-  }
-
   const checkUserState = () => {
-    fetch("http://localhost:9000/users/is-user-logged", {
+    fetch("https://question-mark-project-anime.herokuapp.com/users/is-user-logged", {
       headers: {
         'Authorization': localStorage.getItem('token')
       },
@@ -65,7 +58,7 @@ function App() {
 
       {/* ---TopSide--- */}
 
-      <Nav isUserLogged={isUserLogged} handleSignIn={handleSignIn} handleLogOut={handleLogOut} />
+      <Nav isUserLogged={isUserLogged} handleSignIn={handleSignIn} />
 
       {/* ---Main--- */}
 

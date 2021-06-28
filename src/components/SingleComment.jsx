@@ -12,7 +12,7 @@ const SingleComment = ({id, img, username, date, text, likes, isAuthorized, hand
             target = target.parentElement;
         }
         const id = target.getAttribute('data-id');
-        fetch('http://localhost:9000/pages/change/comment-like', {
+        fetch('https://question-mark-project-anime.herokuapp.com/pages/change/comment-like', {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -43,7 +43,7 @@ const SingleComment = ({id, img, username, date, text, likes, isAuthorized, hand
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} onClick={(e) => {handleRemove("comment", e)}}/>
             </div> : null}
             <div className="comments__imgWrapper">
-                <img src={`http://localhost:9000/images/${img}`} alt="avatar" className="img" />
+                <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="avatar" className="img" />
             </div>
             <div className="comments__content">
                 <div className="comments__info">
