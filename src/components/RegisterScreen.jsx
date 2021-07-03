@@ -42,17 +42,13 @@ const RegisterScreen = ({handleSignIn}) => {
     const handleUserRegister = (e) => {
         let target = e.target;
         const validationErrors = [];
-        if (login.indexOf(' ') !== -1 || login.indexOf('!') !== -1 || login.indexOf('@') !== -1 || login.indexOf('#') !== -1 || login.indexOf('$') !== -1 || login.indexOf('%') !== -1 || login.indexOf('^') !== -1 || login.indexOf('&') !== -1 || login.indexOf('*') !== -1 || login.indexOf('(') !== -1 || login.indexOf(')') !== -1 || login.indexOf('-') !== -1 || login.indexOf('_') !== -1 || login.indexOf('=') !== -1 || login.indexOf('+') !== -1 || login.indexOf('`') !== -1 || login.indexOf('~') !== -1 || login.indexOf('[') !== -1 || login.indexOf(']') !== -1 || login.indexOf('{') !== -1 || login.indexOf('}') !== -1 || login.indexOf(';') !== -1 || login.indexOf(':') !== -1 || login.indexOf("'") !== -1 || login.indexOf('"') !== -1 || login.indexOf('\\') !== -1 || login.indexOf('|') !== -1 || login.indexOf(',') !== -1 || login.indexOf('<') !== -1 || login.indexOf('.') !== -1 || login.indexOf('>') !== -1 || login.indexOf('/') !== -1 || login.indexOf('?') !== -1) {
-            validationErrors.push("Login nie może zawierać znaków specjalnych ani spacji!");
-        }
-        if (nick.indexOf(' ') !== -1 || nick.indexOf('!') !== -1 || nick.indexOf('@') !== -1 || nick.indexOf('#') !== -1 || nick.indexOf('$') !== -1 || nick.indexOf('%') !== -1 || nick.indexOf('^') !== -1 || nick.indexOf('&') !== -1 || nick.indexOf('*') !== -1 || nick.indexOf('(') !== -1 || nick.indexOf(')') !== -1 || nick.indexOf('-') !== -1 || nick.indexOf('_') !== -1 || nick.indexOf('=') !== -1 || nick.indexOf('+') !== -1 || nick.indexOf('`') !== -1 || nick.indexOf('~') !== -1 || nick.indexOf('[') !== -1 || nick.indexOf(']') !== -1 || nick.indexOf('{') !== -1 || nick.indexOf('}') !== -1 || nick.indexOf(';') !== -1 || nick.indexOf(':') !== -1 || nick.indexOf("'") !== -1 || nick.indexOf('"') !== -1 || nick.indexOf('\\') !== -1 || nick.indexOf('|') !== -1 || nick.indexOf(',') !== -1 || nick.indexOf('<') !== -1 || nick.indexOf('.') !== -1 || nick.indexOf('>') !== -1 || nick.indexOf('/') !== -1 || nick.indexOf('?') !== -1) {
-            validationErrors.push("Nick nie może zawierać znaków specjalnych ani spacji!");
+        const re = /[^A-Za-z0-9 ]/g;
+        if (nick.match(re)) {
+            console.log(nick.match(re));
+            validationErrors.push('Nick nie może zawierać znaków specjalnych!');
         }
         if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
             validationErrors.push("Nieprawidłowy adres Email!");
-        }
-        if (password.indexOf(' ') !== -1) {
-            validationErrors.push("Serio? Spacja w haśle? Proszę Cię to nie aplikacja bankowa...");
         }
         if (!rulesAccept) {
             validationErrors.push("Nie zapoznałeś się z regulaminem!");
