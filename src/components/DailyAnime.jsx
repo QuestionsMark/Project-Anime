@@ -45,23 +45,16 @@ const DailyAnime = ({isUserLogged}) => {
     }
 
     const handleRoll = () => {
-        fetch(`https://question-mark-project-anime.herokuapp.com/anime`)
+        fetch(`http://localhost:9000/da/roll`, {
+            headers: {
+                'authorization': localStorage.getItem('token')
+            },
+            method: 'PUT',
+        })
             .then(res => res.json())
-            .then(res => {
-                const index = Math.floor(Math.random() * res.length);
-                fetch(`https://question-mark-project-anime.herokuapp.com/da/create`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'authorization': localStorage.getItem('token')
-                    },
-                    method: 'POST',
-                    body: JSON.stringify(res[index])
-                })
-                    .then(res => res.json())
-                    .then((res) => {
-                        console.log(res)
-                        callAPI();
-                    });
+            .then((res) => {
+                console.log(res)
+                callAPI();
             });
     }
 
