@@ -36,8 +36,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
     }
 
     const handleFinish = () => {
-        // https://question-mark-project-anime.herokuapp.com/
-        fetch('http://localhost:9000/wtm/finish', {
+        fetch('https://question-mark-project-anime.herokuapp.com/wtm/finish', {
             headers: {
                 'authorization': localStorage.getItem('token')
             },

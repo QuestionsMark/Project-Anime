@@ -45,7 +45,7 @@ const DailyAnime = ({isUserLogged}) => {
     }
 
     const handleRoll = () => {
-        fetch(`http://localhost:9000/da/roll`, {
+        fetch(`https://question-mark-project-anime.herokuapp.com/da/roll`, {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
