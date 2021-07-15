@@ -37,13 +37,19 @@ const AddComment = ({avatar, callAPI, match}) => {
         }
     }
 
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            handleSend();
+        }
+    }
+
     return ( 
         <div className="addComment">
             <div className="addComment__imgWrapper">
                 <img src={avatar} alt="avatar" className="img" />
             </div>
             <form className="addComment__form">
-                <textarea className="addComment__textarea" placeholder="Napisz komentarz..." value={text} onChange={handleTextChange}/>
+                <textarea className="addComment__textarea" placeholder="Napisz komentarz..." value={text} onChange={handleTextChange} onKeyDown={handleKeyDown}/>
                 <SendRoundedIcon className="addComment__sendIcon" onClick={handleSend}/>
             </form>
         </div>

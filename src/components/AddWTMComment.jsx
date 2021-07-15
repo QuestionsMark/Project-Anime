@@ -24,12 +24,21 @@ const AddWTMComment = ({callAPI}) => {
             })
         })
             .then(res => res.json())
-            .then(() => callAPI());
+            .then(() => {
+                setText('');
+                callAPI();
+            });
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            handleAddComment();
+        }
     }
 
     return ( 
         <div className="WTMC__addComment">
-            <textarea placeholder="Napisz komentarz..." className="WTMC__textarea" value={text} onChange={handleTextChange}></textarea>
+            <textarea placeholder="Napisz komentarz..." className="WTMC__textarea" value={text} onChange={handleTextChange} onKeyDown={handleKeyDown}></textarea>
             <div className="WTMC__send" onClick={handleAddComment}>
                 <SendRoundedIcon className="WTMC__sendIcon" />
             </div>

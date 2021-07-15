@@ -43,11 +43,11 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
     }
     
     const handleFinishAOT = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/aot/create', {
+        fetch('https://question-mark-project-anime.herokuapp.com/aot/finish', {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
-            method: 'POST'
+            method: 'PUT'
         })
             .then(() => callAPI())
     }
