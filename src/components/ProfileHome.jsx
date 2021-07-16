@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 
 const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
 
-    const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
+    const { username, avatar, createAccountDate, rank, likes, achievements, WTMPoints, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
 
     const [isUserProfileLover, setIsUserProfileLover] = useState(false);
 
@@ -139,7 +139,7 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
                         <p className="profile__infoBlock">Ulubiony Gatunek: {favoriteType}</p>
                         <p className="profile__infoBlock">Dołączono: {createAccountDate}</p>
                         <p className="profile__infoBlock">Ranga: {showRank()}</p>
-                        <p className="profile__infoBlock">Punkty: {points}</p>
+                        <p className="profile__infoBlock">Punkty: {WTMPoints}</p>
                     </div>
                     {isUserLogged && match.params.userLink !== localStorage.getItem('l') ? <div className="profile__likeProfile">
                         <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserProfileLover ? 'Usuń polubienie' : 'Polub profil'}</Button>

@@ -20,7 +20,7 @@ const AnimeOnTopResults = ({AOTData}) => {
             sorted.forEach(v => {
                 v.percent = `${(v.value.length * 100 / allVotes).toFixed(1)}%`;
             })
-            return sorted.map((v, i) => <SingleVoteResult key={i} percent={v.percent} title={v.title}/>)
+            return sorted.map((v, i) => <SingleVoteResult key={i} votesAmount={v.value.length} percent={v.percent} title={v.title}/>)
         } else {
             return null;
         }

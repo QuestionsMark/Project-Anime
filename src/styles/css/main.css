@@ -939,8 +939,7 @@ span.MuiTypography-body1 {
 .WTMC__list {
   max-height: calc(85vh - 40px - 18px);
   margin-bottom: 10px;
-  overflow: auto;
-  overscroll-behavior-y: contain;
+  overflow-y: scroll;
 }
 
 .WTMC__list::-webkit-scrollbar {

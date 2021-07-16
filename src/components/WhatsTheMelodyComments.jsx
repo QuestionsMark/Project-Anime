@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import $ from 'jquery';
 
 import SingleWTMComment from './SingleWTMComment';
 import AddWTMComment from './AddWTMComment';
-
-import testImg from '../media/img/sak6-spec.jpg';
 
 const WhatsTheMelodyComments = ({isUserLogged, match}) => {
 
@@ -23,7 +22,21 @@ const WhatsTheMelodyComments = ({isUserLogged, match}) => {
     const callAPI = () => {
         fetch('https://question-mark-project-anime.herokuapp.com/wtm/comments')
             .then(res => res.json())
-            .then(res => setWTMComments(res));
+            .then(res => setWTMComments(res))
+    }
+
+    const scrollDown = async() => {
+        await fetch('https://question-mark-project-anime.herokuapp.com/wtm/comments')
+                .then(res => res.json())
+                .then(res => setWTMComments(res))
+        const scrollValue = document.querySelector('.main__rightSide').scrollHeight;
+        $('.main__rightSide').animate({
+            scrollTop: `${scrollValue}`
+        }, 1000);
+        const scrollValue2 = document.querySelector('.WTMC__list').scrollHeight;
+        $('.WTMC__list').animate({
+            scrollTop: `${scrollValue2}`
+        }, 1000);
     }
 
     const WTMCommentsList = WTMComments.map(com => <SingleWTMComment key={com.id} id={com.id} nick={com.username} link={com.link} img={com.img} message={com.text} likes={com.likes} date={com.date} callAPI={callAPI}/>);
@@ -39,7 +52,7 @@ const WhatsTheMelodyComments = ({isUserLogged, match}) => {
                 <ul className="WTMC__list">
                     {WTMCommentsList}
                 </ul>
-                <AddWTMComment callAPI={callAPI}/>
+                <AddWTMComment scrollDown={scrollDown}/>
             </div>
         </div>
      );

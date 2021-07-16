@@ -348,12 +348,12 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                 <div className="profileEdit__preview profileEdit__preview--square">
                     {userChoosed ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : <img src={`https://question-mark-project-anime.herokuapp.com/images/${avatarPreview}`} alt="dasdas" className="profileEdit__previewImg" />}
                 </div>
-                <Button className="button profileEdit__save avatarButton" disabled={avatarPreview !== avatar ? true : true} onClick={() => {handleSave('avatar')}}>Zapisz</Button>
+                <Button className="button profileEdit__save avatarButton" disabled={avatarPreview !== avatar ? '' : true} onClick={() => {handleSave('avatar')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Swój Nick</h2>
                 <input type="text" className="profileEdit__username" placeholder="Nick" value={nick} onChange={handleNickChange}/>
-                <Button className="button profileEdit__save" onClick={() => {handleSave('username')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={nick !== username ? '' : true} onClick={() => {handleSave('username')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Opis</h2>
@@ -361,7 +361,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     <input type="text" className="profileEdit__descriptionTitle" placeholder="Tytuł" value={descriptionTitle} onChange={handleDescriptionTitleChange}/>
                     <textarea className="profileEdit__descriptionText" placeholder="Napisz coś o sobie..." value={descriptionText} onChange={handleDescriptionTextChange}/>
                 </div>
-                <Button className="button profileEdit__save" onClick={() => {handleSave('description')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={descriptionText !== introduction.description || descriptionTitle !== introduction.title ? '' : true} onClick={() => {handleSave('description')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Ulubione Anime</h2>
@@ -381,7 +381,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                         {formTypeList()}
                     </Select>
                 </FormControl>
-                <Button className="button profileEdit__save" onClick={() => {handleSave('favType')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={favoriteType !== favType ? '' : true} onClick={() => {handleSave('favType')}}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Tło Profilu</h2>
@@ -408,7 +408,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                         <div className="profileEdit__preview">
                             <img src={backgroundPreview} alt="dasdas" className="profileEdit__previewImg" />
                         </div>
-                        <Button className="button profileEdit__save backgroundButton" disabled={backgroundPreview !== img ? true : true} onClick={() => {handleSave('background')}}>Dodaj</Button>
+                        <Button className="button profileEdit__save backgroundButton" disabled={backgroundPreview !== img ? '' : true} onClick={() => {handleSave('background')}}>Dodaj</Button>
                     </div>
                 </div>
                 

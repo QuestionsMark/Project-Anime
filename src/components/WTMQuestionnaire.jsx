@@ -134,6 +134,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
 
     const setAudio = () => {
         const audio = document.querySelector('.WTM__audio');
+        audio.volume = 0.5;
         const time = audio.duration;
         const minutes = Math.floor(time / 60);
         const seconds = time.toFixed() - Math.floor(time / 60) * 60;
