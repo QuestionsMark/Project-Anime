@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
-const PageAudio = ({id, mp3, composer, title, isAuthorized, handleRemove}) => {
+const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove, callAPI, match}) => {
 
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00 : 00');
@@ -113,6 +115,36 @@ const PageAudio = ({id, mp3, composer, title, isAuthorized, handleRemove}) => {
         setDuration(duration);
     }
 
+    const isActive = () => {
+        if (likes.findIndex(l => l === localStorage.getItem('UID')) !== -1) {
+            return 'active';
+        }
+        return '';
+    }
+
+    const handleLikeClick = (e) => {
+        let target = e.target;
+        if (target.localName === "path") {
+            target = target.parentElement;
+        }
+        const id = target.getAttribute('data-id');
+        fetch('https://question-mark-project-anime.herokuapp.com/soundtracks/like', {
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem('token'),
+                'soundtrack': id,
+                'user': localStorage.getItem('UID'),
+                'anime': match.params.anime
+            },
+            method: 'PUT',
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.response)
+                callAPI();
+            })
+    }
+
     return ( 
         <div className="page__soundtrack">
             {isAuthorized ? <div className="page__adminChanges">
@@ -134,9 +166,13 @@ const PageAudio = ({id, mp3, composer, title, isAuthorized, handleRemove}) => {
                     <VolumeOffRoundedIcon className="audioInterface__icon VolumOff last" onClick={handleSoundClick} />
                 </div>
             </div>
-            <p className="page__soundtrackInfo">{composer}&nbsp;&nbsp;-&nbsp;&nbsp;"{title}"</p>
+            <p className="audioInterface__soundtrackInfo">{composer}&nbsp;&nbsp;-&nbsp;&nbsp;"{title}"</p>
+            <div className="audioInterface__likes">
+                <p className="audioInterface__likesValue">{likes.length}</p>
+                <FavoriteBorderRoundedIcon className={`audioInterface__likeIcon ${isActive()}`} data-id={id} onClick={(e) => {handleLikeClick(e)}}/>
+            </div>
         </div>
      );
 }
  
-export default PageAudio;
+export default withRouter(PageAudio);

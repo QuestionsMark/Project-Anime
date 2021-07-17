@@ -1,14 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Icon } from '@material-ui/core';
+
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
-const SingleProfileTopAnime = ({title, link, img, types, rate}) => {
+const SingleProfileTopAnime = ({title, place, link, img, types, rate}) => {
 
     const animeTypes = types.map(t => <Link key={t.id} to={`/types/${t.link}`} className="animeList__type">{t.name}</Link>)
 
     return ( 
         <li className="animeList__item profileTop__item">
+            <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
                 <img src={`https://question-mark-project-anime.herokuapp.com/images/${img.img}`} alt="anime" className="img" />
             </div>

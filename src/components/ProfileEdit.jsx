@@ -101,7 +101,8 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     callAPI();
                 })
         } else if (type === "favAnime") {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-anime', {
+            // https://question-mark-project-anime.herokuapp.com
+            fetch('http://localhost:9000/profile/change/favorite-anime', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')

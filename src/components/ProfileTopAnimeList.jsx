@@ -9,10 +9,14 @@ const ProfileTopAnimeList = ({anime}) => {
                 return 1;
             } else if (a.rate > b.rate) {
                 return -1;
+            } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                return 1;
+            } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                return -1;
             }
             return 0;
         })
-        return sorted.map(a => <SingleProfileTopAnime key={a.id} title={a.title} img={a.img} link={a.link} types={a.types} rate={a.rate}/>);
+        return sorted.map((a, i) => <SingleProfileTopAnime key={a.id} title={a.title} place={i + 1} img={a.img} link={a.link} types={a.types} rate={a.rate}/>);
     }
 
     return ( 

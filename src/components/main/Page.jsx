@@ -248,8 +248,6 @@ const Page = ({match, history, isUserLogged}) => {
         </div>
     ));
 
-    const audioList = animeData.soundtracks.map(s => <PageAudio key={s.id} id={s.id} mp3={s.mp3} composer={s.composer} title={s.title} isAuthorized={isAuthorized} handleRemove={handleRemove}/>);
-
     const seasonsList = animeData.seasons.map(s => <SingleSeason key={s.id} id={s.id} title={s.title} background={s.background} link={s.link} isAuthorized={isAuthorized} handleRemove={handleRemove}/>);
 
     const goUp = history.listen(() => {
@@ -270,6 +268,8 @@ const Page = ({match, history, isUserLogged}) => {
                 });
         }
     }
+
+    const audioList = animeData.soundtracks.map(s => <PageAudio key={s.id} id={s.id} mp3={s.mp3} composer={s.composer} title={s.title} likes={s.likes} isAuthorized={isAuthorized} handleRemove={handleRemove} callAPI={callAPI}/>);
 
     const checkAuthorization = () => {
         if (isUserLogged && (userData.rank === '2' || userData.rank === '3')) {
