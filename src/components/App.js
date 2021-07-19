@@ -20,6 +20,7 @@ import NotFound from './main/NotFound';
 import Profile from './main/Profile';
 import PageCreate from './main/PageCreate';
 import MyProjects from './main/MyProjects';
+import SAOClicker from './SAOClicker';
 
 function App() {
 
@@ -101,6 +102,9 @@ function App() {
         </Route>
         <Route path="/my-projects">
           <MyProjects isUserLogged={isUserLogged} />
+        </Route>
+        <Route path="/sao">
+          <SAOClicker isUserLogged={isUserLogged} />
         </Route>
         <Route path="/">
           <NotFound isUserLogged={isUserLogged} />

@@ -4565,6 +4565,128 @@ div.galery {
   text-decoration: underline;
 }
 
+.SAOCRanking {
+  padding: 0;
+}
+
+.SAOCRanking__title {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 30px 0;
+  margin-bottom: 0;
+  border-bottom: 2px solid #f50057;
+}
+
+.SAOCRanking__filters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-bottom: 2px solid #f50057;
+}
+
+.SAOCRanking__filter {
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.SAOCRanking__filter:hover {
+  color: #f50057;
+}
+
+.SAOCRanking__legend {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #f50057;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.SAOCRanking__list {
+  list-style: none;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.SAOCRanking__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.SAOCRanking__item:nth-child(2n) {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.SAOCRanking__item:nth-of-type(1) .SAOCRanking__place {
+  color: #ffb700;
+  text-shadow: 0 0 10px #ffb700;
+}
+
+.SAOCRanking__item:nth-of-type(2) .SAOCRanking__place {
+  color: #adadad;
+  text-shadow: 0 0 10px #adadad;
+}
+
+.SAOCRanking__item:nth-of-type(3) .SAOCRanking__place {
+  color: #6b2d1d;
+  text-shadow: 0 0 10px #6b2d1d;
+}
+
+.SAOCRanking__place {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  line-height: 34px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.SAOCRanking__place .MuiIcon-root::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-size: 18px;
+}
+
+.SAOCRanking__info {
+  text-align: center;
+}
+
+.SAOCRanking__info--place {
+  width: 34px;
+}
+
+.SAOCRanking__info--nick {
+  width: 150px;
+}
+
+.SAOCRanking__info--time {
+  width: 150px;
+}
+
+.SAOCRanking__info--lvl {
+  width: 150px;
+}
+
+.SAOCRanking__info--achievements {
+  width: 150px;
+}
+
+.SAOCRanking__info--swords {
+  width: 150px;
+}
+
 .footer {
   position: relative;
   background-color: black;
