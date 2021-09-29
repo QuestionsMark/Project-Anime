@@ -37,11 +37,19 @@ function App() {
       },
       method: 'GET'
     })
-      .then(res => res.json())
-      .then(res => {
-        if (res.response !== "No access") {
-          setIsUserLogged(res.userState)
+      .then(async res => {
+        if (res.status !== 403) {
+          const response = await res.json();
+          response.isLogged = true;
+          return response;
+        } else {
+          const response = await res.json();
+          response.isLogged = false;
+          return response;
         }
+      })
+      .then(res => {
+        setIsUserLogged(res.isLogged);
       })
   }
 

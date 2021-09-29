@@ -26,9 +26,9 @@ const AddWTMComment = ({scrollDown}) => {
         })
             .then(res => res.json())
             .then(() => {
-                setText('');
                 scrollDown();
             });
+        setText('');
     }
 
     const handleKeyDown = (e) => {

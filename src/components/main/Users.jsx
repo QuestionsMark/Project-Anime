@@ -40,23 +40,23 @@ const Users = ({isUserLogged, history}) => {
     }
 
     const filteredUsers = () => {
-        const filtered = userList.filter(user => user.username.toLowerCase().includes(searchPhrase.toLowerCase()));
-        const sorted = filtered.sort((a, b) => {
+        return userList
+        .filter(user => user.username.toLowerCase().includes(searchPhrase.toLowerCase()))
+        .sort((a, b) => {
             if (a.achievements.length > b.achievements.length) {
                 return -1;
             } else if (a.achievements.length < b.achievements.length) {
                 return 1;
             } else {
-                if (a.likes > b.likes) {
+                if (a.likes.length > b.likes.length) {
                     return -1;
-                } else if (a.likes < b.likes) {
+                } else if (a.likes.length < b.likes.length) {
                     return 1;
                 } else {
                     return 0;
                 }
             }
         })
-        return sorted;
     }
 
     const goUp = history.listen(() => {

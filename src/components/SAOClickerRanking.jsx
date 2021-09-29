@@ -7,7 +7,7 @@ const SAOClickerRanking = () => {
     const [top, setTop] = useState([]);
 
     const callAPI = () => {
-        fetch('http://localhost:9000/sao/results')
+        fetch('https://question-mark-project-anime.herokuapp.com/sao/results')
             .then(res => res.json())
             .then(res => setResults(res))
             .then(() => console.log('Skonczuyłem pobierać dane!'))

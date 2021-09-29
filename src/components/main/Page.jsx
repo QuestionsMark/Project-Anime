@@ -83,7 +83,7 @@ const Page = ({match, history, isUserLogged}) => {
     })
     const [isFavoriteType, setIsFavoriteType] = useState(false);
 
-    const handleMouseEnter = (e) => {
+    const handleMouseEnter = () => {
         const effect = document.querySelector('.page__effect');
         const icons = document.querySelectorAll('.page__banerIcon');
         effect.style.backgroundColor = 'rgba(10, 10, 10, 0.7)';
