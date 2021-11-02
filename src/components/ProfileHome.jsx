@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import SingleWatchedAnimeItem from './SingleWatchedAnimeItem';
-import SingleStatisticAnimeItem from './SingleStatisticAnimeItem';
-
+import { Button } from '@material-ui/core';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
-import { Button } from '@material-ui/core';
-import { useEffect } from 'react';
+
+import SingleWatchedAnimeItem from './SingleWatchedAnimeItem';
+import SingleStatisticAnimeItem from './SingleStatisticAnimeItem';
+
+import { HOST_ADDRESS } from '../config';
 
 const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
 
@@ -103,7 +104,7 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
     }
 
     const handleLikeProfile = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/profile/change/like', {
+        fetch(`${HOST_ADDRESS}/profile/change/like`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -130,7 +131,7 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
             <div className="profile__homeContent">
                 <div className="profile__leftSide">
                     <div className="profile__imgWrapper">
-                        <img src={`https://question-mark-project-anime.herokuapp.com/images/${avatar}`} alt="" className="img" />
+                        <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="" className="img" />
                     </div>
                     <p className="profile__username">{username}</p>
                     <div className="profile__info">
@@ -199,7 +200,7 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
                         {favoriteAnime.link ? <div className="profile__FAFlex">
                             <div className="profile__FAImgWrapper">
-                                <img src={`https://question-mark-project-anime.herokuapp.com/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
+                                <img src={`${HOST_ADDRESS}/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
                             </div>
                             <Link to={`/pages/${favoriteAnime.link}`} className="profile__FALink">{favoriteAnime.title}</Link>
                             <div className="profile__FARate">

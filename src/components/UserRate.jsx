@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button } from '@material-ui/core';
 
-import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
-import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import { Button } from '@material-ui/core';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
+import { HOST_ADDRESS } from '../config';
+
 const UserRate = ({animeData, userData, callAPI, match}) => {
 
     const [userRate, setUserRate] = useState(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
     const handleUserRateChange = (e) => {
         const rateValue = e.target.getAttribute('data-id') * 1;
-        fetch('https://question-mark-project-anime.herokuapp.com/pages/change/rate', {
+        fetch(`${HOST_ADDRESS}/pages/change/rate`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -117,7 +117,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
             target = target.parentElement;
         }
         if (type === 'favAnime') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-anime', {
+            fetch(`${HOST_ADDRESS}/profile/change/favorite-anime`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -134,7 +134,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                     callAPI();
                 });
         } else if (type === 'watched') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/watched', {
+            fetch(`${HOST_ADDRESS}/profile/change/watched`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -152,7 +152,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 });
         }
         else if (type === 'stopped') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/stopped', {
+            fetch(`${HOST_ADDRESS}/profile/change/stopped`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -170,7 +170,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 });
         }
         else if (type === 'processOfWatching') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/process-of-watching', {
+            fetch(`${HOST_ADDRESS}/profile/change/process-of-watching`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -188,7 +188,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 });
         }
         else if (type === 'planned') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/planned', {
+            fetch(`${HOST_ADDRESS}/profile/change/planned`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')

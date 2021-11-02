@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-
-import SingleTypeFilter from './SingleTypeFilter';
+import React, { useState, useEffect } from 'react';
 
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
-import { useEffect } from 'react';
+
+import SingleTypeFilter from './SingleTypeFilter';
+
+import { HOST_ADDRESS } from '../config';
 
 const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, handleFilterKind, handleFilterRate}) => {
 
@@ -16,7 +16,7 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
     const typesList = types.map(t => <SingleTypeFilter key={t._id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>)
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/types')
+        fetch(`${HOST_ADDRESS}/types`)
         .then(res => res.json())
         .then(res => setTypes(res));
     }

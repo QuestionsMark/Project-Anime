@@ -1,4 +1,5 @@
 import React from 'react';
+
 import SingleProfileTopAnime from './SingleProfileTopAnime';
 
 const ProfileTopAnimeList = ({anime}) => {

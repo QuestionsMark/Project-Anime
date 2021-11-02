@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Button, FormControl, RadioGroup, Radio, FormLabel, FormControlLabel, Checkbox } from '@material-ui/core';
 import { SRLWrapper } from "simple-react-lightbox";
-
-import { FormControl, RadioGroup, Radio, FormLabel, FormControlLabel, Checkbox } from '@material-ui/core';
 
 import Search from '../Search';
 import Audio from '../Audio';
 
 import img from '../../media/img/hos-back20502.jpg';
-import { useEffect } from 'react';
+
+import { HOST_ADDRESS } from '../../config';
 
 const PageCreate = () => {
 
@@ -69,7 +68,7 @@ const PageCreate = () => {
     const handleTypesChange = async function (e) {
         const typesList = [...types];
         if (typesList.findIndex(t => t.name === e.target.value) === -1) {
-            await fetch(`https://question-mark-project-anime.herokuapp.com/types/${e.target.value}`)
+            await fetch(`${HOST_ADDRESS}/types/${e.target.value}`)
                 .then(res => res.json())
                 .then(res => {
                     typesList.push({id: res._id, name: res.name, link: res.link});
@@ -200,7 +199,7 @@ const PageCreate = () => {
         if (title !== '' && link !== '' && types.length > 0 && mini !== null && background !== null && baner !== null) {
             target.disabled = true;
             target.classList.add('Mui-disabled');
-            fetch('https://question-mark-project-anime.herokuapp.com/users/rank', {
+            fetch(`${HOST_ADDRESS}/users/rank`, {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -218,7 +217,7 @@ const PageCreate = () => {
                         }
                         const data = new FormData();
                         data.append('myImg', background);
-                        fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
+                        fetch(`${HOST_ADDRESS}/images/upload`, {
                             headers: {
                                 'authorization': localStorage.getItem('token'),
                                 'user': localStorage.getItem('UID'),
@@ -235,7 +234,7 @@ const PageCreate = () => {
                                 }
                                 const data2 = new FormData();
                                 data2.append('myImg', baner);
-                                fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
+                                fetch(`${HOST_ADDRESS}/images/upload`, {
                                 headers: {
                                     'authorization': localStorage.getItem('token'),
                                     'user': localStorage.getItem('UID'),
@@ -252,7 +251,7 @@ const PageCreate = () => {
                                         }
                                         const data3 = new FormData();
                                         data3.append('myImg', mini);
-                                        fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
+                                        fetch(`${HOST_ADDRESS}/images/upload`, {
                                         headers: {
                                             'authorization': localStorage.getItem('token'),
                                             'user': localStorage.getItem('UID'),
@@ -270,7 +269,7 @@ const PageCreate = () => {
                                                 const data4 = new FormData();
                                                 data4.append('myMp3', soundtrack);
         
-                                                fetch(`https://question-mark-project-anime.herokuapp.com/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+                                                fetch(`${HOST_ADDRESS}/soundtracks/upload/${composer}/${soundtrackTitle}`, {
                                                 headers: {
                                                     'authorization': localStorage.getItem('token'),
                                                     'user': localStorage.getItem('UID'),
@@ -302,7 +301,7 @@ const PageCreate = () => {
                                                             soundtrack: soundtrackObj,
                                                             galeryImages: [backgroundObj, banerObj]
                                                         }
-                                                        fetch('https://question-mark-project-anime.herokuapp.com/anime/create', {
+                                                        fetch(`${HOST_ADDRESS}/anime/create`, {
                                                             headers: {
                                                                 'Content-Type': 'application/json; charset=utf-8',
                                                                 'authorization': localStorage.getItem('token'),
@@ -354,10 +353,10 @@ const PageCreate = () => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/types')
+        fetch(`${HOST_ADDRESS}/types`)
         .then(res => res.json())
         .then(res => setTypesList(res));
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
         .then(res => res.json())
         .then(res => {
             setAnimeList(res)

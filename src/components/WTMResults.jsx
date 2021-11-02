@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import SingleVoteResult from './SingleVoteResult';
 
+import { HOST_ADDRESS } from '../config';
+
 const WTMResults = ({id, results, isUserLogged}) => {
 
     const [correctAnswear, setCorrectAnswear] = useState('');
@@ -63,7 +65,7 @@ const WTMResults = ({id, results, isUserLogged}) => {
     }
 
     const getCorrect = () => {
-        fetch(`https://question-mark-project-anime.herokuapp.com/wtm/correct/${id}`)
+        fetch(`${HOST_ADDRESS}/wtm/correct/${id}`)
             .then(res => res.json())
             .then(res => {
                 setCorrectAnswear(res.correct);
@@ -90,30 +92,6 @@ const WTMResults = ({id, results, isUserLogged}) => {
             </div> : null}
             <div className="WTM__results">
                 {resultsList()}
-                {/* <div className="WTM__result" data-key="1">
-                    <span className="WTM__resultPercentCurtain" style={{width: `${percentage('a1')}%`}} ></span>
-                    <div className="WTM__correct">{isVoteCorrect('1') ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
-                    <p className="WTM__percent">{percentage('a1')}%</p>
-                    <p className="WTM__resultTitle">Charlotte</p>
-                </div>
-                <div className="WTM__result" data-key="2">
-                    <span className="WTM__resultPercentCurtain" style={{width: `${percentage('a2')}%`}} ></span>
-                    <div className="WTM__correct">{isVoteCorrect('2') ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
-                    <p className="WTM__percent">{percentage('a2')}%</p>
-                    <p className="WTM__resultTitle">Violet Evergarden</p>
-                </div>
-                <div className="WTM__result" data-key="3">
-                    <span className="WTM__resultPercentCurtain" style={{width: `${percentage('a3')}%`}} ></span>
-                    <div className="WTM__correct">{isVoteCorrect('3') ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
-                    <p className="WTM__percent">{percentage('a3')}%</p>
-                    <p className="WTM__resultTitle">seishun buta yarou wa bunny girl senpai no yume wo minai senpai no yume wo minai</p>
-                </div>
-                <div className="WTM__result" data-key="4">
-                    <span className="WTM__resultPercentCurtain" style={{width: `${percentage('a4')}%`}} ></span>
-                    <div className="WTM__correct">{isVoteCorrect('4') ? <CheckRoundedIcon style={{color: 'green'}}/> : <ClearRoundedIcon style={{color: 'red'}}/>}</div>
-                    <p className="WTM__percent">{percentage('a4')}%</p>
-                    <p className="WTM__resultTitle">Kimi no Na Wa</p>
-                </div> */}
             </div>
             <p className="WTM__votes"><strong>{votesAmount()}</strong> oddanych głosów</p>
         </>

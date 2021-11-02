@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
@@ -22,7 +22,8 @@ import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 
 import SingleSeason from '../SingleSeason';
 import PageAudio from '../PageAudio';
-import { useEffect } from 'react';
+
+import { HOST_ADDRESS } from '../../config';
 
 const Page = ({match, history, isUserLogged}) => {
 
@@ -111,7 +112,7 @@ const Page = ({match, history, isUserLogged}) => {
             console.log(id)
             const name = target.getAttribute('data-name');
             console.log(name)
-            fetch('https://question-mark-project-anime.herokuapp.com/images/remove', {
+            fetch('${HOST_ADDRESS}/images/remove', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -123,7 +124,7 @@ const Page = ({match, history, isUserLogged}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('https://question-mark-project-anime.herokuapp.com/pages/change/remove-galery-image', {
+                    fetch('${HOST_ADDRESS}/pages/change/remove-galery-image', {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -144,7 +145,7 @@ const Page = ({match, history, isUserLogged}) => {
             console.log(id)
             const name = target.getAttribute('data-name');
             console.log(name)
-            fetch('https://question-mark-project-anime.herokuapp.com/soundtracks/remove', {
+            fetch('${HOST_ADDRESS}/soundtracks/remove', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -156,7 +157,7 @@ const Page = ({match, history, isUserLogged}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('https://question-mark-project-anime.herokuapp.com/pages/change/remove-soundtrack', {
+                    fetch('${HOST_ADDRESS}/pages/change/remove-soundtrack', {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -174,7 +175,7 @@ const Page = ({match, history, isUserLogged}) => {
                 })
         } else if (type === "seasons") {
             const id = target.getAttribute('data-id');
-            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/remove-season', {
+            fetch('${HOST_ADDRESS}/pages/change/remove-season', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -191,7 +192,7 @@ const Page = ({match, history, isUserLogged}) => {
                 })
         } else if (type === "comment") {
             const id = target.getAttribute('data-id');
-            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/remove-comment', {
+            fetch('${HOST_ADDRESS}/pages/change/remove-comment', {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -243,7 +244,7 @@ const Page = ({match, history, isUserLogged}) => {
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={i.id} data-name={i.img} onClick={(e) => {handleRemove("galery", e)}}/>
             </div> : null}
             <div className="page__galeryImgWrapper">
-                <img src={`https://question-mark-project-anime.herokuapp.com/images/${i.img}`} alt={i.fromAnime} className="img" srl_gallery_image="true"/>
+                <img src={`${HOST_ADDRESS}/images/${i.img}`} alt={i.fromAnime} className="img" srl_gallery_image="true"/>
             </div>
         </div>
     ));
@@ -255,13 +256,13 @@ const Page = ({match, history, isUserLogged}) => {
     });
 
     const callAPI = () => {
-        fetch(`https://question-mark-project-anime.herokuapp.com/anime/${match.params.anime}`)
+        fetch(`${HOST_ADDRESS}/anime/${match.params.anime}`)
             .then(res => res.json())
             .then(res => {
                 setAnimeData(res);
             });
         if (isUserLogged) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
+            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     setUserData(res);
@@ -319,7 +320,7 @@ const Page = ({match, history, isUserLogged}) => {
     },[])
 
     return ( 
-        <main className="main" style={{backgroundImage: `url(https://question-mark-project-anime.herokuapp.com/images/${animeData.images.background.img})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
+        <main className="main" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${animeData.images.background.img})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
             <div className="curtain"></div>
             <LeftSide />
             <div className="page main__content scrollNav" data-id="1">
@@ -327,7 +328,7 @@ const Page = ({match, history, isUserLogged}) => {
                 <div className="page__content">
                     <div className="page__left">
                         <div className="page__imgWrapper">
-                            <img src={`https://question-mark-project-anime.herokuapp.com/images/${animeData.images.mini.img}`} alt="asdasd" className="img" />
+                            <img src={`${HOST_ADDRESS}/images/${animeData.images.mini.img}`} alt="asdasd" className="img" />
                         </div>
                         <div className="page__info">
                             <div className="page__rate">
@@ -361,7 +362,7 @@ const Page = ({match, history, isUserLogged}) => {
                         </div>
                     </div>
                     <div className="page__right">
-                        <div className="page__baner" style={{backgroundImage: `url(https://question-mark-project-anime.herokuapp.com/images/${animeData.images.baner.img})`, backgroundPosition: "center", backgroundSize: "cover"}}>
+                        <div className="page__baner" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${animeData.images.baner.img})`, backgroundPosition: "center", backgroundSize: "cover"}}>
                             <div className="page__effect">
                                 <a href={animeData.watchLink} target="_blank" rel="noreferrer" className="page__banerIcon watchLink"><PlayCircleOutlineRoundedIcon className="watchIcon"/></a>
                                 <ArrowBackIosRoundedIcon className="page__banerIcon corner1Icon"/>

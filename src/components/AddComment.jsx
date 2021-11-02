@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 
+import { HOST_ADDRESS } from '../config.js';
+
 const AddComment = ({avatar, callAPI, match}) => {
 
     const [text, setText] = useState('');
@@ -14,7 +16,7 @@ const AddComment = ({avatar, callAPI, match}) => {
         if (text.length > 1) {
             const date = new Date();
 
-            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-comment', {
+            fetch(`${HOST_ADDRESS}/pages/change/add-comment`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')

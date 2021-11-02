@@ -7,7 +7,9 @@ import Search from './Search';
 
 import img from '../media/img/hos-back20502.jpg';
 
-const Changes = ({changes, isUserLogged, match}) => {
+import { HOST_ADDRESS } from '../config';
+
+const Changes = ({changes, match}) => {
 
     const [animeList, setAnimeList] = useState([
         {
@@ -113,7 +115,7 @@ const Changes = ({changes, isUserLogged, match}) => {
 
     const handleSendChange = (type) => {
         if (type === 'info') {
-            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/info', {
+            fetch(`${HOST_ADDRESS}/pages/change/info`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -133,7 +135,7 @@ const Changes = ({changes, isUserLogged, match}) => {
         } else if (type === 'galery') {
             const data = new FormData();
             data.append('myImg', galery);
-            fetch('https://question-mark-project-anime.herokuapp.com/images/upload', {
+            fetch(`${HOST_ADDRESS}/images/upload`, {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -143,7 +145,7 @@ const Changes = ({changes, isUserLogged, match}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-galery-image', {
+                    fetch(`${HOST_ADDRESS}/pages/change/add-galery-image`, {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -161,7 +163,7 @@ const Changes = ({changes, isUserLogged, match}) => {
                         })
                 })
         } else if (type === 'description') {
-            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/description', {
+            fetch(`${HOST_ADDRESS}/pages/change/description`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -180,7 +182,7 @@ const Changes = ({changes, isUserLogged, match}) => {
         } else if (type === 'soundtrack') {
             const data = new FormData();
             data.append('myMp3', soundtrack);
-            fetch(`https://question-mark-project-anime.herokuapp.com/soundtracks/upload/${composer}/${soundtrackTitle}`, {
+            fetch(`${HOST_ADDRESS}/soundtracks/upload/${composer}/${soundtrackTitle}`, {
                 headers: {
                     'authorization': localStorage.getItem('token'),
                     'user': localStorage.getItem('UID')
@@ -190,7 +192,7 @@ const Changes = ({changes, isUserLogged, match}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-soundtrack', {
+                    fetch(`${HOST_ADDRESS}/pages/change/add-soundtrack`, {
                         headers: {
                             'Content-Type': 'application/json',
                             'authorization': localStorage.getItem('token')
@@ -209,7 +211,7 @@ const Changes = ({changes, isUserLogged, match}) => {
                         })
                 })
         } else if (type === 'seasons') {
-            fetch('https://question-mark-project-anime.herokuapp.com/pages/change/add-season', {
+            fetch(`${HOST_ADDRESS}/pages/change/add-season`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -246,7 +248,7 @@ const Changes = ({changes, isUserLogged, match}) => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
             .then(res => res.json())
             .then(res => setAnimeList(res));
     }

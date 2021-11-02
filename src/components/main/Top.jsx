@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import TopAnimeList from '../TopAnimeList';
-
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import Filter from '../Filter';
 import Search from '../Search';
+
+import { HOST_ADDRESS } from '../../config';
 
 const Top = ({history, isUserLogged, match}) => {
 
@@ -215,11 +216,11 @@ const Top = ({history, isUserLogged, match}) => {
     });
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
             .then(res => res.json())
             .then(res => setAnimeList(res));
         if (isUserLogged) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
+            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     setUserData(res);

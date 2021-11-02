@@ -4,6 +4,8 @@ import AnimeOnTopAnimeInfo from './AnimeOnTopAnimeInfo';
 import AnimeOnTopQuestionnaire from './AnimeOnTopQuestionnaire';
 import AnimeOnTopResults from './AnimeOnTopResults';
 
+import { HOST_ADDRESS } from '../config';
+
 const AnimeOnTop = ({isUserLogged}) => {
 
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -63,7 +65,7 @@ const AnimeOnTop = ({isUserLogged}) => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/aot/actual')
+        fetch(`${HOST_ADDRESS}/aot/actual`)
             .then(res => res.json())
             .then(res => {
                 setAOTData(res);
@@ -73,7 +75,7 @@ const AnimeOnTop = ({isUserLogged}) => {
                 if (res.winner !== '') {
                     const link = res.winner.toLowerCase().replace(/ /g, '-').replace(/\!/g, '').replace(/\,/, '').replace(/\./g, '').replace(/\?/g, '');
                     // console.log(link)
-                    fetch(`https://question-mark-project-anime.herokuapp.com/anime/${link}`)
+                    fetch(`${HOST_ADDRESS}/anime/${link}`)
                         .then(res => res.json())
                         .then(res => {
                             // console.log(res)
@@ -82,7 +84,7 @@ const AnimeOnTop = ({isUserLogged}) => {
                 }
             })
         if (isUserLogged) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
+            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     checkAuthorization(res.rank);

@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
+
 import RecommendedProfile from './RecommendedProfile';
+
+import { HOST_ADDRESS } from '../config';
 
 const RecommendedProfiles = () => {
 
@@ -31,7 +34,7 @@ const RecommendedProfiles = () => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/users')
+        fetch(`${HOST_ADDRESS}/users`)
             .then(res => res.json())
             .then(res => setProfiles(res));
     }

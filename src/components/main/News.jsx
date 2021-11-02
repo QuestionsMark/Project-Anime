@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
-
 import SingleNews from '../SingleNews';
 
 const News = ({isUserLogged}) => {

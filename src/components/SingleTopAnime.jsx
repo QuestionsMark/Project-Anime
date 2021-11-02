@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button, Icon } from '@material-ui/core';
-
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+
+import { HOST_ADDRESS } from '../config';
 
 const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) => {
 
@@ -88,7 +89,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
             target = target.parentElement;
         }
         if (type === 'favAnime') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/favorite-anime', {
+            fetch(`${HOST_ADDRESS}/profile/change/favorite-anime`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -104,7 +105,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                     callAPI();
                 });
         } else if (type === 'watched') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/watched', {
+            fetch(`${HOST_ADDRESS}/profile/change/watched`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -121,7 +122,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                 });
         }
         else if (type === 'stopped') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/stopped', {
+            fetch(`${HOST_ADDRESS}/profile/change/stopped`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -138,7 +139,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                 });
         }
         else if (type === 'processOfWatching') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/process-of-watching', {
+            fetch(`${HOST_ADDRESS}/profile/change/process-of-watching`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -155,7 +156,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
                 });
         }
         else if (type === 'planned') {
-            fetch('https://question-mark-project-anime.herokuapp.com/profile/change/planned', {
+            fetch(`${HOST_ADDRESS}/profile/change/planned`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -184,7 +185,7 @@ const SingleTopAnime = ({title, link, place, img, types, rate, user, callAPI}) =
         <li className="animeList__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
-                <img src={img ? `https://question-mark-project-anime.herokuapp.com/images/${img}` : ''} alt="anime" className="img" />
+                <img src={img ? `${HOST_ADDRESS}/images/${img}` : ''} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
                 <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>

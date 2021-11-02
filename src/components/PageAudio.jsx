@@ -8,6 +8,8 @@ import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
+import { HOST_ADDRESS } from '../config';
+
 const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove, callAPI, match}) => {
 
     const [duration, setDuration] = useState(null);
@@ -128,7 +130,7 @@ const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove,
             target = target.parentElement;
         }
         const id = target.getAttribute('data-id');
-        fetch('https://question-mark-project-anime.herokuapp.com/soundtracks/like', {
+        fetch(`${HOST_ADDRESS}/soundtracks/like`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token'),
@@ -150,7 +152,7 @@ const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove,
             {isAuthorized ? <div className="page__adminChanges">
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} data-name={mp3} onClick={(e) => {handleRemove("soundtrack", e)}}/>
             </div> : null}
-            <audio src={`https://question-mark-project-anime.herokuapp.com/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+            <audio src={`${HOST_ADDRESS}/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface audioInterface--borderSize">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />

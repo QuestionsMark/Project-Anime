@@ -6,6 +6,8 @@ import RightSide from '../RightSide';
 import Search from '../Search';
 import AnimeList from '../AnimeList';
 
+import { HOST_ADDRESS } from '../../config.js';
+
 const Anime = ({history, match, isUserLogged}) => {
 
     const [searchValue, setSearchValue] = useState('');
@@ -75,11 +77,11 @@ const Anime = ({history, match, isUserLogged}) => {
     });
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
             .then(res => res.json())
             .then(res => setAnimeList(res));
         if (isUserLogged) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
+            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     setUserData(res);

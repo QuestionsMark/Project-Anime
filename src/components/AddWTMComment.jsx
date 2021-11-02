@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import $ from 'jquery';
 
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
+
+import { HOST_ADDRESS } from '../config';
 
 const AddWTMComment = ({scrollDown}) => {
 
@@ -12,7 +13,7 @@ const AddWTMComment = ({scrollDown}) => {
 
     const handleAddComment = () => {
         const date = new Date();
-        fetch('https://question-mark-project-anime.herokuapp.com/wtm/add-comment', {
+        fetch(`${HOST_ADDRESS}/wtm/add-comment`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -37,11 +38,12 @@ const AddWTMComment = ({scrollDown}) => {
         }
     }
 
-    const handleTextareaFocus = (e) => {
-        const scrollValue = document.querySelector('.main__rightSide').scrollHeight;
-        $('.main__rightSide').animate({
-            scrollTop: `${scrollValue}`
-        }, 1000);
+    const handleTextareaFocus = () => {
+        const rightSide = document.querySelector('.main__rightSide');
+        rightSide.scroll({
+            behavior: 'smooth',
+            top: rightSide.scrollHeight,
+        });
     }
 
     return ( 

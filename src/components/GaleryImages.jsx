@@ -1,9 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import SingleImage from './SingleImage';
-
 import KeyboardArrowLeftRoundedIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
+
+import SingleImage from './SingleImage';
 
 const GaleryImages = ({anime, history, match}) => {
 

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import Footer from './Footer';
 import Home from './main/Home';
-
 import LoginScreen from './LoginScreen';
-
 import Nav from './Nav';
 import RegisterScreen from './RegisterScreen';
 import Anime from './main/Anime';
@@ -22,6 +21,8 @@ import PageCreate from './main/PageCreate';
 import MyProjects from './main/MyProjects';
 import SAOClicker from './SAOClicker';
 
+import { HOST_ADDRESS } from '../config';
+
 function App() {
 
   const [isUserLogged, setIsUserLogged] = useState(false);
@@ -31,7 +32,7 @@ function App() {
   }
 
   const checkUserState = () => {
-    fetch("https://question-mark-project-anime.herokuapp.com/users/is-user-logged", {
+    fetch(`${HOST_ADDRESS}/users/is-user-logged`, {
       headers: {
         'Authorization': localStorage.getItem('token')
       },

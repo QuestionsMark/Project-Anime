@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const SigleVoteResult = ({votesAmount, percent, title, color = ''}) => {
     return ( 

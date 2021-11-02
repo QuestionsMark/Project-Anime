@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import TypePage from './TypePage';
+
+import { HOST_ADDRESS } from '../../config';
 
 const Types = ({isUserLogged}) => {
 
@@ -25,7 +26,7 @@ const Types = ({isUserLogged}) => {
     ));
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/types')
+        fetch(`${HOST_ADDRESS}/types`)
         .then(res => res.json())
         .then(res => setTypes(res));
     }

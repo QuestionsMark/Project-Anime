@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
+import { HOST_ADDRESS } from '../config';
 
 const AnimeOnTopQuestionnaire = ({id, refresh}) => {
 
@@ -21,7 +22,7 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
             target.disabled = true;
             target.classList.add('Mui-disabled');
             const AOTID = id;
-            fetch('https://question-mark-project-anime.herokuapp.com/aot/vote', {
+            fetch(`${HOST_ADDRESS}/aot/vote`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -62,7 +63,7 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
         .then(res => res.json())
         .then(res => setAnimeList(res));
     }

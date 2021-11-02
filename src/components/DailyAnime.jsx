@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { Button } from '@material-ui/core';
+
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
+
+import { HOST_ADDRESS } from '../config';
 
 const DailyAnime = ({isUserLogged}) => {
 
@@ -24,11 +26,11 @@ const DailyAnime = ({isUserLogged}) => {
     const { title, link, types, img, rate, description } = dailyAnime;
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/da')
+        fetch(`${HOST_ADDRESS}/da`)
             .then(res => res.json())
             .then(res => setDailyAnime(res));
         if (isUserLogged) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
+            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     checkAuthorization(res.rank);
@@ -45,7 +47,7 @@ const DailyAnime = ({isUserLogged}) => {
     }
 
     const handleRoll = () => {
-        fetch(`https://question-mark-project-anime.herokuapp.com/da/roll`, {
+        fetch(`${HOST_ADDRESS}/da/roll`, {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
@@ -73,7 +75,7 @@ const DailyAnime = ({isUserLogged}) => {
             <div className="DA__info">
                 <div className="DA__left">
                     <div className="DA__imgWrapper">
-                        <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="Daily anime" className="img" />
+                        <img src={`${HOST_ADDRESS}/images/${img}`} alt="Daily anime" className="img" />
                     </div>
                     <p className="DA__rate"><StarRateRoundedIcon className="DA__rateIcon"/><span className="DA__rateValue">{rate}</span></p>
                 </div>

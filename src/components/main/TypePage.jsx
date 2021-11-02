@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import SingleTopAnime from '../SingleTopAnime';
 import SingleTypeLover from '../SingleTypeLover';
 
+import { HOST_ADDRESS } from '../../config';
+
 const TypePage = ({ typesList, isUserLogged, match }) => {
 
     const [types, setTypes] = useState(typesList);
@@ -142,10 +144,10 @@ const TypePage = ({ typesList, isUserLogged, match }) => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
             .then(res => res.json())
             .then(res => setAnime(res));
-        fetch('https://question-mark-project-anime.herokuapp.com/users')
+        fetch(`${HOST_ADDRESS}/users`)
             .then(res => res.json())
             .then(res => setUsers(res));
     }

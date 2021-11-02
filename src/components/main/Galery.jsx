@@ -4,8 +4,9 @@ import { SRLWrapper } from "simple-react-lightbox";
 
 import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
-
 import Search from '../Search';
+
+import { HOST_ADDRESS } from '../../config';
 
 const Galery = ({history, match}) => {
 
@@ -50,7 +51,7 @@ const Galery = ({history, match}) => {
     });
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/anime')
+        fetch(`${HOST_ADDRESS}/anime`)
             .then(res => res.json())
             .then(res => setAnime(res));
     }

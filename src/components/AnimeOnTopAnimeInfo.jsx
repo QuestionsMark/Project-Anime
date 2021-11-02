@@ -5,6 +5,8 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
 
+import { HOST_ADDRESS } from '../config';
+
 let audio;
 let prevScroll;
 
@@ -43,7 +45,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
     }
     
     const handleFinishAOT = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/aot/finish', {
+        fetch(`${HOST_ADDRESS}/aot/finish`, {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
@@ -81,7 +83,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
             <div className="AOT__animeContent">
                 <div className="AOT__left">
                     <div className="AOT__imgWrapper">
-                        <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="Anime" className="img" />
+                        <img src={`${HOST_ADDRESS}/images/${img}`} alt="Anime" className="img" />
                     </div>
                     <div className="AOT__rate">
                         <StarRateRoundedIcon className="AOT__rateIcon"/>
@@ -97,7 +99,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
                 </div>
                 <div className="AOT__right">
                     <div className="AOT__music" onClick={handleMusic}>
-                        <audio src={`https://question-mark-project-anime.herokuapp.com/soundtracks/${soundtrack}`} className="AOT__audio"></audio>
+                        <audio src={`${HOST_ADDRESS}/soundtracks/${soundtrack}`} className="AOT__audio"></audio>
                         <MusicNoteRoundedIcon className="AOT__mediaIcon"/>
                         <span className="AOT__instruction">Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.</span>
                         <div className="AOT__hehe" onScroll={handleVolumeChange}>

@@ -4,9 +4,10 @@ import { withRouter } from 'react-router-dom';
 import Search from '../Search';
 import UserList from '../UserList';
 import UserLegend from '../UserLegend';
-
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
+
+import { HOST_ADDRESS } from '../../config';
 
 const Users = ({isUserLogged, history}) => {
 
@@ -64,7 +65,7 @@ const Users = ({isUserLogged, history}) => {
     });
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/users')
+        fetch(`${HOST_ADDRESS}/users`)
             .then(res => res.json())
             .then(res => setUserList(res));
     }

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
+import { HOST_ADDRESS } from '../config';
+
 const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) => {
     const isActive = () => {
         if (likes.findIndex(l => l === localStorage.getItem('UID')) !== -1) {
@@ -16,7 +18,7 @@ const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) 
         if (target.localName === "path") {
             target = target.parentElement;
         }
-        fetch('https://question-mark-project-anime.herokuapp.com/wtm/comment-like', {
+        fetch(`${HOST_ADDRESS}/wtm/comment-like`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -36,7 +38,7 @@ const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) 
     return ( 
         <li className="WTMC__item">
             <div className="WTMC__imgWrapper">
-                <img src={`https://question-mark-project-anime.herokuapp.com/images/${img}`} alt="User Avatar" className="img" />
+                <img src={`${HOST_ADDRESS}/images/${img}`} alt="User Avatar" className="img" />
             </div>
             <div className="WTMC__commentContent">
                 <div className="WTMC__commentInfo">

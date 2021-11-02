@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { FormControl, FormControlLabel, RadioGroup, Radio, Button } from '@material-ui/core';
-
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
+
+import { HOST_ADDRESS } from '../config';
 
 const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
 
@@ -37,7 +38,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
             target.disabled = true;
             target.classList.add('Mui-disabled');
             const WTMID = id;
-            fetch('https://question-mark-project-anime.herokuapp.com/wtm/vote', {
+            fetch(`${HOST_ADDRESS}/wtm/vote`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem('token')
@@ -148,7 +149,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            <audio src={`https://question-mark-project-anime.herokuapp.com/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+            <audio src={`${HOST_ADDRESS}/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />

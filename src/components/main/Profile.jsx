@@ -8,10 +8,11 @@ import ProfileHome from '../ProfileHome';
 import ProfileTop from '../ProfileTop';
 import ProfileAchievements from '../ProfileAchievements';
 import ProfilePrivate from '../ProfilePrivate';
-
 import ProfileEdit from '../ProfileEdit';
 
 import background from '../../media/img/sao1-back20502.jpg';
+
+import { HOST_ADDRESS } from '../../config';
 
 const Profile = ({history, match, isUserLogged}) => {
 
@@ -83,7 +84,7 @@ const Profile = ({history, match, isUserLogged}) => {
     });
 
     const callAPI = () => {
-        fetch(`https://question-mark-project-anime.herokuapp.com/users/${match.params.userLink}`)
+        fetch(`${HOST_ADDRESS}/users/${match.params.userLink}`)
             .then(res => res.json())
             .then(res => {
                 if (res.response) {
@@ -93,7 +94,7 @@ const Profile = ({history, match, isUserLogged}) => {
                 }
             });
         
-        fetch('https://question-mark-project-anime.herokuapp.com/types')
+        fetch(`${HOST_ADDRESS}/types`)
             .then(res => res.json())
             .then(res => setTypes(res));
     }
@@ -108,7 +109,7 @@ const Profile = ({history, match, isUserLogged}) => {
     },[match])
 
     return ( 
-        <main className="main" style={{backgroundImage: `url(${profileData.background ? `https://question-mark-project-anime.herokuapp.com/images/${profileData.background}` : background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
+        <main className="main" style={{backgroundImage: `url(${profileData.background ? `${HOST_ADDRESS}/images/${profileData.background}` : background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
             <div className="curtain"></div>
             <LeftSide />
             <div className="profile main__content">

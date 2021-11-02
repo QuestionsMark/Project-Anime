@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+
 import SingleSAOClickerResult from './SingleSAOClickerResult';
+
+import { HOST_ADDRESS } from '../config';
 
 const SAOClickerRanking = () => {
 
@@ -7,7 +10,7 @@ const SAOClickerRanking = () => {
     const [top, setTop] = useState([]);
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/sao/results')
+        fetch(`${HOST_ADDRESS}/sao/results`)
             .then(res => res.json())
             .then(res => setResults(res))
             .then(() => console.log('Skonczuyłem pobierać dane!'))

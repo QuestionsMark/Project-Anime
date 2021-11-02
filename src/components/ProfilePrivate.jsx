@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button } from '@material-ui/core';
 
+import { Button } from '@material-ui/core';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
+
+import { HOST_ADDRESS } from '../config';
 
 const ProfilePrivate = ({isUserLogged, match}) => {
 
@@ -49,7 +51,7 @@ const ProfilePrivate = ({isUserLogged, match}) => {
     }
 
     const handleSave = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/profile/change/private', {
+        fetch(`${HOST_ADDRESS}/profile/change/private`, {
             headers: {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem('token')
@@ -72,7 +74,7 @@ const ProfilePrivate = ({isUserLogged, match}) => {
 
     useEffect(() => {
         if (isUserLogged && match.params.userID === localStorage.getItem('l')) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/private/${localStorage.getItem('UID')}`, {
+            fetch(`${HOST_ADDRESS}/users/private/${localStorage.getItem('UID')}`, {
                 headers: {
                     'authorization': localStorage.getItem('token')
                 }

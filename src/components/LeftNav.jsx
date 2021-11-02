@@ -1,27 +1,36 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-import $ from 'jquery';
 
 const LeftNav = () => {
 
     useEffect(() => {
-        const navs = $('.leftNav__item');
-        const navHeight = $('.header').innerHeight();
-        navs.on('click', function () {
-            const dataID = this.getAttribute('data-id');
-            const $section = $(`.scrollNav[data-id=${dataID}]`);
-            $('body, html').animate({
-                scrollTop: $section.offset().top - navHeight - 25
-            }, 500)
-        })
-        $(window).on('scroll', function () {
+        const navs = document.querySelectorAll('.leftNav__item');
+        const navHeight = document.querySelector('.header').offsetHeight;
+        navs.forEach(n => {
+            n.addEventListener('click', function (e) {
+                const dataID = this.getAttribute('data-id');
+                const section = document.querySelector(`.scrollNav[data-id="${dataID}"]`);
+                console.log(section.offsetTop - navHeight - 25);
+                console.log(e);
+                document.querySelector('html').scroll({
+                    behavior: 'smooth',
+                    top: section.offsetTop - navHeight + 25
+                });
+            });
+        });
+        window.addEventListener('scroll', function () {
             const scrollValue = window.scrollY;
             const scrollNavs = document.querySelectorAll('.scrollNav');
             scrollNavs.forEach(s => {
                 if (scrollValue >= s.offsetTop - navHeight - 30 && scrollValue < s.offsetTop + s.offsetHeight) {
                     const dataID = s.getAttribute('data-id');
-                    $('.leftNav__item').removeClass('active');
-                    $(`.leftNav__item[data-id=${dataID}]`).addClass('active');
+                    const navs = document.querySelectorAll('.leftNav__item')
+                    navs.forEach(n => {
+                        n.classList.remove('active');
+                    });
+                    if (document.querySelector(`.leftNav__item[data-id="${dataID}"]`)) {
+                        document.querySelector(`.leftNav__item[data-id="${dataID}"]`).classList.add('active');
+                    }
                 }
             })
         })

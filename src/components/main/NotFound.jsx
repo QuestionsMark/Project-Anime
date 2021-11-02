@@ -2,6 +2,7 @@ import React from 'react';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
+
 import SentimentVeryDissatisfiedRoundedIcon from '@material-ui/icons/SentimentVeryDissatisfiedRounded';
 
 const NotFound = ({isUserLogged}) => {

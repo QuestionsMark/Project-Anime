@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+
 import WTMQuestionnaire from './WTMQuestionnaire';
 import WTMResults from './WTMResults';
+
+import { HOST_ADDRESS } from '../config';
 
 const WhatsTheMelody = ({isUserLogged, match}) => {
 
@@ -36,7 +39,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
     }
 
     const handleFinish = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/wtm/finish', {
+        fetch(`${HOST_ADDRESS}/wtm/finish`, {
             headers: {
                 'authorization': localStorage.getItem('token')
             },
@@ -46,7 +49,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
     }
 
     const callAPI = () => {
-        fetch('https://question-mark-project-anime.herokuapp.com/wtm/actual/questionnaire')
+        fetch(`${HOST_ADDRESS}/wtm/actual/questionnaire`)
             .then(res => res.json())
             .then(res => {
                 setWhatsTheMelody(res)
@@ -55,7 +58,7 @@ const WhatsTheMelody = ({isUserLogged, match}) => {
                 }
             })
         if (isUserLogged) {
-            fetch(`https://question-mark-project-anime.herokuapp.com/users/${localStorage.getItem('l')}`)
+            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
                 .then(res => res.json())
                 .then(res => {
                     checkAuthorization(res.rank);

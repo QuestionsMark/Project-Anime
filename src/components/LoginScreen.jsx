@@ -1,5 +1,8 @@
-import { Button } from '@material-ui/core';
 import React, { useState } from 'react';
+
+import { Button } from '@material-ui/core';
+
+import { HOST_ADDRESS } from '../config';
 
 const LoginScreen = () => {
 
@@ -29,7 +32,7 @@ const LoginScreen = () => {
 
     const handleUserLogin = (e) => {
         let target = e.target;
-        fetch('https://question-mark-project-anime.herokuapp.com/users/login', {
+        fetch(`${HOST_ADDRESS}/users/login`, {
             headers: {
                 'Content-Type': 'application/json'
             },

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { Button } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Button } from '@material-ui/core';
+
+import { HOST_ADDRESS } from '../config';
 
 const RegisterScreen = ({handleSignIn}) => {
 
@@ -56,7 +58,7 @@ const RegisterScreen = ({handleSignIn}) => {
         if (validationErrors.length === 0) {
             const date = new Date();
             const createAccountDate = `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
-            fetch('https://question-mark-project-anime.herokuapp.com/users/register', {
+            fetch(`${HOST_ADDRESS}/users/register`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

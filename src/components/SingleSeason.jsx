@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
+import { HOST_ADDRESS } from '../config';
+
 const SingleSeason = ({id, title, background, link, isAuthorized, handleRemove}) => {
     return ( 
-        <Link to={`/pages/${link}`} className="page__season" style={{backgroundImage: `url(https://question-mark-project-anime.herokuapp.com/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}>
+        <Link to={`/pages/${link}`} className="page__season" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}>
             <div className="blockCurtain"></div>
             {isAuthorized ? <div className="page__adminChanges">
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} onClick={(e) => {handleRemove("seasons", e)}}/>
