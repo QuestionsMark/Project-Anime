@@ -1,0 +1,19 @@
+.server {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 200px;
+    padding: 20px;
+    background-color: black;
+
+    &__title {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    &__message {
+        font-weight: bold;
+    }
+}

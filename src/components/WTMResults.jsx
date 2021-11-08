@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react';
 import SingleVoteResult from './SingleVoteResult';
 
 import { HOST_ADDRESS } from '../config';
+import { useUser } from '../contexts/UserProvider';
 
-const WTMResults = ({id, results, isUserLogged}) => {
+const WTMResults = ({id, results}) => {
+    
+    const [status] = useUser();
 
     const [correctAnswear, setCorrectAnswear] = useState('');
 
@@ -73,21 +76,21 @@ const WTMResults = ({id, results, isUserLogged}) => {
     }
 
     useEffect(() => {
-        if (isUserLogged && id) {
+        if (status && id) {
             getCorrect();
         }
     },[id])
 
     useEffect(() => {
-        if (isUserLogged && id) {
+        if (status && id) {
             getCorrect();
         }
-    },[isUserLogged])
+    },[status])
 
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            {isUserLogged ? <div className="WTM__userVote">
+            {status ? <div className="WTM__userVote">
                 {isVoteCorrect() ? <span className="WTM__userVoteResponse" style={{color: 'green'}}>Dobrze!</span> : <span className="WTM__userVoteResponse" style={{color: 'red'}}>Ty parzydlaku!</span>}
             </div> : null}
             <div className="WTM__results">

@@ -8,8 +8,9 @@ import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
+const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
 
+    const [isLoaded, setIsLoaded] = useState(false);
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00 : 00');
     const [volume, setVolume] = useState(50);
@@ -52,7 +53,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    refresh()
+                    getWTM()
                 });
         } else {
             console.log('jesteś zjebem');
@@ -142,6 +143,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
         const duration = `${minutes < 10 ? '0'+minutes : minutes} : ${seconds < 10 ? '0'+seconds : seconds}`
         setDuration(duration);
         setProgression(0);
+        setIsLoaded(true)
     }
 
     const answearList = answears.map((a, i) => <FormControlLabel key={i} className="WTM__label" value={a} control={<Radio />} label={a} />);
@@ -149,8 +151,8 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            <audio src={`${HOST_ADDRESS}/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
-            <div className="audioInterface">
+            <audio src={`${HOST_ADDRESS}/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate} ></audio>
+            {isLoaded ? <div className="audioInterface">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />
                     <PauseRoundedIcon className="audioInterface__icon pause" onClick={handlePlayPauseClick} />
@@ -164,7 +166,7 @@ const WTMQuestionnaire = ({id, mp3, answears, refresh}) => {
                     <VolumeUpRoundedIcon className="audioInterface__icon volumeOn last active" onClick={handleSoundClick} />
                     <VolumeOffRoundedIcon className="audioInterface__icon VolumOff last" onClick={handleSoundClick} />
                 </div>
-            </div>
+            </div> : <p className="WTM__loading">Loading...</p>}
             <div className="WTM__answears">
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="gender" name="gender1" value={WTMAnswear} onChange={handleWTMAnswearChange}>

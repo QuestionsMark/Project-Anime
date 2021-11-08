@@ -25,6 +25,11 @@ body {
     background: darken($main-color, 10%);
 }
 
+.popup-content {
+    padding: 0;
+    border: none;
+}
+
 .curtain {
     position: fixed;
     width: 100%;

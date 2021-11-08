@@ -10,11 +10,9 @@ const LeftNav = () => {
             n.addEventListener('click', function (e) {
                 const dataID = this.getAttribute('data-id');
                 const section = document.querySelector(`.scrollNav[data-id="${dataID}"]`);
-                console.log(section.offsetTop - navHeight - 25);
-                console.log(e);
                 document.querySelector('html').scroll({
                     behavior: 'smooth',
-                    top: section.offsetTop - navHeight + 25
+                    top: section.offsetTop - navHeight + 50
                 });
             });
         });

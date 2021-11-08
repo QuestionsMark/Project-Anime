@@ -13,7 +13,7 @@ const SingleProfileTopAnime = ({title, place, link, img, types, rate}) => {
         <li className="animeList__item profileTop__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${img.img}`} alt="anime" className="img" />
+                <img src={`${HOST_ADDRESS}/images/${img.id}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
                 <Link to={`/pages/${link}`} className="animeList__title">{title}</Link>

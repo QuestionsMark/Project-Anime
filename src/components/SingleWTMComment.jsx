@@ -4,8 +4,22 @@ import { Link } from 'react-router-dom';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useWTMComments } from '../contexts/WTMCommentsProvider';
 
-const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) => {
+const SingleWTMComment = ({comment}) => {
+
+    const { id, username, link, img, text, likes, date} = comment;
+
+    const [,setWTMComments] = useWTMComments();
+
+    const getComments = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/wtm/comments`);
+        const WTMComments = await response.json();
+        if (!WTMComments.error) {
+            setWTMComments(WTMComments);
+        }
+    }
+
     const isActive = () => {
         if (likes.findIndex(l => l === localStorage.getItem('UID')) !== -1) {
             return 'active';
@@ -31,7 +45,7 @@ const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) 
         })
             .then(res => res.json())
             .then(() => {
-                callAPI();
+                getComments();
             })
     }
 
@@ -42,10 +56,10 @@ const SingleWTMComment = ({id, nick, img, message, likes, link, date, callAPI}) 
             </div>
             <div className="WTMC__commentContent">
                 <div className="WTMC__commentInfo">
-                    <Link to={`/profile/${link}`} className="WTMC__nick">{nick}</Link>
+                    <Link to={`/profile/${link}`} className="WTMC__nick">{username}</Link>
                     <p className="WTMC__date">{date}</p>
                 </div>
-                <p className="WTMC__text">{message}</p>
+                <p className="WTMC__text">{text}</p>
                 <div className="WTMC__like">
                     <p className="WTMC__likeAmount">{likes.length}</p>
                     <FavoriteBorderRoundedIcon className={`WTMC__likeIcon ${isActive()}`} onClick={handleLikeClick}/>

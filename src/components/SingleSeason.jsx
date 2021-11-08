@@ -1,22 +1,50 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useUser } from '../contexts/UserProvider';
 
-const SingleSeason = ({id, title, background, link, isAuthorized, handleRemove}) => {
+const SingleSeason = ({season, getAnime, setOpen, setResponse, animeData}) => {
+
+    const { id, title, background } = season;
+
+    const [,,authorization] = useUser();
+
+    const handleRemove = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime/season`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                animeID: animeData.id,
+                season: id,
+            }),
+        });
+        if (response.ok) {
+            setResponse({status: response.ok, message: 'Powiązane anime zostało usunięte.'});
+        } else {
+            const error = await response.json();
+            console.log(error);
+            setResponse({status: response.ok, message: error.message});
+        }
+        getAnime();
+        setOpen(true);
+    };
+
     return ( 
-        <Link to={`/pages/${link}`} className="page__season" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}>
-            <div className="blockCurtain"></div>
-            {isAuthorized ? <div className="page__adminChanges">
-                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} onClick={(e) => {handleRemove("seasons", e)}}/>
+        <div className="page__season">
+            {authorization ? <div className="page__adminChanges">
+                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
             </div> : null}
-            <div className="page__seasonLink" >
-                <p className="page__seasonLink">{title}</p>
-            </div>
-        </Link>
+            <Link to={`/pages/${id}`} className="page__season-link" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}>
+                <div className="blockCurtain"></div>
+                <p className="page__season-title">{title}</p>
+            </Link>
+        </div>
      );
 }
  
-export default SingleSeason;
+export default withRouter(SingleSeason);

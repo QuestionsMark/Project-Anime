@@ -6,7 +6,7 @@
 
     &__profiles {
         display: flex;
-        justify-content: space-between;
+        // justify-content: space-between;
         margin-bottom: 40px;
     }
 
@@ -20,9 +20,14 @@
         border-right: 1px solid $main-color;
         border-bottom: 1px solid $main-color;
         border-radius: 10px;
+        margin-right: 2.5%;
         text-decoration: none;
         overflow: hidden;
         transition: 0.2s;
+
+        &:nth-last-of-type(1) {
+            margin-right: 0;
+        }
 
         &:hover {
             transform: translate(-3px, -3px);
@@ -44,9 +49,12 @@
         border: 2px solid $main-color;
         border-radius: 50%;
         margin: 18px;
+        background-size: cover;
+        background-position: center;
         overflow: hidden;
         z-index: 1;
     }
+
 
     &__likes {
         display: flex;

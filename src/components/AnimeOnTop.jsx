@@ -5,114 +5,58 @@ import AnimeOnTopQuestionnaire from './AnimeOnTopQuestionnaire';
 import AnimeOnTopResults from './AnimeOnTopResults';
 
 import { HOST_ADDRESS } from '../config';
+import { useUser } from '../contexts/UserProvider';
 
-const AnimeOnTop = ({isUserLogged}) => {
+const AnimeOnTop = () => {
 
-    const [isAuthorized, setIsAuthorized] = useState(false);
-    const [AOTData, setAOTData] = useState('');
-    const [animeOnTop, setAnimeOnTop] = useState({
-        _id: '',
-        title: '',
-        images: {
-            mini: {
-                img: '',
-            },
-        },
-        description: {
-            description: '',
-        },
-        // ścieżka do obrazka w public
-        link: '',
-        rate: [],
-        types: [
-            {
-                id: '',
-                name: '',
-            }
-        ],
-        soundtracks: [
-            {
-                id: '',
-                mp3: '',
-            }
-        ],
-        //ścieżka do soundtracka
-        watchLink: ''
-    })
+    const [status] = useUser();
+
+    const [animeOnTop, setAnimeOnTop] = useState(null);
+    const [anime, setAnime] = useState(null);
     const [didUserVote, setDidUserVote] = useState(true);
 
-    const checkAuthorization = (rank) => {
-        if (rank === '3') {
-            setIsAuthorized(true);
-        } else {
-            setIsAuthorized(false);
-        }
-    }
-
-    const checkDidUserVote = (aotData) => {
+    const checkDidUserVote = () => {
         const users = [];
-        aotData.votes.forEach(v => {
+        animeOnTop.votes.forEach(v => {
             users.push(...v.value);
         })
-        // console.log(users)
-        const index = users.findIndex(u => u === localStorage.getItem('UID'));
-        // console.log(index)
+        const index = users.findIndex(u => u === JSON.parse(localStorage.getItem('animark-user-id')));
         if (index !== - 1) {
             setDidUserVote(true);
         } else {
             setDidUserVote(false);
         }
     }
-
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/aot/actual`)
-            .then(res => res.json())
-            .then(res => {
-                setAOTData(res);
-                if (isUserLogged) {
-                    checkDidUserVote(res)
-                }
-                if (res.winner !== '') {
-                    const link = res.winner.toLowerCase().replace(/ /g, '-').replace(/\!/g, '').replace(/\,/, '').replace(/\./g, '').replace(/\?/g, '');
-                    // console.log(link)
-                    fetch(`${HOST_ADDRESS}/anime/${link}`)
-                        .then(res => res.json())
-                        .then(res => {
-                            // console.log(res)
-                            setAnimeOnTop(res)
-                        });
-                }
-            })
-        if (isUserLogged) {
-            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
-                .then(res => res.json())
-                .then(res => {
-                    checkAuthorization(res.rank);
-                });
+    const getAnimeOnTop = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/aot/actual`);
+        const animeOnTop = await response.json();
+        if (!animeOnTop.error) {
+            setAnimeOnTop(animeOnTop);
+            if (animeOnTop.winner !== '') {
+                const link = animeOnTop.winner.toLowerCase().replace(/ /g, '-').replace(/\!/g, '').replace(/\,/, '').replace(/\./g, '').replace(/\?/g, '');
+                const animeResponse = await fetch(`${HOST_ADDRESS}/anime/${link}`);
+                const anime = await animeResponse.json();
+                setAnime(anime);
+            }
         }
     }
 
     useEffect(() => {
-        callAPI();
-    },[isUserLogged])
+        getAnimeOnTop();
+    },[])
+
+    useEffect(() => {
+        if (animeOnTop) {
+            checkDidUserVote();
+        }
+    }, [animeOnTop])
 
     return ( 
         <section className="AOT main__section scrollNav" data-id="1">
-            {animeOnTop.title !== '' ? <AnimeOnTopAnimeInfo
-            isAuthorized={isAuthorized}
-            id={animeOnTop._id}
-            img={animeOnTop.images.mini.img}
-            rate={animeOnTop.rate}
-            title={animeOnTop.title}
-            link={animeOnTop.link}
-            animeTypes={animeOnTop.types}
-            description={animeOnTop.description.description}
-            soundtrack={animeOnTop.soundtracks[0].mp3}
-            watchLink={animeOnTop.watchLink}
-            callAPI={callAPI}
-            /> : null }
-            
-            {didUserVote ? <AnimeOnTopResults AOTData={AOTData}/> : <AnimeOnTopQuestionnaire id={AOTData._id} refresh={callAPI}/>}
+            <h2 className="AOT__title">Anime na Topie!</h2>
+            {anime ? <AnimeOnTopAnimeInfo anime={anime} refresh={getAnimeOnTop} setAnime={setAnime} /> : null }
+            {animeOnTop && (didUserVote || !status) ? <AnimeOnTopResults animeOnTop={animeOnTop}/> : null}
+            {animeOnTop && status && !didUserVote ? <AnimeOnTopQuestionnaire id={animeOnTop._id} refresh={getAnimeOnTop}/> : null}
         </section>
      );
 }

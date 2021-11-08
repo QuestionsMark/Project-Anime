@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useUser } from '../contexts/UserProvider';
+
 import { Button } from '@material-ui/core';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
@@ -13,9 +15,11 @@ import SingleStatisticAnimeItem from './SingleStatisticAnimeItem';
 
 import { HOST_ADDRESS } from '../config';
 
-const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
+const ProfileHome = ({profileData, match, getProfileData}) => {
 
-    const { username, avatar, createAccountDate, rank, likes, achievements, WTMPoints, introduction, userAnimeData, favoriteAnime, favoriteType } = data;
+    const { username, avatar, createAccountDate, rank, likes, achievements, WTMPoints, introduction, userAnimeData, favoriteAnime, favoriteType } = profileData;
+
+    const [status] = useUser();
 
     const [isUserProfileLover, setIsUserProfileLover] = useState(false);
 
@@ -32,99 +36,57 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
     }
 
     const watchedAnimeList = () => {
-        const sorted = userAnimeData.watched.sort((a, b) => {
-            if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                return 1;
-            } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                return -1;
-            } else {
+        return userAnimeData.watched
+            .sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 return 0;
-            }
-        })
-        return sorted.map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link} rate={a.rate}/>);
+            })
+            .map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link} rate={a.rate}/>);
     }
 
     const statisticAnimeList = (type) => {
-        if (type === "stopped") {
-            const sorted = userAnimeData.stopped.sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                    return 1;
-                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+        return userAnimeData[type]
+            .sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                return 0;
             })
-            return sorted.map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
-        } else if (type === "processOfWatching") {
-            const sorted = userAnimeData.processOfWatching.sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                    return 1;
-                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            })
-            return sorted.map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
-        } else if (type === "planned") {
-            const sorted = userAnimeData.planned.sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                    return 1;
-                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            })
-            return sorted.map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
-        }
+            .map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
     }
 
     const isUserLover = () => {
-        const link = match.params.userLink;
         let isUserLover = false;
-        const index = likes.findIndex(l => l === localStorage.getItem('UID'));
-        if (index !== -1 || link === localStorage.getItem('l')) {
+        const index = likes.findIndex(l => l === JSON.parse(localStorage.getItem('animark-user-id')));
+        if (index !== -1 || match.params.id === JSON.parse(localStorage.getItem('animark-user-id'))) {
             isUserLover = true;
         }
         return isUserLover;
     }
 
     const showRank = () => {
-        let string;
-        if (rank === "3") {
-            string = "Administrator"
-        } else if (rank === "2") {
-            string = "Moderator"
-        } else {
-            string = "Użytkownik"
-        }
-        return string;
+        if (rank === "3") return "Administrator";
+        if (rank === "2") return "Moderator";
+        return "Użytkownik";
     }
 
-    const handleLikeProfile = () => {
-        fetch(`${HOST_ADDRESS}/profile/change/like`, {
+    const handleLikeProfile = async () => {
+        await fetch(`${HOST_ADDRESS}/profile/change/like`, {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token')
             },
             method: 'POST',
             body: JSON.stringify({
-                user: localStorage.getItem('UID'),
-                profile: match.params.userLink
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res);
-                callAPI();
-            })
+                user: JSON.parse(localStorage.getItem('animark-user-id')),
+                profile: match.params.id
+            }),
+        });
+        getProfileData();
     }
 
     useEffect(() => {
         setIsUserProfileLover(isUserLover())
-    },[data])
+    },[profileData])
 
     return ( 
         <div className="profile__content">
@@ -142,7 +104,7 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
                         <p className="profile__infoBlock">Ranga: {showRank()}</p>
                         <p className="profile__infoBlock">Punkty: {WTMPoints}</p>
                     </div>
-                    {isUserLogged && match.params.userLink !== localStorage.getItem('l') ? <div className="profile__likeProfile">
+                    {status && match.params.id !== JSON.parse(localStorage.getItem('animark-user-id')) ? <div className="profile__likeProfile">
                         <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserProfileLover ? 'Usuń polubienie' : 'Polub profil'}</Button>
                     </div> : null}
                 </div>
@@ -200,7 +162,7 @@ const ProfileHome = ({data, match, callAPI, isUserLogged}) => {
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
                         {favoriteAnime.link ? <div className="profile__FAFlex">
                             <div className="profile__FAImgWrapper">
-                                <img src={`${HOST_ADDRESS}/images/${favoriteAnime.img.img}`} alt="favAnime" className="img" />
+                                <img src={`${HOST_ADDRESS}/images/${favoriteAnime.img.id}`} alt="favAnime" className="img" />
                             </div>
                             <Link to={`/pages/${favoriteAnime.link}`} className="profile__FALink">{favoriteAnime.title}</Link>
                             <div className="profile__FARate">

@@ -9,14 +9,7 @@ import { HOST_ADDRESS } from '../../config';
 
 const Types = ({isUserLogged}) => {
 
-    const [types, setTypes] = useState([
-        {
-            _id: '',
-            name: '',
-            link: '',
-            description: ''
-        }
-    ]);
+    const [types, setTypes] = useState([]);
 
     const typesList = types.map((t, i) => (
         <li className="types__item" key={t._id}>

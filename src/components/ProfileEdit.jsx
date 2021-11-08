@@ -1,250 +1,224 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { useUser } from '../contexts/UserProvider';
+
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 
-import img from '../media/img/hos-back20502.jpg';
+import img from '../media/img/hos-back20502.webp';
 
 import { HOST_ADDRESS } from '../config';
 
-const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeList, actualBackground, introduction, customBackgroundsList, callAPI, history}) => {
+const ProfileEdit = ({types}) => {
 
-    const [userChoosed, setUserChoosed] = useState(false);
-    const [typesList, setTypesList] = useState(types);
-    const [nick, setNick] = useState(username);
-    const [descriptionTitle, setDescriptionTitle] = useState('');
-    const [descriptionText, setDescriptionText] = useState('');
-    const [favoriteAnime, setFavoriteAnime] = useState(favAnime.title);
-    const [favoriteType, setFavoriteType] = useState(favType);
-    const defaultBackgrounds = ["myImg-1623824273692.png", "myImg-1623824284002.jpg", "myImg-1623824323392.jpg", "myImg-1623824334616.jpg", "myImg-1623824344703.jpg",];
-    const [customBackgrounds, setCustomBackgrounds] = useState(customBackgroundsList);
-    const [background, setBackground] = useState(actualBackground);
+    const [,,,, user, setUser] = useUser();
+
+    const [username, setUsername] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [favoriteAnime, setFavoriteAnime] = useState('');
+    const [favoriteType, setFavoriteType] = useState('');
+    const defaultBackgrounds = ["6188093e3502a02b5cd4ab9f", "618809443502a02b5cd4aba0", "618809483502a02b5cd4aba1", "618809903502a02b5cd4aba2", "618809953502a02b5cd4aba3",];
+    const [customBackgrounds, setCustomBackgrounds] = useState([]);
+    const [background, setBackground] = useState('');
+    const [avatarPreview, setAvatarPreview] = useState('');
+    
     const [choosedBackground, setChoosedBackground] = useState(null);
     const [choosedAvatar, setChoosedAvatar] = useState(null);
     const [backgroundPreview, setBackgroundPreview] = useState(img);
-    const [avatarPreview, setAvatarPreview] = useState(avatar);
 
     const handleDescriptionTextChange = (e) => {
-        setDescriptionText(e.target.value);
-    }
-
+        setDescription(e.target.value);
+    };
     const handleDescriptionTitleChange = (e) => {
-        setDescriptionTitle(e.target.value);
-    }
-
+        setTitle(e.target.value);
+    };
     const handleNickChange = (e) => {
-        setNick(e.target.value);
-    } 
-
+        setUsername(e.target.value);
+    };
     const handleFavoriteAnimeChange = (e) => {
         setFavoriteAnime(e.target.value);
-    }
-
+    };
     const handleFavoriteTypeChange = (e) => {
         setFavoriteType(e.target.value);
-    }
-
-    const handleBGChange = (e) => {
-        const img = e.target.getAttribute('data-img');
-        fetch(`${HOST_ADDRESS}/profile/change/background`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token'),
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                user: localStorage.getItem('UID'),
-                img
-            })
-        })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            callAPI();
-        })
-    }
-
+    };
     const handleChooseAvatar = (e) => {
         if (e.target.files.length > 0) {
-            setUserChoosed(true);
             const url = URL.createObjectURL(e.target.files[0]);
             setAvatarPreview(url);
             setChoosedAvatar(e.target.files[0]);
         }
-    }
-
+    };
     const handleChooseBackground = (e) => {
-        let target = e.target;
-        if (target.localName === 'span') {
-            target = target.parentElement;
-        }
         const url = URL.createObjectURL(e.target.files[0]);
         setBackgroundPreview(url);
         setChoosedBackground(e.target.files[0]);
-    }
+    };
 
-    const handleSave = (type) => {
-        if (type === "description") {
-            fetch(`${HOST_ADDRESS}/profile/change/introduction`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    UID: localStorage.getItem('UID'),
-                    title: descriptionTitle,
-                    description: descriptionText
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res.response);
-                    callAPI();
-                })
-        } else if (type === "favAnime") {
-            fetch(`${HOST_ADDRESS}/profile/change/favorite-anime`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    anime: favoriteAnime
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res.response);
-                    callAPI();
-                })
-        } else if (type === "background") {
-            const data = new FormData();
-            data.append('myImg',choosedBackground);
-            fetch(`${HOST_ADDRESS}/images/upload`, {
-                headers: {
-                    'authorization': localStorage.getItem('token'),
-                    'user': localStorage.getItem('UID')
-                },
-                method: 'POST',
-                body: data
-            })
-                .then(res => res.json())
-                .then(res => {
-                    fetch(`${HOST_ADDRESS}/profile/change/add-background`, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'authorization': localStorage.getItem('token')
-                        },
-                        method: 'POST',
-                        body: JSON.stringify({
-                            user: localStorage.getItem('UID'),
-                            img: res
-                        })
-                    })
-                        .then(res => res.json())
-                        .then(res => {
-                            console.log(res.response);
-                            callAPI();
-                        })
-                })
-        }  else if (type === "avatar") {
-            const data = new FormData();
-            data.append('myImg', choosedAvatar);
-            fetch(`${HOST_ADDRESS}/images/upload`, {
-                headers: {
-                    'authorization': localStorage.getItem('token'),
-                    'user': localStorage.getItem('UID')
-                },
-                method: 'POST',
-                body: data
-            })
-                .then(res => res.json())
-                .then(res => {
-                    fetch(`${HOST_ADDRESS}/profile/change/avatar`, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'authorization': localStorage.getItem('token')
-                        },
-                        method: 'POST',
-                        body: JSON.stringify({
-                            user: localStorage.getItem('UID'),
-                            img: res
-                        })
-                    })
-                        .then(res => res.json())
-                        .then(res => {
-                            console.log(res.response);
-                            setUserChoosed(false);
-                            callAPI();
-                        })
-                })
-        }  else if (type === "username") {
-            fetch(`${HOST_ADDRESS}/profile/change/username`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    username: nick
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    localStorage.setItem('l', res.link)
-                    history.push(`/profile/${res.link}/settings`)
-                })
-        }  else if (type === "favType") {
-            fetch(`${HOST_ADDRESS}/profile/change/favorite-type`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    favType: favoriteType
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res.response);
-                    callAPI();
-                })
+    const getUser = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
+        if (response.ok) {
+            const updatedUser = await response.json();
+            setUser(updatedUser);
         }
-    }
+    };
+
+    const handleBGChange = async (e) => {
+        const background = e.target.getAttribute('data-id');
+        await fetch(`${HOST_ADDRESS}/profile/change/background`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                background
+            }),
+        });
+        getUser();
+    };
+    const handleSaveAvatar = async () => {
+        const data = new FormData();
+        data.append('myImg', choosedAvatar);
+        setAvatarPreview(null);
+        setChoosedAvatar(null);
+        const response = await fetch(`${HOST_ADDRESS}/images`, {
+            headers: {
+                'user': user.id
+            },
+            method: 'POST',
+            body: data
+        });
+        const newAvatar = await response.json();
+        const response2 = await fetch(`${HOST_ADDRESS}/profile/change/avatar`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                img: newAvatar
+            }),
+        });
+        if (response2.ok) {
+            console.log('Avatar został zmieniony!');
+        }
+        getUser();
+    };
+    const handleSaveUsername = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/profile/change/username`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                username
+            }),
+        });
+        if (response.ok) {
+            console.log('Nick został zmieniony');
+        }
+        getUser();
+    };
+    const handleSaveDescription = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/profile/change/introduction`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                title,
+                description,
+            }),
+        });
+        if (response.ok) {
+            console.log('Opis został zmieniony!');
+        }
+        getUser();
+    };
+    const handleSaveFavoriteAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/profile/change/favorite-anime`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                animeId: favoriteAnime
+            }),
+        });
+        if (response.ok) {
+            console.log('Ulubione anime zostało zmienione!');
+        }
+        getUser();
+    };
+    const handleSaveFavoriteType = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/profile/change/favorite-type`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                favoriteType,
+            }),
+        });
+        if (response.ok) {
+            console.log('Ulubiony gatunek został zmieniony!');
+        }
+        getUser();
+    };
+    const handleSaveBackground = async () => {
+        const data = new FormData();
+        data.append('myImg', choosedBackground);
+        setChoosedBackground(null);
+        setBackgroundPreview(img);
+        const response = await fetch(`${HOST_ADDRESS}/images`, {
+            headers: {
+                'user': user.id
+            },
+            method: 'POST',
+            body: data,
+        });
+        const background = await response.json();
+        const response2 = await fetch(`${HOST_ADDRESS}/profile/change/add-background`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                id: user.id,
+                background,
+            }),
+        });
+        if (response2.ok) {
+            console.log('Dodano nowe tło!');
+        }
+        getUser();
+    };
 
     const formAnimeList = () => {
-        const formAnimeList = [...watchedAnimeList].sort(function( a, b ) {
-            if ( a.title.toLowerCase() < b.title.toLowerCase() ){
-              return -1;
-            }
-            if ( a.title.toLowerCase() > b.title.toLowerCase() ){
-              return 1;
-            }
-            return 0;
-        });
-        const list = formAnimeList.map(anime => <MenuItem key={anime.title} value={anime.title}>{anime.title}</MenuItem>);
-        return list;
-    }
-
+        const animeToCHoose = [...user.userAnimeData.watched]
+            .filter(a => a.id !== user.favoriteAnime.id);
+        animeToCHoose.push(user.favoriteAnime);
+        return animeToCHoose.sort(function( a, b ) {
+                if ( a.title.toLowerCase() < b.title.toLowerCase() ) return -1;
+                if ( a.title.toLowerCase() > b.title.toLowerCase() ) return 1;
+                return 0;
+            })
+            .map(anime => <MenuItem key={anime.id} value={anime.id}>{anime.title}</MenuItem>);
+    };
     const formTypeList = () => {
-        const formTypesList = [...typesList].sort((a, b) => {
-            if ( a.name.toLowerCase() < b.name.toLowerCase() ){
-              return -1;
-            }
-            if ( a.name.toLowerCase() > b.name.toLowerCase() ){
-              return 1;
-            }
-            return 0;
-        });
-        const list = formTypesList.map(t => <MenuItem key={t._id} value={t.name}>{t.name}</MenuItem>);
-        return list;
-    }
+        return [...types]
+            .sort((a, b) => {
+                if ( a.name.toLowerCase() < b.name.toLowerCase() ) return -1;
+                if ( a.name.toLowerCase() > b.name.toLowerCase() ) return 1;
+                return 0;
+            })
+            .map(t => <MenuItem key={t._id} value={t.name}>{t.name}</MenuItem>);
+    };
 
     const fileColor = (type) => {
         if (type === 'avatar') {
@@ -268,8 +242,7 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                 return color;
             }
         }
-    }
-
+    };
     const fileMessage = (type) => {
         if (type === 'avatar') {
             if (choosedAvatar) {
@@ -292,54 +265,52 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                 return message;
             }
         }
-    }
+    };
 
-    const defaultBackgroundList = defaultBackgrounds.map(b => {
-        if (b === background) {
-            return <img key={b} className="profileEdit__backgroundImg chosedBG" data-img={b} src={`${HOST_ADDRESS}/images/${b}`} alt="asd" onClick={handleBGChange}/>;
-        } else {
-            return <img key={b} className="profileEdit__backgroundImg" data-img={b} src={`${HOST_ADDRESS}/images/${b}`} alt="asd" onClick={handleBGChange}/>;
-        } 
-    });
+    const defaultBackgroundList = () => {
+        return defaultBackgrounds.map(b => {
+            if (b === background) {
+                return <img key={b} className="profileEdit__backgroundImg chosedBG" data-id={b} src={`${HOST_ADDRESS}/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            } else {
+                return <img key={b} className="profileEdit__backgroundImg" data-id={b} src={`${HOST_ADDRESS}/images/${b}`} alt="asd" onClick={handleBGChange}/>;
+            } 
+        });
+    };
 
-    const customBackgroundList = customBackgrounds.map(b => {
-        if (b.img === background) {
-            return <img key={b.id} className="profileEdit__backgroundImg chosedBG" data-img={b.img} src={`${HOST_ADDRESS}/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
-        }  else {
-            return <img key={b.id} className="profileEdit__backgroundImg" data-img={b.img} src={`${HOST_ADDRESS}/images/${b.img}`} alt="asd" onClick={handleBGChange}/>;
+    const customBackgroundList = () => {
+        return customBackgrounds.map(b => {
+            if (b.id === background) {
+                return <img key={b.id} className="profileEdit__backgroundImg chosedBG" data-id={b.id} src={`${HOST_ADDRESS}/images/${b.id}`} alt="asd" onClick={handleBGChange}/>;
+            }  else {
+                return <img key={b.id} className="profileEdit__backgroundImg" data-id={b.id} src={`${HOST_ADDRESS}/images/${b.id}`} alt="asd" onClick={handleBGChange}/>;
+            }
+        });
+    };
+
+    const setEdit = () => {
+        const {username, introduction, favoriteAnime, favoriteType, customBackgrounds, background, avatar} = user;
+        setUsername(username);
+        setTitle(introduction.title);
+        setDescription(introduction.description);
+        setFavoriteAnime(favoriteAnime.id);
+        setFavoriteType(favoriteType);
+        setCustomBackgrounds(customBackgrounds);
+        setBackground(background);
+        setAvatarPreview(`${HOST_ADDRESS}/images/${avatar}`);
+    };
+
+    useEffect(() => {
+        if (JSON.stringify(user) !== "{}"){
+            setEdit();
         }
-    });
-
-    useEffect(() => {
-        setTypesList(types);
-    },[types])
-
-    useEffect(() => {
-        setCustomBackgrounds(customBackgroundsList);
-    },[customBackgroundsList])
-
-    useEffect(() => {
-        setBackground(actualBackground);
-    },[actualBackground])
-
-    useEffect(() => {
-        setDescriptionText(introduction.description);
-        setDescriptionTitle(introduction.title);
-    },[introduction])
-
-    useEffect(() => {
-        setFavoriteAnime(favAnime.title);
-        setFavoriteType(favType);
-        setAvatarPreview(avatar);
-        setNick(username);
-    },[favAnime, favType, avatar, username])
+    }, [user]);
 
     return ( 
         <div className="profileEdit profile__content">
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Avatar</h2>
                 <form className="profileEdit__addFileForm">
-                    <label htmlFor="avatar-upload" className="profileEdit__addFileLabel">Wybierz swoje tło</label>
+                    <label htmlFor="avatar-upload" className="profileEdit__addFileLabel">Wybierz nowy avatar</label>
                     <input type="file" id="avatar-upload" className="profileEdit__addFile" onChange={handleChooseAvatar}/>
                     <p className="profileEdit__addFileInfo">
                         <span className="profileEdit__AFIName">{choosedAvatar ? choosedAvatar.name : null}</span>
@@ -348,55 +319,58 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                     </p>
                 </form>
                 <div className="profileEdit__preview profileEdit__preview--square">
-                    {userChoosed ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : <img src={`${HOST_ADDRESS}/images/${avatarPreview}`} alt="dasdas" className="profileEdit__previewImg" />}
+                    {avatarPreview ? <img src={avatarPreview} alt="dasdas" className="profileEdit__previewImg" /> : null}
                 </div>
-                <Button className="button profileEdit__save avatarButton" disabled={avatarPreview !== avatar ? '' : true} onClick={() => {handleSave('avatar')}}>Zapisz</Button>
+                <Button className="button profileEdit__save avatarButton" disabled={avatarPreview !== `${HOST_ADDRESS}/images/${user.avatar}` ? false : true} onClick={handleSaveAvatar}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Swój Nick</h2>
-                <input type="text" className="profileEdit__username" placeholder="Nick" value={nick} onChange={handleNickChange}/>
-                <Button className="button profileEdit__save" disabled={nick !== username ? '' : true} onClick={() => {handleSave('username')}}>Zapisz</Button>
+                <input type="text" className="profileEdit__username" placeholder="Nick" value={username} onChange={handleNickChange}/>
+                <Button className="button profileEdit__save" disabled={username !== user.username ? false : true} onClick={handleSaveUsername}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Opis</h2>
                 <div className="profileEdit__description">
-                    <input type="text" className="profileEdit__descriptionTitle" placeholder="Tytuł" value={descriptionTitle} onChange={handleDescriptionTitleChange}/>
-                    <textarea className="profileEdit__descriptionText" placeholder="Napisz coś o sobie..." value={descriptionText} onChange={handleDescriptionTextChange}/>
+                    <input type="text" className="profileEdit__descriptionTitle" placeholder="Tytuł" value={title} onChange={handleDescriptionTitleChange}/>
+                    <textarea className="profileEdit__descriptionText" placeholder="Napisz coś o sobie..." value={description} onChange={handleDescriptionTextChange}/>
                 </div>
-                <Button className="button profileEdit__save" disabled={descriptionText !== introduction.description || descriptionTitle !== introduction.title ? '' : true} onClick={() => {handleSave('description')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={JSON.stringify(user) !== "{}" && (description !== user.introduction.description || title !== user.introduction.title) ? false : true} onClick={handleSaveDescription}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Ulubione Anime</h2>
                 <FormControl>
                     <InputLabel id="demo-simple-select-label">Ulubione anime</InputLabel>
-                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={favoriteAnime} onChange={handleFavoriteAnimeChange}>
-                        {formAnimeList()}
+                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={JSON.stringify(user) !== "{}" ? favoriteAnime : ''} onChange={handleFavoriteAnimeChange}>
+                        {JSON.stringify(user) !== "{}" ? formAnimeList() : null}
                     </Select>
                 </FormControl>
-                <Button className="button profileEdit__save" disabled={favoriteAnime !== favAnime.title ? '' : true} onClick={() => {handleSave('favAnime')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={JSON.stringify(user) !== "{}" && favoriteAnime !== user.favoriteAnime.id ? false : true} onClick={handleSaveFavoriteAnime}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Ulubiony Gatunek</h2>
                 <FormControl>
                     <InputLabel id="demo-simple-select-label">Ulubiony gatunek</InputLabel>
-                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={favoriteType} onChange={handleFavoriteTypeChange}>
+                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={JSON.stringify(user) !== "{}" ? user.favoriteType : 'Brak'} onChange={handleFavoriteTypeChange}>
+                    <MenuItem value="Brak">
+                        <em>Brak</em>
+                    </MenuItem>
                         {formTypeList()}
                     </Select>
                 </FormControl>
-                <Button className="button profileEdit__save" disabled={favoriteType !== favType ? '' : true} onClick={() => {handleSave('favType')}}>Zapisz</Button>
+                <Button className="button profileEdit__save" disabled={JSON.stringify(user) !== "{}" && favoriteType !== user.favoriteType ? false : true} onClick={handleSaveFavoriteType}>Zapisz</Button>
             </div>
             <div className="profileEdit__section">
                 <h2 className="profileEdit__title mediumTitle">Zmień Tło Profilu</h2>
                 <div className="profileEdit__changeBackground">
                     <h3 className="profileEdit__backgroundsTitle">Tła standardowe:</h3>
                     <div className="profileEdit__defaultBackgrounds" data-type="default">
-                        {defaultBackgroundList}
+                        {defaultBackgroundList()}
                     </div>
-                    <h3 className="profileEdit__backgroundsTitle">Tła Własne:</h3>
+                    <h3 className="profileEdit__backgroundsTitle">Tła Własne (max 3):</h3>
                     <div className="profileEdit__customBackgrounds" data-type="custom">
-                        {customBackgroundList}
+                        {customBackgroundList()}
                     </div>
-                    <div className="profileEdit__addCustomBackground">
+                    {JSON.stringify(user) !== "{}" && user.customBackgrounds.length < 3 ? <div className="profileEdit__addCustomBackground">
                         <h3 className="profileEdit__backgroundsTitle">Dodaj Własne Tło</h3>
                         <form className="profileEdit__addFileForm">
                             <label htmlFor="background-upload" className="profileEdit__addFileLabel">Wybierz swoje tło</label>
@@ -410,8 +384,8 @@ const ProfileEdit = ({types, avatar, username, favAnime, favType, watchedAnimeLi
                         <div className="profileEdit__preview">
                             <img src={backgroundPreview} alt="dasdas" className="profileEdit__previewImg" />
                         </div>
-                        <Button className="button profileEdit__save backgroundButton" disabled={backgroundPreview !== img ? '' : true} onClick={() => {handleSave('background')}}>Dodaj</Button>
-                    </div>
+                        <Button className="button profileEdit__save backgroundButton" disabled={backgroundPreview !== img ? false : true} onClick={handleSaveBackground}>Dodaj</Button>
+                    </div> : null}
                 </div>
                 
             </div>

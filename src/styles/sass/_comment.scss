@@ -1,0 +1,87 @@
+.comments {
+    @include page-style;
+    padding: 20px 0 0;
+
+    &__title {
+        margin-bottom: 20px;
+    }
+
+    &__item {
+        @include page-style;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+
+        &:nth-last-of-type(1) {
+            border-bottom: none;
+        }
+    }
+
+    &__imgWrapper {
+        width: 5vw;
+        height: 5vw;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__content {
+        max-width: calc(100% - 6vw);
+        flex-basis: calc(100% - 5vw - 20px);
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        user-select: text;
+    }
+
+    &__nick {
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        color: $font-color2;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__date {
+        font-size: 12px;
+    }
+
+    &__text {
+        margin-bottom: 10px;
+        font-size: 14px;
+        user-select: text;
+        overflow: hidden;
+    }
+
+    &__likes {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .comments__likeIcon {
+            font-size: 20px;
+            color: $font-color;
+            cursor: pointer;
+
+            &:hover {
+                color: $font-color2;
+            }
+        }
+
+        .comments__likeIcon.active {
+            color: $main-color;
+        }
+    }
+
+    &__likesValue {
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 3px;
+    }
+}

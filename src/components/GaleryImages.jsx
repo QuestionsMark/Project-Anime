@@ -13,22 +13,17 @@ const GaleryImages = ({anime, history, match}) => {
 
     const setTitle = () => {
         const thisAnime = anime.find(a => a.link === match.params.anime);
-        if (thisAnime) {
-            return thisAnime.title;
-        } else {
-            return '';
-        }
+        if (thisAnime) return thisAnime.title;
+        return '';
     }
 
     const getImages = () => {
         const thisAnime = anime.find(a => a.link === match.params.anime);
         if (thisAnime) {
-            const images = thisAnime.images.galeryImages.map(i => <SingleImage key={i.id} img={i.img} fromAnime={i.fromAnime}/>);
+            const images = thisAnime.images.galeryImages.map(i => <SingleImage key={i.id} img={i.id} fromAnime={i.fromAnime}/>);
             return images;
-        } else {
-            return null;
         }
-        
+        return null;
     }
 
     return ( 

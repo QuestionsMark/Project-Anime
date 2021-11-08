@@ -6,7 +6,7 @@ import { HOST_ADDRESS } from '../config';
 const SingleFolder = ({anime, link, images}) => {
     return ( 
         <Link to={`/galery/${link}`} className="galery__folder">
-            <div className="galery__folderImg" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${images[0].img})`}}></div>
+            <div className="galery__folderImg" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${images[0].id})`}}></div>
             <h3 className="galery__folderTitle">{anime}</h3>
         </Link>
      );

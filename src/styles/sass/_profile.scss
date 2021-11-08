@@ -17,6 +17,8 @@
     }
 
     &__imgWrapper {
+        width: 11.85vw;
+        height: 11.85vw;
         border: 2px solid $main-color;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -315,7 +317,7 @@
         margin-bottom: 20px;
     }
 
-    &__section:nth-last-of-type(1) {
+    &__section:nth-last-child(1) {
         margin-bottom: 0;
     }
 

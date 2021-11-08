@@ -2,13 +2,13 @@ import React from 'react';
 
 import SingleVoteResult from './SingleVoteResult';
 
-const AnimeOnTopResults = ({AOTData}) => {
+const AnimeOnTopResults = ({animeOnTop}) => {
 
     const resultsList = () => {
-        if (AOTData) {
+        if (animeOnTop) {
             let allVotes = 0;
-            AOTData.votes.forEach(v => allVotes += v.value.length);
-            const votes = [...AOTData.votes];
+            animeOnTop.votes.forEach(v => allVotes += v.value.length);
+            const votes = [...animeOnTop.votes];
             const sorted = votes.sort((a, b) => {
                 if (a.value.length > b.value.length) {
                     return -1;

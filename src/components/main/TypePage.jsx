@@ -9,35 +9,37 @@ import { HOST_ADDRESS } from '../../config';
 const TypePage = ({ typesList, isUserLogged, match }) => {
 
     const [types, setTypes] = useState(typesList);
-    const [anime, setAnime] = useState([
-            {
-                _id: '',
-                title: '',
-                link: '',
-                images: {
-                    mini: ''
-                },
-                types: [
-                    {
-                        id: '',
-                        name: '',
-                        link: ''
-                    }
-                ],
-                rate: [],
-            }
-        ])
-    const [users, setUsers] = useState([
-        {
-            id: '',
-            name: '',
-            link: '',
-            avatar: '',
-            backgroundTheme: '',
-            likes: [],
-            favoriteType: ''
-        }
-    ]);
+    const [anime, setAnime] = useState([])
+    // [
+    //     {
+    //         _id: '',
+    //         title: '',
+    //         link: '',
+    //         images: {
+    //             mini: ''
+    //         },
+    //         types: [
+    //             {
+    //                 id: '',
+    //                 name: '',
+    //                 link: ''
+    //             }
+    //         ],
+    //         rate: [],
+    //     }
+    // ]
+    const [users, setUsers] = useState([]);
+    // [
+    //     {
+    //         id: '',
+    //         name: '',
+    //         link: '',
+    //         avatar: '',
+    //         backgroundTheme: '',
+    //         likes: [],
+    //         favoriteType: ''
+    //     }
+    // ]
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -124,7 +126,7 @@ const TypePage = ({ typesList, isUserLogged, match }) => {
                     }
                 }
             }
-            return <SingleTopAnime key={a._id} title={a.title} link={a.link} img={a.images.mini.img} types={a.types} rate={rate} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
+            return <SingleTopAnime key={a._id} title={a.title} link={a.link} img={a.images.mini.id} types={a.types} rate={rate} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
         });
         return bestAnimeList;
     }

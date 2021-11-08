@@ -10,113 +10,65 @@ import ProfileAchievements from '../ProfileAchievements';
 import ProfilePrivate from '../ProfilePrivate';
 import ProfileEdit from '../ProfileEdit';
 
-import background from '../../media/img/sao1-back20502.jpg';
+import background from '../../media/img/sao1-back20502.webp';
 
 import { HOST_ADDRESS } from '../../config';
 
-const Profile = ({history, match, isUserLogged}) => {
+const Profile = ({ history, match }) => {
 
-    const [profileData, setProfileData] = useState({
-        id: 1,
-        username: '',
-        avatar: '',
-        background: '',
-        customBackgrounds: [],
-        createAccountDate: '',
-        rank: '',
-        likes: [],
-        achievements: [],
-        // {
-        //     id: 2,
-        //     name: "Pierwsze Koty za Płoty",
-        //     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet eligendi quia totam voluptatibus, delectus ullam ea ipsa atque cum praesentium soluta voluptatem nesciunt sapiente enim minus. Velit similique quae earum?",
-        //     img: img
-        // }
-        points: 0,
-        introduction: {
-            title: '',
-            description: '',
-        },
-        userAnimeData: {
-            watched: [],
-            stopped: [],
-            processOfWatching: [],
-            planned: []
-        },
-        favoriteAnime: {
-            title: '',
-            link: '',
-            img: '',
-            rate: 0
-        },
-        favoriteType: ''
-    });
-    const [types, setTypes] = useState([
-        {
-            _id: '',
-            name: '',
-            description: '',
-        }
-    ])
+    const [types, setTypes] = useState([]);
+    const [profileData, setProfileData] = useState({});
     const [searchPhraseAnime, setSearchPhraseAnime] = useState('');
-    const [searchPhraseAchievement, setSearchPhraseAchievement] = useState('');
-
     const handleSearchAnime = (e) => {
         setSearchPhraseAnime(e.target.value);
     }
 
+    const [searchPhraseAchievement, setSearchPhraseAchievement] = useState('');
     const handleSearchAchievement = (e) => {
         setSearchPhraseAchievement(e.target.value);
     }
 
-    const animeList = () => {
-        const filtered = [...profileData.userAnimeData.watched].filter(a => a.title.toLowerCase().includes(searchPhraseAnime.toLowerCase()));
-        return filtered;
-    }
+    const animeList = () => profileData.userAnimeData.watched.filter(a => a.title.toLowerCase().includes(searchPhraseAnime.toLowerCase()));
 
-    const achievementsList = () => {
-        const filtered = profileData.achievements.filter(a => a.name.toLowerCase().includes(searchPhraseAchievement.toLowerCase()));
-        return filtered;
-    }
+    const achievementsList = () => profileData.achievements.filter(a => a.name.toLowerCase().includes(searchPhraseAchievement.toLowerCase()));
+
+    const getProfileData = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${match.params.id}`);
+        if (response.ok) {
+            const profileData = await response.json();
+            setProfileData(profileData);
+        } else {
+            history.push('/error/not-found');
+        }
+    };
+
+    const getTypes = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/types`);
+        if (response.ok) {
+            const types = await response.json();
+            setTypes(types);
+        }
+    };
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
 
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/users/${match.params.userLink}`)
-            .then(res => res.json())
-            .then(res => {
-                if (res.response) {
-                    history.push(`/${match.params.userLink}`)
-                } else {
-                    setProfileData(res)
-                }
-            });
-        
-        fetch(`${HOST_ADDRESS}/types`)
-            .then(res => res.json())
-            .then(res => setTypes(res));
-    }
-
     useEffect(() => {
         goUp();
-        callAPI();
-    }, []);
-
-    useEffect(() => {
-        callAPI();
-    },[match])
+        getProfileData();
+        getTypes();
+    }, [match]);
 
     return ( 
         <main className="main" style={{backgroundImage: `url(${profileData.background ? `${HOST_ADDRESS}/images/${profileData.background}` : background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
             <div className="curtain"></div>
             <LeftSide />
-            <div className="profile main__content">
-                <ProfileNav isUserLogged={isUserLogged}/>
+            {JSON.stringify(profileData) !== "{}" ? <div className="profile main__content">
+                <ProfileNav />
                 <Switch>
                     <Route path="/profile/:userID" exact>
-                        <ProfileHome data={profileData} match={match} callAPI={callAPI} isUserLogged={isUserLogged}/>
+                        <ProfileHome profileData={profileData} match={match} getProfileData={getProfileData}/>
                     </Route>
                     <Route path="/profile/:userID/user-top">
                         <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>
@@ -125,24 +77,14 @@ const Profile = ({history, match, isUserLogged}) => {
                         <ProfileAchievements achievements={achievementsList()} handleSearch={handleSearchAchievement}/>
                     </Route>
                     <Route path="/profile/:userID/settings">
-                        <ProfileEdit
-                        types={types}
-                        avatar={profileData.avatar}
-                        username={profileData.username}
-                        favAnime={profileData.favoriteAnime}
-                        favType={profileData.favoriteType}
-                        watchedAnimeList={profileData.userAnimeData.watched}
-                        actualBackground={profileData.background}
-                        introduction={profileData.introduction}
-                        customBackgroundsList={profileData.customBackgrounds}
-                        callAPI={callAPI}/>
+                        <ProfileEdit profileData={profileData} types={types} getProfileData={getProfileData} />
                     </Route>
                     <Route path="/profile/:userID/private">
-                        <ProfilePrivate isUserLogged={isUserLogged}/>
+                        <ProfilePrivate />
                     </Route>
                 </Switch>
-            </div>
-            <RightSide isUserLogged={isUserLogged}/>
+            </div> : null}
+            <RightSide />
         </main>
      );
 }

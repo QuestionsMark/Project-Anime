@@ -6,11 +6,19 @@ import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useUser } from '../contexts/UserProvider';
 
 let audio;
 let prevScroll;
 
-const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTypes, description, soundtrack, watchLink, callAPI}) => {
+const AnimeOnTopAnimeInfo = ({ anime, refresh, setAnime }) => {
+
+    const { _id: id, rate, title, link, types, watchLink } = anime;
+    const img = anime.images.mini.id;
+    const description = anime.description.description;
+    const soundtrack = anime.soundtracks[0].id;
+
+    const [,, authorization] = useUser();
 
     const handleMusic = () => {
         const audio = document.querySelector('.AOT__audio');
@@ -44,14 +52,12 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
         prevScroll = prevscroll
     }
     
-    const handleFinishAOT = () => {
-        fetch(`${HOST_ADDRESS}/aot/finish`, {
-            headers: {
-                'authorization': localStorage.getItem('token')
-            },
+    const handleFinishAOT = async () => {
+        await fetch(`${HOST_ADDRESS}/aot/finish`, {
             method: 'PUT'
-        })
-            .then(() => callAPI())
+        });
+        setAnime();
+        refresh();
     }
 
     const showRate = () => {
@@ -67,7 +73,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
         return average;
     }
 
-    const types = [...animeTypes].map(type => <Link to={`/types/${type.link}`} key={type.id} className="AOT__type">{type.name}</Link>);
+    const typesList = [...types].map(type => <Link to={`/types/${type.link}`} key={type.id} className="AOT__type">{type.name}</Link>);
 
     useEffect(() => {
         audio = document.querySelector('.AOT__audio');
@@ -76,10 +82,9 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
 
     return ( 
         <>
-            {isAuthorized ? <div className="AOT__adminPanel">
+            {authorization === '2' || authorization === '3' ? <div className="AOT__adminPanel">
                 <p className="AOT__finish" data-id={id} onClick={handleFinishAOT}>Zakończ</p>
             </div> : null}
-            <h2 className="AOT__title">Anime na Topie!</h2>
             <div className="AOT__animeContent">
                 <div className="AOT__left">
                     <div className="AOT__imgWrapper">
@@ -93,7 +98,7 @@ const AnimeOnTopAnimeInfo = ({isAuthorized, id, img, rate, title, link, animeTyp
                 <div className="AOT__center">
                     <Link to={`/pages/${link}`} className="AOT__animeTitle">{title}</Link>
                     <div className="AOT__types">
-                        {types}
+                        {typesList}
                     </div>
                     <p className="AOT__description">{description}</p>
                 </div>

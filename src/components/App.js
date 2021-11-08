@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import { WTMCommentsProvider } from '../contexts/WTMCommentsProvider';
+import { useUser } from '../contexts/UserProvider';
+import { useUsers } from '../contexts/UsersProvider';
+import { useAnime } from '../contexts/AnimeProvider';
+import setContexts from '../utils/setContexts';
 
 import Footer from './Footer';
 import Home from './main/Home';
@@ -25,104 +31,107 @@ import { HOST_ADDRESS } from '../config';
 
 function App() {
 
-  const [isUserLogged, setIsUserLogged] = useState(false);
+  const [status, setStatus, , setAuthorization, , setUser] = useUser();
+  const [, setUsers] = useUsers();
+  const [, setAnime] = useAnime();
 
-  const handleSignIn = () => {
-    document.querySelector('.loginScreen').classList.toggle('none');
-  }
-
-  const checkUserState = () => {
-    fetch(`${HOST_ADDRESS}/users/is-user-logged`, {
-      headers: {
-        'Authorization': localStorage.getItem('token')
-      },
-      method: 'GET'
-    })
-      .then(async res => {
-        if (res.status !== 403) {
-          const response = await res.json();
-          response.isLogged = true;
-          return response;
+  const checkUserStatus = async () => {
+    if (localStorage.getItem('animark-user-id')) {
+      try {
+        const response = await fetch(`${HOST_ADDRESS}/users/${JSON.parse(localStorage.getItem('animark-user-id'))}/status`);
+        if (response.ok) {
+          setStatus(true);
+          const { rank } = await response.json();
+          setAuthorization(rank);
         } else {
-          const response = await res.json();
-          response.isLogged = false;
-          return response;
+          setStatus(false);
+          setAuthorization('1');
         }
-      })
-      .then(res => {
-        setIsUserLogged(res.isLogged);
-      })
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
+
+  const setApp = async () => {
+    const { users, user, anime } = await setContexts(JSON.parse(localStorage.getItem('animark-user-id')));
+    console.log({ users, user, anime });
+    setAnime(anime);
+    setUsers(users);
+    setUser(user || {});
+    checkUserStatus();
+  };
 
   useEffect(() => {
-    checkUserState()
+    setApp();
   }, [])
 
   return (
     <Router>
+      <WTMCommentsProvider>
+        {/* ---Popups--- */}
 
-      {/* ---Hidden elements--- */}
+        {status ? null : <LoginScreen />}
+        {status ? null : <RegisterScreen />}
 
-      {isUserLogged ? null : <LoginScreen />}
-      {isUserLogged ? null : <RegisterScreen handleSignIn={handleSignIn} />}
+        {/* ---TopSide--- */}
 
-      {/* ---TopSide--- */}
+        <Nav />
 
-      <Nav isUserLogged={isUserLogged} handleSignIn={handleSignIn} />
+        {/* ---Main--- */}
 
-      {/* ---Main--- */}
+        <Switch>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/anime-list">
+            <Anime />
+          </Route>
+          <Route path="/top">
+            <Top />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/galery">
+            <Galery />
+          </Route>
+          <Route path="/profile/:id">
+            <Profile />
+          </Route>
+          <Route path="/pages/create">
+            <PageCreate />
+          </Route>
+          <Route path="/pages/:animeID">
+            <Page />
+          </Route>
+          <Route path="/types">
+            <Types />
+          </Route>
+          <Route path="/news">
+            <News />
+          </Route>
+          <Route path="/rules">
+            <Rules />
+          </Route>
+          <Route path="/source">
+            <Source />
+          </Route>
+          <Route path="/my-projects">
+            <MyProjects />
+          </Route>
+          <Route path="/sao">
+            <SAOClicker />
+          </Route>
+          <Route path="/">
+            <NotFound />
+          </Route>
+        </Switch>
 
-      <Switch>
-        <Route path="/" exact>
-          <Home isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/anime-list">
-          <Anime isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/top">
-          <Top isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/users">
-          <Users isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/galery">
-          <Galery />
-        </Route>
-        <Route path="/profile/:userLink">
-          <Profile isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/pages/create">
-          <PageCreate isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/pages/:anime">
-          <Page isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/types">
-          <Types isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/news">
-          <News isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/rules">
-          <Rules isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/source">
-          <Source isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/my-projects">
-          <MyProjects isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/sao">
-          <SAOClicker isUserLogged={isUserLogged} />
-        </Route>
-        <Route path="/">
-          <NotFound isUserLogged={isUserLogged} />
-        </Route>
-      </Switch>
+        {/* ---BottomSide--- */}
 
-      {/* ---BottomSide--- */}
-
-      <Footer />
+        <Footer />
+      </WTMCommentsProvider>
     </Router>
   );
 }

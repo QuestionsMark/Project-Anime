@@ -6,92 +6,42 @@ import RightSide from '../RightSide';
 import Search from '../Search';
 import AnimeList from '../AnimeList';
 
-import { HOST_ADDRESS } from '../../config.js';
+import { useAnime } from '../../contexts/AnimeProvider';
 
-const Anime = ({history, match, isUserLogged}) => {
+const Anime = ({history, match}) => {
+
+    const [anime] = useAnime();
 
     const [searchValue, setSearchValue] = useState('');
-    const [animeList, setAnimeList] = useState([])
-    const [userData, setUserData] = useState({
-        favoriteAnime: {
-            link: '',
-        },
-        userAnimeData: {
-            watched: [
-                {
-                    link: '',
-                }
-            ],
-            stopped: [
-                {
-                    link: '',
-                }
-            ],
-            processOfWatching: [
-                {
-                    link: '',
-                }
-            ],
-            planned: [
-                {
-                    link: '',
-                }
-            ],
-        }
-    });
-
     const handleSearch = (e) => {
         setSearchValue(e.target.value);
-    }
+    };
 
-    const searchAnimeList = (type) => {
-        if (type === "series") {
-            const series = animeList.filter(a => a.kind === "series");
-            const filtered = series.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
-            const sorted = filtered.sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                    return 1;
-                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                    return -1;
-                }
-                return 0;
-            })
-            return sorted;
-        } else if (type === "movies") {
-            const movies = animeList.filter(a => a.kind === "movie");
-            const filtered = movies.filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
-            const sorted = filtered.sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                    return 1;
-                } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                    return -1;
-                }
-                return 0;
-            })
-            return sorted;
+    const getAnimeList = (type) => {
+        if (type === 'series') {
+            return anime
+                .filter(a => a.kind === 'series')
+                .filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
+                .sort((a, b) => {
+                    if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                    if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                    return 0;
+                });
+        } else if (type === 'movies') {
+            return anime
+                .filter(a => a.kind === 'movies')
+                .filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
+                .sort((a, b) => {
+                    if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                    if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                    return 0;
+                });
         }
-    }
+    };
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
-
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/anime`)
-            .then(res => res.json())
-            .then(res => setAnimeList(res));
-        if (isUserLogged) {
-            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
-                .then(res => res.json())
-                .then(res => {
-                    setUserData(res);
-                });
-        }
-    }
-
-    useEffect(() => {
-        callAPI();
-    }, [isUserLogged]);
 
     useEffect(() => {
         goUp();
@@ -105,14 +55,14 @@ const Anime = ({history, match, isUserLogged}) => {
                 <Search handleSearch={handleSearch}/>
                 <div className="anime__series scrollNav" data-id="2">
                     <h2 className="anime__title">Serie Anime</h2>
-                    <AnimeList anime={searchAnimeList("series")} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
+                    <AnimeList anime={getAnimeList('series')} />
                 </div>
                 <div className="anime__movies scrollNav" data-id="3">
                     <h2 className="anime__title">Filmy Anime</h2>
-                    <AnimeList anime={searchAnimeList("movies")} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
+                    <AnimeList anime={getAnimeList('movies')} />
                 </div>
             </div>
-            <RightSide isUserLogged={isUserLogged}/>
+            <RightSide/>
         </main>
      );
 }

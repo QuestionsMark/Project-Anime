@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 
+import { useUser } from '../contexts/UserProvider';
+
 import Icon from '@material-ui/core/Icon';
 import HomeIcon from '@material-ui/icons/Home';
 import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined';
@@ -10,14 +12,18 @@ import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 import logo from '../media/img/icon.jpg';
 
-const Nav = ({isUserLogged, handleSignIn, history}) => {
+const Nav = ({ history }) => {
 
-    // const [profileLink, setProfileLink] = useState("cos");
+    const [status] = useUser();
+
+    const handleSignIn = () => {
+        document.querySelector('.loginScreen').classList.toggle('none');
+    }
 
     const handleLogOut = () => {
-        localStorage.removeItem('UID')
-        localStorage.removeItem('token');
-        localStorage.removeItem('l');
+        localStorage.removeItem('animark-user-id')
+        localStorage.removeItem('animark-token');
+        localStorage.removeItem('animark-link');
         history.push('/');
         window.location.reload();
       }
@@ -52,10 +58,10 @@ const Nav = ({isUserLogged, handleSignIn, history}) => {
                         <NavLink to="/galery" className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    {isUserLogged ? <li className="menu__item"><NavLink to={`/profile/${localStorage.getItem('l')}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
+                    {status ? <li className="menu__item"><NavLink to={`/profile/${JSON.parse(localStorage.getItem('animark-user-id'))}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
                 </ul>
             </nav>
-            {isUserLogged ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleSignIn}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }
+            {status ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleSignIn}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }
         </div>
      );
 }

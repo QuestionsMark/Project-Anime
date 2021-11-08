@@ -3,32 +3,56 @@ import React, { useState } from 'react';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useWTMComments } from '../contexts/WTMCommentsProvider';
 
-const AddWTMComment = ({scrollDown}) => {
+const AddWTMComment = () => {
+
+    const [, setWTMComments] = useWTMComments();
 
     const [text, setText] = useState('');
     const handleTextChange = (e) => {
         setText(e.target.value);
     }
 
-    const handleAddComment = () => {
+    const scrollDown = async () => {
+        const scrollValue = document.querySelector('.main__rightSide').scrollHeight;
+        document.querySelector('.main__rightSide').scroll({
+            behavior: 'smooth',
+            top: scrollValue
+        });
+        const scrollValue2 = document.querySelector('.WTMC__list').scrollHeight;
+        document.querySelector('.WTMC__list').scroll({
+            behavior: 'smooth',
+            top: scrollValue2
+        });
+    }
+
+    const getWTMComments = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/wtm/comments`);
+        const comments = await response.json();
+        if (!comments.error) {
+            setWTMComments(comments);
+        }
+    }
+
+    const handleAddComment = async () => {
         const date = new Date();
-        fetch(`${HOST_ADDRESS}/wtm/add-comment`, {
+        const response = await fetch(`${HOST_ADDRESS}/wtm/add-comment`, {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token')
             },
             method: 'POST',
             body: JSON.stringify({
-                user: localStorage.getItem('UID'),
+                user: JSON.parse(localStorage.getItem('animark-user-id')),
                 text,
                 date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`
             })
-        })
-            .then(res => res.json())
-            .then(() => {
-                scrollDown();
-            });
+        });
+        const commentAdded = await response.json();
+        if (!commentAdded.error) {
+            await getWTMComments();
+            scrollDown();
+        }
         setText('');
     }
 

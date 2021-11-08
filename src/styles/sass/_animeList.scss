@@ -53,13 +53,13 @@
     }
 
     &__animeContent {
-        flex-basis: 45%;
+        flex-grow: 1;
         margin-left: 20px;
     }
 
     &__imgWrapper {
-        width: 4vw;
-        height: 4vw;
+        width: 70px;
+        height: 70px;
         border-radius: 10px;
         margin-bottom: 5px;
         overflow: hidden;
@@ -67,6 +67,7 @@
 
     &__rate {
         display: flex;
+        margin: 0 2%;
         align-items: center;
         font-weight: bold;
         color: $font-color2;

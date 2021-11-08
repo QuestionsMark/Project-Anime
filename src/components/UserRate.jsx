@@ -58,45 +58,48 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
     }
 
     const checkActive = (type) => {
-        if (type === "favorite") {
-            if (userData.favoriteAnime.link === match.params.anime) {
-                return "active";
-            } else {
-                return '';
-            }
-        } else if (type === "watched") {
-            const watched = userData.userAnimeData.watched;
-            const index = watched.findIndex(w => w.link === match.params.anime);
-            if (index !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
-        } else if (type === "stopped") {
-            const stopped = userData.userAnimeData.stopped;
-            const index = stopped.findIndex(w => w.link === match.params.anime);
-            if (index !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
-        } else if (type === "processOfWatching") {
-            const processOfWatching = userData.userAnimeData.processOfWatching;
-            const index = processOfWatching.findIndex(w => w.link === match.params.anime);
-            if (index !== -1) {
-                return "active";
-            } else {
-                return '';
-            }
-        } else if (type === "planned") {
-            const planned = userData.userAnimeData.planned;
-            const index = planned.findIndex(w => w.link === match.params.anime);
-            if (index !== -1) {
-                return "active";
-            } else {
-                return '';
+        if (userData) {
+            if (type === "favorite") {
+                if (userData.favoriteAnime.link === match.params.anime) {
+                    return "active";
+                } else {
+                    return '';
+                }
+            } else if (type === "watched") {
+                const watched = userData.userAnimeData.watched;
+                const index = watched.findIndex(w => w.link === match.params.anime);
+                if (index !== -1) {
+                    return "active";
+                } else {
+                    return '';
+                }
+            } else if (type === "stopped") {
+                const stopped = userData.userAnimeData.stopped;
+                const index = stopped.findIndex(w => w.link === match.params.anime);
+                if (index !== -1) {
+                    return "active";
+                } else {
+                    return '';
+                }
+            } else if (type === "processOfWatching") {
+                const processOfWatching = userData.userAnimeData.processOfWatching;
+                const index = processOfWatching.findIndex(w => w.link === match.params.anime);
+                if (index !== -1) {
+                    return "active";
+                } else {
+                    return '';
+                }
+            } else if (type === "planned") {
+                const planned = userData.userAnimeData.planned;
+                const index = planned.findIndex(w => w.link === match.params.anime);
+                if (index !== -1) {
+                    return "active";
+                } else {
+                    return '';
+                }
             }
         }
+        return '';
     }
     
     const starList = (rateValue = userRate) => {

@@ -1,47 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { useUsers } from '../contexts/UsersProvider';
 
 import { Button } from '@material-ui/core';
 
 import RecommendedProfile from './RecommendedProfile';
 
-import { HOST_ADDRESS } from '../config';
-
 const RecommendedProfiles = () => {
 
-    const [profiles, setProfiles] = useState([
-        {
-            id: '',
-            username: '',
-            avatar: '',
-            likes: [],
-            background: '',
-            link: '',
-        }
-    ]);
+    const [users] = useUsers();
 
     const profilesList = () => {
-        const sorted = profiles.sort((a, b) => {
-            if (a.likes.length < b.likes.length) {
-                return -1;
-            } else if (a.likes.length > b.likes.length) {
-                return 1;
-            }
-            return 0;
-        }).reverse()
-        const filtered = sorted.slice(0, 5);
-        return filtered.map(p => <RecommendedProfile key={p.id} username={p.username} avatar={p.avatar} likes={p.likes} background={p.background} link={p.link}/>)
+        const sorted = users
+            .sort((a, b) => {
+                if (a.likes.length < b.likes.length) return -1;
+                if (a.likes.length > b.likes.length) return 1;
+                return 0;
+            })
+            .reverse()
+        return sorted
+            .slice(0, 5)
+            .map(u => <RecommendedProfile key={u.id} user={u} />);
     }
-
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/users`)
-            .then(res => res.json())
-            .then(res => setProfiles(res));
-    }
-
-    useEffect(() => {
-        callAPI();
-    },[])
 
     return ( 
         <section className="RP main__section scrollNav"  data-id="2">

@@ -1,0 +1,81 @@
+.addComment {
+    @include page-style;
+    height: calc(5vw + 40px);
+    overflow: hidden;
+    transition: 0.5s;
+
+    &.show {
+        height: calc(5vw + 80px);
+    }
+
+    &__content {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__imgWrapper {
+        width: 5vw;
+        height: 5vw;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__form {
+        width: calc(100% - 5vw - 20px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .addComment__sendIcon {
+            width: 1.3vw;
+            height: 1.3vw;
+            color: $font-color2;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                color: $main-color;
+            }
+        }
+    }
+
+    &__textarea {
+        padding: 10px;
+        border: 2px solid darken($main-color, 20%);
+        background-color: transparent;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        color: $font-color;
+        outline: none;
+        resize: none;
+        width: calc(100% - 1.3vw - 20px);
+        height: 5vw;
+        transition: 0.3s;
+
+        &::placeholder {
+            color: #909090;
+        }
+
+        &:focus {
+            border: 2px solid $main-color;
+            color: $font-color2;
+        }
+    }
+
+    &__btn-submit {
+        display: block;
+        background-color: transparent;
+        border: none;
+        outline: none;
+    }
+
+    &__validation-text {
+        padding: 20px 20px 0;
+        font-size: 14px;
+        font-weight: bold;
+        color: red;
+    }
+}

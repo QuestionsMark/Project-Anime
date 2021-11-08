@@ -2,68 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
+import { useAnime } from '../../contexts/AnimeProvider';
+
 import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
 import Search from '../Search';
 
-import { HOST_ADDRESS } from '../../config';
-
 const Galery = ({history, match}) => {
 
-    const [anime, setAnime] = useState([
-            {
-                _id: '',
-                title: '',
-                link: '',
-                images: {
-                    galeryImages: [
-                        {
-                            id: '',
-                            img: '',
-                            fromAnime: ''
-                        }
-                    ]
-                }
-            }
-        ]);
-    const [searchPhrase, setSearchPhrase] = useState('');
+    const [anime] = useAnime();
 
+    const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {
         setSearchPhrase(e.target.value);
-    }
+    };
 
     const folderList = () => {
-        const folders = anime;
-        const filtered = folders.filter(f => f.title.toLowerCase().includes(searchPhrase.toLowerCase()));
-        const sorted = filtered.sort((a, b) => {
-            if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                return 1;
-            } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                return -1;
-            }
-            return 0;
-        })
-        return sorted.map(f => <SingleFolder key={f._id} anime={f.title} link={f.link} images={f.images.galeryImages}/>)
-    }
+        return anime
+            .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
+            .sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                return 0;
+            })
+            .map(f => <SingleFolder key={f._id} anime={f.title} link={f.link} images={f.images.galeryImages}/>);
+    };
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
 
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/anime`)
-            .then(res => res.json())
-            .then(res => setAnime(res));
-    }
-
     useEffect(() => {
         goUp();
-        callAPI();
-    }, []);
-
-    useEffect(() => {
         setSearchPhrase('');
-    },[match])
+    }, [match]);
 
     return ( 
         <main className="main">

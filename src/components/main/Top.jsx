@@ -1,45 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { useAnime } from '../../contexts/AnimeProvider';
+
 import TopAnimeList from '../TopAnimeList';
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import Filter from '../Filter';
 import Search from '../Search';
 
-import { HOST_ADDRESS } from '../../config';
+const Top = ({history, match}) => {
 
-const Top = ({history, isUserLogged, match}) => {
+    const [anime] = useAnime();
 
-    const [animeList, setAnimeList] = useState([])
-    const [userData, setUserData] = useState({
-        favoriteAnime: {
-            link: '',
-        },
-        userAnimeData: {
-            watched: [
-                {
-                    link: '',
-                }
-            ],
-            stopped: [
-                {
-                    link: '',
-                }
-            ],
-            processOfWatching: [
-                {
-                    link: '',
-                }
-            ],
-            planned: [
-                {
-                    link: '',
-                }
-            ],
-        }
-    });
     const [searchPhrase, setSearchPhrase] = useState('');
+    const handleSearch = (e) => {
+        setSearchPhrase(e.target.value);
+    };
+
     const [wantTypesFilter, setWantTypesFilter] = useState([]);
     const [dontWantTypesFilter, setDontWantTypesFilter] = useState([]);
     const [kindFilter, setKindFilter] = useState('all');
@@ -95,12 +73,11 @@ const Top = ({history, isUserLogged, match}) => {
                 return newState;
             })
         }
-    }
+    };
 
     const handleFilterKind = (e) => {
-        console.log(e.target.value)
-        setKindFilter(e.target.value)
-    }
+        setKindFilter(e.target.value);
+    };
 
     const handleFilterRate = (e) => {
         const value = e.target.value;
@@ -118,123 +95,101 @@ const Top = ({history, isUserLogged, match}) => {
                 setRateMaxFilter('');
             }
         }
-    }
-
-    const handleSearch = (e) => {
-        setSearchPhrase(e.target.value);
-    }
+    };
 
     const filteredAnimeList = () => {
-        let FK;
+        let filtered;
         if (kindFilter === 'all') {
-            FK = [...animeList];
+            filtered = anime;
         } else if (kindFilter === 'series') {
-            FK = animeList.filter(a => a.kind === 'series');
+            filtered = anime.filter(a => a.kind === 'series');
         } else if (kindFilter === 'movies') {
-            FK = animeList.filter(a => a.kind === 'movie');
+            filtered = anime.filter(a => a.kind === 'movie');
         }
-        const FS = FK.filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()));
-        const FWT = FS.filter(anime => {
-            let has = true;
-            let types = [];
-            anime.types.forEach(t => {
-                types.push(t.name)
-            });
-            wantTypesFilter.forEach(t => {
-                if (types.indexOf(t) === -1) {
-                    has = false;
-                }
+        return filtered
+            .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
+            .filter(anime => {
+                let has = true;
+                let types = [];
+                anime.types.forEach(t => {
+                    types.push(t.name)
+                });
+                wantTypesFilter.forEach(t => {
+                    if (types.indexOf(t) === -1) {
+                        has = false;
+                    }
+                })
+                return has;
             })
-            return has;
-        })
-        const FDWT = FWT.filter(anime => {
-            let hasNot = true;
-            let types = [];
-            anime.types.forEach(t => {
-                types.push(t.name)
-            });
-            dontWantTypesFilter.forEach(t => {
-                if (types.indexOf(t) !== -1) {
-                    hasNot = false;
-                }
+            .filter(anime => {
+                let hasNot = true;
+                let types = [];
+                anime.types.forEach(t => {
+                    types.push(t.name)
+                });
+                dontWantTypesFilter.forEach(t => {
+                    if (types.indexOf(t) !== -1) {
+                        hasNot = false;
+                    }
+                })
+                return hasNot;
             })
-            return hasNot;
-        })
-        const FMinR = FDWT.filter(a => {
-            let average = 0;
-            if (a.rate.length > 0) {
-                let rateValueA = 0;
-                a.rate.forEach(r => rateValueA += r.rate);
-                average = (rateValueA / a.rate.length).toFixed(2) * 1;
-            }
-            return average >= rateMinFilter;
-        });
-        const FMaxR = FMinR.filter(a => {
-            if (rateMaxFilter === '') {
-                return true;
-            } else {
+            .filter(a => {
                 let average = 0;
                 if (a.rate.length > 0) {
                     let rateValueA = 0;
                     a.rate.forEach(r => rateValueA += r.rate);
                     average = (rateValueA / a.rate.length).toFixed(2) * 1;
                 }
-                return average <= rateMaxFilter;
-            }
-        });
-        const sorted = FMaxR.sort((a, b) => {
-            let averageA = 0;
-            if (a.rate.length > 0) {
-                let rateValueA = 0;
-                a.rate.forEach(r => rateValueA += r.rate);
-                averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
-            }
-            let averageB = 0;
-            if (b.rate.length > 0) {
-                let rateValueB = 0;
-                b.rate.forEach(r => rateValueB += r.rate);
-                averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
-            }
-            if (averageA < averageB) {
-                return 1;
-            } else if (averageA > averageB) {
-                return -1;
-            } else {
-                if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                    return -1;
-                } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                    return 1
+                return average >= rateMinFilter;
+            })
+            .filter(a => {
+                if (rateMaxFilter === '') {
+                    return true;
+                } else {
+                    let average = 0;
+                    if (a.rate.length > 0) {
+                        let rateValueA = 0;
+                        a.rate.forEach(r => rateValueA += r.rate);
+                        average = (rateValueA / a.rate.length).toFixed(2) * 1;
+                    }
+                    return average <= rateMaxFilter;
                 }
-                return 0;
-            }
-        })
-        return sorted;
-    }
+            })
+            .sort((a, b) => {
+                let averageA = 0;
+                if (a.rate.length > 0) {
+                    let rateValueA = 0;
+                    a.rate.forEach(r => rateValueA += r.rate);
+                    averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
+                }
+                let averageB = 0;
+                if (b.rate.length > 0) {
+                    let rateValueB = 0;
+                    b.rate.forEach(r => rateValueB += r.rate);
+                    averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
+                }
+                if (averageA < averageB) {
+                    return 1;
+                } else if (averageA > averageB) {
+                    return -1;
+                } else {
+                    if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                        return -1;
+                    } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                        return 1
+                    }
+                    return 0;
+                }
+            });
+    };
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
 
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/anime`)
-            .then(res => res.json())
-            .then(res => setAnimeList(res));
-        if (isUserLogged) {
-            fetch(`${HOST_ADDRESS}/users/${localStorage.getItem('l')}`)
-                .then(res => res.json())
-                .then(res => {
-                    setUserData(res);
-                });
-        }
-    }
-
-    useEffect(() => {
-        callAPI();
-    }, [isUserLogged]);
-
     useEffect(() => {
         goUp();
-        // callAPI();
     }, [match]);
 
     return ( 
@@ -246,9 +201,9 @@ const Top = ({history, isUserLogged, match}) => {
                     <Search handleSearch={handleSearch}/>
                 </div>
                 <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
-                <TopAnimeList anime={filteredAnimeList()} isUserLogged={isUserLogged} user={userData} callAPI={callAPI}/>
+                <TopAnimeList anime={filteredAnimeList()} />
             </div>
-            <RightSide isUserLogged={isUserLogged}/>
+            <RightSide />
         </main>
      );
 }

@@ -1,21 +1,26 @@
 import React from 'react';
 
+import { useUser } from '../contexts/UserProvider';
+
 import AddComment from './AddComment';
 import SingleComment from './SingleComment';
 
-import img from '../media/img/sak6-spec.jpg';
+const Comments = ({animeData, getAnime, setOpen, setResponse}) => {
 
-const Comments = ({comments, isAuthorized, handleRemove, callAPI}) => {
+    const [status] = useUser();
+
+    const { comments } = animeData;
 
     const commentsList = () => {
-        const sorted = [...comments].reverse();
-        return sorted.map(c => <SingleComment key={c.id} id={c.id} username={c.username} img={c.img} date={c.date} text={c.text} likes={c.likes} isAuthorized={isAuthorized} handleRemove={handleRemove} callAPI={callAPI}/>)
-    }
+        return [...comments]
+            .reverse()
+            .map(c => <SingleComment key={c.id} comment={c} setOpen={setOpen} setResponse={setResponse} animeData={animeData} getAnime={getAnime}/>);
+    };
 
     return ( 
         <div className="comments scrollNav" data-id="6">
             <h2 className="comments__title largeTitle">Komentarze</h2>
-            <AddComment avatar={img} callAPI={callAPI}/>
+            {status ? <AddComment getAnime={getAnime} animeData={animeData}/> : null}
             <div className="comments__container">
                 <ul className="comments__list">
                     {commentsList()}

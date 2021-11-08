@@ -1,20 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'reactjs-popup/dist/index.css';
 import './styles/css/main.css';
 import App from './components/App';
-import reportWebVitals from './reportWebVitals';
 import SimpleReactLightbox from 'simple-react-lightbox';
+
+import { UserProvider } from './contexts/UserProvider';
+import { UsersProvider } from './contexts/UsersProvider';
+import { AnimeProvider } from './contexts/AnimeProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <SimpleReactLightbox>
-      <App />
+      <UserProvider>
+        <UsersProvider>
+          <AnimeProvider>
+            <App />
+          </AnimeProvider>
+        </UsersProvider>
+      </UserProvider>
     </SimpleReactLightbox>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

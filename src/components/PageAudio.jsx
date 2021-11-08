@@ -9,8 +9,13 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useUser } from '../contexts/UserProvider';
 
-const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove, callAPI, match}) => {
+const PageAudio = ({soundtrack, animeData, getAnime, setOpen, setResponse}) => {
+
+    const {id, composer, title, likes} = soundtrack;
+
+    const [,,authorization,,user] = useUser();
 
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00 : 00');
@@ -118,41 +123,64 @@ const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove,
     }
 
     const isActive = () => {
-        if (likes.findIndex(l => l === localStorage.getItem('UID')) !== -1) {
+        if (likes.findIndex(l => l === user.id) !== -1) {
             return 'active';
         }
         return '';
     }
 
-    const handleLikeClick = (e) => {
-        let target = e.target;
-        if (target.localName === "path") {
-            target = target.parentElement;
+    const handleLikeClick = async () => {
+        if (JSON.stringify(user) !== "{}") {
+            await fetch(`${HOST_ADDRESS}/soundtracks/like/${id}/${animeData.id}/${user.id}`, {
+                method: 'PUT',
+            });
+            getAnime();
+        } else {
+            // Przenieś do logowania
         }
-        const id = target.getAttribute('data-id');
-        fetch(`${HOST_ADDRESS}/soundtracks/like`, {
+    }
+
+    const handleRemove = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/soundtracks`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token'),
-                'soundtrack': id,
-                'user': localStorage.getItem('UID'),
-                'anime': match.params.anime
             },
-            method: 'PUT',
-        })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res.response)
-                callAPI();
-            })
-    }
+            body: JSON.stringify({
+                id,
+            }),
+        });
+        if (response.ok) {
+            const response2 = await fetch(`${HOST_ADDRESS}/anime/soundtrack`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    animeID: animeData.id,
+                    id,
+                }),
+            });
+            if (response2.ok) {
+                setResponse({status: response2.ok, message: 'Soundtrack został usunięty.'});
+            } else {
+                const error = await response2.json();
+                setResponse({status: response2.ok, message: error.message});
+            }
+            getAnime();
+            setOpen(true);
+        } else {
+            const error = await response.json();
+            setResponse({status: response.ok, message: error.message});
+        } 
+    };
 
     return ( 
         <div className="page__soundtrack">
-            {isAuthorized ? <div className="page__adminChanges">
-                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" data-id={id} data-name={mp3} onClick={(e) => {handleRemove("soundtrack", e)}}/>
+            {authorization === '2' || authorization === '3' ? <div className="page__adminChanges">
+                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
             </div> : null}
-            <audio src={`${HOST_ADDRESS}/soundtracks/${mp3}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
+            <audio src={`${HOST_ADDRESS}/soundtracks/${id}`} className="audioInterface__pageAudio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate}></audio>
             <div className="audioInterface audioInterface--borderSize">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />
@@ -171,7 +199,7 @@ const PageAudio = ({id, mp3, composer, title, likes, isAuthorized, handleRemove,
             <p className="audioInterface__soundtrackInfo">{composer}&nbsp;&nbsp;-&nbsp;&nbsp;"{title}"</p>
             <div className="audioInterface__likes">
                 <p className="audioInterface__likesValue">{likes.length}</p>
-                <FavoriteBorderRoundedIcon className={`audioInterface__likeIcon ${isActive()}`} data-id={id} onClick={(e) => {handleLikeClick(e)}}/>
+                <FavoriteBorderRoundedIcon className={`audioInterface__likeIcon ${JSON.stringify(user) !== "{}" ? isActive() : ''}`} data-id={id} onClick={(e) => {handleLikeClick(e)}}/>
             </div>
         </div>
      );

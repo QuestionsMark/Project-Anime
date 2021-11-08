@@ -1,61 +1,90 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 
+import img from '../media/img/guest.png';
+
 import { HOST_ADDRESS } from '../config.js';
+import { useUser } from '../contexts/UserProvider';
 
-const AddComment = ({avatar, callAPI, match}) => {
+const AddComment = ({animeData, getAnime}) => {
 
+    const addCommentDiv = useRef();
+    const textarea = useRef();
+
+    const [,,,,user] = useUser();
+
+    const [validationErrors, setValidationErrors] = useState(
+        ['Komentarz powinien zawierać od 1 do 3000 znaków.']
+    );
     const [text, setText] = useState('');
     const handleTextChange = (e) => {
         setText(e.target.value);
-    }
+    };
 
-    const handleSend = () => {
-        if (text.length > 1) {
+    const checkValidation = () => {
+        const errors = [];
+
+        if (text.length === 0 || text.length > 3000) {
+            errors.push('Komentarz powinien zawierać od 1 do 3000 znaków.');
+        }
+
+        return errors;
+    };
+
+    const handleShowValidate = () => {
+        addCommentDiv.current.classList.add('show');
+    };
+    const handleHideValidate = () => {
+        addCommentDiv.current.classList.remove('show');
+    };
+
+    const handleKeyDown = e => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            handleAddComment(e);
+        }
+    };
+
+    const handleAddComment = async e => {
+        e.preventDefault();
+        if (validationErrors.length === 0) {
             const date = new Date();
-
-            fetch(`${HOST_ADDRESS}/pages/change/add-comment`, {
+            setText('');
+            textarea.current.blur();
+            await fetch(`${HOST_ADDRESS}/anime/comment`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    anime: match.params.anime,
-                    user: localStorage.getItem('UID'),
+                    animeID: animeData.id,
+                    userID: user.id,
                     date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
-                    text
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    callAPI();
-                    setText('');
-                })
-        } else {
-            setText('');
+                    text,
+                }),
+            });
+            getAnime();
         }
-    }
+    };
 
-    const handleKeyDown = (e) => {
-        if (e.keyCode === 13 && !e.shiftKey) {
-            handleSend();
-        }
-    }
+    useEffect(() => {
+        setValidationErrors(checkValidation());
+    }, [text]);
 
     return ( 
-        <div className="addComment">
-            <div className="addComment__imgWrapper">
-                <img src={avatar} alt="avatar" className="img" />
+        <div ref={addCommentDiv} className="addComment">
+            <div className="addComment__content">
+                <div className="addComment__imgWrapper">
+                    <img src={user.avatar ? `${HOST_ADDRESS}/images/${user.avatar}` : img} alt="avatar" className="img" />
+                </div>
+                <form className="addComment__form" onSubmit={handleAddComment}>
+                    <textarea ref={textarea} className="addComment__textarea" placeholder="Napisz komentarz..." value={text} onChange={handleTextChange} onKeyDown={handleKeyDown} onFocus={handleShowValidate} onBlur={handleHideValidate}/>
+                    <button type="submit" className="addComment__btn-submit" onClick={handleAddComment}><SendRoundedIcon className="addComment__sendIcon"/></button>
+                </form>
             </div>
-            <form className="addComment__form">
-                <textarea className="addComment__textarea" placeholder="Napisz komentarz..." value={text} onChange={handleTextChange} onKeyDown={handleKeyDown}/>
-                <SendRoundedIcon className="addComment__sendIcon" onClick={handleSend}/>
-            </form>
+            <p className="addComment__validation-text">* Komentarz powinien zawierać od 1 do 3000 znaków. ( <span style={{color: text.length === 0 || text.length > 3000 ? '#d14141' : '#5ec45e'}}>{text.length}</span> )</p>
         </div>
      );
 }
  
-export default withRouter(AddComment);
+export default AddComment;

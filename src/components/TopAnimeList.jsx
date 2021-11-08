@@ -2,7 +2,7 @@ import React from 'react';
 
 import SingleTopAnime from './SingleTopAnime';
 
-const TopAnimeList = ({anime, isUserLogged, user, callAPI}) => {
+const TopAnimeList = ({anime}) => {
 
     const animeList = () => {
         return anime.map((a, i) => {
@@ -15,7 +15,7 @@ const TopAnimeList = ({anime, isUserLogged, user, callAPI}) => {
             } else {
                 rate = 0;
             }
-            return <SingleTopAnime key={a._id} title={a.title} link={a.link} place={i + 1} img={a.images.mini.img} types={a.types} rate={rate} isUserLogged={isUserLogged} user={user} callAPI={callAPI}/>
+            return <SingleTopAnime key={a.id} place={i + 1} anime={a} rate={rate} />
         });
     }
 

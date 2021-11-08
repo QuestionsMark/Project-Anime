@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
+import { useAnime } from '../contexts/AnimeProvider';
+
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import { HOST_ADDRESS } from '../config';
 
 const AnimeOnTopQuestionnaire = ({id, refresh}) => {
 
-    const [animeList, setAnimeList] = useState([
-        {
-            _id: '',
-            title: ''
-        }
-    ]);
+    const [anime] = useAnime();
+
     const [AOTQuestionnaire, setAOTQuestionnaire] = useState('');
 
     const handleSendVote = (e) => {
@@ -25,12 +23,11 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
             fetch(`${HOST_ADDRESS}/aot/vote`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
                 },
                 method: 'POST',
                 body: JSON.stringify({
                     AOTID,
-                    user: localStorage.getItem('UID'),
+                    user: JSON.parse(localStorage.getItem('animark-user-id')),
                     vote: AOTQuestionnaire
                 })
             })
@@ -49,28 +46,14 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
     }
 
     const formAnimeList = () => {
-        let formAnimeList = [...animeList].sort(function( a, b ) {
-            if ( a.title.toLowerCase() < b.title.toLowerCase() ){
-              return -1;
-            }
-            if ( a.title.toLowerCase() > b.title.toLowerCase() ){
-              return 1;
-            }
-            return 0;
-        });
-        const list = formAnimeList.map(anime => <MenuItem key={anime._id} value={anime.title}>{anime.title}</MenuItem>);
-        return list;
+        return [...anime]
+            .sort((a, b) => {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                return 0;
+            })
+            .map(a => <MenuItem key={a.id} value={a.id}>{a.title}</MenuItem>);
     }
-
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/anime`)
-        .then(res => res.json())
-        .then(res => setAnimeList(res));
-    }
-
-    useEffect(() => {
-        callAPI();
-    },[])
 
     return ( 
         <div className="AOT__questionnaire">

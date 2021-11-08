@@ -1,6 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const Achievement = ({name, description, img}) => {
+const Achievement = ({achievement}) => {
+
+    const { img, name, description } = achievement;
+
     return ( 
         <div className="userList__achievement">
             <img src={img} alt="achievement" className="img userList__achievementImg" />

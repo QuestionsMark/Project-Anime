@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
+
+import { useUser } from '../contexts/UserProvider';
 
 import { Button } from '@material-ui/core';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const ProfilePrivate = ({isUserLogged, match}) => {
+const ProfilePrivate = ({match}) => {
+
+    const [,,,,user] = useUser();
+
+    const inputPassword1 = useRef();
+    const inputPassword2 = useRef();
 
     const [email, setEmail] = useState('');
     const [previousEmail, setPreviousEmail] = useState('');
@@ -28,88 +35,83 @@ const ProfilePrivate = ({isUserLogged, match}) => {
         } else if (type === 'oldPassword') {
             setOldPassword(e.target.value);
         }
-    }
+    };
 
-    const handlePassVisibility = (e) => {
-        let target = e.target;
-        if (target.localName === 'path') {
-            target = target.parentElement;
+    const getPrivateData = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${user.id}/private`);
+        if (response.ok) {
+            const {email, login} = await response.json();
+            setEmail(email);
+            setLogin(login);
+            setPreviousEmail(email);
+            setPreviousLogin(login);
         }
-        if (target.previousSibling.type === 'password') {
-            target.previousSibling.type = 'text';
+    };
+
+    const handleChangeVisibility = () => {
+        if (inputPassword1.current.type === 'password') {
+            inputPassword1.current.type = 'text';
+            inputPassword2.current.type = 'text';
         } else {
-            target.previousSibling.type = 'password';
+            inputPassword1.current.type = 'password';
+            inputPassword2.current.type = 'password';
         }
-        
-    }
+    };
 
     const isChanged = () => {
-        if ((login !== previousLogin && login !== '' && oldPassword !== '' && password === password2) || (email !== previousEmail && email !== '' && oldPassword !== '' && password === password2) || (oldPassword !== '' && password !== '' && password2 !== '' && password === password2)) {
-            return false;
-        }
+        if ((login !== previousLogin && login !== '' && oldPassword !== '' && password === password2) || (email !== previousEmail && email !== '' && oldPassword !== '' && password === password2) || (oldPassword !== '' && password !== '' && password2 !== '' && password === password2)) return false;
         return true;
-    }
+    };
 
-    const handleSave = () => {
-        fetch(`${HOST_ADDRESS}/profile/change/private`, {
+    const handleSave = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/profile/change/private`, {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token')
             },
             method: 'POST',
             body: JSON.stringify({
-                user: localStorage.getItem('UID'),
+                id: user.id,
                 email,
                 login,
                 oldPassword,
                 password,
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res);
-                window.location.reload();
-            })
-    }
+            }),
+        });
+        if (response.ok) {
+            console.log('Ustawienia prywatne zostały zmienione.');
+        }
+        setPassword('');
+        setPassword2('');
+        setOldPassword('');
+        getPrivateData();
+    };
 
     useEffect(() => {
-        if (isUserLogged && match.params.userID === localStorage.getItem('l')) {
-            fetch(`${HOST_ADDRESS}/users/private/${localStorage.getItem('UID')}`, {
-                headers: {
-                    'authorization': localStorage.getItem('token')
-                }
-            })
-                .then(res => res.json())
-                .then(res => {
-                    setEmail(res.email);
-                    setPreviousEmail(res.email);
-                    setLogin(res.login);
-                    setPreviousLogin(res.login);
-                })
+        if (JSON.stringify(user) !== "{}" && match.params.userID === user.id) {
+            getPrivateData();
         }
-    },[isUserLogged])
+    },[user])
 
     return ( 
         <div className="profilePrivate profile__content">
-            <div className="profileEdit__section">
+            <form className="profileEdit__section" autoComplete="off">
                 <h2 className="profileEdit__title mediumTitle">Zmień Adres E-mail</h2>
                 <input type="text" className="profileEdit__username" data-type="email" placeholder="Email" value={email} onChange={handleInpChange}/>
-            </div>
-            <div className="profileEdit__section">
+            </form>
+            <form className="profileEdit__section" autoComplete="off">
                 <h2 className="profileEdit__title mediumTitle">Zmień Login</h2>
                 <input type="text" className="profileEdit__username" data-type="login" placeholder="Login" value={login} onChange={handleInpChange}/>
-            </div>
-            <div className="profileEdit__section">
+            </form>
+            <form className="profileEdit__section" autoComplete="off">
                 <h2 className="profileEdit__title mediumTitle">Zmień Hasło</h2>
                 <div className="profileEdit__inpWrapper">
-                    <input type="password" className="profileEdit__username" data-type="password" placeholder="New password" value={password} onChange={handleInpChange}/>
-                    <VisibilityRoundedIcon className="profilePrivate__passIcon" onClick={handlePassVisibility}/>
+                    <input type="password" ref={inputPassword1} className="profileEdit__username" data-type="password" placeholder="New password" value={password} onChange={handleInpChange}/>
+                    <VisibilityRoundedIcon className="profilePrivate__passIcon" onClick={handleChangeVisibility}/>
                 </div>
                 <div className="profileEdit__inpWrapper">
-                    <input type="password" className="profileEdit__username" data-type="password2" placeholder="New password again" value={password2} onChange={handleInpChange}/>
-                    <VisibilityRoundedIcon className="profilePrivate__passIcon" onClick={handlePassVisibility}/>
+                    <input type="password" ref={inputPassword2} className="profileEdit__username" data-type="password2" placeholder="New password again" value={password2} onChange={handleInpChange}/>
                 </div>
-            </div>
+            </form>
             <div className="profileEdit__inpWrapper profileEdit__inpWrapper--save">
                     <input type="password" className="profileEdit__username" data-type="oldPassword" placeholder="Password" value={oldPassword} onChange={handleInpChange}/>
                     <Button className="button profilePrivate__save" disabled={isChanged() ? true : false} onClick={handleSave}>Zapisz</Button>

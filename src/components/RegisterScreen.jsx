@@ -7,7 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import { HOST_ADDRESS } from '../config';
 
-const RegisterScreen = ({handleSignIn}) => {
+const RegisterScreen = () => {
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -23,6 +23,10 @@ const RegisterScreen = ({handleSignIn}) => {
         } else if (type === "nick") {
             setNick(e.target.value);
         }
+    }
+
+    const handleSignIn = () => {
+        document.querySelector('.loginScreen').classList.toggle('none');
     }
 
     const [rulesAccept, setRulesAccept] = useState(false);
@@ -41,7 +45,7 @@ const RegisterScreen = ({handleSignIn}) => {
         }
     }
 
-    const handleUserRegister = (e) => {
+    const handleUserRegister = async (e) => {
         let target = e.target;
         const validationErrors = [];
         const re = /[^A-Za-z0-9 ]/g;
@@ -58,7 +62,7 @@ const RegisterScreen = ({handleSignIn}) => {
         if (validationErrors.length === 0) {
             const date = new Date();
             const createAccountDate = `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
-            fetch(`${HOST_ADDRESS}/users/register`, {
+            const response = await fetch(`${HOST_ADDRESS}/users`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -68,35 +72,38 @@ const RegisterScreen = ({handleSignIn}) => {
                     email,
                     login,
                     password,
-                    rank: '1',
                     username: nick
-                })
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (res.code === 11000) {
+                }),
+            });
+            if (response.ok) {
+                const registration = await response.json();
+                setRegisterResponse(registration.message);
+                setResponseColor('green');
+                setTimeout(() => {
+                    if (target.localName === "span") {
+                        target = target.parentElement.parentElement.parentElement.parentElement;
+                    } else if (target.localName === "button") {
+                        target = target.parentElement.parentElement.parentElement;
+                    }
+                    handleQuit(e = target);
+                    handleSignIn();
+                    setEmail('');
+                    setPassword('');
+                    setLogin('');
+                    setNick('');
+                    setRegisterResponse('');
+                    setRulesAccept(false);
+                }, 1500);
+            } else {
+                const {error} = await response.json();
+                if (error.code === 11000) {
                     setRegisterResponse('Użytkownik o takim loginie lub z takim adresem email już isnieje!');
                     setResponseColor('red');
-                } else if (res.response) {
-                    setRegisterResponse(res.response);
-                    setResponseColor('green');
-                    setTimeout(() => {
-                        if (target.localName === "span") {
-                            target = target.parentElement.parentElement.parentElement.parentElement;
-                        } else if (target.localName === "button") {
-                            target = target.parentElement.parentElement.parentElement;
-                        }
-                        handleQuit(e = target);
-                        handleSignIn();
-                        setEmail('');
-                        setPassword('');
-                        setLogin('');
-                        setNick('');
-                        setRegisterResponse('');
-                        setRulesAccept(false);
-                    }, 1500);
+                } else {
+                    setRegisterResponse('Przepraszamy, spróbuj ponownie później.');
+                    setResponseColor('red');
                 }
-            });
+            }
         }
         setValidationErrorsList(validationErrors);
     }
