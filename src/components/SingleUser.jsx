@@ -24,14 +24,14 @@ const SingleUser = ({place, user}) => {
             <div className="userList__imgWrapper">
                 <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="avatar" className="img" />
             </div>
-            <Link to={`/profile/${id}`} className="userList__link">{username}</Link>
+            <Link to={`/users/${id}`} className="userList__link">{username}</Link>
             <div className="userList__likes">
                 <FavoriteBorderRoundedIcon className="userList__likeIcon" />
                 <p className="userList__likesValue">{likes.length}</p>
             </div>
             <div className="userList__favoriteAnime">
                 <div className="userList__imgWrapper userList__imgWrapper--favAnime">
-                    {user.favoriteAnime.img.id ? <img src={`${HOST_ADDRESS}/images/${user.favoriteAnime.img.id}`} alt="anime" className="img" /> : null}
+                    {user.favoriteAnime.image.id ? <img src={`${HOST_ADDRESS}/images/${user.favoriteAnime.image.id}`} alt="anime" className="img" /> : null}
                 </div>
                 <span className="userList__favoriteAnimeTitle">{user.favoriteAnime.title}</span>
             </div>

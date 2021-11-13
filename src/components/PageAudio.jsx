@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
+import { useUser } from '../contexts/UserProvider';
+
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
@@ -9,12 +12,12 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
 import { HOST_ADDRESS } from '../config';
-import { useUser } from '../contexts/UserProvider';
 
-const PageAudio = ({soundtrack, animeData, getAnime, setOpen, setResponse}) => {
+const PageAudio = ({soundtrack, animeData, getAnime}) => {
 
     const {id, composer, title, likes} = soundtrack;
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [,,authorization,,user] = useUser();
 
     const [duration, setDuration] = useState(null);
@@ -167,12 +170,11 @@ const PageAudio = ({soundtrack, animeData, getAnime, setOpen, setResponse}) => {
                 const error = await response2.json();
                 setResponse({status: response2.ok, message: error.message});
             }
-            getAnime();
-            setOpen(true);
         } else {
             const error = await response.json();
             setResponse({status: response.ok, message: error.message});
         } 
+        setOpen(true);
     };
 
     return ( 

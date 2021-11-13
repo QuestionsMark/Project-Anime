@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
@@ -8,11 +9,21 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleComment = ({comment, animeData, getAnime, setOpen, setResponse}) => {
+const SingleComment = ({comment, animeData, getAnime}) => {
 
-    const { id, userID, img, username, date, text, likes } = comment;
+    const { id, userID, username, date, text, likes } = comment;
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [status,,authorization,,user] = useUser();
+
+    const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
+    const getAvatar = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${userID}`);
+        if (response.ok) {
+            const { avatar } = await response.json();
+            setAvatar(avatar);
+        }
+    };
 
     const isActive = () => {
         if (likes.findIndex(l => l === user.id) !== -1) return 'active';
@@ -55,9 +66,12 @@ const SingleComment = ({comment, animeData, getAnime, setOpen, setResponse}) => 
             const error = await response.json();
             setResponse({status: response.ok, message: error.message});
         }
-        getAnime();
         setOpen(true);
     };
+
+    useEffect(() => {
+        getAvatar();
+    },[])
 
     return ( 
         <div className="comments__item">
@@ -65,7 +79,7 @@ const SingleComment = ({comment, animeData, getAnime, setOpen, setResponse}) => 
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
             </div> : null}
             <div className="comments__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${img}`} alt="avatar" className="img" />
+                <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="avatar" className="img" />
             </div>
             <div className="comments__content">
                 <div className="comments__info">

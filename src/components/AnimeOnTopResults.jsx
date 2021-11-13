@@ -1,26 +1,24 @@
 import React from 'react';
+import { useData } from '../contexts/DataProvider';
 
 import SingleVoteResult from './SingleVoteResult';
 
-const AnimeOnTopResults = ({animeOnTop}) => {
+const AnimeOnTopResults = () => {
+
+    const { animeOnTop } = useData();
 
     const resultsList = () => {
         if (animeOnTop) {
-            let allVotes = 0;
-            animeOnTop.votes.forEach(v => allVotes += v.value.length);
+            const allVotes = animeOnTop.votes.reduce((prev, v) => prev + v.votes.length, 0);
             const votes = [...animeOnTop.votes];
-            const sorted = votes.sort((a, b) => {
-                if (a.value.length > b.value.length) {
-                    return -1;
-                } else if (a.value.length < b.value.length) {
-                    return 1;
-                }
-                return 0;
-            })
-            sorted.forEach(v => {
-                v.percent = `${(v.value.length * 100 / allVotes).toFixed(1)}%`;
-            })
-            return sorted.map((v, i) => <SingleVoteResult key={i} votesAmount={v.value.length} percent={v.percent} title={v.title}/>)
+            votes.forEach(v => v.percent = `${(v.votes.length * 100 / allVotes).toFixed(1)}%`);
+            return votes
+                .sort((a, b) => {
+                    if (a.votes.length > b.votes.length) return -1;
+                    if (a.votes.length < b.votes.length) return 1;
+                    return 0;
+                })
+                .map((v, i) => <SingleVoteResult key={i} votesAmount={v.votes.length} percent={v.percent} title={v.title}/>);
         } else {
             return null;
         }

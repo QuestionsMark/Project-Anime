@@ -6,27 +6,34 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
 import { HOST_ADDRESS } from '../config';
 import { useUser } from '../contexts/UserProvider';
+import { useData } from '../contexts/DataProvider';
 
-const DailyAnime = ({dailyAnime, getDailyAnime}) => {
+const DailyAnime = () => {
 
     const [,, authorization] = useUser();
+    const { dailyAnime, setDailyAnime } = useData();
+    const getDailyAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/daily-anime`);
+        if (response.ok) {
+            const dailyAnime = await response.json();
+            setDailyAnime(dailyAnime);
+        }
+    };
 
     const handleRoll = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/da/roll`, {
-            headers: {
-                'authorization': localStorage.getItem('token')
-            },
-            method: 'PUT',
+        await fetch(`${HOST_ADDRESS}/daily-anime`, {
+            method: 'POST',
         });
-        await response.json();
         getDailyAnime();
-    }
+    };
 
-    const DATypes = dailyAnime ? dailyAnime.types.map(t => <li className="DA__item" key={t.id}><Link to={`/types/${t.link}`} className="DA__link"><p className="DA__type">{t.name}</p></Link></li>) : null;
+    const DATypes = () => {
+        return dailyAnime.types.map(t => <li className="DA__item" key={t.id}><Link to={`/types/${t.name}`} className="DA__link"><p className="DA__type">{t.name}</p></Link></li>);
+    };
 
     return ( 
         <div className="DA">
-            {authorization === '2' || authorization === '3' ? <div className="AOT__adminPanel">
+            {authorization === '3' ? <div className="AOT__adminPanel">
                 <p className="AOT__finish" onClick={handleRoll}>Losuj</p>
             </div> : null}
             <h3 className="DA__title">Polecane Anime na Dziś!</h3>
@@ -39,14 +46,14 @@ const DailyAnime = ({dailyAnime, getDailyAnime}) => {
                     <p className="DA__rate"><StarRateRoundedIcon className="DA__rateIcon"/><span className="DA__rateValue">{dailyAnime.rate}</span></p>
                 </div>
                 <div className="DA__right">
-                    <Link to={`/pages/${dailyAnime.link}`} className="DA__animeTitle">{dailyAnime.title}</Link>
+                    <Link to={`/anime/${dailyAnime.id}`} className="DA__animeTitle">{dailyAnime.title}</Link>
                     <ul className="DA__list">
-                        {DATypes}
+                        {DATypes()}
                     </ul>
                 </div>
             </div>
             <p className="DA__description">{dailyAnime.description.slice(0, 200)}...</p>
-            <Link to={`/pages/${dailyAnime.link}`} className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
+            <Link to={`/pages/${dailyAnime.id}`} className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
             </> : null}
         </div>
      );

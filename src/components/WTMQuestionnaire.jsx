@@ -7,15 +7,27 @@ import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useData } from '../contexts/DataProvider';
+import { useUser } from '../contexts/UserProvider';
 
-const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
+const WTMQuestionnaire = () => {
+
+    const [,,,, user] = useUser();
+    const { whatsTheMelody, setWhatsTheMelody } = useData();
+    const getWhatsTheMelody = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/actual`);
+        if (response.ok) {
+            const whatsTheMelody = await response.json();
+            setWhatsTheMelody(whatsTheMelody);
+        }
+    };
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00 : 00');
     const [volume, setVolume] = useState(50);
     const [progression, setProgression] = useState(0);
-    const [WTMAnswear, setWTMAnswear] = useState('');
+    const [vote, setVote] = useState('');
 
     const handleProgressionChange = (e) => {
         const audio = document.querySelector('.WTM__audio');
@@ -24,41 +36,29 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
         const newCurrentTime = duration * value / 100; 
         audio.currentTime = newCurrentTime;
         setProgression(value)
-    }
+    };
 
-    const handleWTMAnswearChange = (e) => {
-        setWTMAnswear(e.target.value)
-    }
+    const handleChangeVote = (e) => {
+        setVote(e.target.value)
+    };
 
-    const handleSendAnswear = (e) => {
-        let target = e.target;
-        if (target.localName === "span") {
-            target = target.parentElement;
-        }
-        if (WTMAnswear !== '') {
-            target.disabled = true;
-            target.classList.add('Mui-disabled');
-            const WTMID = id;
-            fetch(`${HOST_ADDRESS}/wtm/vote`, {
+    const handleVote = async () => {
+        if (vote) {
+            setVote('');
+            await fetch(`${HOST_ADDRESS}/whats-the-melody/vote`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    WTMID,
-                    user: localStorage.getItem('UID'),
-                    vote: WTMAnswear
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    getWTM()
-                });
-        } else {
-            console.log('jesteś zjebem');
+                    id: whatsTheMelody.id,
+                    userID: user.id,
+                    vote,
+                }),
+            });
+            getWhatsTheMelody();
         }
-    }
+    };
 
     const handleTimeUpdate = (e) => {
         const duration = e.target.duration;
@@ -71,7 +71,7 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
 
         setCurrentTime(durationTime);
         setProgression(progression);
-    }
+    };
 
     const handlePlayPauseClick = (e) => {
         const audio = document.querySelector('.WTM__audio');
@@ -89,7 +89,7 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
         }
         target.classList.toggle('active');
         target2.classList.toggle('active');
-    }
+    };
 
     const handleSoundClick = (e) => {
         const audio = document.querySelector('.WTM__audio');
@@ -109,13 +109,13 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
         }
         target.classList.toggle('active');
         target2.classList.toggle('active');
-    }
+    };
 
     const handleVolumeChange = (e) => {
         const audio = document.querySelector('.WTM__audio');
         audio.volume = e.target.value / 100;
         setVolume(e.target.value);
-    }
+    };
 
     const handleSoundHoverOn = () => {
         const inpProgression = document.querySelector('.audioInterface__progression');
@@ -124,7 +124,7 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
         inpVolume.style.width = '75px';
         inpVolume.style.marginRight = '5px';
         inpVolume.style.overflow = 'visible';
-    }
+    };
 
     const handleSoundHoverOff = () => {
         const inpProgression = document.querySelector('.audioInterface__progression');
@@ -132,7 +132,7 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
         inpProgression.style = '';
         inpVolume.style = '';
         inpVolume.style = '';
-    }
+    };
 
     const setAudio = () => {
         const audio = document.querySelector('.WTM__audio');
@@ -144,14 +144,16 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
         setDuration(duration);
         setProgression(0);
         setIsLoaded(true)
-    }
+    };
 
-    const answearList = answears.map((a, i) => <FormControlLabel key={i} className="WTM__label" value={a} control={<Radio />} label={a} />);
+    const answearList = () => {
+        return whatsTheMelody.votes.map((a, i) => <FormControlLabel key={i} className="WTM__label" value={a.title} control={<Radio />} label={a.title} />);
+    };
 
     return ( 
         <>
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            <audio src={`${HOST_ADDRESS}/soundtracks/${mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate} ></audio>
+            <audio src={`${HOST_ADDRESS}/soundtracks/${whatsTheMelody.mp3}`} className="WTM__audio none" onLoadedData={setAudio} onTimeUpdate={handleTimeUpdate} ></audio>
             {isLoaded ? <div className="audioInterface">
                 <div className="audioInterface__playPause">
                     <PlayArrowRoundedIcon className="audioInterface__icon play active" onClick={handlePlayPauseClick} />
@@ -169,16 +171,12 @@ const WTMQuestionnaire = ({id, mp3, answears, getWTM}) => {
             </div> : <p className="WTM__loading">Loading...</p>}
             <div className="WTM__answears">
                 <FormControl component="fieldset">
-                    <RadioGroup aria-label="gender" name="gender1" value={WTMAnswear} onChange={handleWTMAnswearChange}>
-                        {answearList}
-                        {/* <FormControlLabel className="WTM__label" value="Kimi no Na Wa" control={<Radio />} label="Kimi no Na Wa" />
-                        <FormControlLabel className="WTM__label" value="Koe no Katachi" control={<Radio />} label="Koe no Katachi" />
-                        <FormControlLabel className="WTM__label" value="Sakurasou no Pet na Kanojo" control={<Radio />} label="Sakurasou no Pet na Kanojo" />
-                        <FormControlLabel className="WTM__label" value="Violet Evergarden" control={<Radio />} label="Violet Evergarden" /> */}
+                    <RadioGroup value={vote} onChange={handleChangeVote}>
+                        {answearList()}
                     </RadioGroup>
                 </FormControl>
             </div>
-            <Button className="button WTM__send" onClick={handleSendAnswear}>Sprawdź</Button>
+            <Button className={`button WTM__send ${vote ? '' : 'Mui-disabled'}`} onClick={handleVote}>Sprawdź</Button>
         </>
      );
 }

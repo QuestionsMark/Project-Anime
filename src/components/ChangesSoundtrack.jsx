@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import Popup from 'reactjs-popup';
 
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import { Button } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 import Audio from './Audio';
-import ServerResponse from './ServerResponse';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesSoundtrack = ({close, animeData, getAnime}) => {
+const ChangesSoundtrack = ({close, animeData}) => {
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [,,,,user] = useUser();
-
-    const [open, setOpen] = useState(false);
-    const [response, setResponse] = useState('');
 
     const [validationErrors, setValidationErrors] = useState(
         ['Wybierz audio w formacie mp3.', 'Kompozytor i tytuł powinny zawierać minimum po 2 znaki.']
@@ -107,12 +104,11 @@ const ChangesSoundtrack = ({close, animeData, getAnime}) => {
                     const error = await response2.json();
                     setResponse({status: response2.ok, message: error.message});
                 }
-                getAnime();
-                setOpen(true);
             } else {
                 const error = await response.json();
                 setResponse({status: response.ok, message: error.message});
             }
+            setOpen(true);
         }
     };
 
@@ -135,9 +131,6 @@ const ChangesSoundtrack = ({close, animeData, getAnime}) => {
             <ul className="changes__validation-list">
                 {validationList()}
             </ul>
-            <Popup modal nested open={open} onClose={close} >
-                {close => <ServerResponse close={close} response={response}/>}
-            </Popup>
         </div>
      );
 }

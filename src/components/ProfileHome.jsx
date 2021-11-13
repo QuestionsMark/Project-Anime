@@ -33,7 +33,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
             target = target.parentElement.parentElement.parentElement;
         }
         target.parentElement.nextSibling.classList.toggle('slider');
-    }
+    };
 
     const watchedAnimeList = () => {
         return userAnimeData.watched
@@ -42,7 +42,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                 if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 return 0;
             })
-            .map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link} rate={a.rate}/>);
+            .map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} id={a.id} title={a.title} rate={a.rate}/>);
     }
 
     const statisticAnimeList = (type) => {
@@ -53,7 +53,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                 return 0;
             })
             .map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
-    }
+    };
 
     const isUserLover = () => {
         let isUserLover = false;
@@ -62,16 +62,16 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
             isUserLover = true;
         }
         return isUserLover;
-    }
+    };
 
     const showRank = () => {
         if (rank === "3") return "Administrator";
         if (rank === "2") return "Moderator";
         return "Użytkownik";
-    }
+    };
 
     const handleLikeProfile = async () => {
-        await fetch(`${HOST_ADDRESS}/profile/change/like`, {
+        await fetch(`${HOST_ADDRESS}/profile/like`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -82,11 +82,11 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
             }),
         });
         getProfileData();
-    }
+    };
 
     useEffect(() => {
         setIsUserProfileLover(isUserLover())
-    },[profileData])
+    },[profileData]);
 
     return ( 
         <div className="profile__content">
@@ -160,11 +160,11 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                     </div>
                     <div className="profile__favoriteAnime">
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
-                        {favoriteAnime.link ? <div className="profile__FAFlex">
+                        {favoriteAnime.id ? <div className="profile__FAFlex">
                             <div className="profile__FAImgWrapper">
-                                <img src={`${HOST_ADDRESS}/images/${favoriteAnime.img.id}`} alt="favAnime" className="img" />
+                                <img src={`${HOST_ADDRESS}/images/${favoriteAnime.image.id}`} alt="favAnime" className="img" />
                             </div>
-                            <Link to={`/pages/${favoriteAnime.link}`} className="profile__FALink">{favoriteAnime.title}</Link>
+                            <Link to={`/pages/${favoriteAnime.id}`} className="profile__FALink">{favoriteAnime.title}</Link>
                             <div className="profile__FARate">
                                 <StarRateRoundedIcon className="profile__FARateIcon"/>
                                 <p className="profile__FARateValue">{favoriteAnime.rate}</p>

@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import TypePage from './TypePage';
 
-import { HOST_ADDRESS } from '../../config';
+import { useTypes } from '../../contexts/TypesProvider';
 
-const Types = ({isUserLogged}) => {
+const Types = () => {
 
-    const [types, setTypes] = useState([]);
+    const [types] = useTypes();
 
-    const typesList = types.map((t, i) => (
-        <li className="types__item" key={t._id}>
-            <p className="types__index">{i + 1 + '.'}</p>
-            <Link to={`/types/${t.link}`} className="types__link">{t.name}</Link>
-        </li>
-    ));
-
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/types`)
-        .then(res => res.json())
-        .then(res => setTypes(res));
-    }
-
-    useEffect(() => {
-        callAPI();
-    },[])
+    const typesList = () => {
+        return types.map((t, i) => (
+            <li className="types__item" key={t.id}>
+                <p className="types__index">{i + 1 + '.'}</p>
+                <Link to={`/types/${t.name}`} className="types__link">{t.name}</Link>
+            </li>
+        ));
+    };
 
     return ( 
         <main className="main">
@@ -38,16 +30,16 @@ const Types = ({isUserLogged}) => {
                         <div className="types__container">
                             <h2 className="largeTitle types__title scrollNav" data-id="4">Lista Gatunków</h2>
                             <ul className="types__list">
-                                {typesList}
+                                {typesList()}
                             </ul>
                         </div>
                     </Route>
                     <Route path="/types/:type">
-                        <TypePage typesList={types} isUserLogged={isUserLogged}/>
+                        <TypePage types={types}/>
                     </Route>
                 </Switch>
             </div>
-            <RightSide isUserLogged={isUserLogged}/>
+            <RightSide />
         </main>
      );
 }

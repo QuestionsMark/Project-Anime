@@ -25,7 +25,7 @@ const Galery = ({history, match}) => {
                 if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 return 0;
             })
-            .map(f => <SingleFolder key={f._id} anime={f.title} link={f.link} images={f.images.galeryImages}/>);
+            .map(f => <SingleFolder key={f.id} anime={f}/>);
     };
 
     const goUp = history.listen(() => {
@@ -50,9 +50,9 @@ const Galery = ({history, match}) => {
                             {folderList()}
                         </div>
                     </Route>
-                    <Route path="/galery/:anime">
+                    <Route path="/galery/:animeID">
                         <SRLWrapper>
-                            <GaleryImages anime={anime}/>
+                            <GaleryImages />
                         </SRLWrapper>
                     </Route>
                 </Switch>

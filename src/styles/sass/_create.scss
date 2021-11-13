@@ -125,9 +125,23 @@
     }
 
     &__preview {
-        width: 70%;
-        margin: 0 auto 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 100px;
+    }
+
+    &__preview-img {
+        width: 60%;
+        border-radius: 10px;
+        margin: 0 20px;
         cursor: pointer;
+        overflow: hidden;
+
+        &--square {
+            width: 16vw;
+            height: 16vw;
+        }
     }
 
     &__preview--mini {
@@ -147,5 +161,15 @@
 
     &__sizeInf {
         margin-right: 30px;
+    }
+
+    .create__delete-icon {
+        color: $main-color;
+        font-size: 30px;
+        cursor: pointer;
+
+        &:hover {
+            color: darken($main-color, 10%);
+        }
     }
 }

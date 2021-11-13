@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Popup from 'reactjs-popup';
 
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useAnime } from '../contexts/AnimeProvider';
 
 import { Button, FormControl, RadioGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 import Search from './Search';
-import ServerResponse from './ServerResponse';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesSeason = ({close, animeData, getAnime}) => {
+const ChangesSeason = ({close, animeData}) => {
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [anime] = useAnime();
-
-    const [open, setOpen] = useState(false);
-    const [response, setResponse] = useState('');
 
     const [seasons, setSeasons] = useState([]);
     const [validationErrors, setValidationErrors] = useState(
@@ -87,13 +84,12 @@ const ChangesSeason = ({close, animeData, getAnime}) => {
                 }),
             });
             if (response.ok) {
-                setResponse({status: response.ok, message: 'Opis anime został zmieniony.'});
+                setResponse({status: response.ok, message: 'Powiązane anime zostały zaktualizowane.'});
             } else {
                 const error = await response.json();
                 console.log(error);
                 setResponse({status: response.ok, message: error.message});
             }
-            getAnime();
             setOpen(true);
         }
     };
@@ -116,9 +112,6 @@ const ChangesSeason = ({close, animeData, getAnime}) => {
             <ul className="changes__validation-list">
                 {validationList()}
             </ul>
-            <Popup modal nested open={open} onClose={close} >
-                {close => <ServerResponse close={close} response={response}/>}
-            </Popup>
         </div>
      );
 }

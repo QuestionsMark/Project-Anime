@@ -6,44 +6,58 @@ import WTMResults from './WTMResults';
 
 import { HOST_ADDRESS } from '../config';
 import { useUser } from '../contexts/UserProvider';
+import { useData } from '../contexts/DataProvider';
 
-const WhatsTheMelody = ({whatsTheMelody, getWTM, isUserLogged, match}) => {
+const WhatsTheMelody = ({match}) => {
 
-    const [status,, authorization] = useUser();
+    const [status,, authorization,, user] = useUser();
+    const { whatsTheMelody, setWhatsTheMelody } = useData();
+    const getWhatsTheMelody = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/actual`);
+        if (response.ok) {
+            const whatsTheMelody = await response.json();
+            setWhatsTheMelody(whatsTheMelody);
+        }
+    };
 
     const [didUserVote, setDidUserVote] = useState(true);
-
-    const checkDidUserVote = (wtmData) => {
+    const [isChecked, setIsChecked] = useState(false);
+    const checkDidUserVote = () => {
         const users = [];
-        wtmData.votes.forEach(v => users.push(...v.value))
-        const index = users.findIndex(u => u === JSON.parse(localStorage.getItem('UID')));
+        whatsTheMelody.votes.forEach(v => users.push(...v.votes));
+        const index = users.findIndex(u => u === user.id);
         if (index !== -1) {
             setDidUserVote(true);
+            setIsChecked(true);
         } else {
             setDidUserVote(false);
+            setIsChecked(true);
         }
-    }
+    };
 
     const handleFinish = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/wtm/finish`, {
-            method: 'PUT'
+        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody`, {
+            method: 'POST'
         });
-        const newWTM = await response.json();
-        if (!newWTM.error) {
-            getWTM()
+        if (response.ok) {
+            getWhatsTheMelody()
         }
     }
 
     useEffect(() => {
-        checkDidUserVote(whatsTheMelody);
-    },[whatsTheMelody, match])
+        if (status && whatsTheMelody) {
+            checkDidUserVote();
+        }
+    },[whatsTheMelody, match, status]);
 
     return ( 
         <div className="WTM">
-            {authorization === '2' || authorization === '3' ? <div className="AOT__adminPanel">
+            {authorization === '3' ? <div className="AOT__adminPanel">
                 <p className="AOT__finish" onClick={handleFinish}>Zakończ</p>
             </div> : null}
-            {didUserVote || !status ? <WTMResults id={whatsTheMelody.id} results={whatsTheMelody.votes} isUserLogged={isUserLogged}/> : <WTMQuestionnaire id={whatsTheMelody.id} mp3={whatsTheMelody.mp3} answears={whatsTheMelody.answears} getWTM={getWTM}/>}
+            {!status ? <WTMResults /> : null}
+            {didUserVote && status && isChecked ? <WTMResults /> : null}
+            {!didUserVote && status ? <WTMQuestionnaire /> : null}
         </div>
      );
 }

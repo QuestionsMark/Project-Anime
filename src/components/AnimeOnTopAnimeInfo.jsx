@@ -1,64 +1,71 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+
+import { useUser } from '../contexts/UserProvider';
+import { useData } from '../contexts/DataProvider';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
 
 import { HOST_ADDRESS } from '../config';
-import { useUser } from '../contexts/UserProvider';
 
-let audio;
 let prevScroll;
 
-const AnimeOnTopAnimeInfo = ({ anime, refresh, setAnime }) => {
+const AnimeOnTopAnimeInfo = ({animeData}) => {
 
-    const { _id: id, rate, title, link, types, watchLink } = anime;
-    const img = anime.images.mini.id;
-    const description = anime.description.description;
-    const soundtrack = anime.soundtracks[0].id;
+    const { id, rate, title, types, watchLink, images, soundtracks } = animeData;
+    const img = images.mini.id;
+    const description = animeData.description.description;
+    const soundtrack = soundtracks[0].id;
+
+    const audio = useRef();
 
     const [,, authorization] = useUser();
+    const { setAnimeOnTop } = useData();
+    const getAnimeOnTop = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime-on-top/actual`);
+        if (response.ok) {
+            const animeOnTop = await response.json();
+            setAnimeOnTop(animeOnTop);
+        }
+    };
 
     const handleMusic = () => {
-        const audio = document.querySelector('.AOT__audio');
-        if (audio.paused) {
-            audio.currentTime = 0;
-            audio.play();
+        if (audio.current.paused) {
+            audio.current.currentTime = 0;
+            audio.current.play();
         } else {
-            audio.pause();
+            audio.current.pause();
         }
-    }
-
+    };
     const handleVolumeChange = (e) => {
-        if(!audio.paused) {
+        if(!audio.current.paused) {
             if (prevScroll > e.target.scrollTop) {
-                if(audio.volume < 0.98) {
-                    audio.volume = audio.volume + 0.01;
+                if(audio.current.volume < 0.98) {
+                    audio.current.volume = audio.current.volume + 0.01;
                 }
                 prevScroll = e.target.scrollTop;
             } else if (prevScroll < e.target.scrollTop) {
-                if(audio.volume > 0.02) {
-                    audio.volume = audio.volume - 0.01;
+                if(audio.current.volume > 0.02) {
+                    audio.current.volume = audio.current.volume - 0.01;
                 }
                 prevScroll = e.target.scrollTop;
             }
         }
-    }
-
+    };
     const setScroll = (volume, prevscroll) => {
-        document.querySelector('.AOT__hehe').scrollTop = 100000;
-        audio.volume = volume
+        audio.current.scrollTop = 100000;
+        audio.current.volume = volume
         prevScroll = prevscroll
-    }
+    };
     
     const handleFinishAOT = async () => {
-        await fetch(`${HOST_ADDRESS}/aot/finish`, {
-            method: 'PUT'
+        await fetch(`${HOST_ADDRESS}/anime-on-top`, {
+            method: 'POST'
         });
-        setAnime();
-        refresh();
-    }
+        getAnimeOnTop();
+    };
 
     const showRate = () => {
         let average = 0;
@@ -69,20 +76,20 @@ const AnimeOnTopAnimeInfo = ({ anime, refresh, setAnime }) => {
             })
             average = (rateValue / rate.length).toFixed(2) * 1;
         }
-        
         return average;
-    }
+    };
 
-    const typesList = [...types].map(type => <Link to={`/types/${type.link}`} key={type.id} className="AOT__type">{type.name}</Link>);
+    const typesList = () => {
+        return [...types].map(type => <Link to={`/types/${type.name}`} key={type.id} className="AOT__type">{type.name}</Link>);
+    };
 
     useEffect(() => {
-        audio = document.querySelector('.AOT__audio');
         setScroll(0.5, 100000);
-    },[])
+    },[]);
 
     return ( 
         <>
-            {authorization === '2' || authorization === '3' ? <div className="AOT__adminPanel">
+            {authorization === '3' ? <div className="AOT__adminPanel">
                 <p className="AOT__finish" data-id={id} onClick={handleFinishAOT}>Zakończ</p>
             </div> : null}
             <div className="AOT__animeContent">
@@ -96,21 +103,19 @@ const AnimeOnTopAnimeInfo = ({ anime, refresh, setAnime }) => {
                     </div>
                 </div>
                 <div className="AOT__center">
-                    <Link to={`/pages/${link}`} className="AOT__animeTitle">{title}</Link>
+                    <Link to={`/anime/${id}`} className="AOT__animeTitle">{title}</Link>
                     <div className="AOT__types">
-                        {typesList}
+                        {typesList()}
                     </div>
                     <p className="AOT__description">{description}</p>
                 </div>
                 <div className="AOT__right">
                     <div className="AOT__music" onClick={handleMusic}>
-                        <audio src={`${HOST_ADDRESS}/soundtracks/${soundtrack}`} className="AOT__audio"></audio>
+                        <audio src={`${HOST_ADDRESS}/soundtracks/${soundtrack}`} ref={audio} className="AOT__audio"></audio>
                         <MusicNoteRoundedIcon className="AOT__mediaIcon"/>
                         <span className="AOT__instruction">Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.</span>
                         <div className="AOT__hehe" onScroll={handleVolumeChange}>
-                            <div className="AOT__range">
-                                
-                            </div>
+                            <div className="AOT__range" />
                         </div>
                     </div>
                     <div className="AOT__movie">

@@ -68,6 +68,7 @@
         .page__userStar {
             width: 10%;
             height: 1vw;
+            cursor: pointer;
         }
     }
 
@@ -338,6 +339,14 @@
         padding-top: 20px;
         border-bottom: 2px solid $main-color;
         background-color: rgba(10, 10, 10, 0.5);
+    }
+
+    &__soundtrackTitle {
+        margin-bottom: 20px;
+    }
+
+    &__text {
+        padding: 0 20px 20px;
     }
 
     &__soundtrack {

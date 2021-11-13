@@ -1076,15 +1076,24 @@ span.MuiTypography-body1 {
   font-weight: bold;
 }
 
-.WTMC__addComment {
+.WTMC__addComment-content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.WTMC__addComment {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: calc(11vh - 40px - 20px);
+  height: calc(11vh - 50px);
   overflow: hidden;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.WTMC__addComment.show {
+  height: calc(11vh - 20px);
 }
 
 .WTMC__textarea {
@@ -1093,11 +1102,7 @@ span.MuiTypography-body1 {
           flex-grow: 1;
   height: 100%;
   padding: 5px;
-  border-left: 1px solid #f50057;
-  border-right: 1px solid #f50057;
-  border-top: none;
-  border-bottom: none;
-  border-radius: 10px;
+  border: 2px solid #c20045;
   background-color: rgba(10, 10, 10, 0.9);
   color: #f0f0f0;
   font-family: 'Roboto Condensed', sans-serif;
@@ -1105,6 +1110,8 @@ span.MuiTypography-body1 {
   font-weight: bold;
   outline: none;
   resize: none;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 .WTMC__textarea::-webkit-input-placeholder {
@@ -1121,6 +1128,10 @@ span.MuiTypography-body1 {
 
 .WTMC__textarea::placeholder {
   color: #808080;
+}
+
+.WTMC__textarea:focus {
+  border: 2px solid #f50057;
 }
 
 .WTMC__send {
@@ -1634,6 +1645,7 @@ div.galery {
 .RP__link {
   margin-bottom: 10px;
   text-decoration: none;
+  text-align: center;
   color: white;
   font-size: 20px;
   font-weight: bold;
@@ -1844,6 +1856,8 @@ div.galery {
 }
 
 .animeList__top {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   position: relative;
   width: 50px;
   height: 50px;
@@ -1868,6 +1882,8 @@ div.galery {
 }
 
 .animeList__imgWrapper {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   width: 70px;
   height: 70px;
   border-radius: 10px;
@@ -1885,6 +1901,10 @@ div.galery {
           align-items: center;
   font-weight: bold;
   color: #f0f0f0;
+}
+
+.animeList__rate--profile {
+  margin-right: 30px;
 }
 
 .animeList__rate .animeList__rateIcon {
@@ -2994,10 +3014,6 @@ div.galery {
           flex-grow: 1;
 }
 
-.profileTop__item .animeList__rate {
-  margin: 0 10px;
-}
-
 .profileAchievements__item {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3301,13 +3317,40 @@ div.galery {
 }
 
 .profileEdit__preview {
-  width: 50%;
-  margin: 0 auto 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 20px;
 }
 
-.profileEdit__preview--square {
+.profileEdit__img-preview {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 50%;
+  margin: 0 20px;
+}
+
+.profileEdit__img-preview--square {
   width: 13vw;
   height: 13vw;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profileEdit__img-preview--round {
+  width: 13vw;
+  height: 13vw;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileEdit__img-preview--background {
   border-radius: 10px;
   overflow: hidden;
 }
@@ -3331,6 +3374,12 @@ div.galery {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.profileEdit__validation-info {
+  font-size: 14px;
+  font-weight: bold;
+  color: #d0d0d0;
 }
 
 .profilePrivate .profilePrivate__passIcon {
@@ -3450,6 +3499,7 @@ div.galery {
 .page__userPanel .page__userStar {
   width: 10%;
   height: 1vw;
+  cursor: pointer;
 }
 
 .page__userTitle {
@@ -3747,6 +3797,14 @@ div.galery {
   background-color: rgba(10, 10, 10, 0.5);
 }
 
+.page__soundtrackTitle {
+  margin-bottom: 20px;
+}
+
+.page__text {
+  padding: 0 20px 20px;
+}
+
 .page__soundtrack {
   position: relative;
   display: -webkit-box;
@@ -4023,6 +4081,10 @@ div.galery {
   padding: 20px;
 }
 
+.changes__validation-list--profile {
+  padding: 20px 20px 0;
+}
+
 .changes__validation-item::marker {
   color: red;
 }
@@ -4030,6 +4092,7 @@ div.galery {
 .changes__error {
   color: red;
   font-size: 14px;
+  font-weight: bold;
 }
 
 .changes__preview-list {
@@ -4454,9 +4517,29 @@ div.galery {
 }
 
 .create__preview {
-  width: 70%;
-  margin: 0 auto 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 100px;
+}
+
+.create__preview-img {
+  width: 60%;
+  border-radius: 10px;
+  margin: 0 20px;
   cursor: pointer;
+  overflow: hidden;
+}
+
+.create__preview-img--square {
+  width: 16vw;
+  height: 16vw;
 }
 
 .create__preview--mini {
@@ -4476,6 +4559,16 @@ div.galery {
 
 .create__sizeInf {
   margin-right: 30px;
+}
+
+.create .create__delete-icon {
+  color: #f50057;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.create .create__delete-icon:hover {
+  color: #c20045;
 }
 
 .types__container {

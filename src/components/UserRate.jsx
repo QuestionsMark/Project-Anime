@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { useAnime } from '../contexts/AnimeProvider';
+import { useUser } from '../contexts/UserProvider';
+
 import { Button } from '@material-ui/core';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
@@ -10,29 +13,43 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const UserRate = ({animeData, userData, callAPI, match}) => {
+const UserRate = ({animeData, getAnime}) => {
 
-    const [userRate, setUserRate] = useState(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
-    const handleUserRateChange = (e) => {
-        const rateValue = e.target.getAttribute('data-id') * 1;
-        fetch(`${HOST_ADDRESS}/pages/change/rate`, {
+    const [,setAnime] = useAnime();
+    const getAllAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime`);
+        if (response.ok) {
+            const anime = await response.json();
+            setAnime(anime);
+        }
+    };
+    const [,,,, user, setUser] = useUser();
+    const getUser = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
+        if (response.ok) {
+            const user = await response.json();
+            setUser(user);
+        }
+    };
+
+    const [userRate, setUserRate] = useState(0);
+    const handleUserRateChange = async e => {
+        const rate = e.target.getAttribute('data-id') * 1;
+        await fetch(`${HOST_ADDRESS}/anime/rate`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token')
             },
-            method: 'POST',
             body: JSON.stringify({
-                user: localStorage.getItem('UID'),
-                anime: match.params.anime,
-                rateValue
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res.response);
-                callAPI();
-            })
-    }
+                userID: user.id,
+                animeID: animeData.id,
+                rate,
+            }),
+        });
+        getUser();
+        getAnime();
+        getAllAnime();
+    };
 
     const handleMouseEnter = (e) => {
         const index = e.target.getAttribute('data-id');
@@ -44,7 +61,7 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 s.style = '';
             }
         })
-    }
+    };
     const handleMouseLeave = (e) => {
         const index = userRate;
         const stars = [...e.target.parentElement.children];
@@ -55,163 +72,123 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 s.style = '';
             }
         })
-    }
+    };
 
     const checkActive = (type) => {
-        if (userData) {
+        if (JSON.stringify(user) !== "{}") {
             if (type === "favorite") {
-                if (userData.favoriteAnime.link === match.params.anime) {
-                    return "active";
-                } else {
-                    return '';
-                }
+                if (user.favoriteAnime.id === animeData.id) return "active";
             } else if (type === "watched") {
-                const watched = userData.userAnimeData.watched;
-                const index = watched.findIndex(w => w.link === match.params.anime);
-                if (index !== -1) {
-                    return "active";
-                } else {
-                    return '';
-                }
+                const index = user.userAnimeData.watched.findIndex(w => w.id === animeData.id);
+                if (index !== -1) return "active";
             } else if (type === "stopped") {
-                const stopped = userData.userAnimeData.stopped;
-                const index = stopped.findIndex(w => w.link === match.params.anime);
-                if (index !== -1) {
-                    return "active";
-                } else {
-                    return '';
-                }
+                const index = user.userAnimeData.stopped.findIndex(w => w.id === animeData.id);
+                if (index !== -1) return "active";
             } else if (type === "processOfWatching") {
-                const processOfWatching = userData.userAnimeData.processOfWatching;
-                const index = processOfWatching.findIndex(w => w.link === match.params.anime);
-                if (index !== -1) {
-                    return "active";
-                } else {
-                    return '';
-                }
+                const index = user.userAnimeData.processOfWatching.findIndex(w => w.id === animeData.id);
+                if (index !== -1) return "active";
             } else if (type === "planned") {
-                const planned = userData.userAnimeData.planned;
-                const index = planned.findIndex(w => w.link === match.params.anime);
-                if (index !== -1) {
-                    return "active";
-                } else {
-                    return '';
-                }
+                const index = user.userAnimeData.planned.findIndex(w => w.id === animeData.id);
+                if (index !== -1) return "active";
             }
         }
         return '';
-    }
+    };
     
-    const starList = (rateValue = userRate) => {
+    const starList = () => {
         const stars = [];
-        for (let i = 1; i <= rateValue; i++) {
+        for (let i = 1; i <= userRate; i++) {
             stars.push(<i key={i} className="fas fa-star page__userStar" data-id={i} style={{color: '#ffb700'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(e) => {handleUserRateChange(e)}}/>);
         }
-        const emptyStarsAmount = rateValue * 1 + 1;
+        const emptyStarsAmount = userRate * 1 + 1;
         for (let i = emptyStarsAmount; i <= 10; i++) {
             stars.push(<i key={i} className="far fa-star page__userStar" data-id={i} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={(e) => {handleUserRateChange(e)}}/>);
         }
         return stars;
-    }
+    };
 
-    const handleAnimeStatusChange = (type, title, e) => {
-        let target = e.target;
-        if (target.localName === 'path') {
-            target = target.parentElement;
+    const handleChangeFavoriteAnime = async () => {
+        await fetch(`${HOST_ADDRESS}/profile/favorite-anime`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: user.id,
+                animeID: animeData.id,
+            }),
+        });
+        getUser();
+        getAnime();
+    };
+
+    const handleChangeWatched = async () => {
+        await fetch(`${HOST_ADDRESS}/profile/watched`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: user.id,
+                animeID: animeData.id,
+            }),
+        });
+        getUser();
+    };
+
+    const handleChangeStopped = async () => {
+        await fetch(`${HOST_ADDRESS}/profile/stopped`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: user.id,
+                animeID: animeData.id,
+            }),
+        });
+        getUser();
+    };
+
+    const handleChangeProcessOfWatching = async () => {
+        await fetch(`${HOST_ADDRESS}/profile/process-of-watching`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: user.id,
+                animeID: animeData.id,
+            }),
+        });
+        getUser();
+    };
+
+    const handleChangePlanned = async () => {
+        await fetch(`${HOST_ADDRESS}/profile/planned`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: user.id,
+                animeID: animeData.id,
+            }),
+        });
+        getUser();
+    };
+
+    const setRate = () => {
+        const rateIndex = animeData.rate.findIndex(r => r.user === user.id);
+        if (rateIndex !== -1) {
+            setUserRate(animeData.rate[rateIndex].rate);
+        } else {
+            setUserRate(0);
         }
-        if (type === 'favAnime') {
-            fetch(`${HOST_ADDRESS}/profile/change/favorite-anime`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    anime: title
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    callAPI();
-                });
-        } else if (type === 'watched') {
-            fetch(`${HOST_ADDRESS}/profile/change/watched`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    anime: title
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    callAPI();
-                });
-        }
-        else if (type === 'stopped') {
-            fetch(`${HOST_ADDRESS}/profile/change/stopped`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    anime: title
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    callAPI();
-                });
-        }
-        else if (type === 'processOfWatching') {
-            fetch(`${HOST_ADDRESS}/profile/change/process-of-watching`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    anime: title
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    callAPI();
-                });
-        }
-        else if (type === 'planned') {
-            fetch(`${HOST_ADDRESS}/profile/change/planned`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem('token')
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    user: localStorage.getItem('UID'),
-                    anime: title
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    callAPI();
-                });
-        }
-    }
+    };
 
     useEffect(() => {
-        setUserRate(animeData.rate.find(r => r.user === localStorage.getItem('UID')) ? animeData.rate.find(r => r.user === localStorage.getItem('UID')).rate : 0);
+        setRate();
     },[animeData])
 
     return ( 
@@ -221,11 +198,11 @@ const UserRate = ({animeData, userData, callAPI, match}) => {
                 {starList()}
             </div>
             <div className="page__userOptions">
-                <Button className={`button page__button ${checkActive("favorite")}`} onClick={(e) => {handleAnimeStatusChange('favAnime', animeData.title, e)}}><FavoriteRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Ulubione</span></Button>
-                <Button className={`button page__button ${checkActive("watched")}`} onClick={(e) => {handleAnimeStatusChange('watched', animeData.title, e)}}><DoneRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button page__button ${checkActive("stopped")}`} onClick={(e) => {handleAnimeStatusChange('stopped', animeData.title, e)}}><AccessAlarmRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button page__button ${checkActive("processOfWatching")}`} onClick={(e) => {handleAnimeStatusChange('processOfWatching', animeData.title, e)}}><VisibilityIcon className="page__statisticsIcon"/><span className="page__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button page__button ${checkActive("planned")}`} onClick={(e) => {handleAnimeStatusChange('planned', animeData.title, e)}}><CreateRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Planowane</span></Button>
+                <Button className={`button page__button ${checkActive("favorite")}`} onClick={handleChangeFavoriteAnime}><FavoriteRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Ulubione</span></Button>
+                <Button className={`button page__button ${checkActive("watched")}`} onClick={handleChangeWatched}><DoneRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Obejrzane</span></Button>
+                <Button className={`button page__button ${checkActive("stopped")}`} onClick={handleChangeStopped}><AccessAlarmRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Wstrzymane</span></Button>
+                <Button className={`button page__button ${checkActive("processOfWatching")}`} onClick={handleChangeProcessOfWatching}><VisibilityIcon className="page__statisticsIcon"/><span className="page__buttonDescription">W trakcie oglądania</span></Button>
+                <Button className={`button page__button ${checkActive("planned")}`} onClick={handleChangePlanned}><CreateRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Planowane</span></Button>
             </div>
         </div>
      );

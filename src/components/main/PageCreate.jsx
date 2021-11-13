@@ -1,44 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Button, FormControl, RadioGroup, Radio, FormLabel, FormControlLabel, Checkbox } from '@material-ui/core';
 import { SRLWrapper } from "simple-react-lightbox";
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
+import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
 import { useUser } from '../../contexts/UserProvider';
+import { useAnime } from '../../contexts/AnimeProvider';
+import { useTypes } from '../../contexts/TypesProvider';
 
 import Search from '../Search';
 import Audio from '../Audio';
+import NotFound from './NotFound';
 
-import img from '../../media/img/hos-back20502.webp';
+import previewImage from '../../media/img/hos-back20502.webp';
 
 import { HOST_ADDRESS } from '../../config';
 
 const PageCreate = () => {
 
-    const [,,,,user] = useUser();
+    const [, setOpen,, setResponse] = useResponsePopup();
+    const [,, authorization,,user] = useUser();
+    const [anime, setAnime] = useAnime();
+    const [types] = useTypes();
+    const getAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime`);
+        if (response.ok) {
+            const anime = await response.json();
+            setAnime(anime);
+        }
+    };
 
-    const [typesList, setTypesList] = useState([
-        {
-            name: ''
-        }
-    ]);
-    const [animeList, setAnimeList] = useState([
-        {
-            _id: '',
-            title: '',
-        }
-    ]);
+
     const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {
         setSearchPhrase(e.target.value);
-    }
+    };
 
     const [kind, setKind] = useState("series");
     const [title, setTitle] = useState('');
     const [scenario, setScenario] = useState('');
     const [productionDate, setProductionDate] = useState('');
-    const [episodesValue, setEpisodesValue] = useState('');
+    const [episodesAmount, setEpisodesAmount] = useState('');
     const [episodeDuration, setEpisodeDuration] = useState('');
-    const [hoursValue, setHoursValue] = useState('');
-    const [minutesValue, setMinutesValue] = useState('');
+    const [hours, setHours] = useState('');
+    const [minutes, setMinutes] = useState('');
     const [link, setLink] = useState('');
     const [composer, setComposer] = useState('');
     const [soundtrackTitle, setSoundtrackTitle] = useState('');
@@ -52,13 +57,13 @@ const PageCreate = () => {
         } else if (type === "productionDate") {
             setProductionDate(e.target.value);
         } else if (type === "episodesValue") {
-            setEpisodesValue(e.target.value);
+            setEpisodesAmount(e.target.value);
         } else if (type === "episodeDuration") {
             setEpisodeDuration(e.target.value);
         } else if (type === "hoursValue") {
-            setHoursValue(e.target.value);
+            setHours(e.target.value);
         } else if (type === "minutesValue") {
-            setMinutesValue(e.target.value);
+            setMinutes(e.target.value);
         } else if (type === "link") {
             setLink(e.target.value);
         } else if (type === "composer") {
@@ -66,123 +71,199 @@ const PageCreate = () => {
         } else if (type === "soundtrackTitle") {
             setSoundtrackTitle(e.target.value);
         }
-    }
+    };
+    const handleChangeTitle = e => {
+        setTitle(e.target.value);
+    };
 
-    const [types, setTypes] = useState([]);
-    const handleTypesChange = async function (e) {
-        const typesList = [...types];
-        if (typesList.findIndex(t => t.name === e.target.value) === -1) {
-            await fetch(`${HOST_ADDRESS}/types/${e.target.value}`)
-                .then(res => res.json())
-                .then(res => {
-                    typesList.push({id: res._id, name: res.name, link: res.link});
-                });
+    const [animeTypes, setAnimeTypes] = useState([]);
+    const handleTypesChange = e => {
+        const type = e.target.value;
+        const typesList = [...animeTypes];
+        const typeIndex = typesList.findIndex(t => t.name === type);
+        if (typeIndex !== -1) {
+            typesList.splice(typeIndex, 1);
         } else {
-            typesList.splice(typesList.findIndex(t => t.name === e.target.value), 1);
+            typesList.push(types.find(t => t.name === type));
         }
         const sorted = typesList.sort((a, b) => {
-            if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return 1;
-            } else if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                return -1;
-            } else {
-                return 0;
-            }
-        })
-        setTypes(sorted);
-    }
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+            return 0;
+        });
+        setAnimeTypes(sorted);
+    };
 
     const [seasons, setSeasons] = useState([]);
     const handleSeasonsChange = (e) => {
         const seasonsList = [...seasons];
-        if (seasonsList.indexOf(e.target.value) === -1) {
-            seasonsList.push(e.target.value);
-        } else {
+        const seasonIndex = seasonsList.indexOf(e.target.value);
+        if (seasonIndex !== -1) {
             seasonsList.splice(seasonsList.indexOf(e.target.value), 1);
+        } else {
+            seasonsList.push(e.target.value);
         }
-        const sorted = seasonsList.sort((a, b) => {
-            if (a.toLowerCase() > b.toLowerCase()) {
-                return 1;
-            } else if (a.toLowerCase() < b.toLowerCase()) {
-                return -1;
-            } else {
-                return 0;
-            }
-        })
-        setSeasons(sorted);
-    }
+        setSeasons(seasonsList);
+    };
 
     const [mini, setMini] = useState(null);
     const [background, setBackground] = useState(null);
     const [baner, setBaner] = useState(null);
     const [soundtrack, setSoundtrack] = useState(null);
 
-    const [previewMini, setPreviewMini] = useState(img);
-    const [previewBackground, setPreviewBackground] = useState(img);
-    const [previewBaner, setPreviewBaner] = useState(img);
-    const [previewSoundtrack, setPreviewSoundtrack] = useState('');
-    const [miniSize, setMiniSize] = useState('');
-    const [backgroundSize, setBackgroundSize] = useState('');
-    const [banerSize, setBanerSize] = useState('');
-    const [soundtrackSize, setSoundtrackSize] = useState('');
-    const handleFileChange = (e) => {
-        const type = e.target.getAttribute('data-type');
-        const file = e.target.files[0];
-        const url = URL.createObjectURL(e.target.files[0]);
-        const size = e.target.files[0].size / 1024 / 1024;
-        let response;
-        let color;
-        if (type === 'mini') {
-            setPreviewMini(url);
-            setMini(file);
-            if (size < 0.5) {
-                color = "green";
-                response = <p className="create__size miniRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>OK</p>;
-            } else {
-                color = "red";
-                response = <p className="create__size miniRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>Za duży rozmiar pliku!</p>;
-            }
-            setMiniSize(response);
-        } else if (type === 'background') {
-            setPreviewBackground(url);
-            setBackground(file);
-            if (size < 3) {
-                color = "green";
-                response = <p className="create__size backgroundRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>OK</p>;
-            } else {
-                color = "red";
-                response = <p className="create__size backgroundRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>Za duży rozmiar pliku!</p>;
-            }
-            setBackgroundSize(response);
-        } else if (type === 'baner') {
-            setPreviewBaner(url);
-            setBaner(file);
-            if (size < 1) {
-                color = "green";
-                response = <p className="create__size banerRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>OK</p>;
-            } else {
-                color = "red";
-                response = <p className="create__size banerRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>Za duży rozmiar pliku!</p>;
-            }
-            setBanerSize(response);
-        } else if (type === 'soundtrack') {
-            setPreviewSoundtrack(url);
-            setSoundtrack(file);
-            if (size < 5) {
-                color = "green";
-                response = <p className="create__size soundtrackRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>OK</p>;
-            } else {
-                color = "red";
-                response = <p className="create__size soundtrackRes" style={{color: color}}><span className="create__sizeInf">{e.target.files[0].name}</span><span className="create__sizeInf">{size.toFixed(2)} MB</span>Za duży rozmiar pliku!</p>;
-            }
-            setSoundtrackSize(response);
-        }
-    }
+    const [miniPreview, setMiniPreview] = useState({});
+    const [backgroundPreview, setBackgroundPreview] = useState({});
+    const [banerPreview, setBanerPreview] = useState({});
+    const [soundtrackPreview, setSoundtrackPreview] = useState({});
 
-    let miniObj = {};
-    let banerObj = {};
-    let backgroundObj = {};
-    let soundtrackObj = {};
+    const getFile = (file) => {
+        const url = URL.createObjectURL(file);
+        const size = file.size / 1024 / 1024;
+        const type = file.type;
+        const data = new FormData();
+        data.append('myImg', file);
+        return {preview : {url, size, type}, data};
+    };
+    const handleChangeMini = e => {
+        const file = e.target.files[0];
+        const {preview, data} = getFile(file);
+        setMini(data);
+        setMiniPreview(preview);
+    };
+    const handleChangeBackground = e => {
+        const file = e.target.files[0];
+        const {preview, data} = getFile(file);
+        setBackground(data);
+        setBackgroundPreview(preview);
+    };
+    const handleChangeBaner = e => {
+        const file = e.target.files[0];
+        const {preview, data} = getFile(file);
+        setBaner(data);
+        setBanerPreview(preview);
+    };
+    const handleChangeSoundtrack = e => {
+        const file = e.target.files[0];
+        const {preview} = getFile(file);
+        const data = new FormData();
+        data.append('myMp3', file);
+        setSoundtrack(data);
+        setSoundtrackPreview(preview);
+    };
+
+    const [validationErrors, setValidationErrors] = useState(
+        [
+            'Tytuł powinien zawierać od 1 do 150 znaków.',
+            'Scenariusz powinien zawierać od 2 do 50 znaków.',
+            'Rok produkcji powinien składać się z 4 cyfr.',
+            'Ilość odcinków powinna być wyrażona liczbą.',
+            'Czas trwania odcinka powinien być wyrażony liczbą minut.',
+            'Podaj prawidłowy link. np. https://animark.pl',
+            'Anime powinno zawierać chociaż jeden gatunek.',
+            'Miniatura powinna być grafiką w wybranym formacie. (jpg, jpeg, png, webp, gif)',
+            'Wielkość miniatury nie powinna przekraczać 0.5MB.',
+            'Tło powinno być grafiką w wybranym formacie. (jpg, jpeg, png, webp, gif)',
+            'Wielkość Tła nie powinna przekraczać 3MB.',
+            'Baner powinien być grafiką w wybranym formacie. (jpg, jpeg, png, webp, gif)',
+            'Wielkość Baneru nie powinna przekraczać 3MB.',
+        ]
+    );
+    const checkValidation = () => {
+        const errors = [];
+        const numbers = /[^0-9]/g;
+        const numbersTest = (string) => {
+            return string.match(numbers);
+        };
+        const imageTest = (image) => {
+            return /jpg|jpeg|png|webp|gif/.test(image);
+        };
+        const audioTest = (audio) => {
+            return /mp3|mpeg/.test(audio);
+        }
+
+        if (title.length === 0 || title.length > 150) {
+            errors.push('Tytuł powinien zawierać od 1 do 150 znaków.');
+        }
+
+        if (scenario.length === 2 || title.length > 50) {
+            errors.push('Scenariusz powinien zawierać od 2 do 50 znaków.');
+        }
+
+        if (productionDate.length !== 4 || numbersTest(productionDate)) {
+            errors.push('Rok produkcji powinien składać się z 4 cyfr.');
+        }
+
+        if (kind === 'series') {
+            if (episodesAmount.length === 0 || episodesAmount.length > 4 || numbersTest(episodesAmount)) {
+                errors.push('Ilość odcinków powinna być wyrażona liczbą maksymalnie 4-cyfrową.');
+            }
+
+            if (episodeDuration.length === 0 || episodeDuration.length > 3 || numbersTest(episodeDuration)) {
+                errors.push('Czas trwania odcinka powinien być wyrażony liczbą minut.');
+            }
+        } else {
+            if (hours.length !== 1 || numbersTest(hours)) {
+                errors.push('Ilość godzin powinna być wyrażona cyfrą.');
+            }
+
+            if (minutes.length === 0 || minutes.length > 2 || numbersTest(minutes)) {
+                errors.push('Ilość minut powinna być wyrażona liczbą nie większą niż 59.');
+            }
+        }
+
+        if (link.length === 0) {
+            errors.push('Podaj prawidłowy link. np. https://animark.pl');
+        }
+
+        if (animeTypes.length === 0) {
+            errors.push('Anime powinno zawierać chociaż jeden gatunek.');
+        }
+
+        if (!mini || !imageTest(miniPreview.type)) {
+            errors.push('Miniatura powinna być grafiką w wybranym formacie. (jpg, jpeg, png, webp, gif)');
+        }
+
+        if (miniPreview.size > 5.24288) {
+            errors.push('Wielkość miniatury nie powinna przekraczać 0.5MB.');
+        }
+
+        if (!background || !imageTest(backgroundPreview.type)) {
+            errors.push('Tło powinno być grafiką w wybranym formacie. (jpg, jpeg, png, webp, gif)');
+        }
+
+        if (backgroundPreview.size > 3.145728) {
+            errors.push('Wielkość Tła nie powinna przekraczać 3MB.');
+        }
+
+        if (!banerPreview || !imageTest(banerPreview.type)) {
+            errors.push('Baner powinien być grafiką w wybranym formacie. (jpg, jpeg, png, webp, gif)');
+        }
+
+        if (banerPreview.size > 3.145728) {
+            errors.push('Wielkość Baneru nie powinna przekraczać 3MB.');
+        }
+
+        if (soundtrack) {
+            if (!audioTest(soundtrackPreview.type)) {
+                errors.push('Soundtrack powinien być plikiem audio w formacie mp3.');
+            }
+            if (soundtrackPreview.size > 8.388608) {
+                errors.push('Wielkość soundtracka nie powinna przekraczać 8MB.');
+            }
+            if (composer.length === 0 || composer.length > 50) {
+                errors.push('Kompozytor powinien zawierać od 1 do 50 znaków.');
+            }
+            if (soundtrackTitle.length === 0 || soundtrackTitle.length > 150) {
+                errors.push('Tytuł soundtracka powinien zawierać od 1 do 150 znaków.');
+            }
+        }
+
+        return errors;
+    };
+
+    const validationList = () => validationErrors.map((e, i) => {
+        return <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>;
+    });
 
     const isChecked = (anime) => {
         if (seasons.indexOf(anime) === -1) {
@@ -190,174 +271,197 @@ const PageCreate = () => {
         } else {
             return true
         }
-    }
+    };
 
-    const handleChange = (e) => {
-    }
+    const reset = () => {
+        setKind('series');
+        setTitle('');
+        setScenario('');
+        setProductionDate('');
+        setEpisodesAmount('');
+        setEpisodeDuration('');
+        setHours('');
+        setMinutes('');
+        setLink('');
+        setAnimeTypes([]);
+        setSeasons([]);
+        setComposer('');
+        setSoundtrackTitle('');
+    };
 
-    const handleAddNewAnime = (e) => {
-        let target = e.target;
-        if (target.localName === "span") {
-            target = target.parentElement;
-        }
-        if (title !== '' && link !== '' && types.length > 0 && mini !== null && background !== null && baner !== null) {
-            target.disabled = true;
-            target.classList.add('Mui-disabled');
-            const type = kind;
-            let duration;
-            if (type === "series") {
-                duration = `${episodesValue}odc. ${episodeDuration}min.`;
-            } else {
-                duration = `${hoursValue}godz. ${minutesValue}min.`;
-            }
-            const data = new FormData();
-            data.append('myImg', background);
-            fetch(`${HOST_ADDRESS}/images`, {
-                headers: {
-                    'authorization': localStorage.getItem('token'),
-                    'user': localStorage.getItem('UID'),
-                },
-                method: 'POST',
-                body: data
-            })
-                .then(res => res.json())
-                .then(res => {
-                    backgroundObj = {
-                        id: res.id,
-                        img: res.img,
-                        fromAnime: title
-                    }
-                    const data2 = new FormData();
-                    data2.append('myImg', baner);
-                    fetch(`${HOST_ADDRESS}/images`, {
-                    headers: {
-                        'authorization': localStorage.getItem('token'),
-                        'user': localStorage.getItem('UID'),
-                    },
-                    method: 'POST',
-                    body: data2
-                    })
-                        .then(res => res.json())
-                        .then(res => {
-                            banerObj = {
-                                id: res.id,
-                                img: res.img,
-                                fromAnime: title
-                            }
-                            const data3 = new FormData();
-                            data3.append('myImg', mini);
-                            fetch(`${HOST_ADDRESS}/images`, {
-                            headers: {
-                                'authorization': localStorage.getItem('token'),
-                                'user': localStorage.getItem('UID'),
-                            },
-                            method: 'POST',
-                            body: data3
-                            })
-                                .then(res => res.json())
-                                .then(res => {
-                                    miniObj = {
-                                        id: res.id,
-                                        img: res.img,
-                                        fromAnime: title
-                                    }
-                                    const data4 = new FormData();
-                                    data4.append('myMp3', soundtrack);
-
-                                    fetch(`${HOST_ADDRESS}/soundtracks/${composer ? composer : 'brak'}/${soundtrackTitle ? soundtrackTitle : 'brak'}/${user.id}`, {
-                                    headers: {
-                                        'authorization': localStorage.getItem('token'),
-                                        'user': localStorage.getItem('UID'),
-                                    },
-                                    method: 'POST',
-                                    body: data4
-                                    })
-                                        .then(res => res.json())
-                                        .then(res => {
-                                            soundtrackObj = {
-                                                id: res.id,
-                                                mp3: res.mp3,
-                                                title: soundtrackTitle ? soundtrackTitle : 'brak',
-                                                composer: composer ? composer : 'brak',
-                                                likes: [],
-                                            }
-                                            const obj = {
-                                                kind,
-                                                title,
-                                                scenario,
-                                                productionDate,
-                                                duration,
-                                                link,
-                                                types,
-                                                seasons,
-                                                mini: miniObj,
-                                                background: backgroundObj,
-                                                baner: banerObj,
-                                                soundtrack: soundtrackObj,
-                                                galeryImages: [backgroundObj, banerObj]
-                                            }
-                                            fetch(`${HOST_ADDRESS}/anime`, {
-                                                headers: {
-                                                    'Content-Type': 'application/json; charset=utf-8',
-                                                },
-                                                method: 'POST',
-                                                body: JSON.stringify(obj)
-                                            })
-                                            .then(res => res.json())
-                                            .then(res => {
-                                                console.log(res);
-                                                window.location.reload();
-                                            });
-                                        })
-                                })
-                        })
-                })
-        }
-    }
-
-    const typesLabelList = () => {
-        const sorted = typesList.sort((a, b) => {
-            if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                return 1;
-            } else if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                return -1;
-            }
-            return 0;
-        })
-        return sorted.map(t => <FormControlLabel key={t._id} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
-    }
-
-    const animeLabelList =  () => {
-        const filtered = animeList.filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()));
-        const sorted = filtered.sort((a, b) => {
-            if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                return 1;
-            } else if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                return -1;
-            } else {
+    const labelTypesList = () => {
+        return types
+            .sort((a, b) => {
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 return 0;
-            }
-        })
-        return sorted.map(a => <FormControlLabel key={a._id} checked={isChecked(a.title)} value={a.title} control={<Checkbox/>} label={a.title} onChange={handleSeasonsChange}/>);
-    }
+            })
+            .map(t => <FormControlLabel key={t.id} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
+    };
+    const labelAnimeList =  () => {
+        return anime
+            .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
+            .sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                return 0;
+            })
+            .map(a => <FormControlLabel key={a.id} checked={isChecked(a.id)} value={a.id} control={<Checkbox/>} label={a.title} onChange={handleSeasonsChange}/>);
+    };
 
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/types`)
-        .then(res => res.json())
-        .then(res => setTypesList(res));
-        fetch(`${HOST_ADDRESS}/anime`)
-        .then(res => res.json())
-        .then(res => {
-            setAnimeList(res)
-        });
-    }
+    const handleRemoveSoundtrack = () => {
+        setSoundtrack(null);
+        setSoundtrackPreview({ url: '', size: 0, type: '' });
+    };
+
+    const handleAddNewAnime = async () => {
+        const saveMini = async () => {
+            const response = await fetch(`${HOST_ADDRESS}/images`, {
+                method: 'POST',
+                headers: {
+                    'user': user.id,
+                },
+                body: mini,
+            });
+            if (response.ok) {
+                const images = await response.json();
+                return images[0];
+            }
+        };
+        const saveBackground = async () => {
+            const response = await fetch(`${HOST_ADDRESS}/images`, {
+                method: 'POST',
+                headers: {
+                    'user': user.id,
+                },
+                body: background,
+            });
+            if (response.ok) {
+                const images = await response.json();
+                return images[0];
+            }
+        };
+        const saveBaner = async () => {
+            const response = await fetch(`${HOST_ADDRESS}/images`, {
+                method: 'POST',
+                headers: {
+                    'user': user.id,
+                },
+                body: baner,
+            });
+            if (response.ok) {
+                const images = await response.json();
+                return images[0];
+            }
+        };
+        const saveSoundtrack = async () => {
+            const response = await fetch(`${HOST_ADDRESS}/soundtracks/${composer}/${soundtrackTitle}/${user.id}`, {
+                method: 'POST',
+                body: soundtrack,
+            });
+            if (response.ok) {
+                const audio = await response.json();
+                return audio;
+            }
+        };
+
+        if (validationErrors.length === 0) {
+            reset();
+            let response;
+            if (soundtrack) {
+                response = await Promise.all([saveMini(), saveBackground(), saveBaner(), saveSoundtrack()]);
+            } else {
+                response = await Promise.all([saveMini(), saveBackground(), saveBaner()]);
+            }
+
+            let duration;
+            if (kind === 'series') {
+                duration = `${episodesAmount}odc. ${episodeDuration}min.`;
+            } else {
+                duration = `${hours}godz. ${minutes}min.`;
+            }
+
+            const miniObj = {
+                id: response[0].id,
+                img: response[0].img,
+                fromAnime: title
+            }
+
+            const backgroundObj = {
+                id: response[1].id,
+                img: response[1].img,
+                fromAnime: title
+            }
+    
+            const banerObj = {
+                id: response[2].id,
+                img: response[2].img,
+                fromAnime: title
+            }
+    
+            let soundtrackObj;
+            if (soundtrack) {
+                soundtrackObj = {
+                    id: response[3].id,
+                    mp3: response[3].mp3,
+                    title: soundtrackTitle,
+                    composer: composer,
+                    likes: [],
+                }
+            }
+            
+            const obj = {
+                kind,
+                title,
+                scenario,
+                productionDate,
+                duration,
+                link,
+                types: animeTypes,
+                seasons,
+                mini: miniObj,
+                background: backgroundObj,
+                baner: banerObj,
+                soundtrack: soundtrackObj,
+                galeryImages: [backgroundObj, banerObj],
+            }
+            const response2 = await fetch(`${HOST_ADDRESS}/anime`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                },
+                body: JSON.stringify(obj)
+            });
+            if (response2.ok) {
+                setResponse({status: response2.ok, message: 'Dodano nowe anime!'});
+            } else {
+                const error = await response2.json();
+                setResponse({status: response2.ok, message: error.message});
+            }
+            getAnime();
+            setOpen(true);
+        }
+    };
+
+    const setPreviews = () => {
+        const preview = { url: previewImage, size: 0, type: '' };
+        setMiniPreview(preview);
+        setBackgroundPreview(preview);
+        setBanerPreview(preview);
+        setSoundtrackPreview({ url: '', size: 0, type: '' });
+    };
 
     useEffect(() => {
-        callAPI();
-    },[])
+        setPreviews();
+    }, [anime]);
+
+    useEffect(() => {
+        setValidationErrors(checkValidation());
+    }, [title, kind, scenario, productionDate, episodesAmount, episodeDuration, hours, minutes, link, animeTypes, seasons, mini, background, baner, soundtrack, composer, soundtrackTitle]);
 
     return ( 
-        <main className="main">
+        <>
+        {authorization === '2' || authorization === '3' ? <main className="main">
             <div className="curtain"></div>
             <div className="create main__content">
                 <h1 className="create__createAnime">Tworzenie Nowego Anime</h1>
@@ -374,7 +478,7 @@ const PageCreate = () => {
                         </div>
                         <div className="create__animeTitle create__section">
                             <h3 className="create__title">Tytuł</h3>
-                            <input type="text" className="create__titleInp create__inputText" placeholder="Tytuł" value={title} onChange={(e) => {handleInfChange("title", e)}}/>
+                            <input type="text" className="create__titleInp create__inputText" placeholder="Tytuł" value={title} onChange={handleChangeTitle}/>
                         </div>
                         <div className="create__info create__section">
                             <h3 className="create__title">Informacje</h3>
@@ -382,13 +486,13 @@ const PageCreate = () => {
                             <input type="text" className="create__productionDateInp create__inputText" placeholder="Rok produkcji" value={productionDate} onChange={(e) => {handleInfChange("productionDate", e)}}/>
                             {kind === "series" ? 
                             <div className="create__seriesKind">
-                                <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość odcinków" value={episodesValue} onChange={(e) => {handleInfChange("episodesValue", e)}}/>
+                                <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość odcinków" value={episodesAmount} onChange={(e) => {handleInfChange("episodesValue", e)}}/>
                                 <input type="text" className="create__duration2Inp create__inputText" placeholder="Czas trwania odcinka w min" value={episodeDuration} onChange={(e) => {handleInfChange("episodeDuration", e)}}/>
                             </div>
                             :
                             <div className="create__seriesKind">
-                                <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość godzin" value={hoursValue} onChange={(e) => {handleInfChange("hoursValue", e)}}/>
-                                <input type="text" className="create__duration2Inp create__inputText" placeholder="Ilość minut" value={minutesValue} onChange={(e) => {handleInfChange("minutesValue", e)}}/>
+                                <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość godzin" value={hours} onChange={(e) => {handleInfChange("hoursValue", e)}}/>
+                                <input type="text" className="create__duration2Inp create__inputText" placeholder="Ilość minut" value={minutes} onChange={(e) => {handleInfChange("minutesValue", e)}}/>
                             </div> }
                         </div>
                         <div className="create__link create__section">
@@ -398,17 +502,17 @@ const PageCreate = () => {
                         <div className="create__types create__section">
                             <FormControl component="fieldset">
                                 <FormLabel component="legend" className="create__title">Gatunki</FormLabel>
-                                <RadioGroup value={types} onChange={handleChange}>
-                                    {typesLabelList()}
+                                <RadioGroup value={types}>
+                                    {types.length > 0 ? labelTypesList() : null}
                                 </RadioGroup>
                             </FormControl>
                         </div>
                         <div className="create__seasons create__section">
                             <Search handleSearch={handleSearch}/>
                             <FormControl component="fieldset">
-                                <FormLabel component="legend" className="create__title">Powiązane Anime</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={seasons} onChange={handleChange}>
-                                    {animeLabelList()}
+                                <FormLabel component="legend" className="create__title">*Powiązane Anime</FormLabel>
+                                <RadioGroup value={seasons}>
+                                    {anime.length > 0 ? labelAnimeList() : null}
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -417,42 +521,56 @@ const PageCreate = () => {
                         <SRLWrapper>
                             <form className="create__images create__section">
                                 <h3 className="create__title">Grafiki</h3>
-                                <input type="file" id="mini" className="create__imageInp" data-type="mini" onChange={handleFileChange}/>
+                                <input type="file" id="mini" className="create__imageInp" onChange={handleChangeMini}/>
                                 <label htmlFor="mini" className="create__imageLabel">Wybierz Miniaturę</label>
-                                {miniSize}
-                                <div className="create__preview create__preview--mini">
-                                    <img src={previewMini} alt="Podgląd" className="img" srl_gallery_image="true" />
+                                <div className="create__preview">
+                                    {mini ? <p className="changes__size" style={{color: miniPreview.size < 0.524288 ? '#5ec45e' : '#d14141'}}>{miniPreview.size.toFixed(2)} MB {miniPreview.size < 0.524288 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+                                    <div className="create__preview-img create__preview-img--square">
+                                        <img src={miniPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
+                                    </div>
                                 </div>
-                                <input type="file" id="background" className="create__imageInp" data-type="background" onChange={handleFileChange}/>
+                                <input type="file" id="background" className="create__imageInp" onChange={handleChangeBackground}/>
                                 <label htmlFor="background" className="create__imageLabel">Wybierz Tło</label>
-                                {backgroundSize}
                                 <div className="create__preview">
-                                    <img src={previewBackground} alt="Podgląd" className="img" srl_gallery_image="true" />
+                                    {background ? <p className="changes__size" style={{color: backgroundPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{backgroundPreview.size.toFixed(2)} MB {backgroundPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+                                    <div className="create__preview-img create__preview-img--background">
+                                        <img src={backgroundPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
+                                    </div>
                                 </div>
-                                <input type="file" id="baner" className="create__imageInp" data-type="baner" onChange={handleFileChange}/>
+                                <input type="file" id="baner" className="create__imageInp" onChange={handleChangeBaner}/>
                                 <label htmlFor="baner" className="create__imageLabel">Wybierz Baner</label>
-                                {banerSize}
+                                {/* File size validation */}
                                 <div className="create__preview">
-                                    <img src={previewBaner} alt="Podgląd" className="img" srl_gallery_image="true" />
+                                    {baner ? <p className="changes__size" style={{color: banerPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{banerPreview.size.toFixed(2)} MB {banerPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+                                    <div className="create__preview-img create__preview-img--background">
+                                        <img src={banerPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
+                                    </div>
                                 </div>
                             </form>
                         </SRLWrapper>
                         <form className="create__soundtrack create__section">
-                            <h3 className="create__title">Soundtrack</h3>
-                            <input type="file" id="music" className="create__soundtrackInp" data-type="soundtrack" onChange={handleFileChange}/>
+                            <h3 className="create__title">*Soundtrack</h3>
+                            <input type="file" id="music" className="create__soundtrackInp" onChange={handleChangeSoundtrack}/>
                             <label htmlFor="music" className="create__imageLabel">Soundtrack</label>
-                            {soundtrackSize}
-                            {previewSoundtrack ? <Audio mp3={previewSoundtrack}/> : null}
+                            {soundtrack ? <div className="create__preview">
+                                <p className="changes__size" style={{color: soundtrackPreview.size < 8.388608 ? '#5ec45e' : '#d14141'}}>{soundtrackPreview.size.toFixed(2)} MB {soundtrackPreview.size < 8.388608 ? 'OK' : 'Plik jest za duży!'}</p>
+                                <Audio mp3={soundtrackPreview.url}/>
+                                <RemoveRoundedIcon className="create__delete-icon" onClick={handleRemoveSoundtrack}/>
+                            </div> : null}
                             <input type="text" className="create__composerInp create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInfChange("composer", e)}}/>
                             <input type="text" className="create__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChange={(e) => {handleInfChange("soundtrackTitle", e)}}/>
                         </form>
                     </div>
                 </div>
                 <div className="create__send">
-                    <Button className="button create__add" onClick={handleAddNewAnime}>Dodaj Nowe Anime</Button>
+                    <Button className={`button create__add ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleAddNewAnime}>Dodaj Nowe Anime</Button>
+                    <ul className="changes__validation-list">
+                        {validationList()}
+                    </ul>
                 </div>
             </div>
-        </main>
+        </main> : <NotFound />}
+        </>
      );
 }
  

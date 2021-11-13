@@ -1,14 +1,17 @@
 import React from 'react';
 
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+
 import { HOST_ADDRESS } from '../config';
 
-const SingleGaleryImage = ({image, animeData, getAnime, setResponse, setOpen}) => {
+const SingleGaleryImage = ({image, animeData}) => {
 
     const { id, fromAnime } = image;
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [,,authorization] = useUser();
 
     const handleRemove = async () => {
@@ -33,17 +36,16 @@ const SingleGaleryImage = ({image, animeData, getAnime, setResponse, setOpen}) =
                 }),
             });
             if (response2.ok) {
-                setResponse({status: response.ok, message: 'Grafika została pomyślenie usunięta.'});
+                setResponse({status: response.ok, message: 'Grafika została usunięta.'});
             } else {
                 const error = await response.json();
                 setResponse({status: response.ok, message: error.message});
             }
-            getAnime();
-            setOpen(true);
         } else {
             const error = await response.json();
             setResponse({status: response.ok, message: error.message});
         }
+        setOpen(true);
     }
 
     return ( 

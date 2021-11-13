@@ -1,19 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Popup from 'reactjs-popup';
+
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
 import { Button } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
-import ServerResponse from './ServerResponse';
-
 import { HOST_ADDRESS } from '../config';
 
-const ChangesInfo = ({close, anime, getAnime}) => {
+const ChangesInfo = ({close, anime}) => {
 
     const saveButton = useRef();
 
-    const [open, setOpen] = useState(false);
-    const [response, setResponse] = useState('');
+    const [, setOpen,, setResponse] = useResponsePopup();
 
     const [scenario, setScenario] = useState('');
     const [productionDate, setProductionDate] = useState('');
@@ -77,7 +75,6 @@ const ChangesInfo = ({close, anime, getAnime}) => {
                 console.log(error);
                 setResponse({status: response.ok, message: error.message});
             }
-            getAnime();
             setOpen(true);
         }
     };
@@ -99,9 +96,6 @@ const ChangesInfo = ({close, anime, getAnime}) => {
             <ul className="changes__validation-list">
                 {validationList()}
             </ul>
-            <Popup modal nested open={open} onClose={close} >
-                {close => <ServerResponse close={close} response={response}/>}
-            </Popup>
         </div>
      );
 }

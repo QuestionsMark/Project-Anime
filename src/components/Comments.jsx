@@ -5,7 +5,7 @@ import { useUser } from '../contexts/UserProvider';
 import AddComment from './AddComment';
 import SingleComment from './SingleComment';
 
-const Comments = ({animeData, getAnime, setOpen, setResponse}) => {
+const Comments = ({animeData, getAnime}) => {
 
     const [status] = useUser();
 
@@ -14,7 +14,7 @@ const Comments = ({animeData, getAnime, setOpen, setResponse}) => {
     const commentsList = () => {
         return [...comments]
             .reverse()
-            .map(c => <SingleComment key={c.id} comment={c} setOpen={setOpen} setResponse={setResponse} animeData={animeData} getAnime={getAnime}/>);
+            .map(c => <SingleComment key={c.id} comment={c} animeData={animeData} getAnime={getAnime}/>);
     };
 
     return ( 

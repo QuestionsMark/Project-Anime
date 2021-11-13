@@ -4,15 +4,15 @@ import { withRouter } from 'react-router-dom';
 import SingleWTMComment from './SingleWTMComment';
 import AddWTMComment from './AddWTMComment';
 
-import { useWTMComments } from '../contexts/WTMCommentsProvider';
+import { useData } from '../contexts/DataProvider';
 
 const WhatsTheMelodyComments = () => {
 
-    const [wTMComments] = useWTMComments();
+    const { whatsTheMelodyComments } = useData();
 
     const wTMCommentsList = () => {
-        return wTMComments.map(com => <SingleWTMComment key={com.id} comment={com} />);
-    }
+        return whatsTheMelodyComments.map(com => <SingleWTMComment key={com.id} comment={com} />);
+    };
 
     return ( 
         <div className="WTMC">

@@ -257,10 +257,6 @@
         .animeList__animeContent {
             flex-grow: 1;
         }
-
-        .animeList__rate {
-            margin: 0 10px;
-        }
     }
 }
 
@@ -495,15 +491,35 @@
     }
 
     &__preview {
-        width: 50%;
-        margin: 0 auto 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
     }
 
-    &__preview--square {
-        width: 13vw;
-        height: 13vw;
-        border-radius: 10px;
-        overflow: hidden;
+    &__img-preview {
+        flex-shrink: 0;
+        width: 50%;
+        margin: 0 20px;
+
+        &--square {
+            width: 13vw;
+            height: 13vw;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        &--round {
+            width: 13vw;
+            height: 13vw;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        &--background {
+            border-radius: 10px;
+            overflow: hidden;
+        }
     }
 
     &__previewImg {
@@ -519,6 +535,12 @@
 
     &__inpWrapper--save {
         justify-content: center;
+    }
+
+    &__validation-info {
+        font-size: 14px;
+        font-weight: bold;
+        color: $font-color;
     }
 }
 

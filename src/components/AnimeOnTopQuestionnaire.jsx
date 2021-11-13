@@ -1,49 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
+import { useData } from '../contexts/DataProvider';
+import { useUser } from '../contexts/UserProvider';
 import { useAnime } from '../contexts/AnimeProvider';
 
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import { HOST_ADDRESS } from '../config';
 
-const AnimeOnTopQuestionnaire = ({id, refresh}) => {
+const AnimeOnTopQuestionnaire = ({id}) => {
 
+    const [,,,, user] = useUser();
     const [anime] = useAnime();
-
-    const [AOTQuestionnaire, setAOTQuestionnaire] = useState('');
-
-    const handleSendVote = (e) => {
-        let target = e.target;
-        if (target.localName === "span") {
-            target = target.parentElement;
+    const { setAnimeOnTop } = useData();
+    const getAnimeOnTop = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime-on-top/actual`);
+        if (response.ok) {
+            const animeOnTop = await response.json();
+            setAnimeOnTop(animeOnTop);
         }
-        if (AOTQuestionnaire !== '') {
-            target.disabled = true;
-            target.classList.add('Mui-disabled');
-            const AOTID = id;
-            fetch(`${HOST_ADDRESS}/aot/vote`, {
+    };
+
+    const [vote, setVote] = useState('');
+    const handleVoteChange = e => {
+        setVote(e.target.value);
+    };
+
+    const handleVote = async () => {
+        if (vote !== '') {
+            await fetch(`${HOST_ADDRESS}/anime-on-top/vote`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    AOTID,
-                    user: JSON.parse(localStorage.getItem('animark-user-id')),
-                    vote: AOTQuestionnaire
-                })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res.response);
-                    refresh()
-                });
-        } else {
-            console.log('jesteś zjebem');
+                    id,
+                    user: user.id,
+                    vote,
+                }),
+            });
+            getAnimeOnTop();
         }
-    }
-
-    const handleAOTQChange = (e) => {
-        setAOTQuestionnaire(e.target.value)
-    }
+    };
 
     const formAnimeList = () => {
         return [...anime]
@@ -52,8 +49,8 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
                 return 0;
             })
-            .map(a => <MenuItem key={a.id} value={a.id}>{a.title}</MenuItem>);
-    }
+            .map(a => <MenuItem key={a.id} value={a.title}>{a.title}</MenuItem>);
+    };
 
     return ( 
         <div className="AOT__questionnaire">
@@ -61,11 +58,11 @@ const AnimeOnTopQuestionnaire = ({id, refresh}) => {
             <div className="AOT__form">
                 <FormControl>
                     <InputLabel id="demo-simple-select-label">Anime</InputLabel>
-                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={AOTQuestionnaire} onChange={handleAOTQChange}>
+                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={vote} onChange={handleVoteChange}>
                         {formAnimeList()}
                     </Select>
                 </FormControl>
-                <Button className="button AOT__send" onClick={handleSendVote}>Zagłosuj</Button>
+                <Button className={`button AOT__send ${vote ? '' : 'Mui-disabled'}`} onClick={handleVote}>Zagłosuj</Button>
             </div>
         </div>
      );

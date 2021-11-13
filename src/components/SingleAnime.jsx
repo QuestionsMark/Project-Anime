@@ -45,105 +45,98 @@ const SingleAnime = ({anime, rate}) => {
         return '';
     }
 
-    const handleSetFavoriteAnime = async () => {
+    const handleChangeFavoriteAnime = async () => {
         if (status) {
-            const response = await fetch(`${HOST_ADDRESS}/profile/change/favorite-anime`, {
+            await fetch(`${HOST_ADDRESS}/profile/favorite-anime`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    user: user.id,
-                    anime: title
+                    userID: user.id,
+                    animeID: id,
                 }),
             });
-            if (response.ok) {
-                getUser();
-            }
+            getUser();
         } else {
-            // popup z logowaniem
-            console.log('Zaloguj się!');
+            console.log('Przenieś do logowania');
         }
     };
-    const handleSetWatched = async () => {
+
+    const handleChangeWatched = async () => {
         if (status) {
-            const response = await fetch(`${HOST_ADDRESS}/profile/change/watched`, {
+            await fetch(`${HOST_ADDRESS}/profile/watched`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    user: user.id,
-                    anime: title
+                    userID: user.id,
+                    animeID: id,
                 }),
             });
-            if (response.ok) {
-                getUser();
-            }
+            getUser();
         } else {
-            console.log('Zaloguj się!');
+            console.log('Przenieś do logowania');
         }
     };
-    const handleSetStopped = async () => {
+
+    const handleChangeStopped = async () => {
         if (status) {
-            const response = await fetch(`${HOST_ADDRESS}/profile/change/stopped`, {
+            await fetch(`${HOST_ADDRESS}/profile/stopped`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    user: user.id,
-                    anime: title
+                    userID: user.id,
+                    animeID: id,
                 }),
             });
-            if (response.ok) {
-                getUser();
-            }
+            getUser();
         } else {
-            console.log('Zaloguj się!');
+            console.log('Przenieś do logowania');
         }
     };
-    const handleSetProcessOfWatching = async () => {
+
+    const handleChangeProcessOfWatching = async () => {
         if (status) {
-            const response = await fetch(`${HOST_ADDRESS}/profile/change/process-of-watching`, {
+            await fetch(`${HOST_ADDRESS}/profile/process-of-watching`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    user: user.id,
-                    anime: title
+                    userID: user.id,
+                    animeID: id,
                 }),
             });
-            if (response.ok) {
-                getUser();
-            }
+            getUser();
         } else {
-            console.log('Zaloguj się!');
+            console.log('Przenieś do logowania');
         }
     };
-    const handleSetPlanned = async () => {
+
+    const handleChangePlanned = async () => {
         if (status) {
-            const response = await fetch(`${HOST_ADDRESS}/profile/change/planned`, {
+            await fetch(`${HOST_ADDRESS}/profile/planned`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                method: 'POST',
                 body: JSON.stringify({
-                    user: user.id,
-                    anime: title
+                    userID: user.id,
+                    animeID: id,
                 }),
             });
-            if (response.ok) {
-                getUser();
-            }
+            getUser();
         } else {
-            console.log('Zaloguj się!');
+            console.log('Przenieś do logowania');
         }
     };
 
     const animeTypes = () => {
-        return types.map(t => <Link to={`/types/${t.link}`} key={t.id} className="animeList__type">{t.name}</Link>);
+        return types.map(t => <Link to={`/types/${t.name}`} key={t.id} className="animeList__type">{t.name}</Link>);
     };
 
     return ( 
@@ -152,7 +145,7 @@ const SingleAnime = ({anime, rate}) => {
                 <img src={`${HOST_ADDRESS}/images/${anime.images.mini.id}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={`/pages/${id}`} className="animeList__title">{title}</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title}</Link>
                 <div className="animeList__types">
                     {animeTypes()}
                 </div>
@@ -162,11 +155,11 @@ const SingleAnime = ({anime, rate}) => {
                 <p className="animeList__rateValue">{rate}</p>
             </div>
             <div className="animeList__buttons">
-                <Button className={`button animeList__button ${checkActive('favorite')}`} onClick={handleSetFavoriteAnime}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
-                <Button className={`button animeList__button ${checkActive('watched')}`} onClick={handleSetWatched}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button animeList__button ${checkActive('stopped')}`} onClick={handleSetStopped}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button animeList__button ${checkActive('processOfWatching')}`} onClick={handleSetProcessOfWatching}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button animeList__button ${checkActive('planned')}`} onClick={handleSetPlanned}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
+                <Button className={`button animeList__button ${checkActive('favorite')}`} onClick={handleChangeFavoriteAnime}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
+                <Button className={`button animeList__button ${checkActive('watched')}`} onClick={handleChangeWatched}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
+                <Button className={`button animeList__button ${checkActive('stopped')}`} onClick={handleChangeStopped}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
+                <Button className={`button animeList__button ${checkActive('processOfWatching')}`} onClick={handleChangeProcessOfWatching}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
+                <Button className={`button animeList__button ${checkActive('planned')}`} onClick={handleChangePlanned}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
             </div>
         </li>
      );

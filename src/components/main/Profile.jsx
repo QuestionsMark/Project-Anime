@@ -16,7 +16,6 @@ import { HOST_ADDRESS } from '../../config';
 
 const Profile = ({ history, match }) => {
 
-    const [types, setTypes] = useState([]);
     const [profileData, setProfileData] = useState({});
     const [searchPhraseAnime, setSearchPhraseAnime] = useState('');
     const handleSearchAnime = (e) => {
@@ -42,14 +41,6 @@ const Profile = ({ history, match }) => {
         }
     };
 
-    const getTypes = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/types`);
-        if (response.ok) {
-            const types = await response.json();
-            setTypes(types);
-        }
-    };
-
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
@@ -57,7 +48,6 @@ const Profile = ({ history, match }) => {
     useEffect(() => {
         goUp();
         getProfileData();
-        getTypes();
     }, [match]);
 
     return ( 
@@ -67,19 +57,19 @@ const Profile = ({ history, match }) => {
             {JSON.stringify(profileData) !== "{}" ? <div className="profile main__content">
                 <ProfileNav />
                 <Switch>
-                    <Route path="/profile/:userID" exact>
+                    <Route path="/users/:userID" exact>
                         <ProfileHome profileData={profileData} match={match} getProfileData={getProfileData}/>
                     </Route>
-                    <Route path="/profile/:userID/user-top">
+                    <Route path="/users/:userID/user-top">
                         <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>
                     </Route>
-                    <Route path="/profile/:userID/achievements">
+                    <Route path="/users/:userID/achievements">
                         <ProfileAchievements achievements={achievementsList()} handleSearch={handleSearchAchievement}/>
                     </Route>
-                    <Route path="/profile/:userID/settings">
-                        <ProfileEdit profileData={profileData} types={types} getProfileData={getProfileData} />
+                    <Route path="/users/:userID/settings">
+                        <ProfileEdit profileData={profileData} getProfileData={getProfileData} />
                     </Route>
-                    <Route path="/profile/:userID/private">
+                    <Route path="/users/:userID/private">
                         <ProfilePrivate />
                     </Route>
                 </Switch>

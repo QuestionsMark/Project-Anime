@@ -14,7 +14,7 @@ import logo from '../media/img/icon.jpg';
 
 const Nav = ({ history }) => {
 
-    const [status] = useUser();
+    const [status,,,, user] = useUser();
 
     const handleSignIn = () => {
         document.querySelector('.loginScreen').classList.toggle('none');
@@ -43,7 +43,7 @@ const Nav = ({ history }) => {
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
-                        <NavLink to="/anime-list" className="menu__link"><MovieCreationOutlinedIcon className="menu__icon"/>Anime</NavLink>
+                        <NavLink to="/anime" className="menu__link"><MovieCreationOutlinedIcon className="menu__icon"/>Anime</NavLink>
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
@@ -58,7 +58,7 @@ const Nav = ({ history }) => {
                         <NavLink to="/galery" className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    {status ? <li className="menu__item"><NavLink to={`/profile/${JSON.parse(localStorage.getItem('animark-user-id'))}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
+                    {status ? <li className="menu__item"><NavLink to={`/users/${user.id}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
                 </ul>
             </nav>
             {status ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleSignIn}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }

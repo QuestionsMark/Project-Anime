@@ -23,12 +23,12 @@ const Home = ({isUserLogged, history}) => {
             <div className="curtain"></div>
             <LeftSide />
             <div className="home main__content">
-                <AnimeOnTop isUserLogged={isUserLogged}/>
+                <AnimeOnTop />
                 <RecommendedProfiles />
                 <LastNews />
                 <MyProjectsList />
             </div>
-            <RightSide  isUserLogged={isUserLogged}/>
+            <RightSide />
         </main>
      );
 }

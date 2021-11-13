@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import Popup from 'reactjs-popup';
 
 import { useUser } from '../contexts/UserProvider';
 
 import { Button } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
-import ServerResponse from './ServerResponse';
-
 import { HOST_ADDRESS } from '../config';
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
-const ChangesDescription = ({close, anime, getAnime}) => {
+const ChangesDescription = ({close, anime}) => {
 
+    const [,setOpen,, setResponse] = useResponsePopup();
     const [,,,,user] = useUser();
-
-    const [open, setOpen] = useState(false);
-    const [response, setResponse] = useState('');
 
     const [description, setDesription] = useState('');
     const [validationErrors, setValidationErrors] = useState(
-        ['Opis powinien zawierać conajmniej 50 znaków, ale nie więcej niż 2000.']
+        ['Opis powinien zawierać od 50 do 5000 znaków.']
     );
     const handleChangeDescription = e => {
         setDesription(e.target.value);
@@ -28,8 +24,8 @@ const ChangesDescription = ({close, anime, getAnime}) => {
     const checkValidation = () => {
         const errors = [];
 
-        if (description.length < 50 || description.length > 2000) {
-            errors.push('Liczba znaków scenariusza powinna wynosić od 2 do 50 znaków.');
+        if (description.length < 50 || description.length > 5000) {
+            errors.push('Opis powinien zawierać od 50 do 5000 znaków.');
         }
 
         return errors;
@@ -56,10 +52,8 @@ const ChangesDescription = ({close, anime, getAnime}) => {
                 setResponse({status: response.ok, message: 'Opis anime został zmieniony.'});
             } else {
                 const error = await response.json();
-                console.log(error);
                 setResponse({status: response.ok, message: error.message});
             }
-            getAnime();
             setOpen(true);
         }
     };
@@ -77,9 +71,6 @@ const ChangesDescription = ({close, anime, getAnime}) => {
             <ul className="changes__validation-list">
                 {validationList()}
             </ul>
-            <Popup modal nested open={open} onClose={close} >
-                {close => <ServerResponse close={close} response={response}/>}
-            </Popup>
         </div>
      );
 }

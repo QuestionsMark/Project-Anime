@@ -29,7 +29,7 @@ const Anime = ({history, match}) => {
                 });
         } else if (type === 'movies') {
             return anime
-                .filter(a => a.kind === 'movies')
+                .filter(a => a.kind === 'movie')
                 .filter(a => a.title.toLowerCase().includes(searchValue.toLowerCase()))
                 .sort((a, b) => {
                     if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;

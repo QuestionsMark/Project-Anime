@@ -16,7 +16,7 @@ const NotFound = ({isUserLogged}) => {
                     <p className="notFound__text">Nie odnaleziono strony o takim adresie URL. Sprawdź czy Twój adres jest poprawny!</p>
                 </div>
             </div>
-            <RightSide isUserLogged={isUserLogged}/>
+            <RightSide />
         </main>
      );
 }

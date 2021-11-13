@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Popup from 'reactjs-popup';
 
+import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { Button } from '@material-ui/core';
 
 import SingleImagePreview from './SingleImagePreview';
-import ServerResponse from './ServerResponse';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesGalery = ({close, animeData, getAnime}) => {
+const ChangesGalery = ({close, animeData}) => {
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [,,,,user] = useUser();
-
-    const [open, setOpen] = useState(false);
-    const [response, setResponse] = useState('');
 
     const [validationErrors, setValidationErrors] = useState(
         ['Wybierz grafikę lub grafiki typu jpg, jpeg, png, webp, gif.']
@@ -87,19 +84,17 @@ const ChangesGalery = ({close, animeData, getAnime}) => {
                     }),
                 });
                 if (response2.ok) {
-                    setResponse({status: response2.ok, message: 'Opis anime został zmieniony.'});
+                    setResponse({status: response2.ok, message: `Galeria została powiększona o ${images.length} grafik.`});
                 } else {
                     const error = await response2.json();
-                    console.log(error);
                     setResponse({status: response2.ok, message: error.message});
                 }
-                getAnime();
-                setOpen(true);
             } else {
                 const error = await response.json();
                 console.log(error);
                 setResponse({status: response.ok, message: error.message});
             }
+            setOpen(true);
         }
     };
 
@@ -122,9 +117,6 @@ const ChangesGalery = ({close, animeData, getAnime}) => {
             <ul className="changes__validation-list">
                 {validationList()}
             </ul>
-            <Popup modal nested open={open} onClose={close} >
-                {close => <ServerResponse close={close} response={response}/>}
-            </Popup>
         </div>
      );
 }
