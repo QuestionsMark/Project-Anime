@@ -11,22 +11,22 @@ import ImageIcon from '@material-ui/icons/Image';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 
 import logo from '../media/img/icon.jpg';
+import { useLoginPopup } from '../contexts/LoginPopup';
 
 const Nav = ({ history }) => {
 
     const [status,,,, user] = useUser();
-
-    const handleSignIn = () => {
-        document.querySelector('.loginScreen').classList.toggle('none');
-    }
+    const { setOpenLoginScreen } = useLoginPopup();
+    const handleOpenLoginScreen = () => {
+        setOpenLoginScreen(true);
+    };
 
     const handleLogOut = () => {
         localStorage.removeItem('animark-user-id')
         localStorage.removeItem('animark-token');
-        localStorage.removeItem('animark-link');
         history.push('/');
         window.location.reload();
-      }
+    };
 
     return ( 
         <div className="header">
@@ -61,7 +61,7 @@ const Nav = ({ history }) => {
                     {status ? <li className="menu__item"><NavLink to={`/users/${user.id}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}
                 </ul>
             </nav>
-            {status ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleSignIn}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }
+            {status ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleOpenLoginScreen}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }
         </div>
      );
 }

@@ -8,11 +8,13 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useLoginPopup } from '../contexts/LoginPopup';
 
 const SingleComment = ({comment, animeData, getAnime}) => {
 
     const { id, userID, username, date, text, likes } = comment;
 
+    const { setOpenLoginScreen } = useLoginPopup();
     const [, setOpen,, setResponse] = useResponsePopup();
     const [status,,authorization,,user] = useUser();
 
@@ -45,7 +47,7 @@ const SingleComment = ({comment, animeData, getAnime}) => {
             });
             getAnime();
         } else {
-            // przenieś do logowania
+            setOpenLoginScreen(true);
         }
     };
 

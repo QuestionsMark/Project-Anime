@@ -2,24 +2,18 @@ import React, { useEffect, useState } from 'react';
 
 import SingleSAOClickerResult from './SingleSAOClickerResult';
 
-import { HOST_ADDRESS } from '../config';
+import { useData } from '../contexts/DataProvider';
 
 const SAOClickerRanking = () => {
 
-    const [results, setResults] = useState(null);
+    const { saoClicker } = useData();
     const [top, setTop] = useState([]);
 
-    const callAPI = () => {
-        fetch(`${HOST_ADDRESS}/sao/results`)
-            .then(res => res.json())
-            .then(res => setResults(res))
-            .then(() => console.log('Skonczuyłem pobierać dane!'))
-    }
 
     const handleFilterChange = (e) => {
         const filter = e.target.getAttribute('data-filter');
         if (filter === 'time') {
-            const sorted = [...results].sort((a, b) => {
+            const sorted = [...saoClicker].sort((a, b) => {
                 const timeValuesA = a.completionTime.split(':');
                 let timeA = 0;
                 timeA += timeValuesA[0] * 3600;
@@ -45,7 +39,7 @@ const SAOClickerRanking = () => {
             });
             setTop(sorted);
         } else if (filter === 'lvl') {
-            const sorted = [...results].sort((a, b) => {
+            const sorted = [...saoClicker].sort((a, b) => {
                 if (a.lvl > b.lvl) {
                     return 1;
                 } else if (a.lvl < b.lvl) {
@@ -59,7 +53,7 @@ const SAOClickerRanking = () => {
             });
             setTop(sorted);
         } else if (filter === 'achievements') {
-            const sorted = [...results].sort((a, b) => {
+            const sorted = [...saoClicker].sort((a, b) => {
                 if (a.achievements > b.achievements) {
                     return -1;
                 } else if (a.achievements < b.achievements) {
@@ -73,7 +67,7 @@ const SAOClickerRanking = () => {
             });
             setTop(sorted);
         } else if (filter === 'swordsAmount') {
-            const sorted = [...results].sort((a, b) => {
+            const sorted = [...saoClicker].sort((a, b) => {
                 if (a.swords > b.swords) {
                     return 1;
                 } else if (a.swords < b.swords) {
@@ -87,19 +81,15 @@ const SAOClickerRanking = () => {
             });
             setTop(sorted);
         }
-    }
+    };
 
     const topList = () => {
-        return top.map((r, i) => <SingleSAOClickerResult key={r._id} place={i + 1} username={r.username} completionTime={r.completionTime} lvl={r.lvl} achievements={r.achievements} swords={r.swords}/>);
-    }
+        return top.map((r, i) => <SingleSAOClickerResult key={r.id} place={i + 1} username={r.username} completionTime={r.completionTime} lvl={r.lvl} achievements={r.achievements} swords={r.swords}/>);
+    };
 
     useEffect(() => {
-        callAPI();
-    },[])
-
-    useEffect(() => {
-        if (results) {
-            const sorted = [...results].sort((a, b) => {
+        if (saoClicker) {
+            const sorted = [...saoClicker].sort((a, b) => {
                 const timeValuesA = a.completionTime.split(':');
                 let timeA = 0;
                 timeA += timeValuesA[0] * 3600;
@@ -125,11 +115,10 @@ const SAOClickerRanking = () => {
             });
             setTop(sorted);
         }
-    },[results]);
+    },[saoClicker]);
 
     return ( 
-        <div className="SAOCRanking main__content">
-            <h2 className="SAOCRanking__title largeTitle">Sword Art Online Clicker ranking</h2>
+        <>
             <div className="SAOCRanking__filters">
                 <p className="SAOCRanking__filter" onClick={handleFilterChange} data-filter="time">Czas</p>
                 <p className="SAOCRanking__filter" onClick={handleFilterChange} data-filter="lvl">Poziom</p>
@@ -147,7 +136,7 @@ const SAOClickerRanking = () => {
             <ul className="SAOCRanking__list">
                 {top ? topList() : null }
             </ul>
-        </div>
+        </>
      );
 }
  

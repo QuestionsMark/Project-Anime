@@ -16,7 +16,7 @@ const SingleSeason = ({season, animeData}) => {
     const [,,authorization] = useUser();
 
     const handleRemove = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime/season`, {
+        const response = await fetch(`${HOST_ADDRESS}/anime/seasons`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

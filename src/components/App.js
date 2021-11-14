@@ -33,18 +33,27 @@ import SAOClicker from './SAOClicker';
 
 import { HOST_ADDRESS } from '../config';
 import { useData } from '../contexts/DataProvider';
+import { useLoginPopup } from '../contexts/LoginPopup';
 
 function App() {
 
   const [open, setOpen] = useResponsePopup();
-  const handleClose = () => {
+  const { openLoginScreen, setOpenLoginScreen, openRegistrationScreen, setOpenRegistrationScreen } = useLoginPopup();
+  const handleCloseResponsePopup = () => {
     setOpen(false);
   };
+  const handleCloseLoginScreen = () => {
+    setOpenLoginScreen(false);
+  };
+  const handleCloseRegistrationScreen = () => {
+    setOpenRegistrationScreen(false);
+  };
+
   const [status, setStatus, , setAuthorization, , setUser] = useUser();
   const [, setUsers] = useUsers();
   const [, setAnime] = useAnime();
   const [, setTypes] = useTypes();
-  const { setAnimeOnTop, setDailyAnime, setWhatsTheMelody, setWhatsTheMelodyComments } = useData();
+  const { setAnimeOnTop, setDailyAnime, setWhatsTheMelody, setWhatsTheMelodyComments, setSaoClicker } = useData();
 
   const checkUserStatus = async () => {
     if (localStorage.getItem('animark-user-id')) {
@@ -65,8 +74,8 @@ function App() {
   };
 
   const setApp = async () => {
-    const { users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments } = await setContexts(JSON.parse(localStorage.getItem('animark-user-id')));
-    console.log({ users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments });
+    const { users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking } = await setContexts(JSON.parse(localStorage.getItem('animark-user-id')));
+    console.log({ users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking });
     setAnime(anime);
     setUsers(users);
     setUser(user);
@@ -75,6 +84,7 @@ function App() {
     setDailyAnime(dailyAnime);
     setWhatsTheMelody(whatsTheMelody);
     setWhatsTheMelodyComments(whatsTheMelodyComments);
+    setSaoClicker(SAOCRanking);
     checkUserStatus();
   };
 
@@ -87,8 +97,8 @@ function App() {
       <WTMCommentsProvider>
         {/* ---Popups--- */}
 
-        {status ? null : <LoginScreen />}
-        {status ? null : <RegisterScreen />}
+        {/* {status ? null : <LoginScreen />}
+        {status ? null : <RegisterScreen />} */}
 
         {/* ---TopSide--- */}
 
@@ -147,8 +157,14 @@ function App() {
         {/* ---BottomSide--- */}
 
         <Footer />
-        <Popup modal closeOnDocumentClick open={open} onClose={handleClose}>
+        <Popup modal closeOnDocumentClick open={open} onClose={handleCloseResponsePopup}>
           <ServerResponse />
+        </Popup>
+        <Popup modal closeOnDocumentClick open={openLoginScreen} onClose={handleCloseLoginScreen}>
+          <LoginScreen />
+        </Popup>
+        <Popup modal closeOnDocumentClick open={openRegistrationScreen} onClose={handleCloseRegistrationScreen}>
+          <RegisterScreen />
         </Popup>
       </WTMCommentsProvider>
     </Router>

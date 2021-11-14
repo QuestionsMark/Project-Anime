@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { useLoginPopup } from '../contexts/LoginPopup';
 import { useUser } from '../contexts/UserProvider';
 
 import { Button, Icon } from '@material-ui/core';
@@ -17,6 +18,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
 
     const { id, title, types } = anime;
 
+    const { setOpenLoginScreen } = useLoginPopup();
     const [status,,,,user, setUser] = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
@@ -59,7 +61,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
             });
             getUser();
         } else {
-            console.log('Przenieś do logowania');
+            setOpenLoginScreen(true);
         }
     };
 
@@ -77,7 +79,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
             });
             getUser();
         } else {
-            console.log('Przenieś do logowania');
+            setOpenLoginScreen(true);
         }
     };
 
@@ -95,7 +97,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
             });
             getUser();
         } else {
-            console.log('Przenieś do logowania');
+            setOpenLoginScreen(true);
         }
     };
 
@@ -113,7 +115,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
             });
             getUser();
         } else {
-            console.log('Przenieś do logowania');
+            setOpenLoginScreen(true);
         }
     };
 
@@ -131,7 +133,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
             });
             getUser();
         } else {
-            console.log('Przenieś do logowania');
+            setOpenLoginScreen(true);
         }
     };
     

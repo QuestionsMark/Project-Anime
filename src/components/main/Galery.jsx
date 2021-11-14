@@ -4,6 +4,8 @@ import { SRLWrapper } from "simple-react-lightbox";
 
 import { useAnime } from '../../contexts/AnimeProvider';
 
+import LeftSide from '../LeftSide';
+import RightSide from '../RightSide';
 import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
 import Search from '../Search';
@@ -13,24 +15,52 @@ const Galery = ({history, match}) => {
     const [anime] = useAnime();
 
     const [searchPhrase, setSearchPhrase] = useState('');
+    const [columns, setColumns] = useState(null);
     const handleSearch = (e) => {
         setSearchPhrase(e.target.value);
     };
 
-    const folderList = () => {
-        return anime
+    const sortFolders = () => {
+        const columns = { column1: [], column2: [], column3: [], column4: [] };
+        let counter = 1;
+        anime
             .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
             .sort((a, b) => {
                 if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
                 if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 return 0;
             })
-            .map(f => <SingleFolder key={f.id} anime={f}/>);
+            .forEach(i => {
+                if (counter === 1) {
+                    columns.column1.push(i);
+                    counter++;
+                } else if (counter === 2) {
+                    columns.column2.push(i);
+                    counter++;
+                } else if (counter === 3) {
+                    columns.column3.push(i);
+                    counter++;
+                } else if (counter === 4) {
+                    columns.column4.push(i);
+                    counter = 1;
+                }
+            });
+        setColumns(columns);
+    };
+
+    const folderList = (images) => {
+        return images.map(f => <SingleFolder key={f.id} anime={f}/>);
     };
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
+
+    useEffect(() => {
+        if(anime.length > 0) {
+            sortFolders();
+        }
+    }, [anime, searchPhrase]);
 
     useEffect(() => {
         goUp();
@@ -40,14 +70,23 @@ const Galery = ({history, match}) => {
     return ( 
         <main className="main">
             <div className="curtain"></div>
-            <div className="galery main__content">
-                <Switch>
+            <LeftSide />
+                <div className="anime main__content">
                     <Route path="/galery" exact>
-                        <div className="galery__search">
-                            <Search handleSearch={handleSearch}/>
-                        </div>
+                        <Search handleSearch={handleSearch}/>
                         <div className="galery__folderContainer">
-                            {folderList()}
+                            <div className="galery__folderColumn">
+                                {columns ? folderList(columns.column1) : null}
+                            </div>
+                            <div className="galery__folderColumn">
+                                {columns ? folderList(columns.column2) : null}
+                            </div>
+                            <div className="galery__folderColumn">
+                                {columns ? folderList(columns.column3) : null}
+                            </div>
+                            <div className="galery__folderColumn">
+                                {columns ? folderList(columns.column4) : null}
+                            </div>
                         </div>
                     </Route>
                     <Route path="/galery/:animeID">
@@ -55,8 +94,8 @@ const Galery = ({history, match}) => {
                             <GaleryImages />
                         </SRLWrapper>
                     </Route>
-                </Switch>
-            </div>
+                </div>
+            <RightSide/>
         </main>
      );
 }

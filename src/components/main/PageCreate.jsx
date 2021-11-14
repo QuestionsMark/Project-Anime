@@ -125,30 +125,39 @@ const PageCreate = () => {
         return {preview : {url, size, type}, data};
     };
     const handleChangeMini = e => {
-        const file = e.target.files[0];
-        const {preview, data} = getFile(file);
-        setMini(data);
-        setMiniPreview(preview);
+        if (e.target.files.length > 0) {
+            console.log(e.target.files);
+            const file = e.target.files[0];
+            const {preview, data} = getFile(file);
+            setMini(data);
+            setMiniPreview(preview);
+        }
     };
     const handleChangeBackground = e => {
-        const file = e.target.files[0];
-        const {preview, data} = getFile(file);
-        setBackground(data);
-        setBackgroundPreview(preview);
+        if (e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const {preview, data} = getFile(file);
+            setBackground(data);
+            setBackgroundPreview(preview);
+        }
     };
     const handleChangeBaner = e => {
-        const file = e.target.files[0];
-        const {preview, data} = getFile(file);
-        setBaner(data);
-        setBanerPreview(preview);
+        if (e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const {preview, data} = getFile(file);
+            setBaner(data);
+            setBanerPreview(preview);
+        }
     };
     const handleChangeSoundtrack = e => {
-        const file = e.target.files[0];
-        const {preview} = getFile(file);
-        const data = new FormData();
-        data.append('myMp3', file);
-        setSoundtrack(data);
-        setSoundtrackPreview(preview);
+        if (e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const {preview} = getFile(file);
+            const data = new FormData();
+            data.append('myMp3', file);
+            setSoundtrack(data);
+            setSoundtrackPreview(preview);
+        }
     };
 
     const [validationErrors, setValidationErrors] = useState(
@@ -287,6 +296,10 @@ const PageCreate = () => {
         setSeasons([]);
         setComposer('');
         setSoundtrackTitle('');
+        setMini(null);
+        setBackground(null);
+        setBaner(null);
+        setSoundtrack(null);
     };
 
     const labelTypesList = () => {

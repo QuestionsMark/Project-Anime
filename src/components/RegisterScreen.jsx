@@ -6,13 +6,17 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { HOST_ADDRESS } from '../config';
+import { useLoginPopup } from '../contexts/LoginPopup';
 
 const RegisterScreen = () => {
+
+    const { setOpenLoginScreen, setOpenRegistrationScreen } = useLoginPopup();
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [nick, setNick] = useState('');
+    const [rulesAccept, setRulesAccept] = useState(false);
     const handleInputChange = (type, e) => {
         if (type === "login") {
             setLogin(e.target.value);
@@ -23,30 +27,20 @@ const RegisterScreen = () => {
         } else if (type === "nick") {
             setNick(e.target.value);
         }
-    }
-
-    const handleSignIn = () => {
-        document.querySelector('.loginScreen').classList.toggle('none');
-    }
-
-    const [rulesAccept, setRulesAccept] = useState(false);
+    };
     const handleRulesAcceptChange = () => {
         setRulesAccept((prev) => !prev);
-    }
-
+    };
     const [registerResponse, setRegisterResponse] = useState('');
     const [responseColor, setResponseColor] = useState('green');
     const [validationErrorsList, setValidationErrorsList] = useState([]);
 
-    const handleQuit = (e) => {
-        let target = e;
-        if (target.className === 'loginScreen__curtain') {
-            target.parentElement.classList.toggle('none')
-        }
-    }
+    const handleRegistrationSucces = () => {
+        setOpenRegistrationScreen(false);
+        setOpenLoginScreen(true);
+    };
 
-    const handleUserRegister = async (e) => {
-        let target = e.target;
+    const handleUserRegister = async () => {
         const validationErrors = [];
         const re = /[^A-Za-z0-9 ]/g;
         if (nick.match(re)) {
@@ -80,19 +74,13 @@ const RegisterScreen = () => {
                 setRegisterResponse(registration.message);
                 setResponseColor('green');
                 setTimeout(() => {
-                    if (target.localName === "span") {
-                        target = target.parentElement.parentElement.parentElement.parentElement;
-                    } else if (target.localName === "button") {
-                        target = target.parentElement.parentElement.parentElement;
-                    }
-                    handleQuit(e = target);
-                    handleSignIn();
                     setEmail('');
                     setPassword('');
                     setLogin('');
                     setNick('');
                     setRegisterResponse('');
                     setRulesAccept(false);
+                    handleRegistrationSucces();
                 }, 1500);
             } else {
                 const {error} = await response.json();
@@ -106,31 +94,29 @@ const RegisterScreen = () => {
             }
         }
         setValidationErrorsList(validationErrors);
-    }
+    };
 
-    const validationErrors = validationErrorsList.map((e, i) => <li key={i} className="loginScreen__errorItem">{e}</li>);
+    const validationErrors =  () => {
+        return validationErrorsList.map((e, i) => <li key={i} className="loginScreen__errorItem">{e}</li>);
+    };
 
     return ( 
-        <div className="loginScreen registerScreen none" onClick={(e) => {handleQuit(e = e.target)}}>
-            <div className="loginScreen__curtain">
-                <div className="loginScreen__panel">
-                    <h2 className="loginScreen__title">Rejestracja</h2>
-                    <ul className="loginScreen__list">
-                        {validationErrors}
-                    </ul>
-                    <form className="loginScreen__form">
-                        <input type="text" className="loginScreen__input" placeholder="login" value={login} onChange={(e) => {handleInputChange("login", e)}}/>
-                        <input type="password" className="loginScreen__input" placeholder="hasło" value={password} onChange={(e) => {handleInputChange("password", e)}}/>
-                        <input type="text" className="loginScreen__input" placeholder="e-mail" value={email} onChange={(e) => {handleInputChange("email", e)}}/>
-                        <input type="text" className="loginScreen__input" placeholder="nick" value={nick} onChange={(e) => {handleInputChange("nick", e)}}/>
-                        <FormControlLabel control={<Checkbox />} label="Oświadczam, że zapoznałem się z regulaminem platformy i zobowiązuję się do jego przestrzegania." checked={rulesAccept} onChange={handleRulesAcceptChange}/>
-                        <Button className="button loginScreen__submit" onClick={handleUserRegister}>Zarejestruj</Button>
-                        {registerResponse ? <p className="loginScreen__response" style={{color: responseColor}}>{registerResponse}</p> : null}
-                    </form>
-                    <div className="loginScreen__help">
-                        <Link to="/rules" target="_blank" className="loginScreen__link link">regulamin</Link>
-                    </div>
-                </div>
+        <div className="loginScreen__panel">
+            <h2 className="loginScreen__title">Rejestracja</h2>
+            <ul className="loginScreen__list">
+                {validationErrors()}
+            </ul>
+            <form className="loginScreen__form">
+                <input type="text" className="loginScreen__input" placeholder="login" value={login} onChange={(e) => {handleInputChange("login", e)}}/>
+                <input type="password" className="loginScreen__input" placeholder="hasło" value={password} onChange={(e) => {handleInputChange("password", e)}}/>
+                <input type="text" className="loginScreen__input" placeholder="e-mail" value={email} onChange={(e) => {handleInputChange("email", e)}}/>
+                <input type="text" className="loginScreen__input" placeholder="nick" value={nick} onChange={(e) => {handleInputChange("nick", e)}}/>
+                <FormControlLabel control={<Checkbox />} label="Oświadczam, że zapoznałem się z regulaminem platformy i zobowiązuję się do jego przestrzegania." checked={rulesAccept} onChange={handleRulesAcceptChange}/>
+                <Button className="button loginScreen__submit" onClick={handleUserRegister}>Zarejestruj</Button>
+                {registerResponse ? <p className="loginScreen__response" style={{color: responseColor}}>{registerResponse}</p> : null}
+            </form>
+            <div className="loginScreen__help">
+                <Link to="/rules" target="_blank" className="loginScreen__link link">regulamin</Link>
             </div>
         </div>
      );

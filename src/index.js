@@ -11,6 +11,7 @@ import { AnimeProvider } from './contexts/AnimeProvider';
 import { ResponsePopupProvider } from './contexts/ResponsePopupProvider';
 import { TypesProvider } from './contexts/TypesProvider';
 import { DataProvider } from './contexts/DataProvider';
+import { LoginPopupProvider } from './contexts/LoginPopup';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -21,7 +22,9 @@ ReactDOM.render(
             <TypesProvider>
               <ResponsePopupProvider>
                 <DataProvider>
-                  <App />
+                  <LoginPopupProvider>
+                    <App />
+                  </LoginPopupProvider>
                 </DataProvider>
               </ResponsePopupProvider>
             </TypesProvider>

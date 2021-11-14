@@ -53,8 +53,11 @@ async function setContexts(id) {
         }
     }
 
-    // const SAOCRankingResponse = await fetch(`${HOST_ADDRESS}/sword-art-online-clicker/ranking`);
-    // const SAOCRanking = await SAOCRankingResponse.json();
+    const SAOCRankingResponse = await fetch(`${HOST_ADDRESS}/sword-art-online-clicker`);
+    let SAOCRanking = [];
+    if (SAOCRankingResponse.ok) {
+        SAOCRanking = await SAOCRankingResponse.json();
+    }
 
     return {
         users,
@@ -65,7 +68,7 @@ async function setContexts(id) {
         dailyAnime,
         whatsTheMelody,
         whatsTheMelodyComments,
-        // SAOCRanking,
+        SAOCRanking,
     }
 }
 

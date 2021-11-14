@@ -44,7 +44,7 @@ const LeftNav = () => {
                         <li className="leftNav__item" data-id="3">Aktualności ze Świata Anime</li>
                         <li className="leftNav__item" data-id="4">Inne Moje Projekty</li>
                     </Route>
-                    <Route path="/anime-list">
+                    <Route path="/anime" exact>
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                         <li className="leftNav__item" data-id="2">Serie Anime</li>
                         <li className="leftNav__item" data-id="3">Filmy ANime</li>
@@ -58,19 +58,19 @@ const LeftNav = () => {
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                         <li className="leftNav__item" data-id="2">Lista Użytkowników</li>
                     </Route>
-                    <Route path="/profile/:userID" exact>
+                    <Route path="/users/:userID" exact>
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
                     </Route>
-                    <Route path="/profile/:userID/user-top">
+                    <Route path="/users/:userID/user-top">
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
-                    <Route path="/profile/:userID/achievements">
+                    <Route path="/users/:userID/achievements">
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
-                    <Route path="/profile/:userID/settings">
+                    <Route path="/users/:userID/settings">
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
                     </Route>
-                    <Route path="/pages/:anime">
+                    <Route path="/anime/:anime">
                         <li className="leftNav__item" data-id="1">Oglądaj</li>
                         <li className="leftNav__item" data-id="2">Gatunek</li>
                         <li className="leftNav__item" data-id="3">Opis</li>
