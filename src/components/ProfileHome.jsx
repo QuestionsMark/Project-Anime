@@ -52,7 +52,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                 if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 return 0;
             })
-            .map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.link}/>);
+            .map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.id}/>);
     };
 
     const isUserLover = () => {
@@ -164,7 +164,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                             <div className="profile__FAImgWrapper">
                                 <img src={`${HOST_ADDRESS}/images/${favoriteAnime.image.id}`} alt="favAnime" className="img" />
                             </div>
-                            <Link to={`/pages/${favoriteAnime.id}`} className="profile__FALink">{favoriteAnime.title}</Link>
+                            <Link to={`/anime/${favoriteAnime.id}`} className="profile__FALink">{favoriteAnime.title}</Link>
                             <div className="profile__FARate">
                                 <StarRateRoundedIcon className="profile__FARateIcon"/>
                                 <p className="profile__FARateValue">{favoriteAnime.rate}</p>

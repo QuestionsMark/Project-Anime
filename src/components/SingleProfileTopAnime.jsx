@@ -19,7 +19,7 @@ const SingleProfileTopAnime = ({place, anime}) => {
                 <img src={`${HOST_ADDRESS}/images/${image}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={`/pages/${id}`} className="animeList__title">{title}</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title}</Link>
                 <div className="animeList__types">
                     {animeTypes}
                 </div>

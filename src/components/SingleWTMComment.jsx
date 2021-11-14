@@ -5,10 +5,22 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 
 import { HOST_ADDRESS } from '../config';
 import { useWTMComments } from '../contexts/WTMCommentsProvider';
+import { useUser } from '../contexts/UserProvider';
+import { useData } from '../contexts/DataProvider';
 
 const SingleWTMComment = ({comment}) => {
 
-    const { id, username, link, img, text, likes, date} = comment;
+    const { id, userID, username, img, text, likes, date} = comment;
+
+    const [,,,, user] = useUser();
+    const { whatsTheMelody, setWhatsTheMelodyComments } = useData();
+    const getWhatsTheMelodyComments = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments`);
+        if (response.ok) {
+            const whatsTheMelodyComments = await response.json();
+            setWhatsTheMelodyComments(whatsTheMelodyComments);
+        }
+    };
 
     const [,setWTMComments] = useWTMComments();
 
@@ -21,32 +33,24 @@ const SingleWTMComment = ({comment}) => {
     }
 
     const isActive = () => {
-        if (likes.findIndex(l => l === localStorage.getItem('UID')) !== -1) {
+        if (likes.findIndex(l => l === user.id) !== -1) {
             return 'active';
         }
         return '';
     }
 
-    const handleLikeClick = (e) => {
-        let target = e.target;
-        if (target.localName === "path") {
-            target = target.parentElement;
-        }
-        fetch(`${HOST_ADDRESS}/wtm/comment-like`, {
+    const handleLikeClick = async () => {
+        await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments/like`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('token')
             },
-            method: 'POST',
             body: JSON.stringify({
-                user: localStorage.getItem('UID'),
-                id
-            })
-        })
-            .then(res => res.json())
-            .then(() => {
-                getComments();
-            })
+                userID: user.id,
+                commentID: id,
+            }),
+        });
+        getWhatsTheMelodyComments();
     }
 
     return ( 
@@ -56,7 +60,7 @@ const SingleWTMComment = ({comment}) => {
             </div>
             <div className="WTMC__commentContent">
                 <div className="WTMC__commentInfo">
-                    <Link to={`/profile/${link}`} className="WTMC__nick">{username}</Link>
+                    <Link to={`/users/${userID}`} className="WTMC__nick">{username}</Link>
                     <p className="WTMC__date">{date}</p>
                 </div>
                 <p className="WTMC__text">{text}</p>

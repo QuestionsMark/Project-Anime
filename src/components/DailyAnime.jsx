@@ -53,7 +53,7 @@ const DailyAnime = () => {
                 </div>
             </div>
             <p className="DA__description">{dailyAnime.description.slice(0, 200)}...</p>
-            <Link to={`/pages/${dailyAnime.id}`} className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
+            <Link to={`/anime/${dailyAnime.id}`} className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
             </> : null}
         </div>
      );

@@ -120,7 +120,7 @@ const RegisterScreen = () => {
                     </ul>
                     <form className="loginScreen__form">
                         <input type="text" className="loginScreen__input" placeholder="login" value={login} onChange={(e) => {handleInputChange("login", e)}}/>
-                        <input type="text" className="loginScreen__input" placeholder="hasło" value={password} onChange={(e) => {handleInputChange("password", e)}}/>
+                        <input type="password" className="loginScreen__input" placeholder="hasło" value={password} onChange={(e) => {handleInputChange("password", e)}}/>
                         <input type="text" className="loginScreen__input" placeholder="e-mail" value={email} onChange={(e) => {handleInputChange("email", e)}}/>
                         <input type="text" className="loginScreen__input" placeholder="nick" value={nick} onChange={(e) => {handleInputChange("nick", e)}}/>
                         <FormControlLabel control={<Checkbox />} label="Oświadczam, że zapoznałem się z regulaminem platformy i zobowiązuję się do jego przestrzegania." checked={rulesAccept} onChange={handleRulesAcceptChange}/>

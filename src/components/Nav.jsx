@@ -51,7 +51,7 @@ const Nav = ({ history }) => {
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
-                        <NavLink to="/users" className="menu__link"><GroupIcon className="menu__icon"/>Users</NavLink>
+                        <NavLink to="/users" exact className="menu__link"><GroupIcon className="menu__icon"/>Users</NavLink>
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
