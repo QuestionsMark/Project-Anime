@@ -43,7 +43,7 @@ const Nav = ({ history }) => {
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
-                        <NavLink to="/anime" className="menu__link"><MovieCreationOutlinedIcon className="menu__icon"/>Anime</NavLink>
+                        <NavLink to="/anime" exact className="menu__link"><MovieCreationOutlinedIcon className="menu__icon"/>Anime</NavLink>
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">

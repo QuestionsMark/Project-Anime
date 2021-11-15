@@ -194,7 +194,7 @@ const PageCreate = () => {
             errors.push('Tytuł powinien zawierać od 1 do 150 znaków.');
         }
 
-        if (scenario.length === 2 || title.length > 50) {
+        if (scenario.length === 2 || scenario.length > 50) {
             errors.push('Scenariusz powinien zawierać od 2 do 50 znaków.');
         }
 
@@ -274,11 +274,13 @@ const PageCreate = () => {
         return <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>;
     });
 
-    const isChecked = (anime) => {
-        if (seasons.indexOf(anime) === -1) {
-            return false
+    const isChecked = (type, value) => {
+        if (type === 'type') {
+            if (animeTypes.findIndex(t => t.name === value) !== -1) return true;
+            return false;
         } else {
-            return true
+            if (seasons.findIndex(a => a === value) !== -1) return true
+            return false;
         }
     };
 
@@ -309,7 +311,7 @@ const PageCreate = () => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 return 0;
             })
-            .map(t => <FormControlLabel key={t.id} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
+            .map(t => <FormControlLabel key={t.id} checked={isChecked('type', t.name)} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
     };
     const labelAnimeList =  () => {
         return anime
@@ -319,7 +321,7 @@ const PageCreate = () => {
                 if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 return 0;
             })
-            .map(a => <FormControlLabel key={a.id} checked={isChecked(a.id)} value={a.id} control={<Checkbox/>} label={a.title} onChange={handleSeasonsChange}/>);
+            .map(a => <FormControlLabel key={a.id} checked={isChecked('season', a.id)} value={a.id} control={<Checkbox/>} label={a.title} onChange={handleSeasonsChange}/>);
     };
 
     const handleRemoveSoundtrack = () => {

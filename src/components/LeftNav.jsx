@@ -49,6 +49,14 @@ const LeftNav = () => {
                         <li className="leftNav__item" data-id="2">Serie Anime</li>
                         <li className="leftNav__item" data-id="3">Filmy ANime</li>
                     </Route>
+                    <Route path="/anime/:anime">
+                        <li className="leftNav__item" data-id="1">Oglądaj</li>
+                        <li className="leftNav__item" data-id="2">Gatunek</li>
+                        <li className="leftNav__item" data-id="3">Opis</li>
+                        <li className="leftNav__item" data-id="4">Posłuchaj Soundtracku</li>
+                        <li className="leftNav__item" data-id="5">Powiązane Anime</li>
+                        <li className="leftNav__item" data-id="6">Komentarze</li>
+                    </Route>
                     <Route path="/top">
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                         <li className="leftNav__item" data-id="2">Filtruj</li>
@@ -70,13 +78,8 @@ const LeftNav = () => {
                     <Route path="/users/:userID/settings">
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
                     </Route>
-                    <Route path="/anime/:anime">
-                        <li className="leftNav__item" data-id="1">Oglądaj</li>
-                        <li className="leftNav__item" data-id="2">Gatunek</li>
-                        <li className="leftNav__item" data-id="3">Opis</li>
-                        <li className="leftNav__item" data-id="4">Posłuchaj Soundtracku</li>
-                        <li className="leftNav__item" data-id="5">Powiązane Anime</li>
-                        <li className="leftNav__item" data-id="6">Komentarze</li>
+                    <Route path="/galery" exact >
+                        <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
                     <Route path="/types">
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>

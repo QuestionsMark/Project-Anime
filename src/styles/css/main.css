@@ -2539,6 +2539,7 @@ div.galery {
   margin-bottom: 20px;
   -webkit-box-shadow: 5px 5px 10px 3px black;
           box-shadow: 5px 5px 10px 3px black;
+  text-decoration: none;
   overflow: hidden;
   -webkit-transition: 0.2s 0.05s;
   transition: 0.2s 0.05s;
