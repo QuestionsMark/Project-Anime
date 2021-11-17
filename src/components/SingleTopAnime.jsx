@@ -29,7 +29,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
     const checkActive = (type) => {
         if (JSON.stringify(user) !== "{}") {
             if (type === "favorite") {
-                if (user.favoriteAnime.id === id) return "active";
+                if (user.favoriteAnime.findIndex(a => a.id === id) !== -1) return "active";
             } else if (type === "watched") {
                 const index = user.userAnimeData.watched.findIndex(w => w.id === id);
                 if (index !== -1) return "active";
@@ -138,7 +138,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
     };
     
     const animeTypes = () => {
-        return types.map(t => <Link to={`/types/${t.name}`} key={t.id} className="animeList__type">{t.name}</Link>);
+        return types.map(t => <Link to={`/types/${t.name}`} key={t.id} className={`animeList__type ${JSON.stringify(user) !== "{}" ? `${user.favoriteType === t.name ? 'animeList__type--fav' : ''}` : ''}`}>{t.name}</Link>);
     };
 
     return ( 

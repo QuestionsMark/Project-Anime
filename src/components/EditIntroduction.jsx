@@ -86,10 +86,10 @@ const EditIntroduction = () => {
                 <textarea className="profileEdit__descriptionText" placeholder="Napisz coś o sobie..." value={description} onChange={handleChangeDescription}/>
             </div>
             <Button className={`button profileEdit__save ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleSave}>Zapisz</Button>
-            {validationErrors.length > 0 ? <ul className="changes__validation-list changes__validation-list--profile">
+            <ul className="changes__validation-list changes__validation-list--profile">
                 <p className="profileEdit__validation-info">Aktualna ilość znaków opisu ( <span style={{color: description.length === 0 || description.length > 10000 ? '#d14141' : '#5ec45e'}}>{description.length}</span> ).</p>
-                {validationList()}
-            </ul> : null}
+                {validationErrors.length > 0 ? validationList() : null}
+            </ul>
         </div>
      );
 }

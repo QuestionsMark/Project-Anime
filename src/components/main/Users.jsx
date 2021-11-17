@@ -5,7 +5,6 @@ import { useUsers } from '../../contexts/UsersProvider';
 
 import Search from '../Search';
 import UserList from '../UserList';
-import UserLegend from '../UserLegend';
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 
@@ -44,7 +43,7 @@ const Users = ({history, match}) => {
             <LeftSide />
             <div className="users main__content">
                 <Search handleSearch={handleSearch}/>
-                <UserLegend />
+                {/* <UserLegend /> */}
                 {users.length > 0 ? <UserList users={filteredUsers()}/> : null}
             </div>
             <RightSide />

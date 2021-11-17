@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { useUser } from '../contexts/UserProvider';
+
 import { Icon } from '@material-ui/core';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
@@ -10,7 +12,9 @@ const SingleProfileTopAnime = ({place, anime}) => {
 
     const { id, title, image, types, rate } = anime;
 
-    const animeTypes = types.map(t => <Link key={t.id} to={`/types/${t.name}`} className="animeList__type">{t.name}</Link>)
+    const [,,,, user] = useUser();
+
+    const animeTypes = types.map(t => <Link key={t.id} to={`/types/${t.name}`} className={`animeList__type ${JSON.stringify(user) !== "{}" ? `${user.favoriteType === t.name ? 'animeList__type--fav' : ''}` : ''}`}>{t.name}</Link>)
 
     return ( 
         <li className="animeList__item profileTop__item">

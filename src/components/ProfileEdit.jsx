@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import EditAvatar from './EditAvatar';
 import EditUsername from './EditUsername';
 import EditIntroduction from './EditIntroduction';
-import EditFavoriteAnime from './EditFavoriteAnime';
 import EditBackground from './EditBackground';
 
 import EditFavoriteType from './EditFavoriteType';
@@ -15,7 +14,6 @@ const ProfileEdit = () => {
             <EditAvatar />
             <EditUsername />
             <EditIntroduction />
-            <EditFavoriteAnime />
             <EditFavoriteType />
             <EditBackground />
         </div>

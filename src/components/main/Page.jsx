@@ -35,12 +35,6 @@ const Page = ({match, history}) => {
 
     const [status,, authorization,, user] = useUser();
 
-    // const [open, setOpen] = useState(false);
-    // const closePopup = () => {
-    //     setOpen(false);
-    // };
-    // const [response, setResponse] = useState('');
-
     const [animeData, setAnimeData] = useState(null);
     const getAnime = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime/${match.params.animeID}`);
@@ -78,7 +72,7 @@ const Page = ({match, history}) => {
     };
 
     const typesList = () => {
-        return animeData.types.map(t => <Link to={`/types/${t.name}`} key={t.id} className="page__type">{t.name}</Link>);
+        return animeData.types.map(t => <Link to={`/types/${t.name}`} key={t.id} className={`page__type ${JSON.stringify(user) !== "{}" ? `${user.favoriteType === t.name ? 'page__type--fav' : ''}` : ''}`}>{t.name}</Link>);
     };
     const imageGalery = () => {
         return animeData.images.galeryImages.map(i => <SingleGaleryImage key={i.id} image={i} animeData={animeData}/>);
@@ -181,7 +175,7 @@ const Page = ({match, history}) => {
                             </div>
                         </div>
                         <div className="page__types scrollNav" data-id="2">
-                            <h3 className="page__typesTitle mediumTitle">Gatunek</h3>
+                            {/* <h3 className="page__typesTitle mediumTitle">Gatunek</h3> */}
                             <div className="page__typesList">
                                 {typesList()}
                             </div>
@@ -195,7 +189,7 @@ const Page = ({match, history}) => {
                             <h3 className="page__descriptionTitle mediumTitle">Opis</h3>
                             <p className="page__descriptionText">
                                 {animeData.description.description}
-                                <span className="page__author">{animeData.description.author}</span>
+                                <Link to={`/users/${animeData.description.authorID}`} className="page__author">{animeData.description.author}</Link>
                             </p>
                         </div>
                         <div className="page__audioInterface scrollNav" data-id="4">

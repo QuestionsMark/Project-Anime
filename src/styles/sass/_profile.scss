@@ -173,9 +173,18 @@
         padding: 10px;
     }
 
-    &__FAFlex {
+    &__FA-list {
+        list-style: none;
+    }
+
+    &__FA-item {
         display: flex;
         align-items: center;
+        margin-bottom: 10px;
+
+        &:nth-last-of-type(1) {
+            margin-bottom: 0;
+        }
     }
 
     &__FATitle {

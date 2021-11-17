@@ -77,7 +77,7 @@ const UserRate = ({animeData, getAnime}) => {
     const checkActive = (type) => {
         if (JSON.stringify(user) !== "{}") {
             if (type === "favorite") {
-                if (user.favoriteAnime.id === animeData.id) return "active";
+                if (user.favoriteAnime.findIndex(a => a.id === animeData.id) !== -1) return "active";
             } else if (type === "watched") {
                 const index = user.userAnimeData.watched.findIndex(w => w.id === animeData.id);
                 if (index !== -1) return "active";

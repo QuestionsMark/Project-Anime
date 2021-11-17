@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import { useUser } from '../contexts/UserProvider';
 
@@ -8,12 +7,12 @@ import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
-import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
 import SingleWatchedAnimeItem from './SingleWatchedAnimeItem';
 import SingleStatisticAnimeItem from './SingleStatisticAnimeItem';
 
 import { HOST_ADDRESS } from '../config';
+import SingleFavoriteAnime from './SingleFavoriteAnime';
 
 const ProfileHome = ({profileData, match, getProfileData}) => {
 
@@ -33,26 +32,6 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
             target = target.parentElement.parentElement.parentElement;
         }
         target.parentElement.nextSibling.classList.toggle('slider');
-    };
-
-    const watchedAnimeList = () => {
-        return userAnimeData.watched
-            .sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
-                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-                return 0;
-            })
-            .map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} id={a.id} title={a.title} rate={a.rate}/>);
-    }
-
-    const statisticAnimeList = (type) => {
-        return userAnimeData[type]
-            .sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
-                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-                return 0;
-            })
-            .map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.id}/>);
     };
 
     const isUserLover = () => {
@@ -82,6 +61,30 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
             }),
         });
         getProfileData();
+    };
+
+    const watchedAnimeList = () => {
+        return userAnimeData.watched
+            .sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                return 0;
+            })
+            .map((a, i) => <SingleWatchedAnimeItem key={a.id} index={i + 1 + '.'} id={a.id} title={a.title} rate={a.rate}/>);
+    };
+
+    const statisticAnimeList = (type) => {
+        return userAnimeData[type]
+            .sort((a, b) => {
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                return 0;
+            })
+            .map((a, i) => <SingleStatisticAnimeItem key={a.id} index={i + 1 + '.'} title={a.title} link={a.id}/>);
+    };
+
+    const favoriteAnimeList = () => {
+        return favoriteAnime.map(a => <SingleFavoriteAnime key={a.id} anime={a}/>);
     };
 
     useEffect(() => {
@@ -160,15 +163,10 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                     </div>
                     <div className="profile__favoriteAnime">
                         <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
-                        {favoriteAnime.id ? <div className="profile__FAFlex">
-                            <div className="profile__FAImgWrapper">
-                                <img src={`${HOST_ADDRESS}/images/${favoriteAnime.image.id}`} alt="favAnime" className="img" />
-                            </div>
-                            <Link to={`/anime/${favoriteAnime.id}`} className="profile__FALink">{favoriteAnime.title}</Link>
-                            <div className="profile__FARate">
-                                <StarRateRoundedIcon className="profile__FARateIcon"/>
-                                <p className="profile__FARateValue">{favoriteAnime.rate}</p>
-                            </div>
+                        {favoriteAnime.length > 0 ? <div className="profile__FAFlex">
+                            <ul className="profile__FA-list">
+                                {favoriteAnimeList()}
+                            </ul>
                         </div> : <div className="profile__FAFlex">
                             <p className="profile__noFavorite">Brak ulubionego anime</p>
                         </div>}

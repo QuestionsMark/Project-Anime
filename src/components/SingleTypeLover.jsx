@@ -9,7 +9,7 @@ const SingleTypeLover = ({lover}) => {
     const {username, id, avatar, likes} = lover;
 
     return ( 
-        <Link to={`/profile/${id}`} className="typePage__link">
+        <Link to={`/users/${id}`} className="typePage__link">
             <li className="typePage__item">
                 <div className="typePage__imgWrapper">
                     <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="asdas" className="img" />
