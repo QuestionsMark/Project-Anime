@@ -11,12 +11,13 @@ import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined';
 
 import { HOST_ADDRESS } from '../config';
 
 const SingleTopAnime = ({ place, anime, rate }) => {
 
-    const { id, title, types } = anime;
+    const { id, title, types, kind } = anime;
 
     const { setOpenLoginScreen } = useLoginPopup();
     const [status,,,,user, setUser] = useUser();
@@ -148,7 +149,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
                 <img src={`${HOST_ADDRESS}/images/${anime.images.mini.id}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={`/anime/${id}`} className="animeList__title">{title}</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>
                 <div className="animeList__types">
                     {animeTypes()}
                 </div>

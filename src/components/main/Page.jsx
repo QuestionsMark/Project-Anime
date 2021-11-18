@@ -43,6 +43,14 @@ const Page = ({match, history}) => {
             setAnimeData(anime);
         }
     };
+    const [author, setAuthor] = useState('');
+    const getUser = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${animeData.description.authorID}`);
+        if (response.ok) {
+            const { username } = await response.json();
+            setAuthor(username);
+        }
+    };
 
     const showRate = () => {
         if (animeData.rate.length > 0) {
@@ -95,6 +103,12 @@ const Page = ({match, history}) => {
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
+
+    useEffect(() => {
+        if (animeData) {
+            getUser();
+        }
+    }, [animeData]);
 
     useEffect(() => {
         goUp();
@@ -189,7 +203,7 @@ const Page = ({match, history}) => {
                             <h3 className="page__descriptionTitle mediumTitle">Opis</h3>
                             <p className="page__descriptionText">
                                 {animeData.description.description}
-                                <Link to={`/users/${animeData.description.authorID}`} className="page__author">{animeData.description.author}</Link>
+                                <Link to={`/users/${animeData.description.authorID}`} className="page__author">{author}</Link>
                             </p>
                         </div>
                         <div className="page__audioInterface scrollNav" data-id="4">

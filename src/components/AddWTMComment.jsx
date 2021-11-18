@@ -49,7 +49,7 @@ const AddWTMComment = () => {
                 body: JSON.stringify({
                     userID: user.id,
                     text,
-                    date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
+                    date: `${date.toLocaleTimeString()}`,
                 }),
             });
             if (response.ok) {

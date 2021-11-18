@@ -54,6 +54,7 @@ const EditFavoriteType = () => {
     const handleSave = async e => {
         e.preventDefault();
         if (validationErrors.length === 0) {
+            setFavoriteType('');
             const response = await fetch(`${HOST_ADDRESS}/profile/favorite-type`, {
                 headers: {
                     'Content-Type': 'application/json',

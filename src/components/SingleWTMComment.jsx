@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
 import { HOST_ADDRESS } from '../config';
-import { useWTMComments } from '../contexts/WTMCommentsProvider';
+// import { useWTMComments } from '../contexts/WTMCommentsProvider';
 import { useUser } from '../contexts/UserProvider';
 import { useData } from '../contexts/DataProvider';
 
 const SingleWTMComment = ({comment}) => {
 
-    const { id, userID, username, img, text, likes, date} = comment;
+    const { id, userID, text, likes, date} = comment;
 
     const [,,,, user] = useUser();
     const { whatsTheMelody, setWhatsTheMelodyComments } = useData();
@@ -21,16 +21,18 @@ const SingleWTMComment = ({comment}) => {
             setWhatsTheMelodyComments(whatsTheMelodyComments);
         }
     };
+    // const [,setWTMComments] = useWTMComments();
 
-    const [,setWTMComments] = useWTMComments();
-
-    const getComments = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/wtm/comments`);
-        const WTMComments = await response.json();
-        if (!WTMComments.error) {
-            setWTMComments(WTMComments);
+    const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
+    const [username, setUsername] = useState('');
+    const getAvatar = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/${userID}`);
+        if (response.ok) {
+            const { avatar, username } = await response.json();
+            setAvatar(avatar);
+            setUsername(username);
         }
-    }
+    };
 
     const isActive = () => {
         if (likes.findIndex(l => l === user.id) !== -1) {
@@ -53,10 +55,14 @@ const SingleWTMComment = ({comment}) => {
         getWhatsTheMelodyComments();
     }
 
+    useEffect(() => {
+        getAvatar();
+    }, []);
+
     return ( 
         <li className="WTMC__item">
             <div className="WTMC__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${img}`} alt="User Avatar" className="img" />
+                <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="User Avatar" className="img" />
             </div>
             <div className="WTMC__commentContent">
                 <div className="WTMC__commentInfo">

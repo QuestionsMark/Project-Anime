@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
-import { WTMCommentsProvider } from '../contexts/WTMCommentsProvider';
+// import { WTMCommentsProvider } from '../contexts/WTMCommentsProvider';
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
 import { useUsers } from '../contexts/UsersProvider';
@@ -94,79 +94,67 @@ function App() {
 
   return (
     <Router>
-      <WTMCommentsProvider>
-        {/* ---Popups--- */}
+      <Nav />
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/anime" exact>
+          <Anime />
+        </Route>
+        <Route path="/anime/create">
+          <PageCreate />
+        </Route>
+        <Route path="/anime/:animeID">
+          <Page />
+        </Route>
+        <Route path="/top">
+          <Top />
+        </Route>
+        <Route path="/users" exact>
+          <Users />
+        </Route>
+        <Route path="/users/:id">
+          <Profile />
+        </Route>
+        <Route path="/galery">
+          <Galery />
+        </Route>
+        <Route path="/types">
+          <Types />
+        </Route>
+        <Route path="/news">
+          <News />
+        </Route>
+        <Route path="/rules">
+          <Rules />
+        </Route>
+        <Route path="/source">
+          <Source />
+        </Route>
+        <Route path="/my-another-projects">
+          <MyProjects />
+        </Route>
+        <Route path="/sword-art-online-clicker">
+          <SAOClicker />
+        </Route>
+        <Route path="/">
+          <NotFound />
+        </Route>
+      </Switch>
+      <Footer />
 
-        {/* {status ? null : <LoginScreen />}
-        {status ? null : <RegisterScreen />} */}
+      {/* Popups */}
 
-        {/* ---TopSide--- */}
-
-        <Nav />
-
-        {/* ---Main--- */}
-
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/anime" exact>
-            <Anime />
-          </Route>
-          <Route path="/anime/create">
-            <PageCreate />
-          </Route>
-          <Route path="/anime/:animeID">
-            <Page />
-          </Route>
-          <Route path="/top">
-            <Top />
-          </Route>
-          <Route path="/users" exact>
-            <Users />
-          </Route>
-          <Route path="/users/:id">
-            <Profile />
-          </Route>
-          <Route path="/galery">
-            <Galery />
-          </Route>
-          <Route path="/types">
-            <Types />
-          </Route>
-          <Route path="/news">
-            <News />
-          </Route>
-          <Route path="/rules">
-            <Rules />
-          </Route>
-          <Route path="/source">
-            <Source />
-          </Route>
-          <Route path="/my-projects">
-            <MyProjects />
-          </Route>
-          <Route path="/sword-art-online-clicker">
-            <SAOClicker />
-          </Route>
-          <Route path="/">
-            <NotFound />
-          </Route>
-        </Switch>
-
-        {/* ---BottomSide--- */}
-
-        <Footer />
-        <Popup modal closeOnDocumentClick open={open} onClose={handleCloseResponsePopup}>
-          <ServerResponse />
-        </Popup>
-        <Popup modal closeOnDocumentClick open={openLoginScreen} onClose={handleCloseLoginScreen}>
-          <LoginScreen />
-        </Popup>
-        <Popup modal closeOnDocumentClick open={openRegistrationScreen} onClose={handleCloseRegistrationScreen}>
-          <RegisterScreen />
-        </Popup>
-      </WTMCommentsProvider>
+      <Popup modal closeOnDocumentClick open={open} onClose={handleCloseResponsePopup}>
+        <ServerResponse />
+      </Popup>
+      <Popup modal closeOnDocumentClick open={openLoginScreen} onClose={handleCloseLoginScreen}>
+        <LoginScreen />
+      </Popup>
+      <Popup modal closeOnDocumentClick open={openRegistrationScreen} onClose={handleCloseRegistrationScreen}>
+        <RegisterScreen />
+      </Popup>
     </Router>
   );
 }

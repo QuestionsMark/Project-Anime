@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { useUser } from '../contexts/UserProvider';
 
@@ -16,22 +16,35 @@ import SingleFavoriteAnime from './SingleFavoriteAnime';
 
 const ProfileHome = ({profileData, match, getProfileData}) => {
 
+    const watchedList = useRef();
+    const stoppedList = useRef();
+    const processOfWatchingList = useRef();
+    const plannedList = useRef();
+
     const { username, avatar, createAccountDate, rank, likes, achievements, WTMPoints, introduction, userAnimeData, favoriteAnime, favoriteType } = profileData;
 
     const [status] = useUser();
 
     const [isUserProfileLover, setIsUserProfileLover] = useState(false);
 
-    const handleSlide = (e) => {
-        let target = e.target;
-        if (target.localName === "span") {
-            target = target.parentElement;
-        } else if (target.localName === "svg") {
-            target = target.parentElement.parentElement;
-        } else if (target.localName === "path") {
-            target = target.parentElement.parentElement.parentElement;
-        }
-        target.parentElement.nextSibling.classList.toggle('slider');
+    const handleSlide = (option) => {
+        switch (option) {
+            case 'watched':
+                watchedList.current.classList.toggle('slider');
+                break;
+            case 'stopped':
+                stoppedList.current.classList.toggle('slider');
+                break;
+            case 'processOfWatching':
+                processOfWatchingList.current.classList.toggle('slider');
+                break;
+            case 'planned':
+                plannedList.current.classList.toggle('slider');
+                break;
+            default:
+                return;
+        };
+        
     };
 
     const isUserLover = () => {
@@ -121,41 +134,41 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                         <div className="profile__statisticsContainer">
                             <div className="profile__statistic">
                                 <div className="profile__statisticInfo">
-                                    <Button className="button profile__button" onClick={handleSlide}><DoneRoundedIcon className="profile__statisticsIcon"/></Button>
+                                    <Button className="button profile__button" onClick={() => handleSlide('watched')}><DoneRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">Obejrzane:</p>
                                     <p className="profile__statisticValue">{userAnimeData.watched.length}</p>
                                 </div>
-                                <ul className="profile__statisticAnimeList">
+                                <ul className="profile__statisticAnimeList" ref={watchedList}>
                                     {watchedAnimeList().length > 0 ? watchedAnimeList() : <p className="profile__emptyList">Lista jest pusta</p>}
                                 </ul>
                             </div>
                             <div className="profile__statistic">
                                 <div className="profile__statisticInfo">
-                                    <Button className="button profile__button" onClick={handleSlide}><AccessAlarmRoundedIcon className="profile__statisticsIcon"/></Button>
+                                    <Button className="button profile__button" onClick={() => handleSlide('stopped')}><AccessAlarmRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">Wstrzymane:</p>
                                     <p className="profile__statisticValue">{userAnimeData.stopped.length}</p>
                                 </div>
-                                <ul className="profile__statisticAnimeList">
+                                <ul className="profile__statisticAnimeList" ref={stoppedList}>
                                     {statisticAnimeList("stopped").length > 0 ? statisticAnimeList("stopped") : <p className="profile__emptyList">Lista jest pusta</p>}
                                 </ul>
                             </div>
                             <div className="profile__statistic">
                                 <div className="profile__statisticInfo">
-                                    <Button className="button profile__button" onClick={handleSlide}><VisibilityRoundedIcon className="profile__statisticsIcon"/></Button>
+                                    <Button className="button profile__button" onClick={() => handleSlide('processOfWatching')}><VisibilityRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">W trakcie oglądania:</p>
                                     <p className="profile__statisticValue">{userAnimeData.processOfWatching.length}</p>
                                 </div>
-                                <ul className="profile__statisticAnimeList">
+                                <ul className="profile__statisticAnimeList" ref={processOfWatchingList}>
                                     {statisticAnimeList("processOfWatching").length > 0 ? statisticAnimeList("processOfWatching") : <p className="profile__emptyList">Lista jest pusta</p>}
                                 </ul>
                             </div>
                             <div className="profile__statistic">
                                 <div className="profile__statisticInfo">
-                                    <Button className="button profile__button" onClick={handleSlide}><CreateRoundedIcon className="profile__statisticsIcon"/></Button>
+                                    <Button className="button profile__button" onClick={() => handleSlide('planned')}><CreateRoundedIcon className="profile__statisticsIcon"/></Button>
                                     <p className="profile__statisticTitle">Planowane:</p>
                                     <p className="profile__statisticValue">{userAnimeData.planned.length}</p>
                                 </div>
-                                <ul className="profile__statisticAnimeList">
+                                <ul className="profile__statisticAnimeList" ref={plannedList}>
                                     {statisticAnimeList("planned").length > 0 ? statisticAnimeList("planned") : <p className="profile__emptyList">Lista jest pusta</p>}
                                 </ul>
                             </div>

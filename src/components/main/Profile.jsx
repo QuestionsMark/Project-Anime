@@ -73,7 +73,7 @@ const Profile = ({ history, match }) => {
                         <ProfilePrivate />
                     </Route>
                 </Switch>
-            </div> : null}
+            </div> : <div className="profile main__content"></div>}
             <RightSide />
         </main>
      );

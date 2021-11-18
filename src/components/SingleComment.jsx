@@ -12,18 +12,20 @@ import { useLoginPopup } from '../contexts/LoginPopup';
 
 const SingleComment = ({comment, animeData, getAnime}) => {
 
-    const { id, userID, username, date, text, likes } = comment;
+    const { id, userID, date, text, likes } = comment;
 
     const { setOpenLoginScreen } = useLoginPopup();
     const [, setOpen,, setResponse] = useResponsePopup();
     const [status,,authorization,,user] = useUser();
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
+    const [username, setUsername] = useState('');
     const getAvatar = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${userID}`);
         if (response.ok) {
-            const { avatar } = await response.json();
+            const { avatar, username } = await response.json();
             setAvatar(avatar);
+            setUsername(username);
         }
     };
 
@@ -73,7 +75,7 @@ const SingleComment = ({comment, animeData, getAnime}) => {
 
     useEffect(() => {
         getAvatar();
-    },[])
+    },[]);
 
     return ( 
         <div className="comments__item">

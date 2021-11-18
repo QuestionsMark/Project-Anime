@@ -5,12 +5,13 @@ import { useUser } from '../contexts/UserProvider';
 
 import { Icon } from '@material-ui/core';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
+import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined';
 
 import { HOST_ADDRESS } from '../config';
 
 const SingleProfileTopAnime = ({place, anime}) => {
 
-    const { id, title, image, types, rate } = anime;
+    const { id, title, image, types, rate, kind } = anime;
 
     const [,,,, user] = useUser();
 
@@ -23,7 +24,7 @@ const SingleProfileTopAnime = ({place, anime}) => {
                 <img src={`${HOST_ADDRESS}/images/${image}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={`/anime/${id}`} className="animeList__title">{title}</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>
                 <div className="animeList__types">
                     {animeTypes}
                 </div>

@@ -1916,6 +1916,21 @@ div.galery {
   text-decoration: underline;
 }
 
+.animeList__title .animeList__kind-icon {
+  margin-left: 6px;
+  color: #f50057;
+}
+
+.animeList__title .animeList__kind-icon--material {
+  margin-bottom: -4px;
+  font-size: 22px;
+}
+
+.animeList__title .animeList__kind-icon--awesome {
+  line-height: 26px;
+  font-size: 20px;
+}
+
 .animeList__types {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2222,11 +2237,15 @@ div.galery {
   padding: 20px;
   border-bottom: 2px solid #f50057;
   background-color: rgba(10, 10, 10, 0.5);
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   position: relative;
   background-position: center;
   background-size: cover;
   overflow: hidden;
+}
+
+.userList__item:nth-last-of-type(1) {
+  margin-bottom: 0;
 }
 
 .userList__item:nth-of-type(1) .userList__placeIcon.MuiIcon-root {
@@ -2242,10 +2261,6 @@ div.galery {
 .userList__item:nth-of-type(3) .userList__placeIcon.MuiIcon-root {
   color: #6b2d1d;
   text-shadow: 0 0 10px #6b2d1d;
-}
-
-.userList__item:nth-last-of-type(1) {
-  margin-bottom: 0;
 }
 
 .userList__curtain {
@@ -2289,6 +2304,9 @@ div.galery {
 
 .userList__username {
   display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   height: 25px;
   color: #f0f0f0;
   line-height: 25px;
@@ -4956,5 +4974,18 @@ div.galery {
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+.normal-popup-content {
+  padding: 14px;
+  border-bottom: 2px solid #f50057;
+  background-color: black;
+  text-align: center;
+}
+
+.normal-popup-arrow {
+  color: black;
+  stroke: #f50057;
+  stroke-width: 4px;
 }
 /*# sourceMappingURL=main.css.map */

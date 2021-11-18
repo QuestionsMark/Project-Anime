@@ -4,19 +4,20 @@ import { Link } from 'react-router-dom';
 import { useLoginPopup } from '../contexts/LoginPopup';
 import { useUser } from '../contexts/UserProvider';
 
-import { Button } from '@material-ui/core';
+import { Button, Icon } from '@material-ui/core';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined';
 
 import { HOST_ADDRESS } from '../config';
 
 const SingleAnime = ({anime, rate}) => {
 
-    const { id, title, types } = anime;
+    const { id, title, types, kind } = anime;
 
     const { setOpenLoginScreen } = useLoginPopup();
     const [status,,,, user, setUser] = useUser();
@@ -147,7 +148,7 @@ const SingleAnime = ({anime, rate}) => {
                 <img src={`${HOST_ADDRESS}/images/${anime.images.mini.id}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={`/anime/${id}`} className="animeList__title">{title}</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>
                 <div className="animeList__types">
                     {animeTypes()}
                 </div>

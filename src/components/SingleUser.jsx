@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { Icon } from '@material-ui/core';
 import FavoriteRounded from '@material-ui/icons/FavoriteRounded';
@@ -19,35 +20,14 @@ const SingleUser = ({place, user}) => {
         return favoriteAnime
             .slice(0, 7)
             .map(a => (
-                <Link to={`/anime/${a.id}`} className="userList__favorite-anime-item" key={a.id} style={{backgroundImage: `url(${HOST_ADDRESS}/images/${a.image})`}}/>
+                <Popup className="normal-popup" position="top center" offsetY={2} on="hover" mouseEnterDelay={200} trigger={<Link to={`/anime/${a.id}`} className="userList__favorite-anime-item" key={a.id} style={{backgroundImage: `url(${HOST_ADDRESS}/images/${a.image})`}}/>}>
+                    {a.title}
+                </Popup>
             ));
     };
     
     return ( 
         <li className="userList__item" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`}}>
-            {/* <div className="userList__background" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}></div>
-            <div className="userList__curtain"></div>
-            <div className="userList__place">
-                {place <= 3 ? <Icon className="fas fa-trophy userList__placeIcon" /> : <p className="userList__placeValue">{place}</p>}
-            </div>
-            <div className="userList__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="avatar" className="img" />
-            </div>
-            <Link to={`/users/${id}`} className="userList__link">{username}</Link>
-            <div className="userList__likes">
-                <FavoriteBorderRoundedIcon className="userList__likeIcon" />
-                <p className="userList__likesValue">{likes.length}</p>
-            </div>
-            <div className="userList__favoriteAnime">
-                <div className="userList__imgWrapper userList__imgWrapper--favAnime">
-                    {user.favoriteAnime.image.id ? <img src={`${HOST_ADDRESS}/images/${user.favoriteAnime.image.id}`} alt="anime" className="img" /> : null}
-                </div>
-                <span className="userList__favoriteAnimeTitle">{user.favoriteAnime.title}</span>
-            </div>
-            <p className="userList__favoriteType">{favoriteType}</p>
-            <div className="userList__achievements">
-                {achievementList()}
-            </div> */}
             <div className="userList__curtain"/>
             <header className="userList__header">
                 <div className="userList__avatar" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})`}}/>
@@ -83,7 +63,7 @@ const SingleUser = ({place, user}) => {
                 <div className="userList__statistic-list">
                     <h2 className="userList__subtitle">Ulubione Anime: </h2>
                     <ul className="userList__favorite-anime-list">
-                        {favoriteAnimeList()}
+                        {favoriteAnime.length > 0 ? favoriteAnimeList() : 'Brak ulubionego anime.'}
                     </ul>
                 </div>
             </section>

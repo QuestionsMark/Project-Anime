@@ -6,7 +6,7 @@
 
     &__item {
         @include page-style;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         position: relative;
         // padding: 20px;
         // border-right: 1px solid $main-color;
@@ -19,6 +19,10 @@
         overflow: hidden;
         // background-attachment: fixed;
         // transition: 0.4s;
+
+        &:nth-last-of-type(1) {
+            margin-bottom: 0
+        }
 
         &:nth-of-type(1) .userList__placeIcon.MuiIcon-root {
             color: $special-color;
@@ -34,10 +38,6 @@
             color: #6b2d1d;
             text-shadow: 0 0 10px #6b2d1d;
         }
-    }
-
-    &__item:nth-last-of-type(1) {
-        margin-bottom: 0
     }
 
     &__curtain {
@@ -74,6 +74,7 @@
 
     &__username {
         display: block;
+        width: fit-content;
         height: 25px;
         color: $font-color2;
         line-height: 25px;

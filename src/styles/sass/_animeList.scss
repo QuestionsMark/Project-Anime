@@ -95,6 +95,21 @@
         &:hover {
             text-decoration: underline;
         }
+
+        .animeList__kind-icon {
+            margin-left: 6px;
+            color: $main-color;
+
+            &--material {
+                margin-bottom: -4px;
+                font-size: 22px;
+            }
+
+            &--awesome {
+                line-height: 26px;
+                font-size: 20px;
+            }
+        }
     }
 
     &__types {
