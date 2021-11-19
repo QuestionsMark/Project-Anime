@@ -16,21 +16,15 @@ import { LoginPopupProvider } from './contexts/LoginPopup';
 ReactDOM.render(
   <React.StrictMode>
     <SimpleReactLightbox>
-      <UserProvider>
-        <UsersProvider>
-          <AnimeProvider>
-            <TypesProvider>
-              <ResponsePopupProvider>
-                <DataProvider>
-                  <LoginPopupProvider>
-                    <App />
-                  </LoginPopupProvider>
-                </DataProvider>
-              </ResponsePopupProvider>
-            </TypesProvider>
-          </AnimeProvider>
-        </UsersProvider>
-      </UserProvider>
+      <ResponsePopupProvider>
+        <LoginPopupProvider>
+          <UserProvider>
+            <DataProvider>
+              <App />
+            </DataProvider>
+          </UserProvider>
+        </LoginPopupProvider>
+      </ResponsePopupProvider>
     </SimpleReactLightbox>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { useData } from '../../contexts/DataProvider';
+
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import Search from '../Search';
 import AnimeList from '../AnimeList';
 
-import { useAnime } from '../../contexts/AnimeProvider';
-
 const Anime = ({history, match}) => {
 
-    const [anime] = useAnime();
+    const { anime } = useData();
 
     const [searchValue, setSearchValue] = useState('');
     const handleSearch = (e) => {

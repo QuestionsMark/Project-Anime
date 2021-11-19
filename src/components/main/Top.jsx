@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { useAnime } from '../../contexts/AnimeProvider';
+import { useData } from '../../contexts/DataProvider';
 
 import TopAnimeList from '../TopAnimeList';
 import LeftSide from '../LeftSide';
@@ -11,7 +11,7 @@ import Search from '../Search';
 
 const Top = ({history, match}) => {
 
-    const [anime] = useAnime();
+    const { anime } = useData();
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {

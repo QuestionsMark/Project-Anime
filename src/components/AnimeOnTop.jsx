@@ -6,13 +6,11 @@ import { useData } from '../contexts/DataProvider';
 import AnimeOnTopAnimeInfo from './AnimeOnTopAnimeInfo';
 import AnimeOnTopQuestionnaire from './AnimeOnTopQuestionnaire';
 import AnimeOnTopResults from './AnimeOnTopResults';
-import { useAnime } from '../contexts/AnimeProvider';
 
 const AnimeOnTop = () => {
 
     const [status,,,,user] = useUser();
-    const [anime] = useAnime();
-    const { animeOnTop } = useData();
+    const { anime, animeOnTop } = useData();
 
     const [didUserVote, setDidUserVote] = useState(true);
     const [animeData, setAnimeData] = useState(null);

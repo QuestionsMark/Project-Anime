@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
-import { useTypes } from '../contexts/TypesProvider';
 
 import { Button, FormControl, InputLabel, Select, MenuItem, } from '@material-ui/core';
 
 import { HOST_ADDRESS } from '../config';
+import { useData } from '../contexts/DataProvider';
 
 const EditFavoriteType = () => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
     const [,,,,user, setUser] = useUser();
-    const [types] = useTypes();
+    const { types } = useData();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {

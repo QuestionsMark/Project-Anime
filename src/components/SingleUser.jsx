@@ -12,7 +12,7 @@ import { HOST_ADDRESS } from '../config';
 
 const SingleUser = ({place, user}) => {
 
-    const {username, id, background, avatar, likes, favoriteType, favoriteAnime, achievements, introduction, WTMPoints} = user;
+    const {username, id, background, avatar, likes, favoriteType, favoriteAnime, achievements, introduction, points} = user;
 
     const achievementsList = () => achievements.map(a => <Achievement key={a.id} achievement={a}/>);
 
@@ -20,10 +20,14 @@ const SingleUser = ({place, user}) => {
         return favoriteAnime
             .slice(0, 7)
             .map(a => (
-                <Popup className="normal-popup" position="top center" offsetY={2} on="hover" mouseEnterDelay={200} trigger={<Link to={`/anime/${a.id}`} className="userList__favorite-anime-item" key={a.id} style={{backgroundImage: `url(${HOST_ADDRESS}/images/${a.image})`}}/>}>
+                <Popup key={a.id} className="normal-popup" position="top center" offsetY={2} on="hover" mouseEnterDelay={200} trigger={<Link to={`/anime/${a.id}`} className="userList__favorite-anime-item" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${a.image})`}}/>}>
                     {a.title}
                 </Popup>
             ));
+    };
+
+    const getPoints = () => {
+        return Object.entries(points).reduce((prev, entry) => prev + entry[1] , 0);
     };
     
     return ( 
@@ -46,7 +50,7 @@ const SingleUser = ({place, user}) => {
                     </div>
                     <div className="userList__specification">
                         <GradeRounded className="userList__specification-icon"/>
-                        <p className="userList__value">{WTMPoints}</p>
+                        <p className="userList__value">{getPoints()}</p>
                     </div>
                     <div className="userList__specification userList__specification--type">
                         {favoriteType ? favoriteType : 'Brak'}

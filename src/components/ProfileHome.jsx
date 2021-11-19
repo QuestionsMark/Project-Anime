@@ -21,7 +21,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
     const processOfWatchingList = useRef();
     const plannedList = useRef();
 
-    const { username, avatar, createAccountDate, rank, likes, achievements, WTMPoints, introduction, userAnimeData, favoriteAnime, favoriteType } = profileData;
+    const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = profileData;
 
     const [status] = useUser();
 
@@ -60,6 +60,10 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
         if (rank === "3") return "Administrator";
         if (rank === "2") return "Moderator";
         return "Użytkownik";
+    };
+
+    const getPoints = () => {
+        return Object.entries(points).reduce((prev, entry) => prev + entry[1] , 0);
     };
 
     const handleLikeProfile = async () => {
@@ -118,7 +122,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                         <p className="profile__infoBlock">Ulubiony Gatunek: {favoriteType}</p>
                         <p className="profile__infoBlock">Dołączono: {createAccountDate}</p>
                         <p className="profile__infoBlock">Ranga: {showRank()}</p>
-                        <p className="profile__infoBlock">Punkty: {WTMPoints}</p>
+                        <p className="profile__infoBlock">Punkty: {getPoints()}</p>
                     </div>
                     {status && match.params.id !== JSON.parse(localStorage.getItem('animark-user-id')) ? <div className="profile__likeProfile">
                         <Button className="button profile__likeProfileButton" onClick={handleLikeProfile}>{isUserProfileLover ? 'Usuń polubienie' : 'Polub profil'}</Button>

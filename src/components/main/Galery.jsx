@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
-import { useAnime } from '../../contexts/AnimeProvider';
+import { useData } from '../../contexts/DataProvider';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
@@ -12,7 +12,7 @@ import Search from '../Search';
 
 const Galery = ({history, match}) => {
 
-    const [anime] = useAnime();
+    const { anime } = useData();
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const [columns, setColumns] = useState(null);

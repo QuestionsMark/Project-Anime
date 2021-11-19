@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { useAnime } from '../contexts/AnimeProvider';
+import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import { Button } from '@material-ui/core';
@@ -15,7 +15,7 @@ import { HOST_ADDRESS } from '../config';
 
 const UserRate = ({animeData, getAnime}) => {
 
-    const [,setAnime] = useAnime();
+    const { setAnime } = useData();
     const getAllAnime = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime`);
         if (response.ok) {

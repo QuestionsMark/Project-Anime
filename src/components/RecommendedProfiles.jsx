@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { useUsers } from '../contexts/UsersProvider';
+import { useData } from '../contexts/DataProvider';
 
 import { Button } from '@material-ui/core';
 
@@ -9,7 +9,7 @@ import RecommendedProfile from './RecommendedProfile';
 
 const RecommendedProfiles = () => {
 
-    const [users] = useUsers();
+    const { users } = useData();
 
     const profilesList = () => {
         const sorted = users

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { useUsers } from '../../contexts/UsersProvider';
+import { useData } from '../../contexts/DataProvider';
 
 import Search from '../Search';
 import UserList from '../UserList';
@@ -10,7 +10,7 @@ import RightSide from '../RightSide';
 
 const Users = ({history, match}) => {
 
-    const [users] = useUsers();
+    const { users } = useData();
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {
@@ -18,6 +18,9 @@ const Users = ({history, match}) => {
     };
 
     const filteredUsers = () => {
+        const getPoints = (user) => {
+            return Object.entries(user.points).reduce((prev, entry) => prev + entry[1] , 0);
+        };
         return users
             .filter(user => user.username.toLowerCase().includes(searchPhrase.toLowerCase()))
             .sort((a, b) => {
@@ -25,6 +28,8 @@ const Users = ({history, match}) => {
                 if (a.achievements.length < b.achievements.length) return 1;
                 if (a.likes.length > b.likes.length) return -1;
                 if (a.likes.length < b.likes.length) return 1;
+                if (getPoints(a) > getPoints(b)) return -1;
+                if (getPoints(a) < getPoints(b)) return 1;
                 return 0;
             });
     };

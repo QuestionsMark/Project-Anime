@@ -8,6 +8,9 @@ export function useData() {
 
 export function DataProvider({ children }) {
 
+    const [users, setUsers] = useState([]);
+    const [anime, setAnime] = useState([]);
+    const [types, setTypes] = useState([]);
     const [animeOnTop, setAnimeOnTop] = useState(null);
     const [dailyAnime, setDailyAnime] = useState(null);
     const [whatsTheMelody, setWhatsTheMelody] = useState(null);
@@ -15,7 +18,7 @@ export function DataProvider({ children }) {
     const [saoClicker, setSaoClicker] = useState([]);
 
     return (
-        <DataContext.Provider value={{ animeOnTop, setAnimeOnTop, dailyAnime, setDailyAnime, whatsTheMelody, setWhatsTheMelody, whatsTheMelodyComments, setWhatsTheMelodyComments, saoClicker, setSaoClicker }}>
+        <DataContext.Provider value={{ users, setUsers, anime, setAnime, animeOnTop, types, setTypes, setAnimeOnTop, dailyAnime, setDailyAnime, whatsTheMelody, setWhatsTheMelody, whatsTheMelodyComments, setWhatsTheMelodyComments, saoClicker, setSaoClicker }}>
             {children}
         </DataContext.Provider>
     );

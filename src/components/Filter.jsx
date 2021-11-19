@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTypes } from '../contexts/TypesProvider';
+import { useData } from '../contexts/DataProvider';
 
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
@@ -11,9 +11,17 @@ import SingleTypeFilter from './SingleTypeFilter';
 
 const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, handleFilterKind, handleFilterRate}) => {
 
-    const [types] = useTypes();
+    const { types } = useData();
 
-    const typesList = types.map(t => <SingleTypeFilter key={t.id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>)
+    const typesList = () => {
+        return types
+            .sort((a, b) => {
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                return 0;
+            })
+            .map(t => <SingleTypeFilter key={t.id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>);
+    };
 
     return ( 
         <div className="filter scrollNav" data-id="2">
@@ -37,7 +45,7 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
                 <div className="filter__container">
                     <h3 className="filter__filtersTitle">Gatunki</h3>
                     <div className="filter__types">
-                        {typesList}
+                        {typesList()}
                     </div>
                 </div>
                 <div className="filter__container">

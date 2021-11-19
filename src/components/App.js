@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
-// import { WTMCommentsProvider } from '../contexts/WTMCommentsProvider';
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
+import { useLoginPopup } from '../contexts/LoginPopup';
 import { useUser } from '../contexts/UserProvider';
-import { useUsers } from '../contexts/UsersProvider';
-import { useAnime } from '../contexts/AnimeProvider';
-import { useTypes } from '../contexts/TypesProvider';
+import { useData } from '../contexts/DataProvider';
 import setContexts from '../utils/setContexts';
 
 import ServerResponse from './ServerResponse';
@@ -32,8 +30,6 @@ import MyProjects from './main/MyProjects';
 import SAOClicker from './SAOClicker';
 
 import { HOST_ADDRESS } from '../config';
-import { useData } from '../contexts/DataProvider';
-import { useLoginPopup } from '../contexts/LoginPopup';
 
 function App() {
 
@@ -49,11 +45,8 @@ function App() {
     setOpenRegistrationScreen(false);
   };
 
-  const [status, setStatus, , setAuthorization, , setUser] = useUser();
-  const [, setUsers] = useUsers();
-  const [, setAnime] = useAnime();
-  const [, setTypes] = useTypes();
-  const { setAnimeOnTop, setDailyAnime, setWhatsTheMelody, setWhatsTheMelodyComments, setSaoClicker } = useData();
+  const [, setStatus, , setAuthorization, , setUser] = useUser();
+  const { setUsers, setAnime, setTypes, setAnimeOnTop, setDailyAnime, setWhatsTheMelody, setWhatsTheMelodyComments, setSaoClicker } = useData();
 
   const checkUserStatus = async () => {
     if (localStorage.getItem('animark-user-id')) {
@@ -75,7 +68,7 @@ function App() {
 
   const setApp = async () => {
     const { users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking } = await setContexts(JSON.parse(localStorage.getItem('animark-user-id')));
-    console.log({ users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking });
+    // console.log({ users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking });
     setAnime(anime);
     setUsers(users);
     setUser(user);

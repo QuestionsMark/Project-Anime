@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { useAnime } from '../../contexts/AnimeProvider';
-import { useUsers } from '../../contexts/UsersProvider';
+import { useData } from '../../contexts/DataProvider';
 
 import SingleTopAnime from '../SingleTopAnime';
 import SingleTypeLover from '../SingleTypeLover';
@@ -11,8 +10,7 @@ import { HOST_ADDRESS } from '../../config';
 
 const TypePage = ({match, history}) => {
 
-    const [anime] = useAnime();
-    const [users] = useUsers();
+    const { users, anime } = useData();
 
     const [typeData, setTypeData] = useState(null);
     const getType = async () => {

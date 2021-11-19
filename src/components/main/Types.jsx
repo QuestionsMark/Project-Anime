@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 
+import { useData } from '../../contexts/DataProvider';
+
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 import TypePage from './TypePage';
 
-import { useTypes } from '../../contexts/TypesProvider';
-
 const Types = () => {
 
-    const [types] = useTypes();
+    const { types } = useData();
 
     const typesList = () => {
         return types.map((t, i) => (
