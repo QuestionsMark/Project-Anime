@@ -72,7 +72,6 @@ const ChangesInfo = ({close, anime}) => {
                 setResponse({status: response.ok, message: 'Zaktualizowano informacje na temat anime.'});
             } else {
                 const error = await response.json();
-                console.log(error);
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);

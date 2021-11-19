@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
-
-import { useUser } from '../../contexts/UserProvider';
-
 import Popup from 'reactjs-popup';
+
+import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
+import { useUser } from '../../contexts/UserProvider';
+import { useData } from '../../contexts/DataProvider';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
@@ -15,6 +16,7 @@ import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
@@ -33,6 +35,7 @@ import SingleGaleryImage from '../SingleGaleryImage';
 
 const Page = ({match, history}) => {
 
+    const [, setOpen,, setResponse] = useResponsePopup();
     const [status,, authorization,, user] = useUser();
 
     const [animeData, setAnimeData] = useState(null);
@@ -98,6 +101,26 @@ const Page = ({match, history}) => {
         if (animeData.rate.length === 1) return 'głos';
         if (animeData.rate.length === 0 || animeData.rate.length > 4) return 'głosów';
         return 'głosy';
+    };
+
+    const handleResetDescription = async () => {
+        setAuthor('');
+        const response = await fetch(`${HOST_ADDRESS}/anime/description`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                animeID: animeData.id,
+            }),
+        });
+        if (response.ok) {
+            setResponse({status: response.ok, message: 'Usunięto opis anime.'});
+        } else {
+            const error = await response.json();
+            setResponse({status: response.ok, message: error.message});
+        }
+        setOpen(true);
     };
 
     const goUp = history.listen(() => {
@@ -199,6 +222,9 @@ const Page = ({match, history}) => {
                                 <Popup modal nested trigger={<SettingsRoundedIcon className="page__adminIcon" />} on="click">
                                     {close => <ChangesDescription close={close} anime={animeData}/>}
                                 </Popup>
+                            </div> : null}
+                            {authorization === '2' || authorization === '3' ? <div className="page__adminChanges page__adminChanges--description">
+                                <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleResetDescription}/>
                             </div> : null}
                             <h3 className="page__descriptionTitle mediumTitle">Opis</h3>
                             <p className="page__descriptionText">

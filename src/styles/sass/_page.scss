@@ -471,6 +471,14 @@
         display: flex;
         z-index: 99;
 
+        &--com {
+            @include position-absolute(20px, calc(100% - 20px));
+        }
+
+        &--description {
+            @include position-absolute(calc(100% - 20px), 20px);
+        }
+
         .page__adminIcon {
             width: 20px;
             height: 20px;
@@ -480,6 +488,10 @@
 
             &:hover {
                 color: $special-color;
+            }
+
+            &--description {
+                right: 20px;
             }
         }
 
@@ -491,9 +503,5 @@
                 border: 1px solid $special-color;
             }
         }
-    }
-
-    &__adminChanges--com {
-        @include position-absolute(20px, calc(100% - 20px));
     }
 }

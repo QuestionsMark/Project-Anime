@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
-import { useAnime } from '../contexts/AnimeProvider';
 
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import { HOST_ADDRESS } from '../config';
@@ -10,8 +9,7 @@ import { HOST_ADDRESS } from '../config';
 const AnimeOnTopQuestionnaire = ({id}) => {
 
     const [,,,, user] = useUser();
-    const [anime] = useAnime();
-    const { setAnimeOnTop } = useData();
+    const { anime, setAnimeOnTop } = useData();
     const getAnimeOnTop = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime-on-top/actual`);
         if (response.ok) {
