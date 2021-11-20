@@ -5,8 +5,7 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
 import { useUser } from '../../contexts/UserProvider';
-import { useAnime } from '../../contexts/AnimeProvider';
-import { useTypes } from '../../contexts/TypesProvider';
+import { useData } from '../../contexts/DataProvider';
 
 import Search from '../Search';
 import Audio from '../Audio';
@@ -20,8 +19,7 @@ const PageCreate = () => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
     const [,, authorization,,user] = useUser();
-    const [anime, setAnime] = useAnime();
-    const [types] = useTypes();
+    const { anime, types, setAnime } = useData();
     const getAnime = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime`);
         if (response.ok) {
