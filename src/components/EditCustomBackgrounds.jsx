@@ -60,6 +60,7 @@ const EditAvatar = () => {
         e.preventDefault();
         if (validationErrors.length === 0) {
             setBackground(null);
+            setBackgroundPreview({});
             const response = await fetch(`${HOST_ADDRESS}/images`, {
                 headers: {
                     'user': user.id
@@ -69,7 +70,7 @@ const EditAvatar = () => {
             });
             if (response.ok) {
                 const images = await response.json();
-                const response2 = await fetch(`${HOST_ADDRESS}/profile/background/add`, {
+                const response2 = await fetch(`${HOST_ADDRESS}/profile/custom-background`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
