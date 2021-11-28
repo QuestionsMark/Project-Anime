@@ -2543,6 +2543,10 @@ div.galery {
   padding: 30px 0 0;
 }
 
+.galery__imgWrapper {
+  cursor: pointer;
+}
+
 .galery__image {
   display: block;
   -ms-flex-preferred-size: 23%;

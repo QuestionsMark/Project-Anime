@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
-import { useAnime } from '../contexts/AnimeProvider';
+import { useData } from '../contexts/DataProvider';
 
 import { Button, FormControl, RadioGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
@@ -13,7 +13,7 @@ import { HOST_ADDRESS } from '../config';
 const ChangesSeason = ({close, animeData}) => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
-    const [anime] = useAnime();
+    const { anime } = useData();
 
     const [seasons, setSeasons] = useState([]);
     const [validationErrors, setValidationErrors] = useState(

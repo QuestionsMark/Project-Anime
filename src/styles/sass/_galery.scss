@@ -78,6 +78,10 @@
         padding: 30px 0 0;
     }
 
+    &__imgWrapper {
+        cursor: pointer;
+    }
+
     &__image {
         display: block;
         flex-basis: 23%;
