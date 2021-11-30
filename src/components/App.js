@@ -30,6 +30,7 @@ import MyProjects from './main/MyProjects';
 import SAOClicker from './SAOClicker';
 
 import { HOST_ADDRESS } from '../config';
+import Achievements from './main/Achievements';
 
 function App() {
 
@@ -115,6 +116,9 @@ function App() {
         </Route>
         <Route path="/types">
           <Types />
+        </Route>
+        <Route path="/achievements">
+          <Achievements />
         </Route>
         <Route path="/news">
           <News />

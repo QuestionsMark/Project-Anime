@@ -4759,6 +4759,203 @@ div.galery {
   font-weight: bold;
 }
 
+.achievements__group {
+  padding: 20px;
+  border-bottom: 2px solid #f50057;
+  background-color: rgba(10, 10, 10, 0.5);
+  margin-bottom: 20px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.achievements__group:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+
+.achievements__group-title {
+  margin-bottom: 10px;
+  color: #f0f0f0;
+}
+
+.achievements__group-content {
+  height: 0px;
+  padding: 0px;
+  border-left: 2px solid transparent;
+  overflow: hidden;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.achievements__group-content.visible {
+  height: 110px;
+  padding: 10px;
+  background-color: black;
+  border-left: 2px solid #f50057;
+}
+
+.achievements__description {
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.achievements__dificulty {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.achievements__dificulty .achievements__points-icon {
+  margin-right: -3px;
+  color: #ffb700;
+  font-size: 16px;
+}
+
+.achievements__gained-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.achievements__points {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.achievements__points .achievements__points-icon {
+  color: #ffb700;
+  font-size: 16px;
+}
+
+.achievements__group-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+}
+
+.achievements__group-item {
+  position: relative;
+  width: 60px;
+  height: 56px;
+  padding: 5px;
+  border-right: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  background: linear-gradient(45deg, black, #f50057, black, #f50057, black);
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.achievements__group-item.active {
+  height: 51px;
+  background: linear-gradient(45deg, #f50057, black, black, black, #f50057);
+  border-right: 2px solid #f50057;
+  border-left: 2px solid #f50057;
+  -webkit-box-shadow: 0 1px 0 0 #f50057, 0 2px 0 0 #f50057, 0 3px 0 0 #f50057, 0 4px 0 0 #f50057, 0 5px 0 0 #f50057;
+          box-shadow: 0 1px 0 0 #f50057, 0 2px 0 0 #f50057, 0 3px 0 0 #f50057, 0 4px 0 0 #f50057, 0 5px 0 0 #f50057;
+}
+
+.achievements__group-item.active .achievements__item-border-part {
+  width: 0;
+}
+
+.achievements__group-item.active .achievements__image {
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+  height: calc(100% + 5px);
+}
+
+.achievements__group-item:hover {
+  height: 51px;
+  border-right: 2px solid #f50057;
+  border-left: 2px solid #f50057;
+  -webkit-box-shadow: 0 1px 0 0 #f50057, 0 2px 0 0 #f50057, 0 3px 0 0 #f50057, 0 4px 0 0 #f50057, 0 5px 0 0 #f50057;
+          box-shadow: 0 1px 0 0 #f50057, 0 2px 0 0 #f50057, 0 3px 0 0 #f50057, 0 4px 0 0 #f50057, 0 5px 0 0 #f50057;
+  background: linear-gradient(45deg, #f50057, black, black, black, #f50057);
+}
+
+.achievements__group-item:hover .achievements__image {
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+  height: calc(100% + 5px);
+}
+
+.achievements__group-item:hover .achievements__item-border-part {
+  width: 0;
+}
+
+.achievements__group-last-item {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  border-top: 2px solid #f50057;
+}
+
+.achievements__item-border {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.achievements__item-border-part {
+  position: absolute;
+  top: 0;
+  width: calc(50% + 2px);
+  height: 2px;
+  background-color: #f50057;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.achievements__item-border-part.left {
+  left: -2px;
+}
+
+.achievements__item-border-part.right {
+  right: -2px;
+}
+
+.achievements__image {
+  width: 100%;
+  height: 100%;
+  border: 2px solid;
+  border-radius: 50%;
+  background-position: center;
+  background-size: 150%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.achievements__image.white {
+  color: #d0d0d0;
+}
+
+.achievements__image.green {
+  color: #00ff00;
+}
+
+.achievements__image.blue {
+  color: #0000ff;
+}
+
+.achievements__image.violet {
+  color: #ff00ff;
+}
+
+.achievements__image.gold {
+  color: #ffb700;
+}
+
 .rules__content {
   border-right: 1px solid #f50057;
   border-bottom: 1px solid #f50057;

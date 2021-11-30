@@ -26,7 +26,7 @@ const Footer = () => {
                         <Link to="/galery" className="footer__smallLink link">galeria</Link>
                         <Link to="/rules" className="footer__smallLink link">regulamin</Link>
                         <Link to="/source" className="footer__smallLink link">źródła</Link>
-                        <Link to="/help" className="footer__smallLink link">pomoc</Link>
+                        <Link to="/achievements" className="footer__smallLink link">osiągnięcia</Link>
                     </div>
                 </div>
                 <div className="footer__additions">

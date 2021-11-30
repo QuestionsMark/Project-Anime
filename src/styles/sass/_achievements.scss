@@ -1,0 +1,184 @@
+.achievements {
+
+    &__group {
+        @include page-style;
+        margin-bottom: 20px;
+        transition: 0.5s;
+
+        &:nth-last-of-type(1) {
+            margin-bottom: 0;
+        }
+    }
+
+    &__group-title {
+        margin-bottom: 10px;
+        color: $font-color2;
+    }
+
+    &__group-content {
+        height: 0px;
+        padding: 0px;
+        border-left: 2px solid transparent;
+        overflow: hidden;
+        transition: 0.3s;
+
+        &.visible {
+            height: 110px;
+            padding: 10px;
+            background-color: black;
+            border-left: 2px solid $main-color;
+        }
+    }
+
+    &__description {
+        font-weight: bold;
+        margin-bottom: 16px;
+    }
+
+    &__dificulty {
+        display: flex;
+        font-size: 14px;
+        font-weight: bold;
+
+        .achievements__points-icon {
+            margin-right: -3px;
+            color: $special-color;
+            font-size: 16px;
+        }
+    }
+
+    &__gained-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    &__points {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+
+        .achievements__points-icon {
+            color: $special-color;
+            font-size: 16px;
+        }
+    }
+
+    &__group-list {
+        display: flex;
+        list-style: none;
+    }
+
+    &__group-item {
+        position: relative;
+        width: 60px;
+        height: 56px;
+        padding: 5px;
+        border-right: 2px solid transparent;
+        border-left: 2px solid transparent;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+        background: linear-gradient(45deg, black, $main-color, black, $main-color, black);
+        cursor: pointer;
+        transition: 0.3s;
+
+        &.active {
+            height: 51px;
+            background: linear-gradient(45deg, $main-color, black, black, black, $main-color);
+            border-right: 2px solid $main-color;
+            border-left: 2px solid $main-color;
+            box-shadow: 0 1px 0 0 $main-color, 0 2px 0 0 $main-color, 0 3px 0 0 $main-color, 0 4px 0 0 $main-color, 0 5px 0 0 $main-color;
+
+            .achievements__item-border-part {
+                width: 0;
+            }
+
+            .achievements__image {
+                transform: translateY(-5px);
+                height: calc(100% + 5px);
+            }
+        }
+
+        &:hover {
+            height: 51px;
+            border-right: 2px solid $main-color;
+            border-left: 2px solid $main-color;
+            box-shadow: 0 1px 0 0 $main-color, 0 2px 0 0 $main-color, 0 3px 0 0 $main-color, 0 4px 0 0 $main-color, 0 5px 0 0 $main-color;
+            // background-color: black;
+            background: linear-gradient(45deg, $main-color, black, black, black, $main-color);
+        }
+
+        &:hover .achievements__image {
+            transform: translateY(-5px);
+            height: calc(100% + 5px);
+        }
+
+        &:hover .achievements__item-border-part {
+            width: 0;
+        }
+    }
+
+    &__group-last-item {
+        flex-grow: 1;
+        border-top: 2px solid $main-color;
+    }
+
+    &__item-border {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    &__item-border-part {
+        position: absolute;
+        top: 0;
+        width: calc(50% + 2px);
+        height: 2px;
+        background-color: $main-color;
+        transition: 0.4s;
+
+        &.left {
+            left: -2px;
+        }
+
+        &.right {
+            right: -2px;
+        }
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        border: 2px solid;
+        border-radius: 50%;
+        background-position: center;
+        background-size: 150%;
+        transition: 0.3s;
+
+        &.white {
+            color: $font-color;
+            // box-shadow: inset 0 0 10px 0, 0 0 10px 0;
+        }
+
+        &.green {
+            color: #00ff00;
+            // box-shadow: inset 0 0 10px 0, 0 0 10px 0;
+        }
+
+        &.blue {
+            color: #0000ff;
+            // box-shadow: inset 0 0 10px 0, 0 0 10px 0;
+        }
+
+        &.violet {
+            color: #ff00ff;
+            // box-shadow: inset 0 0 10px 0, 0 0 10px 0;
+        }
+
+        &.gold {
+            color: $special-color;
+            // box-shadow: inset 0 0 10px 0, 0 0 10px 0;
+        }
+    }
+}
