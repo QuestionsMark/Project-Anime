@@ -26,8 +26,7 @@ const SingleAchievementsGroup = ({group}) => {
             <div className={`achievements__group-content ${JSON.stringify(achievement) !== "{}" ? 'visible' : ''}`}>
                 <p className="achievements__description">{achievement.description}</p>
                 <div className="achievements__dificulty">
-                    poziom zaangażowania:
-                    {stars()}
+                    {JSON.stringify(achievement) !== "{}" ? <>poziom zaangażowania: {stars()}</> : ''}
                 </div>
                 <div className="achievements__gained-title">{achievement.title ? 'tytuł: ' + achievement.title : ''}</div>
                 <div className="achievements__points">
