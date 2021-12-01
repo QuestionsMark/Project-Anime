@@ -29,7 +29,17 @@ const Profile = ({ history, match }) => {
 
     const animeList = () => profileData.userAnimeData.watched.filter(a => a.title.toLowerCase().includes(searchPhraseAnime.toLowerCase()));
 
-    const achievementsList = () => profileData.achievements.filter(a => a.name.toLowerCase().includes(searchPhraseAchievement.toLowerCase()));
+    const achievementsList = () => {
+        return profileData.achievements
+            .filter(a => a.name.toLowerCase().includes(searchPhraseAchievement.toLowerCase()))
+            .sort((a, b) => {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (a.level > b.level) return -1;
+                if (a.level < b.level) return 1;
+                return 0;
+            })
+    };
 
     const getProfileData = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${match.params.id}`);

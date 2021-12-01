@@ -48,7 +48,6 @@ const Users = ({history, match}) => {
             <LeftSide />
             <div className="users main__content">
                 <Search handleSearch={handleSearch}/>
-                {/* <UserLegend /> */}
                 {users.length > 0 ? <UserList users={filteredUsers()}/> : null}
             </div>
             <RightSide />
