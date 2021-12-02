@@ -40,6 +40,7 @@ const AddWTMComment = () => {
     const handleAddComment = async e => {
         e.preventDefault();
         if (text.length !== 0 && text.length <= 500) {
+            setText('');
             const date = new Date();
             const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments`, {
                 method: 'POST',
@@ -56,7 +57,6 @@ const AddWTMComment = () => {
                 await getWTMComments();
                 scrollDown();
             }
-            setText('');
         }
     };
 

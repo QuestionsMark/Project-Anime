@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -189,7 +190,7 @@ const UserRate = ({animeData, getAnime}) => {
 
     useEffect(() => {
         setRate();
-    },[animeData])
+    },[animeData]);
 
     return ( 
         <div className="page__userPanel">
@@ -197,12 +198,22 @@ const UserRate = ({animeData, getAnime}) => {
             <div className="page__userRate">
                 {starList()}
             </div>
-            <div className="page__userOptions">
-                <Button className={`button page__button ${checkActive("favorite")}`} onClick={handleChangeFavoriteAnime}><FavoriteRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Ulubione</span></Button>
-                <Button className={`button page__button ${checkActive("watched")}`} onClick={handleChangeWatched}><DoneRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button page__button ${checkActive("stopped")}`} onClick={handleChangeStopped}><AccessAlarmRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button page__button ${checkActive("processOfWatching")}`} onClick={handleChangeProcessOfWatching}><VisibilityIcon className="page__statisticsIcon"/><span className="page__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button page__button ${checkActive("planned")}`} onClick={handleChangePlanned}><CreateRoundedIcon className="page__statisticsIcon"/><span className="page__buttonDescription">Planowane</span></Button>
+            <div className="page__buttons">
+            <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('favorite')}`} onClick={handleChangeFavoriteAnime}><FavoriteRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Ulubione
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('watched')}`} onClick={handleChangeWatched}><DoneRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Obejrzane
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('stopped')}`} onClick={handleChangeStopped}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Wstrzymane
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('processOfWatching')}`} onClick={handleChangeProcessOfWatching}><VisibilityIcon className="animeList__buttonIcon"/></Button>}>
+                    W trakcie oglądania
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('planned')}`} onClick={handleChangePlanned}><CreateRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Planowane
+                </Popup>
             </div>
         </div>
      );

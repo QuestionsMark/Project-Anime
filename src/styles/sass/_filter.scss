@@ -1,34 +1,14 @@
 .filter {
+    @include page-style;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    // padding-bottom: 30px;
-    // border-bottom: 2px solid $main-color;
     margin-bottom: 30px;
     user-select: none;
 
     &__title {
         @extend .AOT__title;
         flex-basis: 100%;
-    }
-
-    &__instruction {
-        flex-basis: calc(15% - 10px);
-        padding: 10px;
-        border-bottom: 1px solid $main-color;
-        border-left: 1px solid $main-color;
-        border-radius: 10px;
-        box-shadow: -5px 5px 10px 3px black;
-        transition: 0.4s;
-
-        &:hover {
-            background-color: rgba(10, 10, 10, 0.6);
-        }
-    }
-
-    &__legendTitle {
-        text-align: center;
-        margin-bottom: 10px;
     }
 
     &__want {
@@ -48,25 +28,23 @@
         margin-right: 10px;
     }
 
-    &__filters {
-        flex-basis: calc(85% - 10px);
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: space-between;
+    &__others {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
     }
 
     &__container {
-        padding: 10px;
-        border-right: 1px solid $main-color;
-        border-bottom: 1px solid $main-color;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        box-shadow: 5px 5px 10px 3px black;
-        transition: 0.4s;
 
-        &:hover {
-            background-color: rgba(10, 10, 10, 0.6);
+        &--part {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 31%;
+            padding: 10px;
+            border-bottom: 2px solid $main-color;
+            background-color: rgba(0, 0, 0, 0.4);
         }
+
     }
 
     &__container.bottom {
@@ -76,10 +54,15 @@
     &__filtersTitle {
         color: $font-color2;
         margin-bottom: 10px;
+
+        &--center {
+            text-align: center;
+        }
     }
 
     &__types {
         display: flex;
+        // justify-content: space-between;
         flex-wrap: wrap;
     }
 
@@ -127,12 +110,12 @@
 
     &__filterElement {
         position: relative;
-        flex-basis: 22%;
+        flex-basis: 15%;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 5px 10px;
-        margin: 0 10px 10px 0;
+        margin: 0 0.83333% 10px;
         background-color: rgba(10, 10, 10, 0.9);
         font-size: 14px;
     }

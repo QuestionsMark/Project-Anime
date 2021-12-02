@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { useLoginPopup } from '../contexts/LoginPopup';
 import { useUser } from '../contexts/UserProvider';
@@ -46,7 +47,7 @@ const SingleAnime = ({anime, rate}) => {
             }
         }
         return '';
-    }
+    };
 
     const handleChangeFavoriteAnime = async () => {
         if (status) {
@@ -158,11 +159,21 @@ const SingleAnime = ({anime, rate}) => {
                 <p className="animeList__rateValue">{rate}</p>
             </div>
             <div className="animeList__buttons">
-                <Button className={`button animeList__button ${checkActive('favorite')}`} onClick={handleChangeFavoriteAnime}><FavoriteRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Ulubione</span></Button>
-                <Button className={`button animeList__button ${checkActive('watched')}`} onClick={handleChangeWatched}><DoneRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Obejrzane</span></Button>
-                <Button className={`button animeList__button ${checkActive('stopped')}`} onClick={handleChangeStopped}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Wstrzymane</span></Button>
-                <Button className={`button animeList__button ${checkActive('processOfWatching')}`} onClick={handleChangeProcessOfWatching}><VisibilityIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">W trakcie oglądania</span></Button>
-                <Button className={`button animeList__button ${checkActive('planned')}`} onClick={handleChangePlanned}><CreateRoundedIcon className="animeList__buttonIcon"/><span className="animeList__buttonDescription">Planowane</span></Button>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('favorite')}`} onClick={handleChangeFavoriteAnime}><FavoriteRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Ulubione
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('watched')}`} onClick={handleChangeWatched}><DoneRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Obejrzane
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('stopped')}`} onClick={handleChangeStopped}><AccessAlarmRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Wstrzymane
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('processOfWatching')}`} onClick={handleChangeProcessOfWatching}><VisibilityIcon className="animeList__buttonIcon"/></Button>}>
+                    W trakcie oglądania
+                </Popup>
+                <Popup className="normal-popup" on="hover" position="top center" trigger={<Button className={`button animeList__button ${checkActive('planned')}`} onClick={handleChangePlanned}><CreateRoundedIcon className="animeList__buttonIcon"/></Button>}>
+                    Planowane
+                </Popup>
             </div>
         </li>
      );

@@ -32,6 +32,7 @@ const SingleUser = ({place, user}) => {
                     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                     return 0;
                 })
+            .slice(0, 10)
             .map(a => <Achievement key={a.id} achievement={a}/>);
     };
 
@@ -85,6 +86,7 @@ const SingleUser = ({place, user}) => {
                     <h2 className="userList__subtitle">Osiągnięcia:</h2>
                     <ul className="userList__achievements-list">
                         {achievements.length > 0  ? achievementsList() : 'Brak osiągnięć.'}
+                        {achievements.length > 10 ? <Link to={`/users/${id}/achievements`} className="userList__achievement userList__achievement--more">+{achievements.length - 10}</Link> : null}
                     </ul>
                 </div>
                 <div className="userList__statistic-list">

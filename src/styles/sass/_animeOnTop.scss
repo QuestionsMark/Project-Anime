@@ -126,11 +126,6 @@
         &:hover {
             box-shadow: 0 0 10px 3px $main-color;
         }
-
-        &:hover .AOT__instruction {
-            opacity: 1;
-            z-index: 1;
-        }
     }
 
     &__hehe {
@@ -147,23 +142,6 @@
     &__range {
         width: 0;
         height: 200000px;
-    }
-
-    &__instruction {
-        opacity: 0;
-        @include position-absolute(50%, -110%);
-        width: 120px;
-        padding: 5px;
-        border: 1px solid darken($main-color, 10%);
-        border-radius: 10px;
-        font-size: 13px;
-        z-index: -1;
-        transition: 0.4s;
-    }
-
-    span.AOT__instruction:hover {
-        opacity: 0;
-        z-index: -1;
     }
 
     &__mediaIcon {

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import { useUser } from '../contexts/UserProvider';
 import { useData } from '../contexts/DataProvider';
@@ -110,14 +111,15 @@ const AnimeOnTopAnimeInfo = ({animeData}) => {
                     <p className="AOT__description">{description}</p>
                 </div>
                 <div className="AOT__right">
-                    <div className="AOT__music" onClick={handleMusic}>
+                    <Popup className="normal-popup" on="hover" position="top center" trigger={<div className="AOT__music" onClick={handleMusic}>
                         <audio src={`${HOST_ADDRESS}/soundtracks/${soundtrack}`} ref={audio} className="AOT__audio"></audio>
                         <MusicNoteRoundedIcon className="AOT__mediaIcon"/>
-                        <span className="AOT__instruction">Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.</span>
                         <div className="AOT__hehe" onScroll={handleVolumeChange}>
                             <div className="AOT__range" />
                         </div>
-                    </div>
+                    </div>}>
+                        Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.
+                    </Popup>
                     <div className="AOT__movie">
                         <a href={watchLink} target="_blank" rel="noreferrer" className="AOT__link">
                             <MovieCreationRoundedIcon className="AOT__mediaIcon"/>

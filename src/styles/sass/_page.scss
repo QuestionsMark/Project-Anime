@@ -80,39 +80,43 @@
         margin-bottom: 10px;
     }
 
-    &__userOptions {
+    &__buttons {
+        padding: 0 20px 5px;
         display: flex;
-        flex-wrap: wrap;
         justify-content: center;
-    }
+        flex-wrap: wrap;
 
-    &__button.MuiButton-root {
-        min-width: 0;
-        padding: 5px 20px 7px;
+        .animeList__button {
+            min-width: 0px;
+            padding: 10px;
+            margin: 0 5px 5px;
+        }
+
+        .MuiButton-label {
+            height: 20px;
+            width: 20px;
+        }
+
+        .animeList__buttonIcon {
+            width: 20px;
+            height: 20px;
+        }
     }
 
     &__button.MuiButtonBase-root.button {
-        border-radius: 10px;
-        margin: 0 10px 10px 0;
-        background-color: darken($main-color, 20%);
-
-        .page__statisticsIcon {
-            width: 15px;
-            height: 15px;
-        }
+        border-radius: 50%;
+        background-color: rgba(245, 0, 87, 0.4);
 
         &:hover {
-            background-color: rgba(245, 0, 87, 0.8);
+            background-color: rgba(245, 0, 87, 0.6);
         }
 
-        &:hover .page__buttonDescription {
+        &:hover .animeList__buttonDescription {
             opacity: 1;
-            z-index: 0;
         }
 
-        & .page__buttonDescription:hover {
+        .animeList__buttonDescription:hover {
             opacity: 0;
-            z-index: -1;
         }
     }
 
@@ -120,11 +124,48 @@
         background-color: $main-color;
     }
 
-    &__button .MuiButton-label {
-        position: relative;
-        display: block;
-        height: 15px;
-    }
+    // &__button.MuiButton-root {
+    //     min-width: 0;
+    //     padding: 5px;
+    // }
+
+
+
+    // &__button.MuiButtonBase-root.button {
+    //     min-width: none;
+    //     border-radius: 50%;
+    //     margin: 0 10px 10px 0;
+    //     background-color: darken($main-color, 20%);
+
+    //     .page__statisticsIcon {
+    //         width: 15px;
+    //         height: 15px;
+    //     }
+
+    //     &:hover {
+    //         background-color: rgba(245, 0, 87, 0.8);
+    //     }
+
+    //     &:hover .page__buttonDescription {
+    //         opacity: 1;
+    //         z-index: 0;
+    //     }
+
+    //     & .page__buttonDescription:hover {
+    //         opacity: 0;
+    //         z-index: -1;
+    //     }
+    // }
+
+    // &__button.MuiButtonBase-root.button.active {
+    //     background-color: $main-color;
+    // }
+
+    // &__button .MuiButton-label {
+    //     position: relative;
+    //     display: block;
+    //     height: 15px;
+    // }
 
     &__buttonDescription {
         @include position-absolute(50%, -220%);

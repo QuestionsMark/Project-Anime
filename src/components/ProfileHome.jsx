@@ -134,7 +134,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                         <p className="profile__introText">{introduction.description}</p>
                     </div>
                     <div className="profile__statistics">
-                        <h3 className="profile__statisticsTitle mediumTitle">Statystyki Anime:</h3>
+                        <h3 className="profile__statisticsTitle mediumTitle">Statystyki Anime</h3>
                         <div className="profile__statisticsContainer">
                             <div className="profile__statistic">
                                 <div className="profile__statisticInfo">
@@ -179,7 +179,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                         </div>
                     </div>
                     <div className="profile__favoriteAnime">
-                        <h3 className="prifile__FATitle mediumTitle">Ulubione Anime</h3>
+                        <h3 className="profile__FATitle mediumTitle">Ulubione Anime</h3>
                         {favoriteAnime.length > 0 ? <div className="profile__FAFlex">
                             <ul className="profile__FA-list">
                                 {favoriteAnimeList()}

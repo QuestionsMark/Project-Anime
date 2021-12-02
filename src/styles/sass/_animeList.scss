@@ -118,33 +118,26 @@
     }
 
     &__type {
-        display: block;
-        padding: 5px 10px;
-        margin: 0 5px 10px 0;
-        text-decoration: none;
-        font-size: 14px;
-        background-color: rgba(10, 10, 10, 0.9);
-        color: $font-color;
+        @extend .page__type;
 
         &--fav {
-            color: $special-color;
-            font-weight: bold;
-        }
-
-        &:hover {
-            color: $main-color;
+            @extend .page__type--fav;
         }
     }
 
     &__buttons {
         display: flex;
+        flex-shrink: 0;
 
         .animeList__button {
+            min-width: 0px;
+            padding: 10px;
             margin-left: 5px;
         }
 
         .MuiButton-label {
             height: 20px;
+            width: 20px;
         }
 
         .animeList__buttonIcon {
@@ -154,7 +147,7 @@
     }
 
     &__button.MuiButtonBase-root.button {
-        border-radius: 10px;
+        border-radius: 50%;
         background-color: rgba(245, 0, 87, 0.4);
 
         &:hover {
