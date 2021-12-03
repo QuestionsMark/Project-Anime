@@ -1,9 +1,7 @@
 .main {
-    // position: relative;
     display: flex;
     padding-top: 5vh;
     background-image: url(../../media/img/sao1-back20502.webp);
-    // hos, sao, shi, ten, kiminonawa
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -11,7 +9,7 @@
 
     &__content {
         position: relative;
-        width: calc(62vw - 14px);
+        flex-grow: 1;
         max-width: 1600px;
         min-height: 100vh;
         padding: 30px;
@@ -31,6 +29,7 @@
     &__leftSide {
         display: flex;
         flex-direction: column;
+        flex-shrink: 0;
         position: sticky;
         right: 0;
         top: 5vh;
@@ -40,12 +39,12 @@
 
     &__rightSide {
         position: sticky;
+        flex-shrink: 0;
         right: 0;
         top: 5vh;
         width: 19vw;
         height: 95vh;
         margin-right: 10px;
-        // overflow-y: scroll;
         overflow: auto;
         overscroll-behavior-y: contain;
     }

@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import SingleVoteResult from './SingleVoteResult';
 
-import { HOST_ADDRESS } from '../config';
 import { useUser } from '../contexts/UserProvider';
-import { useData } from '../contexts/DataProvider';
 
-const WTMResults = () => {
+const WTMResults = ({whatsTheMelody}) => {
     
     const [status,,,,user] = useUser();
-    const { whatsTheMelody } = useData();
 
     const isVoteCorrect = () => {
         if (whatsTheMelody.correctAnswear) {

@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router';
 
-import LeftSide from '../LeftSide';
 import MyProjectsList from '../MyProjectsList';
-import RightSide from '../RightSide';
 
-const MyProjects = ({isUserLogged}) => {
+import setMain from '../../utils/setMain';
+
+const MyProjects = ({main, history, match}) => {
+
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+    useEffect(() => {
+        goUp();
+        setMain(main, match);
+    }, [match]);
+
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="home main__content">
-                <MyProjectsList />
-            </div>
-            <RightSide isUserLogged={isUserLogged}/>
-        </main>
+        <div className="home main__content">
+            <MyProjectsList />
+        </div>
      );
 }
  
-export default MyProjects;
+export default withRouter(MyProjects);

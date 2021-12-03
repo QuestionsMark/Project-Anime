@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useData } from '../contexts/DataProvider';
-
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { FormControl, Select, MenuItem } from '@material-ui/core';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
 
 import SingleTypeFilter from './SingleTypeFilter';
+import { HOST_ADDRESS } from '../config';
 
 const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, handleFilterKind, handleFilterRate}) => {
 
-    const { types } = useData();
+    const [types, setTypes] = useState([]);
+    const getTypes = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/types`);
+        if (response.ok) {
+            const types = await response.json();
+            setTypes(types);
+        }
+    };
 
     const typesList = () => {
         return types
@@ -22,6 +28,10 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
             })
             .map(t => <SingleTypeFilter key={t.id} name={t.name} description={t.description} handleFilterTypes={handleFilterTypes}/>);
     };
+
+    useEffect(() => {
+        getTypes();
+    }, []);
 
     return ( 
         <div className="filter scrollNav" data-id="2">

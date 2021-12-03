@@ -5,7 +5,6 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
 import { useUser } from '../../contexts/UserProvider';
-import { useData } from '../../contexts/DataProvider';
 
 import Search from '../Search';
 import Audio from '../Audio';
@@ -19,12 +18,21 @@ const PageCreate = () => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
     const [,, authorization,,user] = useUser();
-    const { anime, types, setAnime } = useData();
+    const [anime, setAnime] = useState([]);
     const getAnime = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime`);
         if (response.ok) {
             const anime = await response.json();
             setAnime(anime);
+        }
+    };
+
+    const [types, setTypes] = useState([]);
+    const getTypes = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/types`);
+        if (response.ok) {
+            const types = await response.json();
+            setTypes(types);
         }
     };
 
@@ -465,6 +473,11 @@ const PageCreate = () => {
     };
 
     useEffect(() => {
+        getAnime();
+        getTypes();
+    }, []);
+
+    useEffect(() => {
         setPreviews();
     }, [anime]);
 
@@ -474,106 +487,100 @@ const PageCreate = () => {
 
     return ( 
         <>
-        {authorization === '2' || authorization === '3' ? <main className="main">
-            <div className="curtain"></div>
+        {authorization === '2' || authorization === '3' ?
             <div className="create main__content">
                 <h1 className="create__createAnime">Tworzenie Nowego Anime</h1>
                 <div className="create__wrapper">
-                    <div className="create__left">
-                        <div className="create__kind create__section">
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend" className="create__title">Typ anime</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={kind} onChange={(e) => {handleInfChange("kind", e)}}>
-                                    <FormControlLabel value="series" control={<Radio />} label="Seria odcinków" className="create__radioLabel"/>
-                                    <FormControlLabel value="movie" control={<Radio />} label="Film" className="create__radioLabel"/>
-                                </RadioGroup>
-                            </FormControl>
+                    <div className="create__kind create__section">
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend" className="create__title">Typ anime</FormLabel>
+                            <RadioGroup aria-label="gender" name="gender1" value={kind} onChange={(e) => {handleInfChange("kind", e)}}>
+                                <FormControlLabel value="series" control={<Radio />} label="Seria odcinków" className="create__radioLabel"/>
+                                <FormControlLabel value="movie" control={<Radio />} label="Film" className="create__radioLabel"/>
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
+                    <div className="create__animeTitle create__section">
+                        <h3 className="create__title">Tytuł</h3>
+                        <input type="text" className="create__titleInp create__inputText" placeholder="Tytuł" value={title} onChange={handleChangeTitle}/>
+                    </div>
+                    <div className="create__info create__section">
+                        <h3 className="create__title">Informacje</h3>
+                        <input type="text" className="create__scenarioInp create__inputText" placeholder="scenariusz" value={scenario} onChange={(e) => {handleInfChange("scenario", e)}}/>
+                        <input type="text" className="create__productionDateInp create__inputText" placeholder="Rok produkcji" value={productionDate} onChange={(e) => {handleInfChange("productionDate", e)}}/>
+                        {kind === "series" ? 
+                        <div className="create__seriesKind">
+                            <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość odcinków" value={episodesAmount} onChange={(e) => {handleInfChange("episodesValue", e)}}/>
+                            <input type="text" className="create__duration2Inp create__inputText" placeholder="Czas trwania odcinka w min" value={episodeDuration} onChange={(e) => {handleInfChange("episodeDuration", e)}}/>
                         </div>
-                        <div className="create__animeTitle create__section">
-                            <h3 className="create__title">Tytuł</h3>
-                            <input type="text" className="create__titleInp create__inputText" placeholder="Tytuł" value={title} onChange={handleChangeTitle}/>
-                        </div>
-                        <div className="create__info create__section">
-                            <h3 className="create__title">Informacje</h3>
-                            <input type="text" className="create__scenarioInp create__inputText" placeholder="scenariusz" value={scenario} onChange={(e) => {handleInfChange("scenario", e)}}/>
-                            <input type="text" className="create__productionDateInp create__inputText" placeholder="Rok produkcji" value={productionDate} onChange={(e) => {handleInfChange("productionDate", e)}}/>
-                            {kind === "series" ? 
-                            <div className="create__seriesKind">
-                                <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość odcinków" value={episodesAmount} onChange={(e) => {handleInfChange("episodesValue", e)}}/>
-                                <input type="text" className="create__duration2Inp create__inputText" placeholder="Czas trwania odcinka w min" value={episodeDuration} onChange={(e) => {handleInfChange("episodeDuration", e)}}/>
+                        :
+                        <div className="create__seriesKind">
+                            <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość godzin" value={hours} onChange={(e) => {handleInfChange("hoursValue", e)}}/>
+                            <input type="text" className="create__duration2Inp create__inputText" placeholder="Ilość minut" value={minutes} onChange={(e) => {handleInfChange("minutesValue", e)}}/>
+                        </div> }
+                    </div>
+                    <div className="create__link create__section">
+                        <h3 className="create__title">Link</h3>
+                        <input type="text" className="create__linkInp create__inputText" placeholder="Link do oglądania" value={link} onChange={(e) => {handleInfChange("link", e)}}/>
+                    </div>
+                    <div className="create__types create__section">
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend" className="create__title">Gatunki</FormLabel>
+                            <RadioGroup value={types}>
+                                {types.length > 0 ? labelTypesList() : null}
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
+                    <div className="create__seasons create__section">
+                        <Search handleSearch={handleSearch}/>
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend" className="create__title">*Powiązane Anime</FormLabel>
+                            <RadioGroup value={seasons}>
+                                {anime.length > 0 ? labelAnimeList() : null}
+                            </RadioGroup>
+                        </FormControl>
+                    </div>
+                    <SRLWrapper>
+                        <form className="create__images create__section">
+                            <h3 className="create__title">Grafiki</h3>
+                            <input type="file" id="mini" className="create__imageInp" onChange={handleChangeMini}/>
+                            <label htmlFor="mini" className="create__imageLabel">Wybierz Miniaturę</label>
+                            <div className="create__preview">
+                                {mini ? <p className="changes__size" style={{color: miniPreview.size < 0.524288 ? '#5ec45e' : '#d14141'}}>{miniPreview.size.toFixed(2)} MB {miniPreview.size < 0.524288 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+                                <div className="create__preview-img create__preview-img--square">
+                                    <img src={miniPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
+                                </div>
                             </div>
-                            :
-                            <div className="create__seriesKind">
-                                <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość godzin" value={hours} onChange={(e) => {handleInfChange("hoursValue", e)}}/>
-                                <input type="text" className="create__duration2Inp create__inputText" placeholder="Ilość minut" value={minutes} onChange={(e) => {handleInfChange("minutesValue", e)}}/>
-                            </div> }
-                        </div>
-                        <div className="create__link create__section">
-                            <h3 className="create__title">Link</h3>
-                            <input type="text" className="create__linkInp create__inputText" placeholder="Link do oglądania" value={link} onChange={(e) => {handleInfChange("link", e)}}/>
-                        </div>
-                        <div className="create__types create__section">
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend" className="create__title">Gatunki</FormLabel>
-                                <RadioGroup value={types}>
-                                    {types.length > 0 ? labelTypesList() : null}
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-                        <div className="create__seasons create__section">
-                            <Search handleSearch={handleSearch}/>
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend" className="create__title">*Powiązane Anime</FormLabel>
-                                <RadioGroup value={seasons}>
-                                    {anime.length > 0 ? labelAnimeList() : null}
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-                    </div>
-                    <div className="create__right">
-                        <SRLWrapper>
-                            <form className="create__images create__section">
-                                <h3 className="create__title">Grafiki</h3>
-                                <input type="file" id="mini" className="create__imageInp" onChange={handleChangeMini}/>
-                                <label htmlFor="mini" className="create__imageLabel">Wybierz Miniaturę</label>
-                                <div className="create__preview">
-                                    {mini ? <p className="changes__size" style={{color: miniPreview.size < 0.524288 ? '#5ec45e' : '#d14141'}}>{miniPreview.size.toFixed(2)} MB {miniPreview.size < 0.524288 ? 'OK' : 'Plik jest za duży!'}</p> : null}
-                                    <div className="create__preview-img create__preview-img--square">
-                                        <img src={miniPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
-                                    </div>
+                            <input type="file" id="background" className="create__imageInp" onChange={handleChangeBackground}/>
+                            <label htmlFor="background" className="create__imageLabel">Wybierz Tło</label>
+                            <div className="create__preview">
+                                {background ? <p className="changes__size" style={{color: backgroundPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{backgroundPreview.size.toFixed(2)} MB {backgroundPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+                                <div className="create__preview-img create__preview-img--background">
+                                    <img src={backgroundPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
                                 </div>
-                                <input type="file" id="background" className="create__imageInp" onChange={handleChangeBackground}/>
-                                <label htmlFor="background" className="create__imageLabel">Wybierz Tło</label>
-                                <div className="create__preview">
-                                    {background ? <p className="changes__size" style={{color: backgroundPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{backgroundPreview.size.toFixed(2)} MB {backgroundPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
-                                    <div className="create__preview-img create__preview-img--background">
-                                        <img src={backgroundPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
-                                    </div>
+                            </div>
+                            <input type="file" id="baner" className="create__imageInp" onChange={handleChangeBaner}/>
+                            <label htmlFor="baner" className="create__imageLabel">Wybierz Baner</label>
+                            <div className="create__preview">
+                                {baner ? <p className="changes__size" style={{color: banerPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{banerPreview.size.toFixed(2)} MB {banerPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+                                <div className="create__preview-img create__preview-img--background">
+                                    <img src={banerPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
                                 </div>
-                                <input type="file" id="baner" className="create__imageInp" onChange={handleChangeBaner}/>
-                                <label htmlFor="baner" className="create__imageLabel">Wybierz Baner</label>
-                                {/* File size validation */}
-                                <div className="create__preview">
-                                    {baner ? <p className="changes__size" style={{color: banerPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{banerPreview.size.toFixed(2)} MB {banerPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
-                                    <div className="create__preview-img create__preview-img--background">
-                                        <img src={banerPreview.url} alt="Preview" className="img" srl_gallery_image="true" />
-                                    </div>
-                                </div>
-                            </form>
-                        </SRLWrapper>
-                        <form className="create__soundtrack create__section">
-                            <h3 className="create__title">*Soundtrack</h3>
-                            <input type="file" id="music" className="create__soundtrackInp" onChange={handleChangeSoundtrack}/>
-                            <label htmlFor="music" className="create__imageLabel">Soundtrack</label>
-                            {soundtrack ? <div className="create__preview">
-                                <p className="changes__size" style={{color: soundtrackPreview.size < 8.388608 ? '#5ec45e' : '#d14141'}}>{soundtrackPreview.size.toFixed(2)} MB {soundtrackPreview.size < 8.388608 ? 'OK' : 'Plik jest za duży!'}</p>
-                                <Audio mp3={soundtrackPreview.url}/>
-                                <RemoveRoundedIcon className="create__delete-icon" onClick={handleRemoveSoundtrack}/>
-                            </div> : null}
-                            <input type="text" className="create__composerInp create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInfChange("composer", e)}}/>
-                            <input type="text" className="create__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChange={(e) => {handleInfChange("soundtrackTitle", e)}}/>
+                            </div>
                         </form>
-                    </div>
+                    </SRLWrapper>
+                    <form className="create__soundtrack create__section">
+                        <h3 className="create__title">*Soundtrack</h3>
+                        <input type="file" id="music" className="create__soundtrackInp" onChange={handleChangeSoundtrack}/>
+                        <label htmlFor="music" className="create__imageLabel">Soundtrack</label>
+                        {soundtrack ? <div className="create__preview">
+                            <p className="changes__size" style={{color: soundtrackPreview.size < 8.388608 ? '#5ec45e' : '#d14141'}}>{soundtrackPreview.size.toFixed(2)} MB {soundtrackPreview.size < 8.388608 ? 'OK' : 'Plik jest za duży!'}</p>
+                            <Audio mp3={soundtrackPreview.url}/>
+                            <RemoveRoundedIcon className="create__delete-icon" onClick={handleRemoveSoundtrack}/>
+                        </div> : null}
+                        <input type="text" className="create__composerInp create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInfChange("composer", e)}}/>
+                        <input type="text" className="create__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChange={(e) => {handleInfChange("soundtrackTitle", e)}}/>
+                    </form>
                 </div>
                 <div className="create__send">
                     <Button className={`button create__add ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleAddNewAnime}>Dodaj Nowe Anime</Button>
@@ -581,8 +588,7 @@ const PageCreate = () => {
                         {validationList()}
                     </ul>
                 </div>
-            </div>
-        </main> : <NotFound />}
+            </div> : <NotFound />}
         </>
      );
 }

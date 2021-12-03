@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
-import SingleAchievementsGroup from '../SingleAchievementsGroup';
-
-import { HOST_ADDRESS } from '../../config';
 import { withRouter } from 'react-router';
 
-const Achievements = ({match, history}) => {
+import SingleAchievementsGroup from '../SingleAchievementsGroup';
+
+import setMain from '../../utils/setMain';
+
+import { HOST_ADDRESS } from '../../config';
+
+const Achievements = ({main, match, history}) => {
 
     const [achievements, setAchievements] = useState([]);
     const getAchievements = async () => {
@@ -48,20 +48,16 @@ const Achievements = ({match, history}) => {
     });
     useEffect(() => {
         goUp();
+        setMain(main, match);
     }, [match]);
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="achievements main__content">
-                <h2 className="achievements__title largeTitle">Osiągnięcia</h2>
-                <div className="achievements__container">
-                    {achievements.length > 0 ? achievementsSections() : null}
-                </div>
+        <div className="achievements main__content">
+            <h2 className="achievements__title largeTitle">Osiągnięcia</h2>
+            <div className="achievements__container">
+                {achievements.length > 0 ? achievementsSections() : null}
             </div>
-            <RightSide/>
-        </main>
+        </div>
      );
 }
  

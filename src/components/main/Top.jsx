@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import { HOST_ADDRESS } from '../../config';
 
-import { useData } from '../../contexts/DataProvider';
+import setMain from '../../utils/setMain';
 
-import TopAnimeList from '../TopAnimeList';
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import Filter from '../Filter';
 import Search from '../Search';
+import TopAnimeList from '../TopAnimeList';
 
-const Top = ({history, match}) => {
+const Top = ({main, history, match}) => {
 
-    const { anime } = useData();
+    const [anime, setAnime] = useState([]);
+    const getAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime`);
+        if (response.ok) {
+            const anime = await response.json();
+            setAnime(anime);
+        }
+    };
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {
@@ -189,22 +195,22 @@ const Top = ({history, match}) => {
     });
 
     useEffect(() => {
+        getAnime();
+    }, []);
+
+    useEffect(() => {
         goUp();
+        setMain(main, match);
     }, [match]);
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="top main__content">
-                <div className="top__search">
-                    <Search handleSearch={handleSearch}/>
-                </div>
-                <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
-                <TopAnimeList anime={filteredAnimeList()} />
+        <div className="top main__content">
+            <div className="top__search">
+                <Search handleSearch={handleSearch}/>
             </div>
-            <RightSide />
-        </main>
+            <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
+            <TopAnimeList anime={filteredAnimeList()} />
+        </div>
      );
 }
  

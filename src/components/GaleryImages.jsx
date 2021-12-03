@@ -12,7 +12,7 @@ const GaleryImages = ({history, match}) => {
     const [columns, setColumns] = useState(null);
     const [animeData, setAnimeData] = useState(null);
     const getAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime/${match.params.animeID}`);
+        const response = await fetch(`${HOST_ADDRESS}/anime/${match.params.animeID}/galery`);
         if (response.ok) {
             const anime = await response.json();
             setAnimeData(anime);
@@ -25,7 +25,7 @@ const GaleryImages = ({history, match}) => {
     const sortFolders = () => {
         const columns = { column1: [], column2: [], column3: [], column4: [] };
         let counter = 1;
-        animeData.images.galeryImages
+        animeData.images
             .forEach(i => {
                 if (counter === 1) {
                     columns.column1.push(i);

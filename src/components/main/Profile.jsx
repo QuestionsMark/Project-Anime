@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter, Route, Switch } from 'react-router-dom';
 
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import ProfileNav from '../ProfileNav';
 import ProfileHome from '../ProfileHome';
 import ProfileTop from '../ProfileTop';
@@ -10,11 +8,10 @@ import ProfileAchievements from '../ProfileAchievements';
 import ProfilePrivate from '../ProfilePrivate';
 import ProfileEdit from '../ProfileEdit';
 
-import background from '../../media/img/sao1-back20502.webp';
-
 import { HOST_ADDRESS } from '../../config';
+import setMain from '../../utils/setMain';
 
-const Profile = ({ history, match }) => {
+const Profile = ({ main, history, match }) => {
 
     const [profileData, setProfileData] = useState({});
     const [searchPhraseAnime, setSearchPhraseAnime] = useState('');
@@ -58,12 +55,11 @@ const Profile = ({ history, match }) => {
     useEffect(() => {
         goUp();
         getProfileData();
+        setMain(main, match);
     }, [match]);
 
     return ( 
-        <main className="main" style={{backgroundImage: `url(${profileData.background ? `${HOST_ADDRESS}/images/${profileData.background}` : background})`, backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
-            <div className="curtain"></div>
-            <LeftSide />
+        <>
             {JSON.stringify(profileData) !== "{}" ? <div className="profile main__content">
                 <ProfileNav />
                 <Switch>
@@ -84,8 +80,7 @@ const Profile = ({ history, match }) => {
                     </Route>
                 </Switch>
             </div> : <div className="profile main__content"></div>}
-            <RightSide />
-        </main>
+        </>
      );
 }
  

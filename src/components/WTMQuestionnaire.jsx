@@ -7,20 +7,11 @@ import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
 import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 
 import { HOST_ADDRESS } from '../config';
-import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
 
-const WTMQuestionnaire = () => {
+const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody}) => {
 
     const [,,,, user] = useUser();
-    const { whatsTheMelody, setWhatsTheMelody } = useData();
-    const getWhatsTheMelody = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/actual`);
-        if (response.ok) {
-            const whatsTheMelody = await response.json();
-            setWhatsTheMelody(whatsTheMelody);
-        }
-    };
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [duration, setDuration] = useState(null);

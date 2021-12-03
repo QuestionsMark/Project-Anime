@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
-import { useData } from '../../contexts/DataProvider';
-
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
 import Search from '../Search';
 
-const Galery = ({history, match}) => {
+import { HOST_ADDRESS } from '../../config';
 
-    const { anime } = useData();
+import setMain from '../../utils/setMain';
+
+const Galery = ({main, history, match}) => {
+
+    const [anime, setAnime] = useState([]);
+    const getAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime/galery`);
+        if (response.ok) {
+            const anime = await response.json();
+            setAnime(anime);
+        }
+    };
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const [columns, setColumns] = useState(null);
@@ -57,6 +64,10 @@ const Galery = ({history, match}) => {
     });
 
     useEffect(() => {
+        getAnime();
+    }, []);
+
+    useEffect(() => {
         if(anime.length > 0) {
             sortFolders();
         }
@@ -64,39 +75,35 @@ const Galery = ({history, match}) => {
 
     useEffect(() => {
         goUp();
+        setMain(main, match);
         setSearchPhrase('');
     }, [match]);
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-                <div className="anime main__content">
-                    <Route path="/galery" exact>
-                        <Search handleSearch={handleSearch}/>
-                        <div className="galery__folderContainer">
-                            <div className="galery__folderColumn">
-                                {columns ? folderList(columns.column1) : null}
-                            </div>
-                            <div className="galery__folderColumn">
-                                {columns ? folderList(columns.column2) : null}
-                            </div>
-                            <div className="galery__folderColumn">
-                                {columns ? folderList(columns.column3) : null}
-                            </div>
-                            <div className="galery__folderColumn">
-                                {columns ? folderList(columns.column4) : null}
-                            </div>
-                        </div>
-                    </Route>
-                    <Route path="/galery/:animeID">
-                        <SRLWrapper>
-                            <GaleryImages />
-                        </SRLWrapper>
-                    </Route>
+        <div className="anime main__content">
+            <Route path="/galery" exact>
+                <Search handleSearch={handleSearch}/>
+                <div className="galery__folderContainer">
+                    <div className="galery__folderColumn">
+                        {columns ? folderList(columns.column1) : null}
+                    </div>
+                    <div className="galery__folderColumn">
+                        {columns ? folderList(columns.column2) : null}
+                    </div>
+                    <div className="galery__folderColumn">
+                        {columns ? folderList(columns.column3) : null}
+                    </div>
+                    <div className="galery__folderColumn">
+                        {columns ? folderList(columns.column4) : null}
+                    </div>
                 </div>
-            <RightSide/>
-        </main>
+            </Route>
+            <Route path="/galery/:animeID">
+                <SRLWrapper>
+                    <GaleryImages />
+                </SRLWrapper>
+            </Route>
+        </div>
      );
 }
  

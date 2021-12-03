@@ -4,24 +4,13 @@ import { Link } from 'react-router-dom';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
 import { HOST_ADDRESS } from '../config';
-// import { useWTMComments } from '../contexts/WTMCommentsProvider';
 import { useUser } from '../contexts/UserProvider';
-import { useData } from '../contexts/DataProvider';
 
-const SingleWTMComment = ({comment}) => {
+const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
 
     const { id, userID, text, likes, date} = comment;
 
     const [,,,, user] = useUser();
-    const { whatsTheMelody, setWhatsTheMelodyComments } = useData();
-    const getWhatsTheMelodyComments = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments`);
-        if (response.ok) {
-            const whatsTheMelodyComments = await response.json();
-            setWhatsTheMelodyComments(whatsTheMelodyComments);
-        }
-    };
-    // const [,setWTMComments] = useWTMComments();
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
     const [username, setUsername] = useState('');
@@ -42,7 +31,7 @@ const SingleWTMComment = ({comment}) => {
     }
 
     const handleLikeClick = async () => {
-        await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments/like`, {
+        await fetch(`${HOST_ADDRESS}/whats-the-melody/${WTMID}/comments/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +41,7 @@ const SingleWTMComment = ({comment}) => {
                 commentID: id,
             }),
         });
-        getWhatsTheMelodyComments();
+        getWTMComments();
     }
 
     useEffect(() => {

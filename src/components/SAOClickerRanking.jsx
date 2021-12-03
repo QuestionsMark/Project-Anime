@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import SingleSAOClickerResult from './SingleSAOClickerResult';
 
-import { useData } from '../contexts/DataProvider';
+const SAOClickerRanking = ({saoClicker}) => {
 
-const SAOClickerRanking = () => {
-
-    const { saoClicker } = useData();
     const [top, setTop] = useState([]);
 
 

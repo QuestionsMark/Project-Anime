@@ -1,11 +1,9 @@
 import React from 'react';
-import { useData } from '../contexts/DataProvider';
 
 import SingleVoteResult from './SingleVoteResult';
 
-const AnimeOnTopResults = () => {
+const AnimeOnTopResults = ({animeOnTop}) => {
 
-    const { animeOnTop } = useData();
 
     const resultsList = () => {
         if (animeOnTop) {

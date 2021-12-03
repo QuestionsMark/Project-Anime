@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { useData } from '../../contexts/DataProvider';
-
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import Search from '../Search';
 import AnimeList from '../AnimeList';
+import setMain from '../../utils/setMain';
+import { HOST_ADDRESS } from '../../config';
 
-const Anime = ({history, match}) => {
+const Anime = ({main, history, match}) => {
 
-    const { anime } = useData();
+    const [anime, setAnime] = useState([]);
+    const getAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime`);
+        if (response.ok) {
+            const anime = await response.json();
+            setAnime(anime);
+        }
+    };
 
     const [searchValue, setSearchValue] = useState('');
     const handleSearch = (e) => {
@@ -44,26 +49,26 @@ const Anime = ({history, match}) => {
     });
 
     useEffect(() => {
+        getAnime();
+    }, []);
+
+    useEffect(() => {
         goUp();
+        setMain(main, match);
     }, [match]);
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="anime main__content">
-                <Search handleSearch={handleSearch}/>
-                <div className="anime__series scrollNav" data-id="2">
-                    <h2 className="anime__title">Serie Anime</h2>
-                    <AnimeList anime={getAnimeList('series')} />
-                </div>
-                <div className="anime__movies scrollNav" data-id="3">
-                    <h2 className="anime__title">Filmy Anime</h2>
-                    <AnimeList anime={getAnimeList('movies')} />
-                </div>
+        <div className="anime main__content">
+            <Search handleSearch={handleSearch}/>
+            <div className="anime__series scrollNav" data-id="2">
+                <h2 className="anime__title">Serie Anime</h2>
+                <AnimeList anime={getAnimeList('series')} />
             </div>
-            <RightSide/>
-        </main>
+            <div className="anime__movies scrollNav" data-id="3">
+                <h2 className="anime__title">Filmy Anime</h2>
+                <AnimeList anime={getAnimeList('movies')} />
+            </div>
+        </div>
      );
 }
  

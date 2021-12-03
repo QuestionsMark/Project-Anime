@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { withRouter, Switch, Route, Link } from 'react-router-dom';
 
-const LeftNav = () => {
+const LeftNav = ({match}) => {
 
     useEffect(() => {
         const navs = document.querySelectorAll('.leftNav__item');
@@ -32,7 +32,7 @@ const LeftNav = () => {
                 }
             })
         })
-    }, [])
+    }, [match]);
 
     return (
         <div className="leftNav">
@@ -64,7 +64,6 @@ const LeftNav = () => {
                     </Route>
                     <Route path="/users" exact>
                         <li className="leftNav__item" data-id="1">Szukaj</li>
-                        <li className="leftNav__item" data-id="2">Lista Użytkowników</li>
                     </Route>
                     <Route path="/users/:userID" exact>
                         <li className="leftNav__item" data-id="3">Wróć do góry</li>
@@ -102,4 +101,4 @@ const LeftNav = () => {
     );
 }
 
-export default LeftNav;
+export default withRouter(LeftNav);

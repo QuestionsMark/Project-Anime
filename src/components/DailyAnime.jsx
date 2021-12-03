@@ -1,31 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
 import { HOST_ADDRESS } from '../config';
-import { useUser } from '../contexts/UserProvider';
-import { useData } from '../contexts/DataProvider';
 
-const DailyAnime = () => {
+import { useUser } from '../contexts/UserProvider';
+
+const DailyAnime = ({dailyAnime, handleRollDailyAnime}) => {
 
     const [,, authorization] = useUser();
-    const { dailyAnime, setDailyAnime } = useData();
-    const getDailyAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/daily-anime`);
-        if (response.ok) {
-            const dailyAnime = await response.json();
-            setDailyAnime(dailyAnime);
-        }
-    };
-
-    const handleRoll = async () => {
-        await fetch(`${HOST_ADDRESS}/daily-anime`, {
-            method: 'POST',
-        });
-        getDailyAnime();
-    };
 
     const DATypes = () => {
         return dailyAnime.types.map(t => <li className="DA__item" key={t.id}><Link to={`/types/${t.name}`} className="DA__link"><p className="DA__type">{t.name}</p></Link></li>);
@@ -34,7 +19,7 @@ const DailyAnime = () => {
     return ( 
         <div className="DA">
             {authorization === '3' ? <div className="AOT__adminPanel">
-                <p className="AOT__finish" onClick={handleRoll}>Losuj</p>
+                <p className="AOT__finish" onClick={handleRollDailyAnime}>Losuj</p>
             </div> : null}
             <h3 className="DA__title">Polecane Anime na Dziś!</h3>
             {dailyAnime ? <>

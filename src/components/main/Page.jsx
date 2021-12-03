@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 
 import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
 import { useUser } from '../../contexts/UserProvider';
-import { useData } from '../../contexts/DataProvider';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
@@ -18,8 +17,6 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import UserRate from '../UserRate';
 import Comments from '../Comments';
 import SingleSeason from '../SingleSeason';
@@ -32,8 +29,9 @@ import ChangesSoundtrack from '../ChangesSoundtrack';
 import ChangesSeason from '../ChangesSeason';
 import ChangesDescription from '../ChangesDescription';
 import SingleGaleryImage from '../SingleGaleryImage';
+import setMain from '../../utils/setMain';
 
-const Page = ({match, history}) => {
+const Page = ({main, match, history}) => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
     const [status,, authorization,, user] = useUser();
@@ -135,15 +133,13 @@ const Page = ({match, history}) => {
 
     useEffect(() => {
         goUp();
+        setMain(main, match);
         getAnime();
     },[match]);
 
     return ( 
         <>
-        {animeData ? <main className="main" style={{backgroundImage: animeData.images.background.id ? `url(${HOST_ADDRESS}/images/${animeData.images.background.id})` : '', backgroundAttachment: "fixed", backgroundPosition: "center", backgroundSize: "cover"}}>
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="page main__content scrollNav" data-id="1">
+        {animeData ? <div className="main__content scrollNav" data-id="1">
                 <h2 className="page__title largeTitle">{animeData.title}</h2>
                 <div className="page__content">
                     <div className="page__left">
@@ -253,12 +249,7 @@ const Page = ({match, history}) => {
                     </div>
                 </div>
                 <Comments animeData={animeData} getAnime={getAnime}/>
-            </div>
-            <RightSide />
-        </main> : null}
-        {/* <Popup modal onClose={() => setOpen(false)} open={open}>
-            <ServerResponse close={closePopup} response={response}/>
-        </Popup> */}
+            </div> : <div className="main__content scrollNav" data-id="1" />}
         </>
      );
 }

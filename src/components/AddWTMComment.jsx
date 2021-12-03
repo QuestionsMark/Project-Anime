@@ -1,15 +1,13 @@
 import React, { useState, useRef } from 'react';
 
 import { HOST_ADDRESS } from '../config';
-import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
 
-const AddWTMComment = () => {
+const AddWTMComment = ({id, getWTMComments}) => {
 
     const addCommentContent = useRef();
 
     const [,,,, user] = useUser();
-    const { whatsTheMelody, setWhatsTheMelodyComments } = useData();
 
     const [text, setText] = useState('');
     const handleTextChange = (e) => {
@@ -29,20 +27,12 @@ const AddWTMComment = () => {
         });
     };
 
-    const getWTMComments = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments`);
-        if (response.ok) {
-            const comments = await response.json();
-            setWhatsTheMelodyComments(comments);
-        }
-    };
-
     const handleAddComment = async e => {
         e.preventDefault();
         if (text.length !== 0 && text.length <= 500) {
             setText('');
             const date = new Date();
-            const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments`, {
+            const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${id}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

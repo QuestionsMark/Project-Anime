@@ -18,7 +18,7 @@ import { HOST_ADDRESS } from '../config';
 
 const SingleTopAnime = ({ place, anime, rate }) => {
 
-    const { id, title, types, kind } = anime;
+    const { id, title, types, kind, mini } = anime;
 
     const { setOpenLoginScreen } = useLoginPopup();
     const [status,,,,user, setUser] = useUser();
@@ -147,7 +147,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
         <li className="animeList__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${anime.images.mini.id}`} alt="anime" className="img" />
+                <img src={`${HOST_ADDRESS}/images/${mini}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
                 <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>

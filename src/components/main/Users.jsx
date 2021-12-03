@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import { HOST_ADDRESS } from '../../config';
 
 import { useData } from '../../contexts/DataProvider';
+import setMain from '../../utils/setMain';
 
 import Search from '../Search';
 import UserList from '../UserList';
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 
-const Users = ({history, match}) => {
+const Users = ({main, history, match}) => {
 
-    const { users } = useData();
+    const [users, setUsers] = useState([]);
+    const getUsers = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users`);
+        if (response.ok) {
+            const users = await response.json();
+            setUsers(users);
+        }
+    };
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {
@@ -39,19 +46,19 @@ const Users = ({history, match}) => {
     });
 
     useEffect(() => {
+        getUsers();
+    }, []);
+
+    useEffect(() => {
         goUp();
+        setMain(main, match);
     }, [match]);
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="users main__content">
-                <Search handleSearch={handleSearch}/>
-                {users.length > 0 ? <UserList users={filteredUsers()}/> : null}
-            </div>
-            <RightSide />
-        </main>
+        <div className="users main__content">
+            <Search handleSearch={handleSearch}/>
+            {users.length > 0 ? <UserList users={filteredUsers()}/> : null}
+        </div>
      );
 }
  

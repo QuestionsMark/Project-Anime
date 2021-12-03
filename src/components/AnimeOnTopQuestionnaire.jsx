@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
 
-import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import { FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import { HOST_ADDRESS } from '../config';
 
-const AnimeOnTopQuestionnaire = ({id}) => {
+const AnimeOnTopQuestionnaire = ({id, animeTitlesList, getAnimeOnTop}) => {
 
     const [,,,, user] = useUser();
-    const { anime, setAnimeOnTop } = useData();
-    const getAnimeOnTop = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime-on-top/actual`);
-        if (response.ok) {
-            const animeOnTop = await response.json();
-            setAnimeOnTop(animeOnTop);
-        }
-    };
 
     const [vote, setVote] = useState('');
     const handleVoteChange = e => {
@@ -41,13 +32,13 @@ const AnimeOnTopQuestionnaire = ({id}) => {
     };
 
     const formAnimeList = () => {
-        return [...anime]
+        return animeTitlesList
             .sort((a, b) => {
                 if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
                 if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
                 return 0;
             })
-            .map(a => <MenuItem key={a.id} value={a.title}>{a.title}</MenuItem>);
+            .map(a => <MenuItem key={a.id} value={a.id}>{a.title}</MenuItem>);
     };
 
     return ( 

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router';
 
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import SingleNews from '../SingleNews';
 
-const News = ({isUserLogged}) => {
+import setMain from '../../utils/setMain';
+
+const News = ({main, history, match}) => {
 
     const [news, setNews] = useState([
         {
@@ -35,19 +36,22 @@ const News = ({isUserLogged}) => {
 
     const newsList = news.map(news => <SingleNews key={news.id} date={news.date} title={news.title} text={news.text}/>);
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+    useEffect(() => {
+        goUp();
+        setMain(main, match);
+    }, [match]);
+
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="news main__content">
-                <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
-                <div className="news__container">
-                    {newsList}
-                </div>
+        <div className="news main__content">
+            <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
+            <div className="news__container">
+                {newsList}
             </div>
-            <RightSide isUserLogged={isUserLogged}/>
-        </main>
+        </div>
      );
 }
  
-export default News;
+export default withRouter(News);

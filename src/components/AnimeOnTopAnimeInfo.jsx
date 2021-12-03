@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 import { useUser } from '../contexts/UserProvider';
-import { useData } from '../contexts/DataProvider';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
@@ -13,7 +12,7 @@ import { HOST_ADDRESS } from '../config';
 
 let prevScroll;
 
-const AnimeOnTopAnimeInfo = ({animeData}) => {
+const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
 
     const { id, rate, title, types, watchLink, images, soundtracks } = animeData;
     const img = images.mini.id;
@@ -23,14 +22,6 @@ const AnimeOnTopAnimeInfo = ({animeData}) => {
     const audio = useRef();
 
     const [,, authorization] = useUser();
-    const { setAnimeOnTop } = useData();
-    const getAnimeOnTop = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime-on-top/actual`);
-        if (response.ok) {
-            const animeOnTop = await response.json();
-            setAnimeOnTop(animeOnTop);
-        }
-    };
 
     const handleMusic = () => {
         if (audio.current.paused) {
@@ -65,6 +56,7 @@ const AnimeOnTopAnimeInfo = ({animeData}) => {
         await fetch(`${HOST_ADDRESS}/anime-on-top`, {
             method: 'POST'
         });
+        setAnimeData(null);
         getAnimeOnTop();
     };
 

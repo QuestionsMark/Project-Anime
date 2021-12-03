@@ -1158,7 +1158,9 @@ span.MuiTypography-body1 {
 
 .main__content {
   position: relative;
-  width: calc(62vw - 14px);
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   max-width: 1600px;
   min-height: 100vh;
   padding: 30px;
@@ -1193,6 +1195,8 @@ span.MuiTypography-body1 {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -1204,6 +1208,8 @@ span.MuiTypography-body1 {
 .main__rightSide {
   position: -webkit-sticky;
   position: sticky;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   right: 0;
   top: 5vh;
   width: 19vw;
@@ -1990,6 +1996,10 @@ div.galery {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+
+.filter__filters {
+  width: 100%;
 }
 
 .filter__title {
@@ -4322,16 +4332,7 @@ div.galery {
   color: red;
 }
 
-.create {
-  width: 100%;
-  max-width: none;
-  background-color: transparent;
-}
-
 .create__wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;

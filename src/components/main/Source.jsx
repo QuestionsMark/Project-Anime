@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router';
 
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
+import setMain from '../../utils/setMain';
 
-const Source = ({isUserLogged}) => {
+const Source = ({main, history, match}) => {
+
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+    useEffect(() => {
+        goUp();
+        setMain(main, match);
+    }, [match]);
+
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="source main__content">
-                <h2 className="source__title largeTitle scrollNav" data-id="4">Źródła</h2>
-                <div className="source__content">
-                    <p className="source__item">Grafiki &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wall.alphacoders.com/" target="_blank" rel="noreferrer" className="source__link">https://wall.alphacoders.com/</a></p>
-                    <p className="source__item">Informacje o anime &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://shinden.pl/" target="_blank" rel="noreferrer" className="source__link">https://shinden.pl/</a></p>
-                    <p className="source__item">Wzór, Pomysł &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://shinden.pl/" target="_blank" rel="noreferrer" className="source__link">https://shinden.pl/</a></p>
-                    <p className="source__item">Trailery &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.youtube.com/" target="_blank" rel="noreferrer" className="source__link">https://www.youtube.com/</a></p>
-                    <p className="source__item">Anime &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://anime-odcinki.pl/" target="_blank" rel="noreferrer" className="source__link">https://anime-odcinki.pl/</a></p>
-                </div>
+        <div className="source main__content">
+            <h2 className="source__title largeTitle scrollNav" data-id="4">Źródła</h2>
+            <div className="source__content">
+                <p className="source__item">Grafiki &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wall.alphacoders.com/" target="_blank" rel="noreferrer" className="source__link">https://wall.alphacoders.com/</a></p>
+                <p className="source__item">Informacje o anime &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://shinden.pl/" target="_blank" rel="noreferrer" className="source__link">https://shinden.pl/</a></p>
+                <p className="source__item">Wzór, Pomysł &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://shinden.pl/" target="_blank" rel="noreferrer" className="source__link">https://shinden.pl/</a></p>
+                <p className="source__item">Trailery &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.youtube.com/" target="_blank" rel="noreferrer" className="source__link">https://www.youtube.com/</a></p>
+                <p className="source__item">Anime &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://anime-odcinki.pl/" target="_blank" rel="noreferrer" className="source__link">https://anime-odcinki.pl/</a></p>
             </div>
-            <RightSide isUserLogged={isUserLogged}/>
-        </main>
+        </div>
      );
 }
  
-export default Source;
+export default withRouter(Source);

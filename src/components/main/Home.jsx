@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import LeftSide from '../LeftSide';
-import RightSide from '../RightSide';
 import AnimeOnTop from '../AnimeOnTop';
 import RecommendedProfiles from '../RecommendedProfiles';
 import LastNews from '../LastNews';
 import MyProjectsList from '../MyProjectsList';
 
-const Home = ({isUserLogged, history}) => {
+import setMain from '../../utils/setMain';
+
+const Home = ({main, history, match}) => {
+    console.log('render');
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
@@ -16,20 +17,16 @@ const Home = ({isUserLogged, history}) => {
 
     useEffect(() => {
         goUp();
-    }, []);
+        setMain(main, match);
+    }, [match]);
 
     return ( 
-        <main className="main">
-            <div className="curtain"></div>
-            <LeftSide />
-            <div className="home main__content">
-                <AnimeOnTop />
-                <RecommendedProfiles />
-                <LastNews />
-                <MyProjectsList />
-            </div>
-            <RightSide />
-        </main>
+        <div className="home main__content">
+            <AnimeOnTop />
+            <RecommendedProfiles />
+            <LastNews />
+            <MyProjectsList />
+        </div>
      );
 }
  
