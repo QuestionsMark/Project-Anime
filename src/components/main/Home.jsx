@@ -9,7 +9,6 @@ import MyProjectsList from '../MyProjectsList';
 import setMain from '../../utils/setMain';
 
 const Home = ({main, history, match}) => {
-    console.log('render');
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);

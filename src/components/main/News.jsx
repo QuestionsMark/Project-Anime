@@ -13,7 +13,6 @@ import { HOST_ADDRESS } from '../../config';
 const News = ({main, history, match}) => {
 
     const [news, setNews] = useState([]);
-    console.log(news);
     const getNews = async () => {
         const response = await fetch(`${HOST_ADDRESS}/news`);
         if (response.ok) {

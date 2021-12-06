@@ -86,8 +86,11 @@ const LeftNav = ({match}) => {
                     <Route path="/rules">
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>
                     </Route>
-                    <Route path="/news">
+                    <Route path="/news" exact>
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    </Route>
+                    <Route path="/news/:id">
+                        <Link to="/news" className="leftNav__Link">Wróć do listy</Link>
                     </Route>
                     <Route path="/source">
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>

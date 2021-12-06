@@ -23,7 +23,7 @@ const NewsPage = ({match}) => {
     };
 
     const otherLinksList = () => {
-        return otherLinks.map(l => <a href={l.link} key={l.id} className="news-page__link">{l.note ? l.note : 'Link'}</a>);
+        return otherLinks.map(l => <a href={l.link} key={l.id} target="_blank" rel="noreferrer" className="news-page__link">{l.note ? l.note : 'Link'}</a>);
     };
     const videosList = () => {
         return videos.map(v => <SingleVideo key={v.id} video={v}/>);
