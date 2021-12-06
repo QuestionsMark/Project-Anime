@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Button, FormControl, RadioGroup, Radio, FormLabel, FormControlLabel, Checkbox } from '@material-ui/core';
 import { SRLWrapper } from "simple-react-lightbox";
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
@@ -13,8 +14,9 @@ import NotFound from './NotFound';
 import previewImage from '../../media/img/hos-back20502.webp';
 
 import { HOST_ADDRESS } from '../../config';
+import setMain from '../../utils/setMain';
 
-const PageCreate = () => {
+const PageCreate = ({main, match, history}) => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
     const [,, authorization,,user] = useUser();
@@ -472,6 +474,14 @@ const PageCreate = () => {
         setSoundtrackPreview({ url: '', size: 0, type: '' });
     };
 
+    const goUp = history.listen(() => {
+        window.scrollTo(0, 0);
+    });
+    useEffect(() => {
+        goUp();
+        setMain(main, match);
+    }, [match]);
+
     useEffect(() => {
         getAnime();
         getTypes();
@@ -593,4 +603,4 @@ const PageCreate = () => {
      );
 }
  
-export default PageCreate;
+export default withRouter(PageCreate);

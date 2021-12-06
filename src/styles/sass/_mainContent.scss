@@ -17,7 +17,7 @@
     }
 
     &__section {
-        @include main-style;
+        @include page-style;
         padding: 30px;
         margin-bottom: 30px;
     }

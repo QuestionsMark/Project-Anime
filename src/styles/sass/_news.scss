@@ -4,22 +4,29 @@
         @extend .AOT__title;
     }
 
-    &__article {
-        @include main-style;
-        padding: 20px;
-        position: relative;
+    section.news>&__container {
         margin-bottom: 30px;
     }
 
     &__articleTitle {
-        @extend .AOT__questionnaireTitle;
+        display: block;
+        width: fit-content;
+        margin-bottom: 10px;
+        color: $font-color2;
+        font-size: 22px;
         text-align: left;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     &__date {
         position: absolute;
-        right: 30px;
-        top: 30px;
+        right: 10px;
+        bottom: 10px;
+        font-size: 12px;
     }
 
     &__text {
@@ -31,5 +38,262 @@
         width: fit-content;
         margin: auto;
         text-decoration: none;
+    }
+
+
+
+    &__add {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: 30px;
+        top: 30px;
+        height: 41px;
+        padding: 0 20px 0 15px;
+        // border-bottom: 2px solid transparent;
+        border-radius: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $main-color;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            // border-bottom: 2px solid $main-color;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    &__article {
+        @include page-style;
+        display: flex;
+        margin-bottom: 30px;
+
+        &:nth-last-of-type(1) {
+            margin-bottom: 0px;
+        }
+    }
+
+    &__article-image {
+        flex-shrink: 0;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        margin-right: 20px;
+        background-position: center;
+        background-size: cover;
+    }
+
+    &__article-content {
+        flex-grow: 1;
+    }
+
+    &__intro {
+        margin-bottom: 10px;
+    }
+
+    &__statistics {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &__stat {
+        display: flex;
+        align-items: center;
+        margin: 0 0 0 12px;
+        font-size: 14px;
+        font-weight: bold;
+
+        .news__stat-icon {
+            font-size: 16px;
+            margin-right: 4px;
+        }
+    }
+
+
+    &__popup-add {
+        @include position-absolute(50%, 50%);
+        @include page-style;
+        width: 1000px;
+        height: 700px;
+        box-shadow: 0 0 300px 60px black;
+        background-color: black;
+        overflow-y: scroll;
+
+        &-title {
+            margin-bottom: 20px;
+            text-align: center;
+            color: $main-color;
+        }
+
+        &-section {
+            margin-bottom: 20px;
+
+            &:nth-last-of-type(1) {
+                margin-bottom: 60px;
+            }
+        }
+
+        &-subtitle {
+            margin-bottom: 5px;
+        }
+
+        &-validation-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: red;
+        }
+
+        &-instruction {
+            color: red;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        &-instruction-step {
+            font-size: 13px;
+            text-indent: 10px;
+        }
+
+        &-flex {
+            display: flex;
+        }
+
+        &-other-link {
+            display: flex;
+        }
+
+        &-graphics {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            list-style: none;
+        }
+
+        &-single-graphic {
+            width: 73px;
+            height: 73px;
+            border: 3px solid black;
+            border-radius: 7px;
+            margin: 0 6px 6px 0;
+            background-position: center;
+            background-size: cover;
+            cursor: pointer;
+
+            &.active {
+                border: 3px solid $main-color;
+            }
+        }
+
+        .news__add-button {
+            padding: 10px 30px;
+            margin: auto;
+            font-size: 18px;
+        }
+    }
+
+    &-page {
+
+        &__title {
+            @include page-style;
+            background-color: black;
+            text-align: center;
+            color: $main-color;
+        }
+
+        &__section {
+            @include page-style;
+
+            &--flex {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            &--margin-none {
+                padding-bottom: 0;
+            }
+        }
+
+        &__list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            &--column {
+                flex-direction: column;
+            }
+
+            &--start {
+                justify-content: flex-start;
+            }
+        }
+
+        &__subtitle {
+            margin-bottom: 20px;
+        }
+
+        &__text {
+            margin-bottom: 20px;
+            text-indent: 20px;
+
+            &:nth-last-of-type(1) {
+                margin-bottom: 0;
+            }
+        }
+
+        &__iframe {
+            flex-basis: calc(33.3% - 13px);
+            min-height: 190px;
+            margin: 0 20px 20px 0;
+
+            &:nth-last-of-type(1) {
+                margin-right: 0;
+            }
+        }
+
+        &__image {
+            align-self: center;
+            width: calc(25% - 15px);
+            height: auto;
+            border-radius: 10px;
+            margin: 0 20px 20px 0;
+            cursor: pointer;
+
+            &:nth-child(4n) {
+                margin-right: 0;
+            }
+        }
+
+        &__other-link {
+            display: flex;
+        }
+
+        &__link {
+            margin-right: 10px;
+            color: $font-color2;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &__note {
+            margin-left: 10px;
+        }
+
+        &__stat {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            font-weight: bold;
+
+            .news-page__stat-icon {
+                margin-right: 5px;
+                font-size: 18px;
+            }
+        }
+
     }
 }

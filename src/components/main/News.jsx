@@ -1,40 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
+import Popup from 'reactjs-popup';
+
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
 import SingleNews from '../SingleNews';
 
 import setMain from '../../utils/setMain';
+import AddNews from '../AddNews';
+import { HOST_ADDRESS } from '../../config';
 
 const News = ({main, history, match}) => {
 
-    const [news, setNews] = useState([
-        {
-            id: 1,
-            date: "12:54 04.05.2021",
-            title: "Wiadomosć 1",
-            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate.",
-        },
-        {
-            id: 2,
-            date: "12:54 04.05.2021",
-            title: "Wiadomosć 2",
-            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate.",
-        },
-        {
-            id: 3,
-            date: "12:54 04.05.2021",
-            title: "Wiadomosć 3",
-            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate.",
-        },
-        {
-            id: 4,
-            date: "12:54 04.05.2021",
-            title: "Wiadomosć 4",
-            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem obcaecati soluta, laudantium ab, sequi voluptatibus sed doloribus architecto unde porro magni maiores ullam veniam natus magnam temporibus nulla odit? Voluptate.",
+    const [news, setNews] = useState([]);
+    console.log(news);
+    const getNews = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/news`);
+        if (response.ok) {
+            const news = await response.json();
+            setNews(news);
         }
-    ]);
+    };
 
-    const newsList = news.map(news => <SingleNews key={news.id} date={news.date} title={news.title} text={news.text}/>);
+    const newsList = () => {
+        return news.map(news => <SingleNews key={news.id} news={news}/>);
+    };
+
+    useEffect(() => {
+        getNews();
+    }, [])
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
@@ -47,8 +41,11 @@ const News = ({main, history, match}) => {
     return ( 
         <div className="news main__content">
             <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
+            <Popup modal nested closeOnDocumentClick={false} trigger={<div className="news__add"><AddRoundedIcon className="news__add-new-news"/> Dodaj Nowość</div>} on="click">
+                {close => <AddNews close={close} getNews={getNews}/>}
+            </Popup>
             <div className="news__container">
-                {newsList}
+                {newsList()}
             </div>
         </div>
      );

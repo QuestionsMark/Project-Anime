@@ -3,14 +3,23 @@
         @extend .AOT__title;
     }
 
-    &__SAOClicker {
-        @extend .AOT__questionnaire;
-        margin-bottom: 30px
+    &__article {
+        @include page-style;
+        margin-bottom: 30px;
+
+        &:nth-last-of-type(1) {
+            margin-bottom: 0;
+        }
     }
 
-    &__QMA {
-        @extend .AOT__questionnaire;
-    }
+    // &__SAOClicker {
+    //     @extend .AOT__questionnaire;
+    //     margin-bottom: 30px
+    // }
+
+    // &__QMA {
+    //     @extend .AOT__questionnaire;
+    // }
 
     &__info {
         flex-basis: calc(100% - 6vw - 20px)

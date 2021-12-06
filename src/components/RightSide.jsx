@@ -75,13 +75,8 @@ const RightSide = () => {
     }, []);
 
     useEffect(() => {
-        if (whatsTheMelody && status) {
-            getWTMComments();
-        }
-    }, [whatsTheMelody, status]);
-
-    useEffect(() => {
         if (status && whatsTheMelody) {
+            getWTMComments();
             checkDidUserVote();
         }
     }, [status, whatsTheMelody]);

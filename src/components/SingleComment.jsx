@@ -10,7 +10,7 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import { HOST_ADDRESS } from '../config';
 import { useLoginPopup } from '../contexts/LoginPopup';
 
-const SingleComment = ({comment, animeData, getAnime}) => {
+const SingleComment = ({comment, data, getData, collection}) => {
 
     const { id, userID, date, text, likes } = comment;
 
@@ -36,31 +36,31 @@ const SingleComment = ({comment, animeData, getAnime}) => {
 
     const handleLikeClick = async () => {
         if (status) {
-            await fetch(`${HOST_ADDRESS}/anime/comment/like`, {
+            await fetch(`${HOST_ADDRESS}/${collection}/comment/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    animeID: animeData.id,
+                    collectionID: data.id,
                     userID: user.id,
                     id,
                 }),
             });
-            getAnime();
+            getData();
         } else {
             setOpenLoginScreen(true);
         }
     };
 
     const handleRemove = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime/comment`, {
+        const response = await fetch(`${HOST_ADDRESS}/${collection}/comment`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                animeID: animeData.id,
+                collectionID: data.id,
                 id,
             }),
         });
@@ -71,6 +71,7 @@ const SingleComment = ({comment, animeData, getAnime}) => {
             setResponse({status: response.ok, message: error.message});
         }
         setOpen(true);
+        getData();
     };
 
     useEffect(() => {

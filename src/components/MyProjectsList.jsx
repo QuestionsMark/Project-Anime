@@ -10,7 +10,7 @@ const MyProjectsList = () => {
     return ( 
         <section className="myProjects main__section scrollNav" data-id="4">
             <h2 className="myProjects__title">Inne Moje Projekty</h2>
-            <div className="myProjects__SAOClicker">
+            <div className="myProjects__article">
                 <div className="myProjects__content">
                     <div className="myProjects__imgWrapper">
                         <img src={SAOImg} alt="obrazek" className="img" />
@@ -24,7 +24,7 @@ const MyProjectsList = () => {
                 <a href="http://www.clicker.questionmarksanime.pl" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Zagraj!</Button></a>
                 <Link to="/sword-art-online-clicker/ranking" className="myProjects__link"><Button className="button myProjects__button">Ranking</Button></Link>
             </div>
-            <div className="myProjects__QMA">
+            <div className="myProjects__article">
                 <div className="myProjects__content">
                     <div className="myProjects__imgWrapper">
                         <img src={QMAImg} alt="obrazek" className="img" />

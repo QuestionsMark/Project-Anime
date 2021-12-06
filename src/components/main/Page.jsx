@@ -149,7 +149,7 @@ const Page = ({main, match, history}) => {
                         <div className="page__info">
                             <div className="page__rate">
                                 {authorization === '2' || authorization === '3' ? <div className="page__adminChanges">
-                                    <Popup modal nested trigger={<SettingsRoundedIcon className="page__adminIcon" />} on="click">
+                                    <Popup modal nested closeOnDocumentClick={false} trigger={<SettingsRoundedIcon className="page__adminIcon" />} on="click">
                                         {close => <ChangesInfo close={close} anime={animeData}/>}
                                     </Popup>
                                 </div> : null}
@@ -171,7 +171,7 @@ const Page = ({main, match, history}) => {
                         </div>
                         <div className="page__galery">
                             {authorization === '2' || authorization === '3' ? <div className="page__adminChanges">
-                                <Popup modal nested trigger={<AddRoundedIcon className="page__adminIcon page__adminIcon--border" />} on="click">
+                                <Popup modal nested closeOnDocumentClick={false} trigger={<AddRoundedIcon className="page__adminIcon page__adminIcon--border" />} on="click">
                                     {close => <ChangesGalery animeData={animeData} close={close}/>}
                                 </Popup>
                             </div> : null}
@@ -208,14 +208,13 @@ const Page = ({main, match, history}) => {
                             </div>
                         </div>
                         <div className="page__types scrollNav" data-id="2">
-                            {/* <h3 className="page__typesTitle mediumTitle">Gatunek</h3> */}
                             <div className="page__typesList">
                                 {typesList()}
                             </div>
                         </div>
                         <div className="page__description scrollNav" data-id="3">
                             {(status && animeData.description.description.includes('Lorem ipsum')) || (user.rank === '2' || user.rank === '3') ? <div className="page__adminChanges">
-                                <Popup modal nested trigger={<SettingsRoundedIcon className="page__adminIcon" />} on="click">
+                                <Popup modal nested closeOnDocumentClick={false} trigger={<SettingsRoundedIcon className="page__adminIcon" />} on="click">
                                     {close => <ChangesDescription close={close} anime={animeData}/>}
                                 </Popup>
                             </div> : null}
@@ -230,7 +229,7 @@ const Page = ({main, match, history}) => {
                         </div>
                         <div className="page__audioInterface scrollNav" data-id="4">
                             {authorization === '2' || authorization === '3' ? <div className="page__adminChanges">
-                                <Popup modal nested trigger={<AddRoundedIcon className="page__adminIcon page__adminIcon--border" />} on="click">
+                                <Popup modal nested closeOnDocumentClick={false} trigger={<AddRoundedIcon className="page__adminIcon page__adminIcon--border" />} on="click">
                                     {close => <ChangesSoundtrack animeData={animeData} close={close} />}
                                 </Popup>
                             </div> : null}
@@ -239,7 +238,7 @@ const Page = ({main, match, history}) => {
                         </div>
                         <div className="page__seasons scrollNav" data-id="5">
                             {authorization === '2' || authorization === '3' ? <div className="page__adminChanges">
-                                <Popup modal nested trigger={<AddRoundedIcon className="page__adminIcon page__adminIcon--border" />} on="click">
+                                <Popup modal nested closeOnDocumentClick={false} trigger={<AddRoundedIcon className="page__adminIcon page__adminIcon--border" />} on="click">
                                     {close => <ChangesSeason close={close} animeData={animeData}/>}
                                 </Popup>
                             </div> : null}
@@ -248,7 +247,7 @@ const Page = ({main, match, history}) => {
                         </div>
                     </div>
                 </div>
-                <Comments animeData={animeData} getAnime={getAnime}/>
+                <Comments data={animeData} getData={getAnime} collection="anime"/>
             </div> : <div className="main__content scrollNav" data-id="1" />}
         </>
      );

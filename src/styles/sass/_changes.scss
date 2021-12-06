@@ -64,12 +64,12 @@
         position: absolute;
         right: 20px;
         top: 20px;
-        color: $main-color;
+        color: darken($main-color, 10%);
         font-size: 30px;
         cursor: pointer;
 
         &:hover {
-            color: darken($main-color, 10%);
+            color: $main-color;
         }
     }
 
@@ -107,6 +107,13 @@
         &:nth-last-of-type(1) {
             margin-bottom: 0;
         }
+    }
+
+    &__preview>img.img {
+        height: 200px;
+        width: auto;
+        border-radius: 10px;
+        margin: auto;
     }
 
     &__size {

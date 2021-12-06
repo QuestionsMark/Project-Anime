@@ -5,22 +5,22 @@ import { useUser } from '../contexts/UserProvider';
 import AddComment from './AddComment';
 import SingleComment from './SingleComment';
 
-const Comments = ({animeData, getAnime}) => {
+const Comments = ({data, getData, collection}) => {
 
     const [status] = useUser();
 
-    const { comments } = animeData;
+    const { comments } = data;
 
     const commentsList = () => {
         return [...comments]
             .reverse()
-            .map(c => <SingleComment key={c.id} comment={c} animeData={animeData} getAnime={getAnime}/>);
+            .map(c => <SingleComment key={c.id} comment={c} data={data} getData={getData} collection={collection}/>);
     };
 
     return ( 
         <div className="comments scrollNav" data-id="6">
             <h2 className="comments__title largeTitle">Komentarze</h2>
-            {status ? <AddComment getAnime={getAnime} animeData={animeData}/> : null}
+            {status ? <AddComment getData={getData} data={data} collection={collection}/> : null}
             <div className="comments__container">
                 <ul className="comments__list">
                     {commentsList()}

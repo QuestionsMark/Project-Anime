@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useLoginPopup } from '../contexts/LoginPopup';
 import { useUser } from '../contexts/UserProvider';
-import { useData } from '../contexts/DataProvider';
 import setContexts from '../utils/setContexts';
 
 import LeftSide from './LeftSide';
@@ -31,6 +30,7 @@ import PageCreate from './main/PageCreate';
 import MyProjects from './main/MyProjects';
 import SAOClicker from './SAOClicker';
 import Achievements from './main/Achievements';
+import NewsPage from './NewsPage';
 
 import { HOST_ADDRESS } from '../config';
 
@@ -130,8 +130,11 @@ function App() {
                     <Route path="/achievements">
                         <Achievements main={main} />
                     </Route>
-                    <Route path="/news">
+                    <Route path="/news" exact>
                         <News main={main} />
+                    </Route>
+                    <Route path="/news/:id">
+                        <NewsPage main={main} />
                     </Route>
                     <Route path="/rules">
                         <Rules main={main} />

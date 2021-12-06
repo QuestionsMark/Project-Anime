@@ -6,6 +6,7 @@ import { useUser } from '../contexts/UserProvider';
 import Icon from '@material-ui/core/Icon';
 import HomeIcon from '@material-ui/icons/Home';
 import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined';
+import RateReviewRounded from '@material-ui/icons/RateReviewRounded';
 import GroupIcon from '@material-ui/icons/Group';
 import ImageIcon from '@material-ui/icons/Image';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
@@ -52,11 +53,15 @@ const Nav = ({ history }) => {
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
+                        <NavLink to="/news" exact className="menu__link"><RateReviewRounded className="menu__icon"/>Wiadomości</NavLink>
+                        <div className="menu__border"></div>
+                    </li>
+                    <li className="menu__item">
                         <NavLink to="/users" exact className="menu__link"><GroupIcon className="menu__icon"/>Users</NavLink>
                         <div className="menu__border"></div>
                     </li>
                     <li className="menu__item">
-                        <NavLink to="/galery" className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
+                        <NavLink to="/galery" exact className="menu__link"><ImageIcon className="menu__icon"/>Galery</NavLink>
                         <div className="menu__border"></div>
                     </li>
                     {status ? <li className="menu__item"><NavLink to={`/users/${user.id}`} className="menu__link"><PersonRoundedIcon className="menu__icon"/>Profil</NavLink><div className="menu__border"></div></li> : null}

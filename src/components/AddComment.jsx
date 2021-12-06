@@ -7,7 +7,7 @@ import img from '../media/img/guest.png';
 import { HOST_ADDRESS } from '../config.js';
 import { useUser } from '../contexts/UserProvider';
 
-const AddComment = ({animeData, getAnime}) => {
+const AddComment = ({data, getData, collection}) => {
 
     const addCommentDiv = useRef();
     const textarea = useRef();
@@ -51,19 +51,19 @@ const AddComment = ({animeData, getAnime}) => {
             const date = new Date();
             setText('');
             textarea.current.blur();
-            await fetch(`${HOST_ADDRESS}/anime/comment`, {
+            await fetch(`${HOST_ADDRESS}/${collection}/comment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    animeID: animeData.id,
+                    collectionID: data.id,
                     userID: user.id,
                     date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
                     text,
                 }),
             });
-            getAnime();
+            getData();
         }
     };
 
