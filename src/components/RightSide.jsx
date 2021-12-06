@@ -84,7 +84,7 @@ const RightSide = () => {
     return ( 
         <div className="main__rightSide">
             {dailyAnime ? <DailyAnime dailyAnime={dailyAnime} handleRollDailyAnime={handleRollDailyAnime}/> : null}
-            {whatsTheMelody ? <WhatsTheMelody whatsTheMelody={whatsTheMelody} getWhatsTheMelody={getWhatsTheMelody} handleFinishWhatsTheMelody={handleFinishWhatsTheMelody} didUserVote={didUserVote} isChecked={isChecked}/> : null}
+            {whatsTheMelody && status ? <WhatsTheMelody whatsTheMelody={whatsTheMelody} getWhatsTheMelody={getWhatsTheMelody} handleFinishWhatsTheMelody={handleFinishWhatsTheMelody} didUserVote={didUserVote} isChecked={isChecked}/> : null}
             {status && whatsTheMelody && didUserVote ? <WhatsTheMelodyComments id={whatsTheMelody.id} whatsTheMelodyComments={whatsTheMelodyComments} getWTMComments={getWTMComments}/> : null}
         </div>
      );
