@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useLoginPopup } from '../contexts/LoginPopup';
 import { useUser } from '../contexts/UserProvider';
-import setContexts from '../utils/setContexts';
 
 import LeftSide from './LeftSide';
 import RightSide from './RightSide';
@@ -53,39 +52,18 @@ function App() {
     };
 
     const [, setStatus, , setAuthorization, , setUser] = useUser();
-    // const { setUsers, setAnime, setTypes, setAnimeOnTop, setDailyAnime, setWhatsTheMelody, setWhatsTheMelodyComments, setSaoClicker } = useData();
-
-    const checkUserStatus = async () => {
-        if (localStorage.getItem('animark-user-id')) {
-            try {
-                const response = await fetch(`${HOST_ADDRESS}/users/${JSON.parse(localStorage.getItem('animark-user-id'))}/status`);
-                if (response.ok) {
-                    setStatus(true);
-                    const { rank } = await response.json();
-                    setAuthorization(rank);
-                } else {
-                    setStatus(false);
-                    setAuthorization('1');
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    };
 
     const setApp = async () => {
-        const { users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking } = await setContexts(JSON.parse(localStorage.getItem('animark-user-id')));
-        // console.log({ users, user, anime, types, animeOnTop, dailyAnime, whatsTheMelody, whatsTheMelodyComments, SAOCRanking });
-        // setAnime(anime);
-        // setUsers(users);
-        setUser(user);
-        // setTypes(types);
-        // setAnimeOnTop(animeOnTop);
-        // setDailyAnime(dailyAnime);
-        // setWhatsTheMelody(whatsTheMelody);
-        // setWhatsTheMelodyComments(whatsTheMelodyComments);
-        // setSaoClicker(SAOCRanking);
-        checkUserStatus();
+        const response = await fetch(`${HOST_ADDRESS}/users/${JSON.parse(localStorage.getItem('animark-user-id'))}/authorization/${JSON.parse(localStorage.getItem('animark-token'))}`);
+        if (response.ok) {
+            const user = await response.json();
+            setStatus(true);
+            setAuthorization(user.rank);
+            setUser(user);
+        } else {
+            setStatus(false);
+            setAuthorization('1');
+        }
     };
 
     useEffect(() => {

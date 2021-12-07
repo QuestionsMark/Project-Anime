@@ -10,7 +10,6 @@ import { HOST_ADDRESS } from '../config';
 const LastNews = () => {
 
     const [news, setNews] = useState([]);
-    console.log(news);
     const getNews = async () => {
         const response = await fetch(`${HOST_ADDRESS}/news/last`);
         if (response.ok) {
@@ -20,7 +19,6 @@ const LastNews = () => {
     };
 
     const newsList = () => {
-        // const lastNews = [news[news.length - 1], news[news.length - 2]];
         return news.map(n => <SingleNews key={n.id} news={n}/>);
     }
 

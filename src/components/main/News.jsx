@@ -38,7 +38,7 @@ const News = ({main, history, match}) => {
     }, [match]);
 
     return ( 
-        <div className="news main__content">
+        <div className="news main__content scrollNav" data-id="4">
             <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
             <Popup modal nested closeOnDocumentClick={false} trigger={<div className="news__add"><AddRoundedIcon className="news__add-new-news"/> Dodaj Nowość</div>} on="click">
                 {close => <AddNews close={close} getNews={getNews}/>}

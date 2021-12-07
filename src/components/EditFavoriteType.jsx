@@ -6,18 +6,25 @@ import { useUser } from '../contexts/UserProvider';
 import { Button, FormControl, InputLabel, Select, MenuItem, } from '@material-ui/core';
 
 import { HOST_ADDRESS } from '../config';
-import { useData } from '../contexts/DataProvider';
 
 const EditFavoriteType = () => {
 
     const [, setOpen,, setResponse] = useResponsePopup();
     const [,,,,user, setUser] = useUser();
-    const { types } = useData();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {
             const user = await response.json();
             setUser(user);
+        }
+    };
+
+    const [types, setTypes] = useState([]);
+    const getTypes = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/types`);
+        if (response.ok) {
+            const types = await response.json();
+            setTypes(types);
         }
     };
 
@@ -39,7 +46,9 @@ const EditFavoriteType = () => {
         return errors;
     };
 
-    const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
+    const validationList = () => {
+        return validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
+    };
 
     const formTypeList = () => {
         return [...types]
@@ -82,14 +91,18 @@ const EditFavoriteType = () => {
     };
 
     useEffect(() => {
+        getTypes();
+    }, []);
+
+    useEffect(() => {
         setValidationErrors(checkValidation());
     }, [favoriteType]);
 
     useEffect(() => {
-        if (JSON.stringify(user) !== "{}"){
+        if (JSON.stringify(user) !== "{}" && types.length > 0){
             setEdit();
         }
-    }, [user]);
+    }, [user, types]);
 
     return ( 
         <div className="profileEdit__section">

@@ -149,7 +149,7 @@ const SingleAnime = ({anime, rate}) => {
                 <img src={`${HOST_ADDRESS}/images/${mini}`} alt="anime" className="img" />
             </div>
             <div className="animeList__animeContent">
-                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Popup className="normal-popup" on="hover" position="top center" trigger={<Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" />} mouseEnterDelay={200}>Seria odcinków</Popup> : <Popup className="normal-popup" on="hover" position="top center" trigger={<MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" />} mouseEnterDelay={200}>Film</Popup> }</Link>
                 <div className="animeList__types">
                     {animeTypes()}
                 </div>

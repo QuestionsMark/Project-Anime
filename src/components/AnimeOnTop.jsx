@@ -61,10 +61,10 @@ const AnimeOnTop = () => {
     }, [animeOnTop]);
 
     useEffect(() => {
-        if (status && animeOnTop) {
+        if (status && JSON.stringify(user) !== "{}" && animeOnTop) {
             checkDidUserVote();
         }
-    }, [animeOnTop, status]);
+    }, [animeOnTop, status, user]);
 
     return ( 
         <section className="AOT main__section scrollNav" data-id="1">

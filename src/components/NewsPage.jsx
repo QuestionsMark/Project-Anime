@@ -4,16 +4,20 @@ import { SRLWrapper } from "simple-react-lightbox";
 
 import RemoveRedEyeRounded from '@material-ui/icons/RemoveRedEyeRounded';
 import ForumRounded from '@material-ui/icons/ForumRounded';
+import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 
 import SingleVideo from './SingleVideo';
 import Comments from './Comments';
+import SingleNewsImage from './SingleNewsImage';
 
 import { HOST_ADDRESS } from '../config';
+import Popup from 'reactjs-popup';
+import UpdateNews from './UpdateNews';
 
 const NewsPage = ({match}) => {
 
     const [newsData, setNewsData] = useState({});
-    const { title, intro, description, createdAt, images, videos, otherLinks, comments, views } = newsData;
+    const { id, title, intro, description, createdAt, images, videos, otherLinks, comments, views } = newsData;
     const getNewsData = async () => {
         const response = await fetch(`${HOST_ADDRESS}/news/${match.params.id}`);
         if (response.ok) {
@@ -29,7 +33,7 @@ const NewsPage = ({match}) => {
         return videos.map(v => <SingleVideo key={v.id} video={v}/>);
     };
     const imagesList = () => {
-        return images.map(i => <img key={i.id} className="news-page__image" src={`${HOST_ADDRESS}/images/${i.id}`} alt={`Aktualności: ${title}`}/>);
+        return images.map(i => <SingleNewsImage key={i.id} id={i.id} _id={i._id} newsID={id} title={title} getNewsData={getNewsData}/>);
     };
 
     useEffect(() => {
@@ -39,7 +43,11 @@ const NewsPage = ({match}) => {
     return ( 
         <>
         {JSON.stringify(newsData) !== "{}" ? <div className="news-page main__content">
-            <h2 className="news-page__title">{title}</h2>
+            <h2 className="news-page__title">{title}
+                <Popup modal nested closeOnDocumentClick={false} trigger={<SettingsRoundedIcon className="news-page__update-icon"/>}>
+                    {close => <UpdateNews close={close} getNews={getNewsData} id={id}/>}
+                </Popup>
+            </h2>
             <div className="news-page__section">
                 <p className="news-page__text">{intro}</p>
                 <p className="news-page__text">{description}</p>

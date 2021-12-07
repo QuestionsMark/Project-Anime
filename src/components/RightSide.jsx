@@ -75,11 +75,11 @@ const RightSide = () => {
     }, []);
 
     useEffect(() => {
-        if (status && whatsTheMelody) {
+        if (status && JSON.stringify(user) !== "{}" && whatsTheMelody) {
             getWTMComments();
             checkDidUserVote();
         }
-    }, [status, whatsTheMelody]);
+    }, [status, user, whatsTheMelody]);
 
     return ( 
         <div className="main__rightSide">

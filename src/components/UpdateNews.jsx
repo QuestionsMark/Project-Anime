@@ -11,10 +11,19 @@ import { HOST_ADDRESS } from '../config';
 import SingleGraphic from './SingleGraphic';
 import SingleImagePreview from './SingleImagePreview';
 
-const AddNews = ({close, getNews}) => {
+const UpdateNews = ({close, getNews, id}) => {
 
     const [,,,, user] = useUser();
     const [, setOpen,, setResponse] = useResponsePopup();
+
+    const [newsData, setNewsData] = useState({});
+    const getNewsData = async () => {
+        const resposne = await fetch(`${HOST_ADDRESS}/news/${id}`);
+        if (resposne.ok) {
+            const newsData = await resposne.json();
+            setNewsData(newsData);
+        }
+    };
 
     const [graphics, setGraphics] = useState([]);
     const getGraphics = async () => {
@@ -165,32 +174,22 @@ const AddNews = ({close, getNews}) => {
             .map(g => <SingleGraphic key={g.id} graphic={g} choosedGraphics={choosedGraphics} setChoosedGraphics={setChoosedGraphics}/>);
     };
 
+    const showWord = () => {
+        switch (choosedGraphics.length) {
+            case 0:
+                return 'Grafik';
+            case 1:
+                return 'Grafikę';
+            case 5:
+                return 'Grafik';
+            default:
+                return 'Grafiki';
+        }
+    };
+
     const handleSave = async e => {
         e.preventDefault();
         if (validationErrors.length === 0) {
-            console.log({title, intro, description, videos, otherLinks, images, choosedGraphics});
-            setTitle('');
-            setIntro('');
-            setDescription('');
-            setVideos(['', '', '']);
-            setOtherLinks([
-                {
-                    link: '',
-                    note: '',
-                },
-                {
-                    link: '',
-                    note: '',
-                },
-                {
-                    link: '',
-                    note: '',
-                },
-            ]);
-            setChoosedGraphics([]);
-            setImages(null);
-            setPreview([]);
-
             const customImagesObjects = [];
 
             let imagesResponse;
@@ -210,7 +209,7 @@ const AddNews = ({close, getNews}) => {
                 }
             }
             if (imagesResponse?.ok || !imagesResponse) {
-                const response2 = await fetch(`${HOST_ADDRESS}/news`, {
+                const response2 = await fetch(`${HOST_ADDRESS}/news/${id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -244,13 +243,51 @@ const AddNews = ({close, getNews}) => {
     };
 
     useEffect(() => {
+        getNewsData();
         getGraphics();
     }, []);
 
     useEffect(() => {
+        if (JSON.stringify(newsData) !== "{}") {
+            const { title, intro, description, videos, otherLinks, images } = newsData;
+            setTitle(title);
+            setIntro(intro);
+            setDescription(description);
+            const videosState = [];
+            for (const { src } of videos) {
+                videosState.push(src);
+            }
+            if (videosState.length < 3) {
+                for (let i = videosState.length; i < 3; i++) {
+                    videosState.push('');
+                }
+            }
+            setVideos(videosState);
+            const otherLinksState = [];
+            for (const { link, note } of otherLinks) {
+                otherLinksState.push({
+                    link,
+                    note,
+                })
+            }
+            if (otherLinksState.length < 3) {
+                for (let i = otherLinksState.length; i < 3; i++) {
+                    otherLinksState.push({link: '', note: ''});
+                }
+            }
+            setOtherLinks(otherLinksState);
+            const graphicsState = [];
+            for (const { id } of images) {
+                graphicsState.push(id);
+            }
+            setChoosedGraphics(graphicsState);
+        }
+    }, [newsData, graphics]);
+
+    useEffect(() => {
         setValidationErrors(checkValidation());
     }, [title, intro, description, choosedGraphics, images]);
-    
+
     return ( 
         <div className="news__popup-add">
             <CloseRoundedIcon  className="changes__close-icon" onClick={close}/>
@@ -302,7 +339,7 @@ const AddNews = ({close, getNews}) => {
                 </div>
             </div>
             <div className="news__popup-add-other-section">
-                <h3 className="news__popup-add-subtitle">Grafiki (max 5)</h3>
+                <h3 className="news__popup-add-subtitle">Grafiki (max 5) (Obecnie post zawiera {choosedGraphics.length} {showWord()})</h3>
                 <input type="text" className="inputText" placeholder="Szukaj anime" value={searchPhrase} onChange={(e) => handleChangeTextData(e, 'search')}/>
                 <ul className="news__popup-add-graphics">
                     {graphicsToChoose()}
@@ -317,7 +354,7 @@ const AddNews = ({close, getNews}) => {
                     {previewList()}
                 </ul>
             </div> : null}
-            <Button className={`button news__add-button ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleSave}>Dodaj Post</Button>
+            <Button className={`button news__add-button ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleSave}>Zmodyfikuj</Button>
             <ul className="changes__validation-list">
                 {validationList()}
             </ul>
@@ -325,4 +362,4 @@ const AddNews = ({close, getNews}) => {
      );
 }
  
-export default AddNews;
+export default UpdateNews;
