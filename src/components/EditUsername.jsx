@@ -9,8 +9,8 @@ import { HOST_ADDRESS } from '../config';
 
 const EditUsername = () => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,,,user, setUser] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {

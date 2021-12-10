@@ -39,7 +39,7 @@ function App() {
 
     const [main, setMain] = useState(null);
 
-    const [open, setOpen] = useResponsePopup();
+    const { open, setOpen } = useResponsePopup();
     const { openLoginScreen, setOpenLoginScreen, openRegistrationScreen, setOpenRegistrationScreen } = useLoginPopup();
     const handleCloseResponsePopup = () => {
         setOpen(false);
@@ -51,7 +51,7 @@ function App() {
         setOpenRegistrationScreen(false);
     };
 
-    const [, setStatus, , setAuthorization, , setUser] = useUser();
+    const { setStatus, setAuthorization, setUser } = useUser();
 
     const setApp = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${JSON.parse(localStorage.getItem('animark-user-id'))}/authorization/${JSON.parse(localStorage.getItem('animark-token'))}`);

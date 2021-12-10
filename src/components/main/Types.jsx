@@ -18,12 +18,18 @@ const Types = ({main, history, match}) => {
     };
 
     const typesList = () => {
-        return types.map((t, i) => (
+        return types
+            .sort((a, b) => {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                return 0;
+            })
+            .map((t, i) => (
             <li className="types__item" key={t.id}>
                 <p className="types__index">{i + 1 + '.'}</p>
                 <Link to={`/types/${t.name}`} className="types__link">{t.name}</Link>
             </li>
-        ));
+            ));
     };
 
     useEffect(() => {

@@ -21,7 +21,7 @@ const SingleAnime = ({anime, rate}) => {
     const { id, title, types, kind, mini } = anime;
 
     const { setOpenLoginScreen } = useLoginPopup();
-    const [status,,,, user, setUser] = useUser();
+    const { status, user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         const data = await response.json();
@@ -145,9 +145,7 @@ const SingleAnime = ({anime, rate}) => {
 
     return ( 
         <li className="animeList__item">
-            <div className="animeList__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${mini}`} alt="anime" className="img" />
-            </div>
+            <div className="animeList__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${mini})` }}/>
             <div className="animeList__animeContent">
                 <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Popup className="normal-popup" on="hover" position="top center" trigger={<Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" />} mouseEnterDelay={200}>Seria odcinków</Popup> : <Popup className="normal-popup" on="hover" position="top center" trigger={<MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" />} mouseEnterDelay={200}>Film</Popup> }</Link>
                 <div className="animeList__types">

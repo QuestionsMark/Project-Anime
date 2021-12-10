@@ -5,7 +5,7 @@ import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
 const ServerResponse = () => {
 
-    const [, setOpen, response] = useResponsePopup();
+    const { setOpen, response } = useResponsePopup();
     const handleClose = () => {
         setOpen(false);
     };

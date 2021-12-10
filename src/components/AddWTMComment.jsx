@@ -7,7 +7,7 @@ const AddWTMComment = ({id, getWTMComments}) => {
 
     const addCommentContent = useRef();
 
-    const [,,,, user] = useUser();
+    const { user } = useUser();
 
     const [text, setText] = useState('');
     const handleTextChange = (e) => {

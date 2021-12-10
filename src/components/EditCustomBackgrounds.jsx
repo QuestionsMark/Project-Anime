@@ -10,8 +10,8 @@ import { HOST_ADDRESS } from '../config';
 
 const EditAvatar = () => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,,,user, setUser] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {
@@ -26,8 +26,8 @@ const EditAvatar = () => {
         ['Wybierz grafikę lub grafiki w podanych formatach jpg, jpeg, png, webp, gif.']
     );
     const handleChangeBackground = e => {
-        const file = e.target.files[0];
         if (e.target.files.length > 0) {
+            const file = e.target.files[0];
             const data = new FormData();
             data.append('myImg', file);
             const url = URL.createObjectURL(file);
@@ -35,6 +35,9 @@ const EditAvatar = () => {
             const type = file.type;
             setBackgroundPreview({url, size, type});
             setBackground(data);
+        } else {
+            setEdit();
+            setBackground(null);
         }
     };
 
@@ -115,10 +118,9 @@ const EditAvatar = () => {
                 <label htmlFor="background-upload" className="profileEdit__addFileLabel">Wybierz swoje tło</label>
                 <input type="file" id="background-upload" className="profileEdit__addFile" onChange={handleChangeBackground}/>
             </form>
-            {JSON.stringify(backgroundPreview) !== "{}" ? <div className ="profileEdit__preview">{backgroundPreview.url !== preview ? <p className="changes__size" style={{color: backgroundPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{backgroundPreview.size.toFixed(2)} MB {backgroundPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
-            <div className="profileEdit__img-preview profileEdit__img-preview--background">
-                <img src={backgroundPreview.url} alt="avatar" className="img"/>
-            </div></div> : null}
+            {background ? <div className ="profileEdit__preview">{backgroundPreview.url !== preview ? <p className="changes__size" style={{color: backgroundPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{backgroundPreview.size.toFixed(2)} MB {backgroundPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p> : null}
+            <div className="profileEdit__img-preview profileEdit__img-preview--background" style={{ backgroundImage: `url(${backgroundPreview.url})` }}/>
+            </div> : null}
             <Button className={`button profileEdit__save ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleSave}>Dodaj</Button>
             {validationErrors.length > 0 ? <ul className="changes__validation-list changes__validation-list--profile">
                 {validationList()}

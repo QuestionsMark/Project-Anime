@@ -10,7 +10,7 @@ import { HOST_ADDRESS } from '../config';
 
 const ProfilePrivate = ({match}) => {
 
-    const [,,,,user] = useUser();
+    const { user } = useUser();
 
     const inputPassword1 = useRef();
     const inputPassword2 = useRef();

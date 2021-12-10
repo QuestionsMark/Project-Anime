@@ -835,14 +835,15 @@ span.MuiTypography-body1 {
   margin: 0;
 }
 
-.DA__imgWrapper {
+.DA__image {
+  background-position: center;
+  background-size: cover;
   width: 4.5vw;
   height: 4.5vw;
   border-radius: 50%;
   margin-bottom: 10px;
   -webkit-box-shadow: 0 0 10px 2px #f50057;
           box-shadow: 0 0 10px 2px #f50057;
-  overflow: hidden;
 }
 
 .DA__rate {
@@ -1054,11 +1055,12 @@ span.MuiTypography-body1 {
   margin-bottom: 10px;
 }
 
-.WTMC__imgWrapper {
+.WTMC__image {
+  background-position: center;
+  background-size: cover;
   width: 2vw;
   height: 2vw;
   border-radius: 50%;
-  overflow: hidden;
 }
 
 .WTMC__commentContent {
@@ -1368,11 +1370,12 @@ div.galery {
   margin-right: 30px;
 }
 
-.AOT__imgWrapper {
+.AOT__image {
+  background-position: center;
+  background-size: cover;
   width: 8vw;
   height: 8vw;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .AOT__rate {
@@ -1510,7 +1513,7 @@ div.galery {
   margin-bottom: 0;
 }
 
-.AOT__questionnaire, .AOT__results {
+.AOT__questionnaire {
   padding: 30px;
   border-bottom: 1px solid #f50057;
   border-right: 1px solid #f50057;
@@ -1570,6 +1573,12 @@ div.galery {
   color: #f50057;
 }
 
+.AOT__results {
+  padding: 20px;
+  border-bottom: 2px solid #f50057;
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
 .AOT__resultsContainer {
   max-height: 300px;
   overflow-y: scroll;
@@ -1588,9 +1597,12 @@ div.galery {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 40px;
+  gap: 2.5%;
 }
 
 .RP__profile {
+  background-position: center;
+  background-size: cover;
   position: relative;
   -ms-flex-preferred-size: 18%;
       flex-basis: 18%;
@@ -1605,18 +1617,13 @@ div.galery {
       -ms-flex-align: center;
           align-items: center;
   padding: 10px;
-  border-right: 1px solid #f50057;
-  border-bottom: 1px solid #f50057;
+  border-right: 2px solid #f50057;
+  border-bottom: 2px solid #f50057;
   border-radius: 10px;
-  margin-right: 2.5%;
   text-decoration: none;
   overflow: hidden;
   -webkit-transition: 0.2s;
   transition: 0.2s;
-}
-
-.RP__profile:nth-last-of-type(1) {
-  margin-right: 0;
 }
 
 .RP__profile:hover {
@@ -1638,16 +1645,15 @@ div.galery {
   z-index: 0;
 }
 
-.RP__imgWrapper {
+.RP__image {
+  background-position: center;
+  background-size: cover;
+  position: relative;
   width: 7vw;
   height: 7vw;
   border: 2px solid #f50057;
   border-radius: 50%;
   margin: 18px;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-  z-index: 1;
 }
 
 .RP__likes {
@@ -1775,14 +1781,14 @@ section.news > .news__container {
 }
 
 .news__article-image {
+  background-position: center;
+  background-size: cover;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 100px;
   height: 100px;
   border-radius: 10px;
   margin-right: 20px;
-  background-position: center;
-  background-size: cover;
 }
 
 .news__article-content {
@@ -1899,13 +1905,13 @@ section.news > .news__container {
 }
 
 .news__popup-add-single-graphic {
+  background-position: center;
+  background-size: cover;
   width: 73px;
   height: 73px;
   border: 3px solid black;
   border-radius: 7px;
   margin: 0 6px 6px 0;
-  background-position: center;
-  background-size: cover;
   cursor: pointer;
 }
 
@@ -2107,11 +2113,12 @@ section.news > .news__container {
   margin-bottom: 20px;
 }
 
-.myProjects__imgWrapper {
+.myProjects__image {
+  background-position: center;
+  background-size: cover;
   width: 6vw;
   height: 6vw;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .myProjects__description {
@@ -2257,14 +2264,15 @@ section.news > .news__container {
   margin-left: 20px;
 }
 
-.animeList__imgWrapper {
+.animeList__image {
+  background-position: center;
+  background-size: cover;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 70px;
   height: 70px;
   border-radius: 10px;
   margin-bottom: 5px;
-  overflow: hidden;
 }
 
 .animeList__rate {
@@ -2602,10 +2610,10 @@ section.news > .news__container {
   padding: 20px;
   border-bottom: 2px solid #f50057;
   background-color: rgba(10, 10, 10, 0.5);
-  margin-bottom: 30px;
-  position: relative;
   background-position: center;
   background-size: cover;
+  margin-bottom: 30px;
+  position: relative;
   overflow: hidden;
 }
 
@@ -2648,6 +2656,8 @@ section.news > .news__container {
 }
 
 .userList__avatar {
+  background-position: center;
+  background-size: cover;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 142px;
@@ -2656,8 +2666,6 @@ section.news > .news__container {
   margin-right: 20px;
   -webkit-box-shadow: 0 0 20px 5px black;
           box-shadow: 0 0 20px 5px black;
-  background-position: center;
-  background-size: cover;
 }
 
 .userList__introduction {
@@ -2795,6 +2803,8 @@ section.news > .news__container {
 }
 
 .userList__favorite-anime-item {
+  background-position: center;
+  background-size: cover;
   display: block;
   -ms-flex-negative: 0;
       flex-shrink: 0;
@@ -2802,8 +2812,6 @@ section.news > .news__container {
   height: 70px;
   border-top-left-radius: 10px;
   margin-right: 12px;
-  background-position: center;
-  background-size: cover;
   -webkit-transition: 0.2s 0.05s;
   transition: 0.2s 0.05s;
 }
@@ -2825,6 +2833,8 @@ section.news > .news__container {
 }
 
 .userList__achievement {
+  background-position: center;
+  background-size: cover;
   position: relative;
   width: 45px;
   height: 45px;
@@ -3020,11 +3030,13 @@ section.news > .news__container {
       flex-basis: 20%;
 }
 
-.profile__imgWrapper {
+.profile__avatar {
+  position: relative;
+  background-position: center;
+  background-size: cover;
   width: 11.85vw;
   height: 11.85vw;
   border-radius: 40px;
-  overflow: hidden;
 }
 
 .profile__username {
@@ -3226,12 +3238,13 @@ section.news > .news__container {
   margin-bottom: 20px;
 }
 
-.profile__FAImgWrapper {
+.profile__FAImage {
+  background-position: center;
+  background-size: cover;
   width: 4vw;
   height: 4vw;
   border-radius: 10px;
   margin-right: 30px;
-  overflow: hidden;
 }
 
 .profile__FALink {
@@ -3341,13 +3354,14 @@ section.news > .news__container {
   text-align: center;
 }
 
-.profileAchievements__imgWrapper {
+.profileAchievements__image {
+  background-position: center;
+  background-size: cover;
   -ms-flex-preferred-size: 4vw;
       flex-basis: 4vw;
   height: 4vw;
   border-radius: 50%;
   margin-right: 20px;
-  overflow: hidden;
 }
 
 .profileAchievements__info {
@@ -3682,6 +3696,8 @@ section.news > .news__container {
 }
 
 .profileEdit__img-preview {
+  background-position: center;
+  background-size: cover;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 50%;
@@ -3703,6 +3719,8 @@ section.news > .news__container {
 }
 
 .profileEdit__img-preview--background {
+  width: 20vw;
+  height: 11.25vw;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -3964,6 +3982,8 @@ section.news > .news__container {
 }
 
 .page__baner {
+  background-position: center;
+  background-size: cover;
   position: relative;
   height: 23.5vw;
   border-bottom: 2px solid #f50057;
@@ -4556,11 +4576,12 @@ section.news > .news__container {
   border-bottom: none;
 }
 
-.comments__imgWrapper {
+.comments__image {
+  background-position: center;
+  background-size: cover;
   width: 5vw;
   height: 5vw;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .comments__content {
@@ -4669,11 +4690,12 @@ section.news > .news__container {
           align-items: center;
 }
 
-.addComment__imgWrapper {
+.addComment__image {
+  background-position: center;
+  background-size: cover;
   width: 5vw;
   height: 5vw;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .addComment__form {
@@ -4901,20 +4923,22 @@ section.news > .news__container {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 100px;
+  margin-bottom: 30px;
 }
 
 .create__preview-img {
-  width: 60%;
+  background-position: center;
+  background-size: cover;
+  width: 400px;
+  height: 225px;
   border-radius: 10px;
   margin: 0 20px;
-  cursor: pointer;
   overflow: hidden;
 }
 
 .create__preview-img--square {
-  width: 16vw;
-  height: 16vw;
+  width: 200px;
+  height: 200px;
 }
 
 .create__preview--mini {
@@ -5095,12 +5119,13 @@ section.news > .news__container {
           align-items: center;
 }
 
-.typePage__imgWrapper {
+.typePage__image {
+  background-position: center;
+  background-size: cover;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   margin-right: 20px;
-  overflow: hidden;
 }
 
 .typePage__username {
@@ -5303,26 +5328,6 @@ section.news > .news__container {
   transition: 0.3s;
 }
 
-.achievements__image.white {
-  color: #d0d0d0;
-}
-
-.achievements__image.green {
-  color: #00ff00;
-}
-
-.achievements__image.blue {
-  color: #0000ff;
-}
-
-.achievements__image.violet {
-  color: #ff00ff;
-}
-
-.achievements__image.gold {
-  color: #ffb700;
-}
-
 .rules__content {
   border-right: 1px solid #f50057;
   border-bottom: 1px solid #f50057;
@@ -5403,6 +5408,10 @@ section.news > .news__container {
   cursor: pointer;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+}
+
+.SAOCRanking__filter.active {
+  color: #f50057;
 }
 
 .SAOCRanking__filter:hover {

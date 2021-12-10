@@ -26,11 +26,11 @@
         margin-bottom: 10px;
     }
 
-    &__imgWrapper {
+    &__image {
+        @include image;
         width: 2vw;
         height: 2vw;
         border-radius: 50%;
-        overflow: hidden;
     }
 
     &__commentContent {

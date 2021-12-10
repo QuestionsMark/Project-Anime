@@ -21,7 +21,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
     const { id, title, types, kind, mini } = anime;
 
     const { setOpenLoginScreen } = useLoginPopup();
-    const [status,,,,user, setUser] = useUser();
+    const { status, user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         const data = await response.json();
@@ -146,9 +146,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
     return ( 
         <li className="animeList__item">
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
-            <div className="animeList__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${mini}`} alt="anime" className="img" />
-            </div>
+            <div className="animeList__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${mini})` }}/>
             <div className="animeList__animeContent">
                 <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>
                 <div className="animeList__types">

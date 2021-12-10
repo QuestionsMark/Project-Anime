@@ -9,7 +9,7 @@ import WhatsTheMelodyComments from './WhatsTheMelodyComments';
 
 const RightSide = () => {
 
-    const [status,,,, user] = useUser();
+    const { status, user } = useUser();
 
     const [dailyAnime, setDailyAnime] = useState(null);
     const getDailyAnime = async () => {

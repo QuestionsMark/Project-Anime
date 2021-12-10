@@ -25,8 +25,8 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
 
     const {id, composer, title, likes} = soundtrack;
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,authorization,,user] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { authorization, user } = useUser();
 
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00:00');

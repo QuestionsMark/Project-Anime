@@ -13,8 +13,8 @@ const SingleCustomBackground = ({background}) => {
 
     const { id } = background;
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,,, user, setUser] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {
@@ -71,7 +71,7 @@ const SingleCustomBackground = ({background}) => {
         <>
         <div className="profileEdit__background-image-container">
             <RemoveRoundedIcon className="profileEdit__background-remove-icon" onClick={() => {handleOpenConfirmPopup(id)}}/>
-            <img key={id} className={`profileEdit__backgroundImg ${id === user.background ? 'chosedBG' : ''}`} data-id={id} src={`${HOST_ADDRESS}/images/${id}`} alt="asd" onClick={handleSave}/>
+            <img key={id} className={`profileEdit__backgroundImg ${id === user.background ? 'chosedBG' : ''}`} src={`${HOST_ADDRESS}/images/${id}`} alt="custom background" onClick={handleSave}/>
         </div>
         <Popup open={openConfirmPopup} modal closeOnDocumentClick onClose={handleCloseConfirmPopup}>
             <div className="profileEdit__confirm-popup">

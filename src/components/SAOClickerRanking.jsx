@@ -6,11 +6,12 @@ const SAOClickerRanking = ({saoClicker}) => {
 
     const [top, setTop] = useState([]);
 
-
     const handleFilterChange = (e) => {
         const filter = e.target.getAttribute('data-filter');
+        document.querySelectorAll('.SAOCRanking__filter').forEach(f => f.classList.remove('active'));
+        e.target.classList.add('active');
         if (filter === 'time') {
-            const sorted = [...saoClicker].sort((a, b) => {
+            const sorted = saoClicker.sort((a, b) => {
                 const timeValuesA = a.completionTime.split(':');
                 let timeA = 0;
                 timeA += timeValuesA[0] * 3600;
@@ -23,57 +24,37 @@ const SAOClickerRanking = ({saoClicker}) => {
                 timeB += timeValuesB[1] * 60;
                 timeB += timeValuesB[2] * 1;
 
-                if (timeA > timeB) {
-                    return 1;
-                } else if (timeA < timeB) {
-                    return -1;
-                } else if (a.username.toLowerCase() > b.username.toLowerCase()) {
-                    return 1;
-                } else if (a.username.toLowerCase() < b.username.toLowerCase()) {
-                    return -1;
-                }
+                if (timeA > timeB) return 1;
+                if (timeA < timeB) return -1;
+                if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
+                if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
                 return 0;
             });
             setTop(sorted);
         } else if (filter === 'lvl') {
-            const sorted = [...saoClicker].sort((a, b) => {
-                if (a.lvl > b.lvl) {
-                    return 1;
-                } else if (a.lvl < b.lvl) {
-                    return -1;
-                } else if (a.username.toLowerCase() > b.username.toLowerCase()) {
-                    return 1;
-                } else if (a.username.toLowerCase() < b.username.toLowerCase()) {
-                    return -1;
-                }
+            const sorted = saoClicker.sort((a, b) => {
+                if (a.lvl > b.lvl) return 1;
+                if (a.lvl < b.lvl) return -1;
+                if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
+                if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
                 return 0;
             });
             setTop(sorted);
         } else if (filter === 'achievements') {
-            const sorted = [...saoClicker].sort((a, b) => {
-                if (a.achievements > b.achievements) {
-                    return -1;
-                } else if (a.achievements < b.achievements) {
-                    return 1;
-                } else if (a.username.toLowerCase() > b.username.toLowerCase()) {
-                    return 1;
-                } else if (a.username.toLowerCase() < b.username.toLowerCase()) {
-                    return -1;
-                }
+            const sorted = saoClicker.sort((a, b) => {
+                if (a.achievements > b.achievements) return -1;
+                if (a.achievements < b.achievements) return 1;
+                if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
+                if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
                 return 0;
             });
             setTop(sorted);
         } else if (filter === 'swordsAmount') {
-            const sorted = [...saoClicker].sort((a, b) => {
-                if (a.swords > b.swords) {
-                    return 1;
-                } else if (a.swords < b.swords) {
-                    return -1;
-                } else if (a.username.toLowerCase() > b.username.toLowerCase()) {
-                    return 1;
-                } else if (a.username.toLowerCase() < b.username.toLowerCase()) {
-                    return -1;
-                }
+            const sorted = saoClicker.sort((a, b) => {
+                if (a.swords > b.swords) return 1;
+                if (a.swords < b.swords) return -1;
+                if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
+                if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
                 return 0;
             });
             setTop(sorted);
@@ -86,7 +67,7 @@ const SAOClickerRanking = ({saoClicker}) => {
 
     useEffect(() => {
         if (saoClicker) {
-            const sorted = [...saoClicker].sort((a, b) => {
+            const sorted = saoClicker.sort((a, b) => {
                 const timeValuesA = a.completionTime.split(':');
                 let timeA = 0;
                 timeA += timeValuesA[0] * 3600;
@@ -99,15 +80,10 @@ const SAOClickerRanking = ({saoClicker}) => {
                 timeB += timeValuesB[1] * 60;
                 timeB += timeValuesB[2] * 1;
 
-                if (timeA > timeB) {
-                    return 1;
-                } else if (timeA < timeB) {
-                    return -1;
-                } else if (a.username.toLowerCase() > b.username.toLowerCase()) {
-                    return 1;
-                } else if (a.username.toLowerCase() < b.username.toLowerCase()) {
-                    return -1;
-                }
+                if (timeA > timeB) return 1;
+                if (timeA < timeB) return -1;
+                if (a.username.toLowerCase() > b.username.toLowerCase()) return 1;
+                if (a.username.toLowerCase() < b.username.toLowerCase()) return -1;
                 return 0;
             });
             setTop(sorted);
@@ -117,7 +93,7 @@ const SAOClickerRanking = ({saoClicker}) => {
     return ( 
         <>
             <div className="SAOCRanking__filters">
-                <p className="SAOCRanking__filter" onClick={handleFilterChange} data-filter="time">Czas</p>
+                <p className="SAOCRanking__filter active" onClick={handleFilterChange} data-filter="time">Czas</p>
                 <p className="SAOCRanking__filter" onClick={handleFilterChange} data-filter="lvl">Poziom</p>
                 <p className="SAOCRanking__filter" onClick={handleFilterChange} data-filter="achievements">Osiągnięcia</p>
                 <p className="SAOCRanking__filter" onClick={handleFilterChange} data-filter="swordsAmount">Ilość mieczy</p>

@@ -7,7 +7,7 @@ import SingleComment from './SingleComment';
 
 const Comments = ({data, getData, collection}) => {
 
-    const [status] = useUser();
+    const { status } = useUser();
 
     const { comments } = data;
 

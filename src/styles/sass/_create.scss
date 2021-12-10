@@ -125,19 +125,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 100px;
+        margin-bottom: 30px;
     }
 
     &__preview-img {
-        width: 60%;
+        @include image;
+        width: 400px;
+        height: 225px;
         border-radius: 10px;
         margin: 0 20px;
-        cursor: pointer;
         overflow: hidden;
 
         &--square {
-            width: 16vw;
-            height: 16vw;
+            width: 200px;
+            height: 200px;
         }
     }
 

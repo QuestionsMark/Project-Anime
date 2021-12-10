@@ -18,9 +18,7 @@ const Achievement = ({achievement}) => {
     };
 
     return ( 
-        <Popup on="hover" className="normal-popup" trigger={<div className="userList__achievement">
-            <img src={`${HOST_ADDRESS}/icons/${icon}`} alt="achievement" className="img userList__achievementImg" />
-        </div>} mouseEnterDelay={200} position="top center">
+        <Popup on="hover" className="normal-popup" trigger={<div className="userList__achievement" style={{ backgroundImage: `url(${HOST_ADDRESS}/icons/${icon})` }}/>} mouseEnterDelay={200} position="top center">
             <div className="userList__achievementInfo">
                 <p className="userList__achievement-title">{name}</p>
                 <p className="userList__achievement-level">{stars()}</p>

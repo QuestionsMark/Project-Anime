@@ -13,7 +13,7 @@ export function UserProvider({ children }) {
     const [user, setUser] = useState({});
 
     return (
-        <UserContext.Provider value={[status, setStatus, authorization, setAuthorization, user, setUser]}>
+        <UserContext.Provider value={{ status, setStatus, authorization, setAuthorization, user, setUser }}>
             {children}
         </UserContext.Provider>
     );

@@ -37,13 +37,13 @@
         margin: 0;
     }
 
-    &__imgWrapper {
+    &__image {
+        @include image;
         width: 4.5vw;
         height: 4.5vw;
         border-radius: 50%;
         margin-bottom: 10px;
         box-shadow: 0 0 10px 2px $main-color;
-        overflow: hidden;
     }
 
     &__rate {

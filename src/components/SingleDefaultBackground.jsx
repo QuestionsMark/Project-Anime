@@ -6,7 +6,7 @@ import { HOST_ADDRESS } from '../config';
 
 const SingleDefaultBackground = ({b}) => {
 
-    const [,,,, user, setUser] = useUser();
+    const { user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {
@@ -31,7 +31,7 @@ const SingleDefaultBackground = ({b}) => {
 
     return ( 
         <div className="profileEdit__background-image-container">
-            <img key={b} className={`profileEdit__backgroundImg ${b === user.background ? 'chosedBG' : ''}`} data-id={b} src={`${HOST_ADDRESS}/images/${b}`} alt="asd" onClick={handleSave}/>
+            <img key={b} className={`profileEdit__backgroundImg ${b === user.background ? 'chosedBG' : ''}`} src={`${HOST_ADDRESS}/images/${b}`} alt="default background" onClick={handleSave}/>
         </div>
      );
 }

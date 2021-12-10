@@ -6,19 +6,10 @@
 
     &__item {
         @include page-style;
+        @include image;
         margin-bottom: 30px;
         position: relative;
-        // padding: 20px;
-        // border-right: 1px solid $main-color;
-        // border-bottom: 1px solid $main-color;
-        // border-radius: 10px;
-        // margin-bottom: 20px;
-        // box-shadow: 3px 3px 8px 2px black;
-        background-position: center;
-        background-size: cover;
         overflow: hidden;
-        // background-attachment: fixed;
-        // transition: 0.4s;
 
         &:nth-last-of-type(1) {
             margin-bottom: 0
@@ -56,6 +47,7 @@
     }
 
     &__avatar {
+        @include image;
         flex-shrink: 0;
         width: 142px;
         height: 142px;
@@ -63,8 +55,6 @@
         border-radius: 50%;
         margin-right: 20px;
         box-shadow: 0 0 20px 5px black;
-        background-position: center;
-        background-size: cover;
     }
 
     &__introduction {
@@ -181,14 +171,13 @@
     }
 
     &__favorite-anime-item {
+        @include image;
         display: block;
         flex-shrink: 0;
         width: 56px;
         height: 70px;
         border-top-left-radius: 10px;
         margin-right: 12px;
-        background-position: center;
-        background-size: cover;
         transition: 0.2s 0.05s;
 
         &:hover {
@@ -203,6 +192,7 @@
     }
 
     &__achievement {
+        @include image;
         position: relative;
         width: 45px;
         height: 45px;

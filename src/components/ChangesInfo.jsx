@@ -11,7 +11,7 @@ const ChangesInfo = ({close, anime}) => {
 
     const saveButton = useRef();
 
-    const [, setOpen,, setResponse] = useResponsePopup();
+    const { setOpen, setResponse } = useResponsePopup();
 
     const [scenario, setScenario] = useState('');
     const [productionDate, setProductionDate] = useState('');
@@ -75,6 +75,7 @@ const ChangesInfo = ({close, anime}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            close();
         }
     };
 

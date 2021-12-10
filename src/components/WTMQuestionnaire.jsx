@@ -11,7 +11,7 @@ import { useUser } from '../contexts/UserProvider';
 
 const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody}) => {
 
-    const [,,,, user] = useUser();
+    const { user } = useUser();
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [duration, setDuration] = useState(null);

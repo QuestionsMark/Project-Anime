@@ -8,9 +8,9 @@ import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
 const SingleNewsImage = ({id, _id, newsID, title, getNewsData}) => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
+    const { setOpen, setResponse } = useResponsePopup();
 
-    const [,, authorization] = useUser();
+    const { authorization } = useUser();
 
     const handleRemoveImage = async () => {
         let graphics = [];

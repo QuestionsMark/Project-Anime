@@ -10,8 +10,8 @@ import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
 const ChangesDescription = ({close, anime}) => {
 
-    const [,setOpen,, setResponse] = useResponsePopup();
-    const [,,,,user] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user } = useUser();
 
     const [description, setDesription] = useState('');
     const [validationErrors, setValidationErrors] = useState(
@@ -55,6 +55,7 @@ const ChangesDescription = ({close, anime}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            close();
         }
     };
 

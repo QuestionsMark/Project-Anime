@@ -9,7 +9,8 @@ import { HOST_ADDRESS } from '../config';
 
 const AnimeOnTop = () => {
 
-    const [status,,,,user] = useUser();
+    const { status, user } = useUser();
+    
     const [animeOnTop, setAnimeOnTop] = useState(null);
     const getAnimeOnTop = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime-on-top/actual`);

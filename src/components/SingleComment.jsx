@@ -15,8 +15,8 @@ const SingleComment = ({comment, data, getData, collection}) => {
     const { id, userID, date, text, likes } = comment;
 
     const { setOpenLoginScreen } = useLoginPopup();
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [status,,authorization,,user] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { status, authorization, user } = useUser();
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
     const [username, setUsername] = useState('');
@@ -83,9 +83,7 @@ const SingleComment = ({comment, data, getData, collection}) => {
             {authorization === '2' || authorization === '3' ? <div className="page__adminChanges page__adminChanges--com">
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
             </div> : null}
-            <div className="comments__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="avatar" className="img" />
-            </div>
+            <div className="comments__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})` }}/>
             <div className="comments__content">
                 <div className="comments__info">
                     <Link to={`/users/${userID}`} className="comments__nick">{username}</Link>

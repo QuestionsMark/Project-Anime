@@ -9,8 +9,8 @@ import { HOST_ADDRESS } from '../config';
 
 const EditAvatar = () => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,,,user, setUser] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {
@@ -25,8 +25,8 @@ const EditAvatar = () => {
         ['Wybierz grafikę lub grafiki w podanych formatach jpg, jpeg, png, webp, gif.']
     );
     const handleChangeAvatar = e => {
-        const file = e.target.files[0];
         if (e.target.files.length > 0) {
+            const file = e.target.files[0];
             const data = new FormData();
             data.append('myImg', file);
             const url = URL.createObjectURL(file);
@@ -34,6 +34,9 @@ const EditAvatar = () => {
             const type = file.type;
             setAvatarPreview({url, size, type});
             setAvatar(data);
+        } else {
+            setAvatar(null);
+            setEdit();
         }
     };
 
@@ -116,12 +119,9 @@ const EditAvatar = () => {
                 <input type="file" id="avatar-upload" className="profileEdit__addFile" onChange={handleChangeAvatar}/>
             </form>
             {JSON.stringify(avatarPreview) !== "{}" ? <div className ="profileEdit__preview">{avatarPreview.url !== `${HOST_ADDRESS}/images/${user.avatar}` ? <p className="changes__size" style={{color: avatarPreview.size < 0.524288 ? '#5ec45e' : '#d14141'}}>{avatarPreview.size.toFixed(2)} MB {avatarPreview.size < 0.524288 ? 'OK' : 'Plik jest za duży!'}</p> : null}
-            <div className="profileEdit__img-preview profileEdit__img-preview--square">
-                <img src={avatarPreview.url} alt="avatar" className="img"/>
-            </div>
-            <div className="profileEdit__img-preview profileEdit__img-preview--round">
-                <img src={avatarPreview.url} alt="avatar" className="img"/>
-            </div></div> : null}
+            <div className="profileEdit__img-preview profileEdit__img-preview--square" style={{ backgroundImage: `url(${avatarPreview.url})` }}/>
+            <div className="profileEdit__img-preview profileEdit__img-preview--round" style={{ backgroundImage: `url(${avatarPreview.url})` }}/>
+            </div> : null}
             <Button className={`button profileEdit__save ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleSave}>Zapisz</Button>
             {validationErrors.length > 0 ? <ul className="changes__validation-list changes__validation-list--profile">
                 {validationList()}

@@ -4,7 +4,7 @@ import { useUser } from '../contexts/UserProvider';
 
 const ProfileNav = ({match}) => {
 
-    const [status] = useUser();
+    const { status } = useUser();
 
     const [isAuthorized, setIsAuthorized] = useState(false);
 

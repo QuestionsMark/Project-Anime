@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
-import { useData } from '../contexts/DataProvider';
 import { useUser } from '../contexts/UserProvider';
 
 import { Button } from '@material-ui/core';
@@ -16,15 +15,7 @@ import { HOST_ADDRESS } from '../config';
 
 const UserRate = ({animeData, getAnime}) => {
 
-    const { setAnime } = useData();
-    const getAllAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime`);
-        if (response.ok) {
-            const anime = await response.json();
-            setAnime(anime);
-        }
-    };
-    const [,,,, user, setUser] = useUser();
+    const { user, setUser } = useUser();
     const getUser = async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}`);
         if (response.ok) {
@@ -49,7 +40,6 @@ const UserRate = ({animeData, getAnime}) => {
         });
         getUser();
         getAnime();
-        getAllAnime();
     };
 
     const handleMouseEnter = (e) => {

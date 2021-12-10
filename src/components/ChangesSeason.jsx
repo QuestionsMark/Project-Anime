@@ -11,7 +11,7 @@ import { HOST_ADDRESS } from '../config';
 
 const ChangesSeason = ({close, animeData}) => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
+    const { setOpen, setResponse } = useResponsePopup();
 
     const [anime, setAnime] = useState([]);
     const getAnime = async () => {
@@ -94,6 +94,7 @@ const ChangesSeason = ({close, animeData}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            close();
         }
     };
 

@@ -23,7 +23,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
 
     const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = profileData;
 
-    const [status] = useUser();
+    const { status } = useUser();
 
     const [isUserProfileLover, setIsUserProfileLover] = useState(false);
 
@@ -112,9 +112,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
         <div className="profile__content">
             <div className="profile__homeContent">
                 <div className="profile__leftSide">
-                    <div className="profile__imgWrapper">
-                        <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="" className="img" />
-                    </div>
+                    <div className="profile__avatar" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})` }}/>
                     <p className="profile__username">{username}</p>
                     <div className="profile__info">
                         <p className="profile__infoBlock">Polubienia: {likes.length}</p>

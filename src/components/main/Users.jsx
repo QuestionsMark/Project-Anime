@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { HOST_ADDRESS } from '../../config';
 
-import { useData } from '../../contexts/DataProvider';
 import setMain from '../../utils/setMain';
 
 import Search from '../Search';

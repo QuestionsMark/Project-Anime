@@ -11,9 +11,7 @@ const SingleFavoriteAnime = ({anime}) => {
 
     return ( 
         <li className="profile__FA-item">
-            <div className="profile__FAImgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${image}`} alt="favAnime" className="img" />
-            </div>
+            <div className="profile__FAImage" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${image})` }}/>
             <Link to={`/anime/${id}`} className="profile__FALink">{title}</Link>
             <div className="profile__FARate">
                 <StarRateRoundedIcon className="profile__FARateIcon"/>

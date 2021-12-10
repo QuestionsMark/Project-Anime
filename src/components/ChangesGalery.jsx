@@ -12,8 +12,8 @@ import { HOST_ADDRESS } from '../config';
 
 const ChangesGalery = ({close, animeData}) => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,,,user] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user } = useUser();
 
     const [validationErrors, setValidationErrors] = useState(
         ['Wybierz grafikę lub grafiki typu jpg, jpeg, png, webp, gif.']
@@ -60,6 +60,21 @@ const ChangesGalery = ({close, animeData}) => {
 
     const previewList = () => imagesPreview.map((p, i) => <SingleImagePreview key={i} image={p} />);
 
+    const responseMessage = (value) => {
+        switch (value) {
+            case 1:
+                return 'Galeria została powiększona o 1 grafikę.';
+            case 2:
+                return 'Galeria została powiększona o 2 grafiki.';
+            case 3:
+                return 'Galeria została powiększona o 3 grafiki.';
+            case 4:
+                return 'Galeria została powiększona o 4 grafiki.';
+            default:
+                return `Galeria została powiększona o ${value} grafik.`;
+        }
+    };
+
     const handleSave = async e => {
         e.preventDefault();
         if (validationErrors.length === 0) {
@@ -84,7 +99,7 @@ const ChangesGalery = ({close, animeData}) => {
                     }),
                 });
                 if (response2.ok) {
-                    setResponse({status: response2.ok, message: `Galeria została powiększona o ${images.length} grafik.`});
+                    setResponse({status: response2.ok, message: responseMessage(images.length)});
                 } else {
                     const error = await response2.json();
                     setResponse({status: response2.ok, message: error.message});
@@ -95,6 +110,7 @@ const ChangesGalery = ({close, animeData}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            close();
         }
     };
 

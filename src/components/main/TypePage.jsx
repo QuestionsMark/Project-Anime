@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { useData } from '../../contexts/DataProvider';
-
 import SingleTopAnime from '../SingleTopAnime';
 import SingleTypeLover from '../SingleTypeLover';
 
 import { HOST_ADDRESS } from '../../config';
 
 const TypePage = ({match, history}) => {
-
-    const { users, anime } = useData();
 
     const [typeData, setTypeData] = useState(null);
     const getType = async () => {
@@ -21,19 +17,26 @@ const TypePage = ({match, history}) => {
         }
     };
 
+    const [users, setUsers] = useState([]);
+    const getUsers = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/users/type/${match.params.type}`);
+        if (response.ok) {
+            const users = await response.json();
+            setUsers(users);
+        }
+    };
+
+    const [anime, setAnime] = useState([]);
+    const getAnime = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime/type/${match.params.type}`);
+        if (response.ok) {
+            const anime = await response.json();
+            setAnime(anime);
+        }
+    };
+
     const animeList = () => {
         return [...anime]
-            .filter(a => {
-                let has = true;
-                let types = [];
-                a.types.forEach(t => {
-                    types.push(t.name);
-                });
-                if (types.indexOf(typeData.name) === -1) {
-                    has = false;
-                }
-                return has;
-            })
             .sort((a, b) => {
                 let averageA = 0;
                 if (a.rate.length > 0) {
@@ -70,7 +73,6 @@ const TypePage = ({match, history}) => {
 
     const userList = () => {
         return [...users]
-            .filter(u => u.favoriteType === typeData.name)
             .sort((a, b) => {
                 if (a.likes > b.likes) return -1;
                 if (a.likes < b.likes) return 1;
@@ -82,10 +84,11 @@ const TypePage = ({match, history}) => {
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
-
     useEffect(() => {
         goUp();
         getType();
+        getAnime();
+        getUsers();
     },[match]);
 
     return ( 

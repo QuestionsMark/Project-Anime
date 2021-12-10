@@ -5,13 +5,9 @@ import './styles/css/main.css';
 import App from './components/App';
 import SimpleReactLightbox from 'simple-react-lightbox';
 
-import { UserProvider } from './contexts/UserProvider';
-import { UsersProvider } from './contexts/UsersProvider';
-import { AnimeProvider } from './contexts/AnimeProvider';
 import { ResponsePopupProvider } from './contexts/ResponsePopupProvider';
-import { TypesProvider } from './contexts/TypesProvider';
-import { DataProvider } from './contexts/DataProvider';
 import { LoginPopupProvider } from './contexts/LoginPopup';
+import { UserProvider } from './contexts/UserProvider';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,9 +15,7 @@ ReactDOM.render(
       <ResponsePopupProvider>
         <LoginPopupProvider>
           <UserProvider>
-            <DataProvider>
-              <App />
-            </DataProvider>
+            <App />
           </UserProvider>
         </LoginPopupProvider>
       </ResponsePopupProvider>

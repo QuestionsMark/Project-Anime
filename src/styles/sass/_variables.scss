@@ -36,3 +36,8 @@ $font-color2: #f0f0f0;
     height: 100%;
     background-color: rgba(10, 10, 10, 0.6);
 }
+
+@mixin image {
+    background-position: center;
+    background-size: cover;
+}

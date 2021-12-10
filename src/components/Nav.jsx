@@ -17,7 +17,7 @@ import { useLoginPopup } from '../contexts/LoginPopup';
 
 const Nav = ({ history }) => {
 
-    const [status,, authorization,, user] = useUser();
+    const { status, authorization, user } = useUser();
     const { setOpenLoginScreen } = useLoginPopup();
     const handleOpenLoginScreen = () => {
         setOpenLoginScreen(true);

@@ -11,8 +11,8 @@ const SingleGaleryImage = ({image, animeData}) => {
 
     const { id, fromAnime } = image;
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,authorization] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { authorization } = useUser();
 
     const handleRemove = async () => {
         const response = await fetch(`${HOST_ADDRESS}/images`, {

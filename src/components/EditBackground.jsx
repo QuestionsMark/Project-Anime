@@ -6,11 +6,9 @@ import EditCustomBackgrounds from './EditCustomBackgrounds';
 import SingleCustomBackground from './SingleCustomBackground';
 import SingleDefaultBackground from './SingleDefaultBackground';
 
-import { HOST_ADDRESS } from '../config';
-
 const EditAvatar = () => {
 
-    const [,,,,user] = useUser();
+    const { user } = useUser();
     
     const defaultBackgrounds = ["618809903502a02b5cd4aba2", "6188093e3502a02b5cd4ab9f", "618809443502a02b5cd4aba0", "618809483502a02b5cd4aba1", "618809953502a02b5cd4aba3"];
     const [customBackgrounds, setCustomBackgrounds] = useState([]);

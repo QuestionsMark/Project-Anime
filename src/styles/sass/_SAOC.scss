@@ -20,6 +20,10 @@
         cursor: pointer;
         transition: 0.2s;
 
+        &.active {
+            color: $main-color;
+        }
+
         &:hover {
             color: $main-color;
         }

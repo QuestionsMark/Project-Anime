@@ -8,7 +8,7 @@ import { useUser } from '../contexts/UserProvider';
 
 const WhatsTheMelody = ({whatsTheMelody, didUserVote, isChecked, handleFinishWhatsTheMelody, getWhatsTheMelody }) => {
 
-    const [status,, authorization] = useUser();
+    const { status, authorization } = useUser();
 
     return ( 
         <div className="WTM">

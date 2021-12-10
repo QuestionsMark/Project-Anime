@@ -10,7 +10,7 @@ const SingleFolder = ({anime}) => {
     return ( 
         <Link to={`/galery/${id}`} className="galery__folder">
             <div className="galery__folderImg">
-                <img src={`${HOST_ADDRESS}/images/${images.galeryImages[0].id}`} alt="galery" className="galery__img" />
+                <img src={`${HOST_ADDRESS}/images/${images.galeryImages[0].id}`} alt="galery folder" className="galery__img" />
             </div>
             <h3 className="galery__folderTitle">{title}</h3>
         </Link>

@@ -6,7 +6,7 @@ import { useUser } from '../contexts/UserProvider';
 
 const WTMResults = ({whatsTheMelody}) => {
     
-    const [status,,,,user] = useUser();
+    const { status, user } = useUser();
 
     const isVoteCorrect = () => {
         if (whatsTheMelody.correctAnswear) {

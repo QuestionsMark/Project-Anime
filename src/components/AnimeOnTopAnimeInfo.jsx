@@ -21,7 +21,7 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
 
     const audio = useRef();
 
-    const [,, authorization] = useUser();
+    const { authorization } = useUser();
 
     const handleMusic = () => {
         if (audio.current.paused) {
@@ -87,8 +87,8 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
             </div> : null}
             <div className="AOT__animeContent">
                 <div className="AOT__left">
-                    <div className="AOT__imgWrapper">
-                        <img src={`${HOST_ADDRESS}/images/${img}`} alt="Anime" className="img" />
+                    <div className="AOT__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${img})` }}>
+                        {/* <img src={`${HOST_ADDRESS}/images/${img}`} alt="Anime" className="img" /> */}
                     </div>
                     <div className="AOT__rate">
                         <StarRateRoundedIcon className="AOT__rateIcon"/>

@@ -15,11 +15,11 @@
         align-items: center;
     }
 
-    &__imgWrapper {
+    &__image {
+        @include image;
         width: 5vw;
         height: 5vw;
         border-radius: 10px;
-        overflow: hidden;
     }
 
     &__form {

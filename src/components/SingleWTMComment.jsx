@@ -10,7 +10,7 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
 
     const { id, userID, text, likes, date} = comment;
 
-    const [,,,, user] = useUser();
+    const { user } = useUser();
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
     const [username, setUsername] = useState('');
@@ -50,9 +50,7 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
 
     return ( 
         <li className="WTMC__item">
-            <div className="WTMC__imgWrapper">
-                <img src={`${HOST_ADDRESS}/images/${avatar}`} alt="User Avatar" className="img" />
-            </div>
+            <div className="WTMC__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})` }}/>
             <div className="WTMC__commentContent">
                 <div className="WTMC__commentInfo">
                     <Link to={`/users/${userID}`} className="WTMC__nick">{username}</Link>

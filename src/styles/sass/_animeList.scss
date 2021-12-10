@@ -54,13 +54,13 @@
         margin-left: 20px;
     }
 
-    &__imgWrapper {
+    &__image {
+        @include image;
         flex-shrink: 0;
         width: 70px;
         height: 70px;
         border-radius: 10px;
         margin-bottom: 5px;
-        overflow: hidden;
     }
 
     &__rate {

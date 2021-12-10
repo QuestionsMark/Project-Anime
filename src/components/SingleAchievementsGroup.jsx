@@ -15,9 +15,15 @@ const SingleAchievementsGroup = ({group}) => {
         };
         return stars;
     };
-
+    
     const achievementsList = () => {
-        return achievements.map(a => <SingleAchievement key={a.id} achievement={a} current={achievement} setAchievement={setAchievement}/>);
+        return achievements
+            .sort((a, b) => {
+                if (a.level > b.level) return 1;
+                if (a.level < b.level) return -1;
+                return 0;
+            })
+            .map(a => <SingleAchievement key={a.id} achievement={a} current={achievement} setAchievement={setAchievement}/>);
     };
 
     return ( 

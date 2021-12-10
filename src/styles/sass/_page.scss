@@ -211,10 +211,10 @@
     }
 
     &__baner {
+        @include image;
         position: relative;
         height: 23.5vw;
         border-bottom: 2px solid $main-color;
-        // margin-bottom: 20px;
     }
 
     &__effect {

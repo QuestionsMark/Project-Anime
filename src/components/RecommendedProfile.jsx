@@ -10,10 +10,9 @@ const RecommendedProfile = ({user}) => {
     const { id, username, avatar, likes, background } = user;
 
     return ( 
-        <Link to={`/users/${id}`} className="RP__profile" style={{backgroundImage: `url('${HOST_ADDRESS}/images/${background}')`, backgroundPosition: 'center',
-        backgroundSize: 'cover'}}>
+        <Link to={`/users/${id}`} className="RP__profile" style={{backgroundImage: `url('${HOST_ADDRESS}/images/${background}')`}}>
             <div className="RP__curtain"></div>
-            <div className="RP__imgWrapper" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})`}}/>
+            <div className="RP__image" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})`}}/>
             <div className="RP__likes">
                 <FavoriteBorderRoundedIcon className="RP__likeIcon"/>
                 <p className="RP__likesValue">{likes.length}</p>

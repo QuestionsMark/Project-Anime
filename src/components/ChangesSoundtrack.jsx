@@ -12,8 +12,8 @@ import { HOST_ADDRESS } from '../config';
 
 const ChangesSoundtrack = ({close, animeData}) => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,,,user] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user } = useUser();
 
     const [validationErrors, setValidationErrors] = useState(
         ['Wybierz audio w formacie mp3.', 'Kompozytor i tytuł powinny zawierać minimum po 2 znaki.']
@@ -109,6 +109,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            close();
         }
     };
 

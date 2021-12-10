@@ -12,7 +12,7 @@ export function ResponsePopupProvider({ children }) {
     const [response, setResponse] = useState(null);
 
     return (
-        <ResponsePopupContext.Provider value={[open, setOpen, response, setResponse]}>
+        <ResponsePopupContext.Provider value={{ open, setOpen, response, setResponse }}>
             {children}
         </ResponsePopupContext.Provider>
     );

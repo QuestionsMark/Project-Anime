@@ -13,8 +13,8 @@ import SingleImagePreview from './SingleImagePreview';
 
 const UpdateNews = ({close, getNews, id}) => {
 
-    const [,,,, user] = useUser();
-    const [, setOpen,, setResponse] = useResponsePopup();
+    const { user } = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
 
     const [newsData, setNewsData] = useState({});
     const getNewsData = async () => {

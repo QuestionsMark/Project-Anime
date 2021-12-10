@@ -36,11 +36,11 @@
         margin-bottom: 20px;
     }
 
-    &__imgWrapper {
+    &__image {
+        @include image;
         width: 6vw;
         height: 6vw;
         border-radius: 10px;
-        overflow: hidden;
     }
 
     &__description {

@@ -42,11 +42,11 @@
         margin-right: 30px;
     }
 
-    &__imgWrapper {
+    &__image {
+        @include image;
         width: 8vw;
         height: 8vw;
         border-radius: 10px;
-        overflow: hidden;
     }
 
     &__rate {
@@ -212,14 +212,12 @@
     }
 
     &__results {
-        @extend .AOT__questionnaire;
+        @include page-style;
     }
 
     &__resultsContainer {
         max-height: 300px;
         overflow-y: scroll;
-        // overflow: auto;
-        // overscroll-behavior-y: contain;
     }
 
     &__result {

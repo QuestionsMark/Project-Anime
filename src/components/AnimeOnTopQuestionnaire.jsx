@@ -7,7 +7,7 @@ import { HOST_ADDRESS } from '../config';
 
 const AnimeOnTopQuestionnaire = ({id, animeTitlesList, getAnimeOnTop}) => {
 
-    const [,,,, user] = useUser();
+    const { user } = useUser();
 
     const [vote, setVote] = useState('');
     const handleVoteChange = e => {

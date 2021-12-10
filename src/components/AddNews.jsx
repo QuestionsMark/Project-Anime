@@ -13,8 +13,8 @@ import SingleImagePreview from './SingleImagePreview';
 
 const AddNews = ({close, getNews}) => {
 
-    const [,,,, user] = useUser();
-    const [, setOpen,, setResponse] = useResponsePopup();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { user } = useUser();
 
     const [graphics, setGraphics] = useState([]);
     const getGraphics = async () => {
@@ -151,14 +151,13 @@ const AddNews = ({close, getNews}) => {
 
         return errors;
     };
+
     const validationList = () => {
         return validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
     };
-
     const previewList = () => {
         return preview.map((p, i) => <SingleImagePreview key={i} image={p} />);
     };
-
     const graphicsToChoose = () => {
         return graphics
             .filter(g => g.from.toLowerCase().includes(searchPhrase.toLowerCase()))

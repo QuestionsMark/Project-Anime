@@ -33,8 +33,8 @@ import setMain from '../../utils/setMain';
 
 const Page = ({main, match, history}) => {
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [status,, authorization,, user] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { status, authorization, user } = useUser();
 
     const [animeData, setAnimeData] = useState(null);
     const getAnime = async () => {
@@ -144,7 +144,7 @@ const Page = ({main, match, history}) => {
                 <div className="page__content">
                     <div className="page__left">
                         <div className="page__imgWrapper">
-                            <img src={animeData.images.mini.id ? `${HOST_ADDRESS}/images/${animeData.images.mini.id}` : ''} alt="asdasd" className="img" />
+                            <img src={animeData.images.mini.id ? `${HOST_ADDRESS}/images/${animeData.images.mini.id}` : ''} alt="anime mini" className="img" />
                         </div>
                         <div className="page__info">
                             <div className="page__rate">
@@ -182,7 +182,7 @@ const Page = ({main, match, history}) => {
                         </div>
                     </div>
                     <div className="page__right">
-                        <div className="page__baner" style={{backgroundImage: animeData.images.baner.id ? `url(${HOST_ADDRESS}/images/${animeData.images.baner.id})` : '', backgroundPosition: "center", backgroundSize: "cover"}}>
+                        <div className="page__baner" style={{backgroundImage: animeData.images.baner.id ? `url(${HOST_ADDRESS}/images/${animeData.images.baner.id})` : ''}}>
                             <div className="page__effect">
                                 <a href={animeData.watchLink} target="_blank" rel="noreferrer" className="page__banerIcon watchLink"><PlayCircleOutlineRoundedIcon className="watchIcon"/></a>
                                 <ArrowBackIosRoundedIcon className="page__banerIcon corner1Icon"/>

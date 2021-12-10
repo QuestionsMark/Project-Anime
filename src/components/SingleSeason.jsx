@@ -12,8 +12,8 @@ const SingleSeason = ({season, animeData}) => {
 
     const { id, title, background } = season;
 
-    const [, setOpen,, setResponse] = useResponsePopup();
-    const [,,authorization] = useUser();
+    const { setOpen, setResponse } = useResponsePopup();
+    const { authorization } = useUser();
 
     const handleRemove = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime/seasons`, {
