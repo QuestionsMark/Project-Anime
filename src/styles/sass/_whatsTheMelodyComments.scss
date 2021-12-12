@@ -1,5 +1,6 @@
 .WTMC {
     @extend .DA;
+    min-height: 0px;
     max-height: calc(95vh);
     overflow: hidden;
 

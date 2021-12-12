@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter, Link, Switch, Route } from 'react-router-dom';
 
+import Loading from '../Loading';
 import TypePage from '../TypePage';
 
 import setMain from '../../utils/setMain';
@@ -45,7 +46,8 @@ const Types = ({main, history, match}) => {
     }, [match]);
 
     return ( 
-        <div className="types main__content">
+        <>
+        {types.length > 0 ? <div className="types main__content">
             <Switch>
                 <Route path="/types" exact>
                     <div className="types__container">
@@ -59,7 +61,8 @@ const Types = ({main, history, match}) => {
                     <TypePage types={types}/>
                 </Route>
             </Switch>
-        </div>
+        </div> : <div className="types main__content"><Loading /></div>}
+        </>
      );
 }
  

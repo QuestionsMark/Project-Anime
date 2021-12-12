@@ -15,6 +15,7 @@ import previewImage from '../../media/img/hos-back20502.webp';
 
 import { HOST_ADDRESS } from '../../config';
 import setMain from '../../utils/setMain';
+import Loading from '../Loading';
 
 const PageCreate = ({main, match, history}) => {
 
@@ -601,7 +602,7 @@ const PageCreate = ({main, match, history}) => {
                         {validationList()}
                     </ul>
                 </div>
-            </div> : <NotFound />}
+            </div> : <div className="create main__content"><Loading /></div>}
         </>
      );
 }

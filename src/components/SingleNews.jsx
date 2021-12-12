@@ -6,7 +6,7 @@ import ForumRounded from '@material-ui/icons/ForumRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleNews = ({news}) => {
+const SingleNews = ({news, refference}) => {
 
     const { id, title, intro, createdAt, image, comments, views } = news;
 
@@ -17,7 +17,7 @@ const SingleNews = ({news}) => {
     };
 
     return ( 
-        <div className="news__article">
+        <div className="news__article" ref={refference ? refference : null}>
             <div className="news__article-image" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${image.id})`}}/>
             <div className="news__article-content">
                 <Link to={`/news/${id}`} className="news__articleTitle" onClick={handleView}>{title}</Link>

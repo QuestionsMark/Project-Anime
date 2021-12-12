@@ -6,6 +6,7 @@ import AnimeOnTopAnimeInfo from './AnimeOnTopAnimeInfo';
 import AnimeOnTopQuestionnaire from './AnimeOnTopQuestionnaire';
 import AnimeOnTopResults from './AnimeOnTopResults';
 import { HOST_ADDRESS } from '../config';
+import Loading from './Loading';
 
 const AnimeOnTop = () => {
 
@@ -68,12 +69,14 @@ const AnimeOnTop = () => {
     }, [animeOnTop, status, user]);
 
     return ( 
-        <section className="AOT main__section scrollNav" data-id="1">
+        <>
+        {animeOnTop ? <section className="AOT main__section scrollNav" data-id="1">
             <h2 className="AOT__title">Anime na Topie!</h2>
             {animeOnTop && animeData ? <AnimeOnTopAnimeInfo animeData={animeData} setAnimeData={setAnimeData} getAnimeOnTop={getAnimeOnTop}/> : null }
             {animeOnTop && (didUserVote || !status) ? <AnimeOnTopResults animeOnTop={animeOnTop}/> : null}
             {animeOnTop && status && !didUserVote ? <AnimeOnTopQuestionnaire id={animeOnTop.id} animeTitlesList={animeTitlesList} getAnimeOnTop={getAnimeOnTop}/> : null}
-        </section>
+        </section> : <section className="AOT main__section scrollNav" data-id="1"><Loading /></section>}
+        </>
      );
 }
  

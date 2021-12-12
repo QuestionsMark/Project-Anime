@@ -1,0 +1,54 @@
+.loading {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 30px auto 0;
+
+    &--small {
+        margin: 0;
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        margin: auto;
+
+        &--small {
+            flex-direction: column;
+        }
+    }
+
+    &__gif {
+        @include image;
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+        background-image: url('../../media/img/loading4.gif');
+        transform: rotateY(180deg);
+    }
+
+    &__text {
+        text-align: center;
+        font-weight: bold;
+        animation: loading 0.5s infinite linear;
+
+        &--small {
+            margin-top: 10px;
+        }
+    }
+}
+
+@keyframes loading {
+    0% {
+        color: $font-color;
+    }
+
+    50% {
+        color: white;
+    }
+
+    100% {
+        color: $font-color;
+    }
+}

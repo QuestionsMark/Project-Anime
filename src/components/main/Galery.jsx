@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
@@ -6,37 +6,40 @@ import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
 import Search from '../Search';
 
-import { HOST_ADDRESS } from '../../config';
-
 import setMain from '../../utils/setMain';
+import useSearch from '../../hooks/useSearch';
+import Loading from '../Loading';
+import Error from '../Error';
 
 const Galery = ({main, history, match}) => {
 
-    const [anime, setAnime] = useState([]);
-    const getAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime/galery`);
-        if (response.ok) {
-            const anime = await response.json();
-            setAnime(anime);
-        }
-    };
-
     const [searchPhrase, setSearchPhrase] = useState('');
-    const [columns, setColumns] = useState(null);
+    const [page, setPage] = useState(1);
     const handleSearch = (e) => {
         setSearchPhrase(e.target.value);
+        setPage(1);
     };
+
+    const { data, hasMore, loading, error } = useSearch('anime/galery', searchPhrase, page);
+
+    const observer = useRef();
+    const lastDataElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prev => prev + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
+
+    const [columns, setColumns] = useState(null);
 
     const sortFolders = () => {
         const columns = { column1: [], column2: [], column3: [], column4: [] };
         let counter = 1;
-        anime
-            .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
-            .sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
-                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-                return 0;
-            })
+        data
             .forEach(i => {
                 if (counter === 1) {
                     columns.column1.push(i);
@@ -55,48 +58,47 @@ const Galery = ({main, history, match}) => {
         setColumns(columns);
     };
 
-    const folderList = (images) => {
-        return images.map(f => <SingleFolder key={f.id} anime={f}/>);
+    const folderList = (images, column) => {
+        return images.map((f, i) => {
+            if (column === 1 && images.length === i + 1) return <SingleFolder key={f.id} refference={lastDataElementRef} anime={f}/>
+            return <SingleFolder key={f.id} anime={f}/>
+        });
     };
+
+    useEffect(() => {
+        if(data.length > 0) {
+            sortFolders();
+        }
+    }, [data]);
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
-
-    useEffect(() => {
-        getAnime();
-    }, []);
-
-    useEffect(() => {
-        if(anime.length > 0) {
-            sortFolders();
-        }
-    }, [anime, searchPhrase]);
-
     useEffect(() => {
         goUp();
         setMain(main, match);
-        setSearchPhrase('');
     }, [match]);
 
     return ( 
         <div className="anime main__content">
             <Route path="/galery" exact>
-                <Search handleSearch={handleSearch}/>
+                <Search handleSearch={handleSearch} value={searchPhrase}/>
                 <div className="galery__folderContainer">
                     <div className="galery__folderColumn">
-                        {columns ? folderList(columns.column1) : null}
+                        {columns ? folderList(columns.column1, 1) : null}
                     </div>
                     <div className="galery__folderColumn">
-                        {columns ? folderList(columns.column2) : null}
+                        {columns ? folderList(columns.column2, 2) : null}
                     </div>
                     <div className="galery__folderColumn">
-                        {columns ? folderList(columns.column3) : null}
+                        {columns ? folderList(columns.column3, 3) : null}
                     </div>
                     <div className="galery__folderColumn">
-                        {columns ? folderList(columns.column4) : null}
+                        {columns ? folderList(columns.column4, 4) : null}
                     </div>
                 </div>
+                {loading ? <Loading /> : null}
+                {error ? <Error error={error}/> : null}
             </Route>
             <Route path="/galery/:animeID">
                 <SRLWrapper>

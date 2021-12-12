@@ -10,6 +10,7 @@ import ProfileEdit from '../ProfileEdit';
 
 import { HOST_ADDRESS } from '../../config';
 import setMain from '../../utils/setMain';
+import Loading from '../Loading';
 
 const Profile = ({ main, history, match }) => {
 
@@ -79,7 +80,7 @@ const Profile = ({ main, history, match }) => {
                         <ProfilePrivate />
                     </Route>
                 </Switch>
-            </div> : <div className="profile main__content"></div>}
+            </div> : <div className="profile main__content"><Loading /></div>}
         </>
      );
 }

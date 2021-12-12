@@ -36,22 +36,6 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
     return ( 
         <div className="filter scrollNav" data-id="2">
             <h3 className="filter__title">Filtry</h3>
-            {/* <div className="filter__instruction">
-                <h4 className="filter__legendTitle">Legenda</h4>
-                <div className="filter__want">
-                    <CheckBoxOutlinedIcon className="filter__instructionIcon" />
-                    <p className="filter__instructionText">Chcę</p>
-                </div>
-                <div className="filter__dontWant">
-                    <IndeterminateCheckBoxOutlinedIcon className="filter__instructionIcon" />
-                    <p className="filter__instructionText">Nie chcę</p>
-                </div>
-                <div className="filter__indifferent">
-                    <CheckBoxOutlineBlankOutlinedIcon className="filter__instructionIcon" />
-                    <p className="filter__instructionText">Obojętne</p>
-                </div>
-            </div> */}
-            
             <div className="filter__filters">
                 <div className="filter__others">
                     <div className="filter__container filter__container--part">

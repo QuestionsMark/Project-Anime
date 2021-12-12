@@ -10,7 +10,7 @@ import Achievement from './Achievement';
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleUser = ({place, user}) => {
+const SingleUser = ({place, user, refference}) => {
 
     const {username, id, background, avatar, likes, favoriteType, favoriteAnime, introduction, points} = user;
 
@@ -55,7 +55,7 @@ const SingleUser = ({place, user}) => {
     }, []);
     
     return ( 
-        <li className="userList__item" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`}}>
+        <li className="userList__item" ref={refference ? refference : null} style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`}}>
             <div className="userList__curtain"/>
             <header className="userList__header">
                 <div className="userList__avatar" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})`}}/>

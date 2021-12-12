@@ -6,6 +6,7 @@ import SingleAchievementsGroup from '../SingleAchievementsGroup';
 import setMain from '../../utils/setMain';
 
 import { HOST_ADDRESS } from '../../config';
+import Loading from '../Loading';
 
 const Achievements = ({main, match, history}) => {
 
@@ -52,12 +53,14 @@ const Achievements = ({main, match, history}) => {
     }, [match]);
 
     return ( 
-        <div className="achievements main__content">
+        <>
+        {achievements.length > 0 ? <div className="achievements main__content">
             <h2 className="achievements__title largeTitle">Osiągnięcia</h2>
             <div className="achievements__container">
-                {achievements.length > 0 ? achievementsSections() : null}
+                {achievementsSections()}
             </div>
-        </div>
+        </div> : <div className="achievements main__content"><Loading /></div>}
+        </>
      );
 }
  

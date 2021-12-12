@@ -33,6 +33,8 @@
     &__img {
         display: block;
         width: 100%;
+        min-height: 100px;
+        animation: loading-image 2s infinite linear;
     }
 
     &__folderTitle {
@@ -100,5 +102,19 @@
         text-align: center;
         color: $font-color2;
         background-color: rgba(10, 10, 10, 0.5);
+    }
+}
+
+@keyframes loading-image {
+    0% {
+        background-color: #606060;
+    }
+
+    50% {
+        background-color: #909090;
+    }
+
+    100% {
+        background-color: #606060;
     }
 }

@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
-import { HOST_ADDRESS } from '../../config';
+import useSearch from '../../hooks/useSearch';
 
 import setMain from '../../utils/setMain';
+import Error from '../Error';
 
 import Filter from '../Filter';
+import Loading from '../Loading';
 import Search from '../Search';
-import TopAnimeList from '../TopAnimeList';
+import SingleTopAnime from '../SingleTopAnime';
 
 const Top = ({main, history, match}) => {
 
-    const [anime, setAnime] = useState([]);
-    const getAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime`);
-        if (response.ok) {
-            const anime = await response.json();
-            setAnime(anime);
-        }
-    };
-
     const [searchPhrase, setSearchPhrase] = useState('');
+    const [page, setPage] = useState(1);
     const handleSearch = (e) => {
         setSearchPhrase(e.target.value);
+        setPage(1);
     };
 
     const [wantTypesFilter, setWantTypesFilter] = useState([]);
@@ -29,6 +24,20 @@ const Top = ({main, history, match}) => {
     const [kindFilter, setKindFilter] = useState('all');
     const [rateMinFilter, setRateMinFilter] = useState('');
     const [rateMaxFilter, setRateMaxFilter] = useState('');
+
+    const { data, hasMore, loading, error } = useSearch('anime/top', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, kindFilter, rateMinFilter, rateMaxFilter);
+
+    const observer = useRef();
+    const lastDataElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prev => prev + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
 
     const handleFilterTypes = (e) => {
         let target = e.target;
@@ -79,12 +88,12 @@ const Top = ({main, history, match}) => {
                 return newState;
             })
         }
+        setPage(1);
     };
-
     const handleFilterKind = (e) => {
         setKindFilter(e.target.value);
+        setPage(1);
     };
-
     const handleFilterRate = (e) => {
         const value = e.target.value;
         const length = value.length;
@@ -101,103 +110,28 @@ const Top = ({main, history, match}) => {
                 setRateMaxFilter('');
             }
         }
+        setPage(1);
     };
 
-    const filteredAnimeList = () => {
-        let filtered;
-        if (kindFilter === 'all') {
-            filtered = anime;
-        } else if (kindFilter === 'series') {
-            filtered = anime.filter(a => a.kind === 'series');
-        } else if (kindFilter === 'movies') {
-            filtered = anime.filter(a => a.kind === 'movie');
-        }
-        return filtered
-            .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
-            .filter(anime => {
-                let has = true;
-                let types = [];
-                anime.types.forEach(t => {
-                    types.push(t.name)
-                });
-                wantTypesFilter.forEach(t => {
-                    if (types.indexOf(t) === -1) {
-                        has = false;
-                    }
-                })
-                return has;
-            })
-            .filter(anime => {
-                let hasNot = true;
-                let types = [];
-                anime.types.forEach(t => {
-                    types.push(t.name)
-                });
-                dontWantTypesFilter.forEach(t => {
-                    if (types.indexOf(t) !== -1) {
-                        hasNot = false;
-                    }
-                })
-                return hasNot;
-            })
-            .filter(a => {
-                let average = 0;
-                if (a.rate.length > 0) {
-                    let rateValueA = 0;
-                    a.rate.forEach(r => rateValueA += r.rate);
-                    average = (rateValueA / a.rate.length).toFixed(2) * 1;
-                }
-                return average >= rateMinFilter;
-            })
-            .filter(a => {
-                if (rateMaxFilter === '') {
-                    return true;
-                } else {
-                    let average = 0;
-                    if (a.rate.length > 0) {
-                        let rateValueA = 0;
-                        a.rate.forEach(r => rateValueA += r.rate);
-                        average = (rateValueA / a.rate.length).toFixed(2) * 1;
-                    }
-                    return average <= rateMaxFilter;
-                }
-            })
-            .sort((a, b) => {
-                let averageA = 0;
-                if (a.rate.length > 0) {
-                    let rateValueA = 0;
-                    a.rate.forEach(r => rateValueA += r.rate);
-                    averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
-                }
-                let averageB = 0;
-                if (b.rate.length > 0) {
-                    let rateValueB = 0;
-                    b.rate.forEach(r => rateValueB += r.rate);
-                    averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
-                }
-                if (averageA < averageB) {
-                    return 1;
-                } else if (averageA > averageB) {
-                    return -1;
-                } else {
-                    if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                        return -1;
-                    } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                        return 1
-                    }
-                    return 0;
-                }
-            });
+    const animeList = () => {
+        return data.map((a, i) => {
+            let rate;
+            if (a.rate.length > 0) {
+                let rateValue = 0;
+                a.rate.forEach(r => rateValue += r.rate);
+                const average = (rateValue / a.rate.length).toFixed(2);
+                rate = average;
+            } else {
+                rate = 0;
+            }
+            if (data.length === i + 1) return <SingleTopAnime key={a.id} refference={lastDataElementRef} place={i + 1} anime={a} rate={rate} />;
+            return <SingleTopAnime key={a.id} anime={a} place={i + 1} rate={rate} />;
+        });
     };
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
     });
-
-    useEffect(() => {
-        getAnime();
-    }, []);
-
     useEffect(() => {
         goUp();
         setMain(main, match);
@@ -205,11 +139,15 @@ const Top = ({main, history, match}) => {
 
     return ( 
         <div className="top main__content">
-            <div className="top__search">
-                <Search handleSearch={handleSearch}/>
-            </div>
+            <Search handleSearch={handleSearch} value={searchPhrase}/>
             <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
-            <TopAnimeList anime={filteredAnimeList()} />
+            {data.length > 0 ? <div className="animeList scrollNav" data-id="3">
+                <ul className="animeList__list">
+                    {animeList()}
+                </ul>
+            </div> : null}
+            {loading ? <Loading /> : null}
+            {error ? <Error error={error}/> : null}
         </div>
      );
 }

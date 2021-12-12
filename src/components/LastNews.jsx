@@ -6,6 +6,7 @@ import { Button } from '@material-ui/core';
 import SingleNews from './SingleNews';
 
 import { HOST_ADDRESS } from '../config';
+import Loading from './Loading';
 
 const LastNews = () => {
 
@@ -27,13 +28,15 @@ const LastNews = () => {
     }, []);
 
     return ( 
-        <section className="news main__section scrollNav"  data-id="3">
+        <>
+        {news.length > 0 ? <section className="news main__section scrollNav"  data-id="3">
             <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
             <div className="news__container">
                 {newsList()}
             </div>
             <Link to="/news" className="news__link"><Button className="button news__button">Aktualności</Button></Link>
-        </section>
+        </section> : <section className="news main__section scrollNav"  data-id="3"><Loading /></section>}
+        </>
      );
 }
  

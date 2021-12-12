@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 
 import RecommendedProfile from './RecommendedProfile';
 import { HOST_ADDRESS } from '../config';
+import Loading from './Loading';
 
 const RecommendedProfiles = () => {
 
@@ -37,13 +38,15 @@ const RecommendedProfiles = () => {
     }, []);
 
     return ( 
-        <section className="RP main__section scrollNav"  data-id="2">
+        <>
+        {users.length > 0 ? <section className="RP main__section scrollNav"  data-id="2">
             <h2 className="RP__title">Polecane Profile!</h2>
             <div className="RP__profiles">
                 {profilesList()}
             </div>
                 <Link to="/users" className="RP__moreLink"><Button className="button RP__more">Zobacz więcej</Button></Link>
-        </section>
+        </section> : <section className="RP main__section scrollNav"  data-id="2"><Loading /></section>}
+        </>
      );
 }
  

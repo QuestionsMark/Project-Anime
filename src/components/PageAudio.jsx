@@ -12,6 +12,7 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
 import { HOST_ADDRESS } from '../config';
+import { useLoginPopup } from '../contexts/LoginPopup';
 
 const PageAudio = ({soundtrack, animeData, getAnime}) => {
 
@@ -25,8 +26,9 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
 
     const {id, composer, title, likes} = soundtrack;
 
+    const { setOpenLoginScreen } = useLoginPopup();
     const { setOpen, setResponse } = useResponsePopup();
-    const { authorization, user } = useUser();
+    const { status, authorization, user } = useUser();
 
     const [duration, setDuration] = useState(null);
     const [currentTime, setCurrentTime] = useState('00:00');
@@ -105,13 +107,13 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
     };
 
     const handleLikeClick = async () => {
-        if (JSON.stringify(user) !== "{}") {
+        if (status && JSON.stringify(user) !== "{}") {
             await fetch(`${HOST_ADDRESS}/soundtracks/like/${id}/${animeData.id}/${user.id}`, {
                 method: 'PUT',
             });
             getAnime();
         } else {
-            // Przenieś do logowania
+            setOpenLoginScreen(true);
         }
     };
 

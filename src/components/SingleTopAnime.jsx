@@ -16,7 +16,7 @@ import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined'
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleTopAnime = ({ place, anime, rate }) => {
+const SingleTopAnime = ({ place, anime, rate, refference }) => {
 
     const { id, title, types, kind, mini } = anime;
 
@@ -144,7 +144,7 @@ const SingleTopAnime = ({ place, anime, rate }) => {
     };
 
     return ( 
-        <li className="animeList__item">
+        <li className="animeList__item" ref={refference ? refference : null}>
             <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${mini})` }}/>
             <div className="animeList__animeContent">

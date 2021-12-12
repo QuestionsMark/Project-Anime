@@ -1,6 +1,6 @@
 .rules {
     &__content {
-        @include main-style;
+        @include page-style;
         display: flex;
         flex-direction: column;
         padding: 20px;

@@ -1,6 +1,6 @@
 .source {
     &__content {
-        @include main-style;
+        @include page-style;
         padding: 20px;
     }
 

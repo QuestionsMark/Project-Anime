@@ -4,6 +4,7 @@ import { HOST_ADDRESS } from '../config';
 import { useUser } from '../contexts/UserProvider';
 
 import DailyAnime from './DailyAnime';
+import LoadingSmall from './LoadingSmall';
 import WhatsTheMelody from './WhatsTheMelody';
 import WhatsTheMelodyComments from './WhatsTheMelodyComments';
 
@@ -83,9 +84,9 @@ const RightSide = () => {
 
     return ( 
         <div className="main__rightSide">
-            {dailyAnime ? <DailyAnime dailyAnime={dailyAnime} handleRollDailyAnime={handleRollDailyAnime}/> : null}
-            {whatsTheMelody && status ? <WhatsTheMelody whatsTheMelody={whatsTheMelody} getWhatsTheMelody={getWhatsTheMelody} handleFinishWhatsTheMelody={handleFinishWhatsTheMelody} didUserVote={didUserVote} isChecked={isChecked}/> : null}
-            {status && whatsTheMelody && didUserVote ? <WhatsTheMelodyComments id={whatsTheMelody.id} whatsTheMelodyComments={whatsTheMelodyComments} getWTMComments={getWTMComments}/> : null}
+            {dailyAnime ? <DailyAnime dailyAnime={dailyAnime} handleRollDailyAnime={handleRollDailyAnime}/> : <div className="DA"><LoadingSmall /></div>}
+            {whatsTheMelody && status ? <WhatsTheMelody whatsTheMelody={whatsTheMelody} getWhatsTheMelody={getWhatsTheMelody} handleFinishWhatsTheMelody={handleFinishWhatsTheMelody} didUserVote={didUserVote} isChecked={isChecked}/> : status && !whatsTheMelody ? <div className="DA"><LoadingSmall /></div> : null}
+            {status && whatsTheMelody && didUserVote ? <WhatsTheMelodyComments id={whatsTheMelody.id} whatsTheMelodyComments={whatsTheMelodyComments} getWTMComments={getWTMComments}/> : status ? <div className="DA"><LoadingSmall /></div> : null}
         </div>
      );
 }

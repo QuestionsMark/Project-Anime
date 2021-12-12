@@ -46,8 +46,9 @@ const LeftNav = ({match}) => {
                     </Route>
                     <Route path="/anime" exact>
                         <li className="leftNav__item" data-id="1">Szukaj</li>
-                        <li className="leftNav__item" data-id="2">Serie Anime</li>
-                        <li className="leftNav__item" data-id="3">Filmy ANime</li>
+                    </Route>
+                    <Route path="/anime/create">
+                        <Link to="/" className="leftNav__Link">Strona główna</Link>
                     </Route>
                     <Route path="/anime/:anime">
                         <li className="leftNav__item" data-id="1">Oglądaj</li>
@@ -61,6 +62,9 @@ const LeftNav = ({match}) => {
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                         <li className="leftNav__item" data-id="2">Filtruj</li>
                         <li className="leftNav__item" data-id="3">Lista Anime</li>
+                    </Route>
+                    <Route path="/news" exact>
+                        <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
                     <Route path="/users" exact>
                         <li className="leftNav__item" data-id="1">Szukaj</li>
@@ -80,20 +84,14 @@ const LeftNav = ({match}) => {
                     <Route path="/galery" exact >
                         <li className="leftNav__item" data-id="1">Szukaj</li>
                     </Route>
-                    <Route path="/types">
-                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
-                    </Route>
-                    <Route path="/rules">
-                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
+                    <Route path="/galery/:id">
+                    <Link to="/galery" className="leftNav__Link">Wróć do galerii</Link>
                     </Route>
                     <Route path="/news" exact>
                         <li className="leftNav__item" data-id="4">Wróć do góry</li>
                     </Route>
                     <Route path="/news/:id">
                         <Link to="/news" className="leftNav__Link">Wróć do listy</Link>
-                    </Route>
-                    <Route path="/source">
-                        <li className="leftNav__item" data-id="4">Wróć do góry</li>
                     </Route>
                     <Route path="/">
                         <Link to="/" className="leftNav__Link">Strona główna</Link>

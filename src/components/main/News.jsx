@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router';
 import Popup from 'reactjs-popup';
 
@@ -8,26 +8,48 @@ import SingleNews from '../SingleNews';
 
 import setMain from '../../utils/setMain';
 import AddNews from '../AddNews';
-import { HOST_ADDRESS } from '../../config';
+import useSearch from '../../hooks/useSearch';
+import Search from '../Search';
+import Loading from '../Loading';
+import Error from '../Error';
+import { useUser } from '../../contexts/UserProvider';
 
 const News = ({main, history, match}) => {
 
-    const [news, setNews] = useState([]);
-    const getNews = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/news`);
-        if (response.ok) {
-            const news = await response.json();
-            setNews(news);
-        }
+    const { status } = useUser();
+
+    const [searchPhrase, setSearchPhrase] = useState('');
+    const [page, setPage] = useState(1);
+    const [changedData, setChangedData] = useState(false);
+    const handleChangeData = () => {
+        setPage(1);
+        setChangedData(prev => !prev);
     };
+    const handleSearch = (e) => {
+        setSearchPhrase(e.target.value);
+        setPage(1);
+    };
+
+    const { data, hasMore, loading, error } = useSearch('news', searchPhrase, page, changedData);
+
+    const observer = useRef();
+    const lastDataElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prev => prev + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
 
     const newsList = () => {
-        return news.map(news => <SingleNews key={news.id} news={news}/>);
+        return data.map((news, i) => {
+            if (data.length === i + 1) return <SingleNews key={news.id} refference={lastDataElementRef} news={news}/>;
+            return <SingleNews key={news.id} news={news}/>;
+        });
     };
-
-    useEffect(() => {
-        getNews();
-    }, [])
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
@@ -39,13 +61,16 @@ const News = ({main, history, match}) => {
 
     return ( 
         <div className="news main__content scrollNav" data-id="4">
-            <h2 className="news__title">Wiadomości ze Świata Anime!</h2>
-            <Popup modal nested closeOnDocumentClick={false} trigger={<div className="news__add"><AddRoundedIcon className="news__add-new-news"/> Dodaj Nowość</div>} on="click">
-                {close => <AddNews close={close} getNews={getNews}/>}
-            </Popup>
+            {/* <h2 className="news__title">Wiadomości ze Świata Anime!</h2> */}
+            <Search handleSearch={handleSearch} value={searchPhrase}/>
+            {status ? <Popup modal nested closeOnDocumentClick={false} trigger={<div className="news__add"><AddRoundedIcon className="news__add-new-news"/> Dodaj Nowość</div>} on="click">
+                {close => <AddNews close={close} getNews={handleChangeData}/>}
+            </Popup> : null}
             <div className="news__container">
                 {newsList()}
             </div>
+            {loading ? <Loading /> : null}
+            {error ? <Error error={error}/> : null}
         </div>
      );
 }
