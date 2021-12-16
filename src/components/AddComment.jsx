@@ -48,7 +48,6 @@ const AddComment = ({data, getData, collection}) => {
     const handleAddComment = async e => {
         e.preventDefault();
         if (validationErrors.length === 0) {
-            const date = new Date();
             setText('');
             textarea.current.blur();
             await fetch(`${HOST_ADDRESS}/${collection}/comment`, {
@@ -59,7 +58,6 @@ const AddComment = ({data, getData, collection}) => {
                 body: JSON.stringify({
                     collectionID: data.id,
                     userID: user.id,
-                    date: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`,
                     text,
                 }),
             });

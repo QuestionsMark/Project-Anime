@@ -23,7 +23,7 @@ const PageCreate = ({main, match, history}) => {
     const { authorization, user } = useUser();
     const [anime, setAnime] = useState([]);
     const getAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime`);
+        const response = await fetch(`${HOST_ADDRESS}/anime/title`);
         if (response.ok) {
             const anime = await response.json();
             setAnime(anime);

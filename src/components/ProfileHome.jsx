@@ -118,7 +118,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                         <p className="profile__infoBlock">Polubienia: {likes.length}</p>
                         <p className="profile__infoBlock">Osiągnięcia: {achievements.length}</p>
                         <p className="profile__infoBlock">Ulubiony Gatunek: {favoriteType}</p>
-                        <p className="profile__infoBlock">Dołączono: {createAccountDate}</p>
+                        <p className="profile__infoBlock">Dołączono: {createAccountDate} dni temu</p>
                         <p className="profile__infoBlock">Ranga: {showRank()}</p>
                         <p className="profile__infoBlock">Punkty: {getPoints()}</p>
                     </div>

@@ -31,7 +31,6 @@ const AddWTMComment = ({id, getWTMComments}) => {
         e.preventDefault();
         if (text.length !== 0 && text.length <= 500) {
             setText('');
-            const date = new Date();
             const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${id}/comments`, {
                 method: 'POST',
                 headers: {
@@ -40,7 +39,6 @@ const AddWTMComment = ({id, getWTMComments}) => {
                 body: JSON.stringify({
                     userID: user.id,
                     text,
-                    date: `${date.toLocaleTimeString()}`,
                 }),
             });
             if (response.ok) {

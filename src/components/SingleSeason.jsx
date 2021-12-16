@@ -7,6 +7,7 @@ import { useUser } from '../contexts/UserProvider';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { HOST_ADDRESS } from '../config';
+import Popup from 'reactjs-popup';
 
 const SingleSeason = ({season, animeData}) => {
 
@@ -41,10 +42,13 @@ const SingleSeason = ({season, animeData}) => {
             {authorization ? <div className="page__adminChanges">
                 <RemoveRoundedIcon className="page__adminIcon page__adminIcon--border" onClick={handleRemove}/>
             </div> : null}
-            <Link to={`/anime/${id}`} className="page__season-link" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}>
+            {/* <Link to={`/anime/${id}`} className="page__season-link" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`, backgroundPosition: "center", backgroundSize: "cover"}}>
                 <div className="blockCurtain"></div>
                 <p className="page__season-title">{title}</p>
-            </Link>
+            </Link> */}
+            <Popup className="normal-popup" position="top center" offsetY={2} on="hover" mouseEnterDelay={200} trigger={<Link to={`/anime/${id}`} className="page__season-link" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`}}/>}>
+                {title}
+            </Popup>
         </div>
      );
 }

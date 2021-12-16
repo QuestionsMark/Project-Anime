@@ -449,31 +449,28 @@
     }
 
     &__season {
-        @include main-style;
-        box-shadow: none;
-        transition: 0.2s;
         display: block;
         position: relative;
-        flex-basis: 18%;
-        height: 200px;
+        flex-shrink: 0;
+        flex-basis: 90px;
+        height: 120px;
+        border-top-left-radius: 15px;
         margin: 0 1% 20px;
-        text-decoration: none;
+        box-shadow: none;
+        transition: 0.2s;
         overflow: hidden;
 
         &:hover {
             transform: translate(-3px, -3px);
-            box-shadow: 1px 1px 0 1px $main-color, 2px 2px 0 1px $main-color, 3px 3px 0 1px $main-color, 4px 4px 0 1px $main-color, 5px 5px 0 1px $main-color, 6px 6px 0 1px $main-color;
+            box-shadow: 1px 1px 0 0 $main-color, 2px 2px 0 0 $main-color, 3px 3px 0 0 $main-color;
         }
     }
 
     &__season-link {
+        @include image;
         @include position-absolute(50%, 50%);
         width: 100%;
         height: 100%;
-        padding: 10px;
-        text-align: center;
-        font-size: 14px;
-        color: $font-color2;
     }
 
     &__season-title {
