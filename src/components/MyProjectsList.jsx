@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 
 import QMAImg from '../media/img/icon.jpg';
 import SAOImg from '../media/img/SAOIcon.png';
+import CityDefenceImg from '../media/img/ship.png';
 
 const MyProjectsList = () => {
     return ( 
@@ -21,6 +22,17 @@ const MyProjectsList = () => {
                 <a href="https://www.youtube.com/watch?v=dchkT0uUfhs" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Zobacz Trailer!</Button></a>
                 <a href="http://www.clicker.questionmarksanime.pl" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Zagraj!</Button></a>
                 <Link to="/sword-art-online-clicker/ranking" className="myProjects__link"><Button className="button myProjects__button">Ranking</Button></Link>
+            </div>
+            <div className="myProjects__article">
+                <div className="myProjects__content">
+                    <div className="myProjects__image" style={{ backgroundImage: `url(${CityDefenceImg})` }}/>
+                    <div className="myProjects__info">
+                        <h2 className="myProjects__projectTitle">City Defence</h2>
+                        <p className="myProjects__description">Obroń miasto przed spadającymi meteorytami! Wsiadaj za stery statku kosmicznego i strzelaj bez opamiętania. Ludzkość musi przetrwać za wszelką cenę.</p>
+                    </div>
+                </div>
+                <a href="https://city-defence.herokuapp.com" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Zagraj!</Button></a>
+                <Link to="/planet-defence/ranking" className="myProjects__link"><Button className="button myProjects__button">Ranking</Button></Link>
             </div>
             <div className="myProjects__article">
                 <div className="myProjects__content">

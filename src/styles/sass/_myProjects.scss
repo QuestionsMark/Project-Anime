@@ -27,6 +27,7 @@
 
     &__projectTitle {
         @extend .AOT__questionnaireTitle;
+        margin-bottom: 10px;
         text-align: left;
     }
 

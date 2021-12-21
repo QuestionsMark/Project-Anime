@@ -1,0 +1,22 @@
+.planet-defence {
+
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        &:nth-child(2n) {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    }
+
+    &__stat {
+        font-weight: bold;
+    }
+
+}

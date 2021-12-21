@@ -706,6 +706,29 @@ span.MuiTypography-body1 {
   background-image: url("../../media/img/error.gif");
 }
 
+.planet-defence__list {
+  list-style: none;
+}
+
+.planet-defence__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.planet-defence__item:nth-child(2n) {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.planet-defence__stat {
+  font-weight: bold;
+}
+
 .header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2272,6 +2295,7 @@ section.news > .news__container {
 }
 
 .myProjects__projectTitle {
+  margin-bottom: 10px;
   text-align: left;
 }
 

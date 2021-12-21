@@ -32,6 +32,7 @@ import Achievements from './main/Achievements';
 import NewsPage from './NewsPage';
 
 import { HOST_ADDRESS } from '../config';
+import PlanetDefence from './main/PlanetDefence';
 
 function App() {
 
@@ -125,6 +126,9 @@ function App() {
                     </Route>
                     <Route path="/sword-art-online-clicker">
                         <SAOClicker main={main} />
+                    </Route>
+                    <Route path="/planet-defence">
+                        <PlanetDefence main={main} />
                     </Route>
                     <Route path="/">
                         <NotFound main={main} />

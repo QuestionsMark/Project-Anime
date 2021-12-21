@@ -21,7 +21,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
     const processOfWatchingList = useRef();
     const plannedList = useRef();
 
-    const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType } = profileData;
+    const { username, avatar, createAccountDate, rank, likes, achievements, points, introduction, userAnimeData, favoriteAnime, favoriteType, timeSpent } = profileData;
 
     const { status } = useUser();
 
@@ -105,7 +105,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
     };
 
     useEffect(() => {
-        setIsUserProfileLover(isUserLover())
+        setIsUserProfileLover(isUserLover());
     },[profileData]);
 
     return ( 
@@ -134,6 +134,9 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                     <div className="profile__statistics">
                         <h3 className="profile__statisticsTitle mediumTitle">Statystyki Anime</h3>
                         <div className="profile__statisticsContainer">
+                            <div className="profile__statistic">
+                                <h3 className="profile__subtitle">Łączny czas oglądania: {timeSpent}</h3>
+                            </div>
                             <div className="profile__statistic">
                                 <div className="profile__statisticInfo">
                                     <Button className="button profile__button" onClick={() => handleSlide('watched')}><DoneRoundedIcon className="profile__statisticsIcon"/></Button>
