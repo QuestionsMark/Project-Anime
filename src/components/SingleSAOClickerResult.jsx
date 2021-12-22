@@ -1,16 +1,17 @@
 import React from 'react';
 
-import { Icon } from '@material-ui/core';
+const SingleSAOClickerResult = ({place, result, refference}) => {
 
-const SingleSAOClickerResult = ({place, username, completionTime, lvl, achievements, swords}) => {
+    const {username, time, lvl, achievements, swords } = result;
+
     return ( 
-        <li className="SAOCRanking__item">
-            <p className="SAOCRanking__place">{place <= 3 ? <Icon className="fas fa-trophy " /> : place}</p>
-            <p className="SAOCRanking__info SAOCRanking__info--nick">{username}</p>
-            <p className="SAOCRanking__info SAOCRanking__info--time">{completionTime}</p>
-            <p className="SAOCRanking__info SAOCRanking__info--lvl">{lvl}</p>
-            <p className="SAOCRanking__info SAOCRanking__info--achievements">{achievements}</p>
-            <p className="SAOCRanking__info SAOCRanking__info--swords">{swords}</p>
+        <li className="SAOCRanking__item" ref={refference ? refference : null}>
+            <p className="SAOCRanking__stat SAOCRanking__stat-place">{place}</p>
+            <p className="SAOCRanking__stat">{username}</p>
+            <p className="SAOCRanking__stat">{time}</p>
+            <p className="SAOCRanking__stat">{lvl}</p>
+            <p className="SAOCRanking__stat">{achievements}</p>
+            <p className="SAOCRanking__stat">{swords}</p>
         </li>
      );
 }

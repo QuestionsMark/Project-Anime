@@ -706,27 +706,33 @@ span.MuiTypography-body1 {
   background-image: url("../../media/img/error.gif");
 }
 
+.planet-defence__legend-item {
+  -ms-flex-preferred-size: 20%;
+      flex-basis: 20%;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.planet-defence__legend-item.active {
+  color: #f50057;
+}
+
+.planet-defence__legend-item:hover {
+  color: #f50057;
+}
+
 .planet-defence__list {
   list-style: none;
 }
 
-.planet-defence__item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.planet-defence__item:nth-child(2n) {
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
 .planet-defence__stat {
+  -ms-flex-preferred-size: 20%;
+      flex-basis: 20%;
   font-weight: bold;
+  text-align: center;
 }
 
 .header {
@@ -5558,48 +5564,61 @@ section.news > .news__container {
   text-decoration: underline;
 }
 
-.SAOCRanking {
+.SAOCRanking, .planet-defence {
   padding: 0;
 }
 
-.SAOCRanking__title {
+.SAOCRanking__title, .planet-defence__title {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 30px 0;
   margin-bottom: 0;
   border-bottom: 2px solid #f50057;
 }
 
-.SAOCRanking__filters {
+.SAOCRanking__legend, .planet-defence__legend {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
   border-bottom: 2px solid #f50057;
+  background-color: black;
 }
 
-.SAOCRanking__filter {
-  padding: 10px;
+.SAOCRanking__legend::after, .planet-defence__legend::after {
+  display: block;
+  content: 'Sortowanie';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  padding: 2px 6px;
+  font-size: 12px;
+  background-color: black;
+  color: #f50057;
+}
+
+.SAOCRanking__legend.active, .active.planet-defence__legend {
+  color: #f50057;
+}
+
+.SAOCRanking__legend-item {
+  -ms-flex-preferred-size: 16.66666666%;
+      flex-basis: 16.66666666%;
+  text-align: center;
   font-weight: bold;
   cursor: pointer;
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 
-.SAOCRanking__filter.active {
+.SAOCRanking__legend-item.active {
   color: #f50057;
 }
 
-.SAOCRanking__filter:hover {
+.SAOCRanking__legend-item:hover {
   color: #f50057;
-}
-
-.SAOCRanking__legend {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 10px;
-  border-bottom: 1px solid #f50057;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .SAOCRanking__list {
@@ -5607,81 +5626,38 @@ section.news > .news__container {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.SAOCRanking__item {
+.SAOCRanking__item, .planet-defence__item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.SAOCRanking__item:nth-child(2n) {
-  background-color: rgba(0, 0, 0, 0);
+.SAOCRanking__item:nth-child(2n), .planet-defence__item:nth-child(2n) {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-.SAOCRanking__item:nth-of-type(1) .SAOCRanking__place {
+.SAOCRanking__item:nth-of-type(1), .planet-defence__item:nth-of-type(1) {
   color: #ffb700;
-  text-shadow: 0 0 10px #ffb700;
 }
 
-.SAOCRanking__item:nth-of-type(2) .SAOCRanking__place {
+.SAOCRanking__item:nth-of-type(2), .planet-defence__item:nth-of-type(2) {
   color: #adadad;
-  text-shadow: 0 0 10px #adadad;
 }
 
-.SAOCRanking__item:nth-of-type(3) .SAOCRanking__place {
+.SAOCRanking__item:nth-of-type(3), .planet-defence__item:nth-of-type(3) {
   color: #6b2d1d;
-  text-shadow: 0 0 10px #6b2d1d;
 }
 
-.SAOCRanking__place {
-  position: relative;
-  width: 34px;
-  height: 34px;
-  text-align: center;
-  line-height: 34px;
-  font-size: 20px;
+.SAOCRanking__stat {
+  -ms-flex-preferred-size: 16.666666%;
+      flex-basis: 16.666666%;
   font-weight: bold;
-}
-
-.SAOCRanking__place .MuiIcon-root::before {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  font-size: 18px;
-}
-
-.SAOCRanking__info {
   text-align: center;
-}
-
-.SAOCRanking__info--place {
-  width: 34px;
-}
-
-.SAOCRanking__info--nick {
-  width: 150px;
-}
-
-.SAOCRanking__info--time {
-  width: 150px;
-}
-
-.SAOCRanking__info--lvl {
-  width: 150px;
-}
-
-.SAOCRanking__info--achievements {
-  width: 150px;
-}
-
-.SAOCRanking__info--swords {
-  width: 150px;
 }
 
 .footer {

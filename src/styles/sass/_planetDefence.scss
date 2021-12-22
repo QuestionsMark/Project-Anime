@@ -1,22 +1,42 @@
 .planet-defence {
+    @extend .SAOCRanking;
+
+    &__title {
+        @extend .SAOCRanking__title;
+    }
+
+    &__legend {
+        @extend .SAOCRanking__legend;
+    }
+
+    &__legend-item {
+        flex-basis: 20%;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &.active {
+            color: $main-color;
+        }
+
+        &:hover {
+            color: $main-color;
+        }
+    }
 
     &__list {
         list-style: none;
     }
 
     &__item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
-
-        &:nth-child(2n) {
-            background-color: rgba(0, 0, 0, 0.7);
-        }
+        @extend .SAOCRanking__item;
     }
 
     &__stat {
+        flex-basis: 20%;
         font-weight: bold;
+        text-align: center;
     }
 
 }

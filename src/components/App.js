@@ -27,7 +27,7 @@ import NotFound from './main/NotFound';
 import Profile from './main/Profile';
 import PageCreate from './main/PageCreate';
 import MyProjects from './main/MyProjects';
-import SAOClicker from './SAOClicker';
+import SAOClicker from './main/SAOClicker';
 import Achievements from './main/Achievements';
 import NewsPage from './NewsPage';
 

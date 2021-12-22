@@ -1,31 +1,60 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Popup from 'reactjs-popup';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { HOST_ADDRESS_PLANET_DEFENCE } from '../../config';
 import setMain from '../../utils/setMain';
+import useGameSearch from '../../hooks/useGameSearch';
+
+import Loading from '../Loading';
+import Error from '../Error';
 
 const PlanetDefence = ({ main, history, match }) => {
 
-    const [planetDefenceResults, setPlanetDefenceResults] = useState([]);
-    const getPlanetDefenceResults = async () => {
-        const response = await fetch(`${HOST_ADDRESS_PLANET_DEFENCE}/results`);
-        if (response.ok) {
-            setPlanetDefenceResults(await response.json());
-        }
+    const [sort, setSort] = useState('overall');
+    const handleChangeSort = (sort) => {
+        setSort(sort);
+        setPage(1);
     };
+    const [page, setPage] = useState(1);
+
+    const { data, hasMore, loading, error } = useGameSearch('city-defence', 'results', page, sort);
+
+    const observer = useRef();
+    const lastDataElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prev => prev + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
 
     const planetDefenceList = () => {
-        return planetDefenceResults.map((r, i) => <li key={i} className="planet-defence__item">
-            <p className="planet-defence__stat">Miejsce: {i + 1}</p>
-            <p className="planet-defence__stat">Użytkownik: {r.username}</p>
-            <p className="planet-defence__stat">Punkty: {r.score}</p>
-            <p className="planet-defence__stat">Celność: {r.accuracy}</p>
-        </li>);
+        return data.map((r, i) => {
+            if (data.length === i + 1) {
+                return (
+                    <li key={i} className="planet-defence__item" ref={lastDataElementRef}>
+                        <p className="planet-defence__stat">{i + 1}</p>
+                        <p className="planet-defence__stat">{r.username}</p>
+                        <p className="planet-defence__stat">{r.score}</p>
+                        <p className="planet-defence__stat">{r.accuracy.toFixed(2)}%</p>
+                        <p className="planet-defence__stat">{r.date}</p>
+                    </li>
+                );
+            } else {
+                return (
+                    <li key={i} className="planet-defence__item">
+                        <p className="planet-defence__stat">{i + 1}</p>
+                        <p className="planet-defence__stat">{r.username}</p>
+                        <p className="planet-defence__stat">{r.score}</p>
+                        <p className="planet-defence__stat">{r.accuracy.toFixed(2)}%</p>
+                        <p className="planet-defence__stat">{r.date}</p>
+                    </li>
+                );
+            }
+        });
     };
-
-    useEffect(() => {
-        getPlanetDefenceResults();
-    }, []);
 
     const goUp = history.listen(() => {
         window.scrollTo(0, 0);
@@ -37,10 +66,28 @@ const PlanetDefence = ({ main, history, match }) => {
 
     return ( 
         <div className="planet-defence main__content">
-            <h2 className="planet-defence__title largeTitle">Sword Art Online Clicker ranking</h2>
+            <h2 className="planet-defence__title largeTitle">City Defence Ranking</h2>
             <Switch>
                 <Route path="/planet-defence/ranking">
-                    {planetDefenceResults.length > 0 ? <ul className="planet-defence__list">{planetDefenceList()}</ul> : null}
+                    <div className="planet-defence__legend">
+                        <Popup className="normal-popup" position="top center" on="hover" mouseEnterDelay={100} trigger={<p className={`planet-defence__legend-item ${sort === 'overall' ? 'active' : ''}`} onClick={() => handleChangeSort('overall')}>Miejsce</p>}>
+                            Sortowanie overall.
+                        </Popup>
+                        <Popup className="normal-popup" position="top center" on="hover" mouseEnterDelay={100} trigger={<p className={`planet-defence__legend-item ${sort === 'username' ? 'active' : ''}`} onClick={() => handleChangeSort('username')}>Użytkownik</p>}>
+                            Sortowanie po nazwie.
+                        </Popup>
+                        <Popup className="normal-popup" position="top center" on="hover" mouseEnterDelay={100} trigger={<p className={`planet-defence__legend-item ${sort === 'score' ? 'active' : ''}`} onClick={() => handleChangeSort('score')}>Pynkty</p>}>
+                            Sortowanie po punktacji.
+                        </Popup>
+                        <Popup className="normal-popup" position="top center" on="hover" mouseEnterDelay={100} trigger={<p className={`planet-defence__legend-item ${sort === 'accuracy' ? 'active' : ''}`} onClick={() => handleChangeSort('accuracy')}>Celność</p>}>
+                            Sortowanie po celności.
+                        </Popup>
+                        <Popup className="normal-popup" position="top center" on="hover" mouseEnterDelay={100} trigger={<p className={`planet-defence__legend-item ${sort === 'date' ? 'active' : ''}`} onClick={() => handleChangeSort('date')}>Data</p>}>
+                            Sortowanie po dacie.
+                        </Popup>
+                    </div>
+                    {data.length > 0 ? <ul className="planet-defence__list">{planetDefenceList()}</ul> : <Loading />}
+                    {error ? <Error error={error}/> : null}
                 </Route>
             </Switch>
         </div>
