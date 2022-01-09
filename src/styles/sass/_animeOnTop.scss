@@ -121,11 +121,19 @@
         border-radius: 50%;
         margin-bottom: 15px;
         cursor: pointer;
+        // scroll-behavior: ;
+        overflow: auto;
+        overscroll-behavior-y: contain;
         transition: 0.3s;
 
         &:hover {
             box-shadow: 0 0 10px 3px $main-color;
         }
+    }
+
+    &__music-volume {
+        font-weight: bold;
+        color: $main-color;
     }
 
     &__hehe {

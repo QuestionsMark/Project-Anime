@@ -10,8 +10,9 @@ import Error from '../Error';
 const PlanetDefence = ({ main, history, match }) => {
 
     const [sort, setSort] = useState('overall');
-    const handleChangeSort = (sort) => {
-        setSort(sort);
+    const handleChangeSort = (newSort) => {
+        if (newSort === sort) return;
+        setSort(newSort);
         setPage(1);
     };
     const [page, setPage] = useState(1);

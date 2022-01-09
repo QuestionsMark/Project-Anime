@@ -9,8 +9,7 @@ import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
 
 import { HOST_ADDRESS } from '../config';
-
-let prevScroll;
+import { useState } from 'react';
 
 const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
 
@@ -23,6 +22,8 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
 
     const { authorization } = useUser();
 
+    const [volume, setVolume] = useState(0.1);
+
     const handleMusic = () => {
         if (audio.current.paused) {
             audio.current.currentTime = 0;
@@ -31,25 +32,17 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
             audio.current.pause();
         }
     };
-    const handleVolumeChange = (e) => {
-        if(!audio.current.paused) {
-            if (prevScroll > e.target.scrollTop) {
-                if(audio.current.volume < 0.98) {
-                    audio.current.volume = audio.current.volume + 0.01;
-                }
-                prevScroll = e.target.scrollTop;
-            } else if (prevScroll < e.target.scrollTop) {
-                if(audio.current.volume > 0.02) {
-                    audio.current.volume = audio.current.volume - 0.01;
-                }
-                prevScroll = e.target.scrollTop;
-            }
+    const handleVolumeChange = e => {
+        const { deltaY } = e;
+        if (deltaY < 0) {
+            if (volume === 0) return;
+            if (volume <= 0.02) return setVolume(0);
         }
-    };
-    const setScroll = (volume, prevscroll) => {
-        audio.current.scrollTop = 100000;
-        audio.current.volume = volume
-        prevScroll = prevscroll
+        if (deltaY > 0) {
+            if (volume === 1) return;
+            if (volume >= 0.98) return setVolume(1);
+        }
+        setVolume(prev => prev + (deltaY / 10000 * 2));
     };
     
     const handleFinishAOT = async () => {
@@ -77,8 +70,8 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
     };
 
     useEffect(() => {
-        setScroll(0.5, 100000);
-    },[]);
+        audio.current.volume = volume;
+    }, [volume]);
 
     return ( 
         <>
@@ -103,14 +96,12 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
                     <p className="AOT__description">{description}</p>
                 </div>
                 <div className="AOT__right">
-                    <Popup className="normal-popup" on="hover" position="top center" trigger={<div className="AOT__music" onClick={handleMusic}>
+                    <Popup className="normal-popup" on="hover" position="top center" trigger={<div className="AOT__music" onClick={handleMusic} onWheel={handleVolumeChange}>
                         <audio src={`${HOST_ADDRESS}/soundtracks/${soundtrack}`} ref={audio} className="AOT__audio"></audio>
                         <MusicNoteRoundedIcon className="AOT__mediaIcon"/>
-                        <div className="AOT__hehe" onScroll={handleVolumeChange}>
-                            <div className="AOT__range" />
-                        </div>
                     </div>}>
-                        Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.
+                        <p className="AOT__music-instruction">Kliknij, aby posłuchać. Scrolluj trzymając kursor na ikonie, aby zmienić głośność.</p>
+                        <p className="AOT__music-instruction">Obecna głośność: <span className="AOT__music-volume">{(volume * 100).toFixed(0)}%</span></p>
                     </Popup>
                     <div className="AOT__movie">
                         <a href={watchLink} target="_blank" rel="noreferrer" className="AOT__link">

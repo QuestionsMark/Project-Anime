@@ -8,8 +8,6 @@
         max-height: calc(85vh - 40px - 18px);
         margin-bottom: 10px;
         overflow-y: scroll;
-        // overflow: auto;
-        // overscroll-behavior-y: contain;
 
         &::-webkit-scrollbar {
             width: 0;

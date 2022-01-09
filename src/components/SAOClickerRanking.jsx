@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import useGameSearch from '../hooks/useGameSearch';
@@ -10,8 +10,9 @@ import SingleSAOClickerResult from './SingleSAOClickerResult';
 const SAOClickerRanking = () => {
 
     const [sort, setSort] = useState('time');
-    const handleChangeSort = (sort) => {
-        setSort(sort);
+    const handleChangeSort = (newSort) => {
+        if (newSort === sort) return;
+        setSort(newSort);
         setPage(1);
     };
     const [page, setPage] = useState(1);
