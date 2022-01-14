@@ -1,12 +1,15 @@
 import React, { useState, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { HOST_ADDRESS } from '../config';
+import { useSocket } from '../contexts/SocketProvider';
 import { useUser } from '../contexts/UserProvider';
 
 const AddWTMComment = ({id, getWTMComments}) => {
 
     const addCommentContent = useRef();
 
+    const socket = useSocket();
     const { user } = useUser();
 
     const [text, setText] = useState('');
@@ -14,7 +17,7 @@ const AddWTMComment = ({id, getWTMComments}) => {
         setText(e.target.value);
     };
 
-    const scrollDown = async () => {
+    const scrollDown = () => {
         const scrollValue = document.querySelector('.main__rightSide').scrollHeight;
         document.querySelector('.main__rightSide').scroll({
             behavior: 'smooth',
@@ -42,6 +45,7 @@ const AddWTMComment = ({id, getWTMComments}) => {
                 }),
             });
             if (response.ok) {
+                socket.emit('chat-message');
                 await getWTMComments();
                 scrollDown();
             }

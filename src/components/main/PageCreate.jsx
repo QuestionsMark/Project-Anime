@@ -589,7 +589,7 @@ const PageCreate = ({main, match, history}) => {
                         <label htmlFor="music" className="create__imageLabel">Soundtrack</label>
                         {soundtrack ? <div className="create__preview">
                             <p className="changes__size" style={{color: soundtrackPreview.size < 8.388608 ? '#5ec45e' : '#d14141'}}>{soundtrackPreview.size.toFixed(2)} MB {soundtrackPreview.size < 8.388608 ? 'OK' : 'Plik jest za duży!'}</p>
-                            <Audio mp3={soundtrackPreview.url}/>
+                            <Audio id={soundtrackPreview.url} isUrl={true}/>
                             <RemoveRoundedIcon className="create__delete-icon" onClick={handleRemoveSoundtrack}/>
                         </div> : null}
                         <input type="text" className="create__composerInp create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInfChange("composer", e)}}/>

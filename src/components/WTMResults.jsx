@@ -1,26 +1,13 @@
 import React from 'react';
 
+import Audio from '../components/Audio';
 import SingleVoteResult from './SingleVoteResult';
 
 import { useUser } from '../contexts/UserProvider';
 
 const WTMResults = ({whatsTheMelody}) => {
     
-    const { status, user } = useUser();
-
-    const isVoteCorrect = () => {
-        if (whatsTheMelody.correctAnswear) {
-            let userAnswear;
-            whatsTheMelody.votes.forEach(v => {
-                const index = v.votes.findIndex(v => v === user.id);
-                if (index !== -1) {
-                    userAnswear = v.title;
-                }
-            }); 
-            if (userAnswear === whatsTheMelody.correctAnswear) return true;
-            return false;
-        }
-    };
+    const { user } = useUser();
 
     const votesAmount = () => {
         const votesAmount = [];
@@ -41,25 +28,28 @@ const WTMResults = ({whatsTheMelody}) => {
         const votes = [...whatsTheMelody.votes];
         votes.forEach(v => {
             if (allVotes !== 0) {
+                const userVote = v.votes.findIndex(v => v === user.id) !== -1;
+                v.isFail = v.title !== whatsTheMelody.correctAnswear && userVote ? true : false;
                 v.percent = `${(v.votes.length * 100 / allVotes).toFixed(1)}%`;
             } else {
+                v.isFail = false;
                 v.percent = `0.0%`;
             }
         });
-        return votes.map((v, i) => <SingleVoteResult key={i} percent={v.percent} title={v.title} color={status ? getColor(v) : ''}/>);
+        return votes.map((v, i) => <SingleVoteResult key={i} isFail={v.isFail} percent={v.percent} title={v.title} color={getColor(v)}/>);
     };
 
     return ( 
-        <>
+        <div className="WTM">
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
-            {status ? <div className="WTM__userVote">
-                {isVoteCorrect() ? <span className="WTM__userVoteResponse" style={{color: '#5ec45e'}}>Dobrze!</span> : <span className="WTM__userVoteResponse" style={{color: '#d14141'}}>Ty parzydlaku!</span>}
-            </div> : null}
+            <div className="WTM__audio">
+                <Audio id={whatsTheMelody.mp3}/>
+            </div>
             <div className="WTM__results">
                 {resultsList()}
             </div>
             <p className="WTM__votes"><strong>{votesAmount()}</strong> oddanych głosów</p>
-        </>
+        </div>
      );
 }
  

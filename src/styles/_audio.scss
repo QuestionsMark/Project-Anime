@@ -1,57 +1,64 @@
-.audioInterface {
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    width: 300px;
+.audio {
 
-    &__icon.MuiSvgIcon-root {
-        display: none;
-        width: 30px;
-        height: 30px;
-        padding: 2px;
-        margin-right: 8px;
+    .audio__Icon {
+        @include position-absolute(50%, 50%);
+        font-size: 24px;
         color: $main-color;
         cursor: pointer;
         transition: 0.2s;
 
         &:hover {
-            padding: 0;
+            font-size: 28px;
         }
     }
 
-    &__icon.MuiSvgIcon-root.last {
-        margin-right: 0;
+    &__interface {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 300px;
+        height: 30px;
+        overflow: hidden;
     }
 
-    &__playPause {
-        margin-right: -6px;
-
-        .active {
-            display: block;
-        }
+    &__run {
+        position: relative;
+        width: 30px;
+        height: 30px;
     }
 
     &__time {
-        margin-right: 8px;
-        font-size: 13px;
+        width: 90px;
+        padding: 2px 10px 0 0;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: $main-color;
     }
 
-
-
+    &__volume {
+        display: flex;
+        overflow: auto;
+        overscroll-behavior-y: contain;
+    }
 
     /* CAŁY INPUT */
 
-    &__progression,
-    &__pageProgression {
+    &__inp-progress {
+        display: block;
         -webkit-appearance: none;
-        width: 130px;
-        height: 50px;
-        margin-right: 8px;
+        width: 144px;
+        height: 30px;
+        margin-right: 6px;
         background: transparent;
         outline: none;
+        cursor: pointer;
         transition: 0.3s;
 
-
+        &.hide {
+            width: 40px;
+            margin-right: 10px;
+        }
 
         /* KÓŁKO */
 
@@ -68,10 +75,9 @@
         }
 
         &:hover::-webkit-slider-thumb {
-            height: 12px;
-            width: 12px;
-            margin-top: -5px;
-            transform: translateX(10%);
+            height: 10px;
+            width: 10px;
+            margin-top: -4px;
         }
 
         &::-moz-range-thumb {
@@ -85,8 +91,8 @@
         }
 
         &:hover::-moz-range-thumb {
-            height: 13px;
-            width: 13px;
+            height: 10px;
+            width: 10px;
         }
 
         /* ŚCIEŻKA */
@@ -94,7 +100,6 @@
         &::-webkit-slider-runnable-track {
             width: 100%;
             height: 3px;
-            cursor: pointer;
             background: $main-color;
             transition: 0.3s;
         }
@@ -102,23 +107,27 @@
         &::-moz-range-track {
             width: 100%;
             height: 3px;
-            cursor: pointer;
             background: $main-color;
             transition: 0.3s;
         }
     }
 
 
-    &__volume,
-    &__pageVolume {
+    &__inp-volume {
+        display: block;
         -webkit-appearance: none;
         width: 0;
-        height: 50px;
-        margin-right: 0;
+        height: 30px;
         background: transparent;
         outline: none;
         overflow: hidden;
+        cursor: pointer;
         transition: 0.3s;
+
+        &.visible {
+            width: 94px;
+            margin-right: 6px;
+        }
 
         /* KÓŁKO */
 
@@ -135,10 +144,9 @@
         }
 
         &:hover::-webkit-slider-thumb {
-            height: 12px;
-            width: 12px;
-            margin-top: -5px;
-            transform: translateX(10%);
+            height: 10px;
+            width: 10px;
+            margin-top: -4px;
         }
 
         &::-moz-range-thumb {
@@ -152,8 +160,8 @@
         }
 
         &:hover::-moz-range-thumb {
-            height: 13px;
-            width: 13px;
+            height: 10px;
+            width: 10px;
         }
 
         /* ŚCIEŻKA */
@@ -161,7 +169,6 @@
         &::-webkit-slider-runnable-track {
             width: 100%;
             height: 3px;
-            cursor: pointer;
             background: $main-color;
             transition: 0.3s;
         }
@@ -169,50 +176,16 @@
         &::-moz-range-track {
             width: 100%;
             height: 3px;
-            cursor: pointer;
             background: $main-color;
             transition: 0.3s;
         }
     }
 
-    &__sound {
-        display: flex;
-        align-items: center;
-
-        .active {
-            display: block;
-        }
+    &__volume-state {
+        @include position-absolute(285px, 14px);
+        width: 30px;
+        height: 30px;
+        overflow: auto;
+        overscroll-behavior-y: contain;
     }
-
-    &__info {}
-
-    &__likes {
-        display: flex;
-        align-items: center;
-        margin: 0 20px 0 auto;
-
-        .audioInterface__likeIcon {
-            color: $font-color;
-            cursor: pointer;
-
-            &:hover {
-                color: $font-color2;
-            }
-        }
-
-        .audioInterface__likeIcon.active {
-            color: $main-color;
-        }
-    }
-
-    &__likesValue {
-        margin-right: 5px;
-        font-weight: bold;
-    }
-}
-
-.audioInterface--borderSize {
-    width: 337px;
-    padding: 20px;
-    // margin: auto;
 }

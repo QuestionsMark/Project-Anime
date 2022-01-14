@@ -1,32 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { HOST_ADDRESS } from '../config';
-
-import { useUser } from '../contexts/UserProvider';
+import React, { useEffect, useRef, useState } from 'react';
 
 import DailyAnime from './DailyAnime';
-import LoadingSmall from './LoadingSmall';
-import WhatsTheMelody from './WhatsTheMelody';
 import WhatsTheMelodyComments from './WhatsTheMelodyComments';
+import WTMQuestionnaire from './WTMQuestionnaire';
+import WTMResults from './WTMResults';
+import LoadingSmall from './LoadingSmall';
 
-const RightSide = () => {
+import { useSocket } from '../contexts/SocketProvider';
+import { useUser } from '../contexts/UserProvider';
+
+import { HOST_ADDRESS } from '../config';
+
+import plum from '../media/mp3/plum.mp3';
+
+const RightSideV2 = () => {
+
+    const audioRef = useRef();
+
+    const socket = useSocket();
 
     const { status, user } = useUser();
 
-    const [dailyAnime, setDailyAnime] = useState(null);
+    const [DA, setDA] = useState(null);
+    const [WTM, setWTM] = useState(null);
+    const [WTMC, setWTMC] = useState([]);
     const getDailyAnime = async () => {
         const response = await fetch(`${HOST_ADDRESS}/daily-anime`);
         if (response.ok) {
             const dailyAnime = await response.json();
-            setDailyAnime(dailyAnime);
+            setDA(dailyAnime);
         }
     };
-
-    const [whatsTheMelody, setWhatsTheMelody] = useState(null);
     const getWhatsTheMelody = async () => {
         const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/actual`);
         if (response.ok) {
             const whatsTheMelody = await response.json();
-            setWhatsTheMelody(whatsTheMelody);
+            setWTM(whatsTheMelody);
+        }
+    };
+    const getWTMComments = async () => {
+        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/actual/comments`);
+        if (response.ok) {
+            const comments = await response.json();
+            setWTMC(comments);
         }
     };
 
@@ -34,7 +50,9 @@ const RightSide = () => {
     const [isChecked, setIsChecked] = useState(false);
     const checkDidUserVote = () => {
         const users = [];
-        whatsTheMelody.votes.forEach(v => users.push(...v.votes));
+        for (const vote of WTM.votes) {
+            users.push(...vote.votes);
+        }
         const index = users.findIndex(u => u === user.id);
         if (index !== -1) {
             setDidUserVote(true);
@@ -45,15 +63,6 @@ const RightSide = () => {
         }
     };
 
-    const [whatsTheMelodyComments, setWhatsTheMelodyComments] = useState([]);
-    const getWTMComments = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody/${whatsTheMelody.id}/comments`);
-        if (response.ok) {
-            const comments = await response.json();
-            setWhatsTheMelodyComments(comments);
-        }
-    };
-
     const handleRollDailyAnime = async () => {
         await fetch(`${HOST_ADDRESS}/daily-anime`, {
             method: 'POST',
@@ -61,13 +70,51 @@ const RightSide = () => {
         getDailyAnime();
     };
 
-    const handleFinishWhatsTheMelody = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/whats-the-melody`, {
-            method: 'POST'
+    const scrollDown = () => {
+        const scrollValue = document.querySelector('.main__rightSide').scrollHeight;
+        document.querySelector('.main__rightSide').scroll({
+            behavior: 'smooth',
+            top: scrollValue
         });
-        if (response.ok) {
-            getWhatsTheMelody()
+        const scrollValue2 = document.querySelector('.WTMC__list').scrollHeight;
+        document.querySelector('.WTMC__list').scroll({
+            behavior: 'smooth',
+            top: scrollValue2
+        });
+    };
+
+    const dailyAnimeComponent = () => {
+        return DA ? <DailyAnime dailyAnime={DA} handleRollDailyAnime={handleRollDailyAnime}/> : <div className="DA"><LoadingSmall /></div>;
+    };
+    const whatsTheMelodyComponent = () => {
+        if (WTM) {
+            if (status) {
+                if (isChecked) {
+                    if (didUserVote) {
+                        return <WTMResults whatsTheMelody={WTM}/>;
+                    }
+                    return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody}/>;
+                }
+                return <div className="DA"><LoadingSmall /></div>;
+            }
+            return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody}/>;
         }
+        return <div className="DA"><LoadingSmall /></div>;
+    };
+    const whatsTheMelodyCommentsComponent = () => {
+        if (status) {
+            if (WTM) {
+                if (isChecked) {
+                    if (didUserVote) {
+                        return <WhatsTheMelodyComments id={WTM.id} whatsTheMelodyComments={WTMC} getWTMComments={getWTMComments}/>;
+                    }
+                    return null;
+                }
+                return <div className="DA"><LoadingSmall /></div>;
+            }
+            return <div className="DA"><LoadingSmall /></div>;
+        }
+        return null;
     };
 
     useEffect(() => {
@@ -76,19 +123,36 @@ const RightSide = () => {
     }, []);
 
     useEffect(() => {
-        if (status && JSON.stringify(user) !== "{}" && whatsTheMelody) {
-            getWTMComments();
-            checkDidUserVote();
-        }
-    }, [status, user, whatsTheMelody]);
+        if (JSON.stringify(user) === '{}' || !status || !WTM) return;
+        checkDidUserVote();
+        getWTMComments();
+    }, [user, status, WTM]);
+
+    useEffect(() => {
+        if (socket === null) return;
+        socket.on('chat-message', async () => {
+            audioRef.current.autoplay = true;
+            audioRef.current.src = plum;
+            await getWTMComments();
+            scrollDown();
+        });
+        return () => socket.off('chat-message');
+    }, [socket]);
+
+    useEffect(() => {
+        if (socket == null) return;
+        socket.on('user-connected', message => console.log(message));
+        return () => socket.off('user-connected');
+      }, [socket]);
 
     return ( 
         <div className="main__rightSide">
-            {dailyAnime ? <DailyAnime dailyAnime={dailyAnime} handleRollDailyAnime={handleRollDailyAnime}/> : <div className="DA"><LoadingSmall /></div>}
-            {whatsTheMelody && status ? <WhatsTheMelody whatsTheMelody={whatsTheMelody} getWhatsTheMelody={getWhatsTheMelody} handleFinishWhatsTheMelody={handleFinishWhatsTheMelody} didUserVote={didUserVote} isChecked={isChecked}/> : status && !whatsTheMelody ? <div className="DA"><LoadingSmall /></div> : null}
-            {status && whatsTheMelody && didUserVote ? <WhatsTheMelodyComments id={whatsTheMelody.id} whatsTheMelodyComments={whatsTheMelodyComments} getWTMComments={getWTMComments}/> : status ? <div className="DA"><LoadingSmall /></div> : null}
+            <audio src={plum} ref={audioRef} className="main__rightSIde-notification-audio"></audio>
+            {dailyAnimeComponent()}
+            {whatsTheMelodyComponent()}
+            {whatsTheMelodyCommentsComponent()}
         </div>
      );
 }
  
-export default RightSide;
+export default RightSideV2;

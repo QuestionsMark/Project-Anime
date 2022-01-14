@@ -92,4 +92,14 @@
         line-height: 50px;
         text-align: center;
     }
+
+    &__audio {
+        margin-bottom: 15px;
+    }
+
+    &__button {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+    }
 }

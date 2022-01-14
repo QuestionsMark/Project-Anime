@@ -4,17 +4,16 @@
     position: relative;
     min-height: 40vh;
     padding: 10px;
-    border-right: 1px solid $main-color;
-    border-bottom: 1px solid $main-color;
     border-radius: 10px;
     margin: 20px;
-    box-shadow: 5px 5px 10px 3px black;
+    box-shadow: 5px 5px 10px 5px black;
+    background-color: rgba(10, 10, 10, 0.4);
     user-select: none;
-    transition: 0.4s;
+    transition: 0.2s;
 
     &:hover {
         background-color: rgba(10, 10, 10, 0.5);
-        // transform: translate(-5px, -5px);
+        transform: scale(1.04);
     }
 
     &__title {

@@ -15,7 +15,7 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
     const [username, setUsername] = useState('');
     const getAvatar = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/users/${userID}`);
+        const response = await fetch(`${HOST_ADDRESS}/users/${userID}/comment-info`);
         if (response.ok) {
             const { avatar, username } = await response.json();
             setAvatar(avatar);

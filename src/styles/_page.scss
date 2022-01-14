@@ -436,6 +436,15 @@
         margin: 0 10px;
     }
 
+    &__soundtrack {
+        margin-bottom: 20px
+    }
+
+    &__soundtrack-audio {
+        width: 360px;
+        padding: 0 30px;
+    }
+
     &__seasons {
         @include page-style;
         position: relative;
@@ -515,6 +524,10 @@
 
         &--description {
             @include position-absolute(calc(100% - 20px), 20px);
+        }
+
+        &--audio {
+            @include position-absolute(17px, 55%);
         }
 
         .page__adminIcon {

@@ -1,0 +1,43 @@
+.audioInterface {
+    display: flex;
+    align-items: center;
+    width: 300px;
+
+    &__sound {
+        display: flex;
+        align-items: center;
+
+        .active {
+            display: block;
+        }
+    }
+
+    &__likes {
+        display: flex;
+        align-items: center;
+        margin: 0 20px 0 auto;
+
+        .audioInterface__likeIcon {
+            color: $font-color;
+            cursor: pointer;
+
+            &:hover {
+                color: $font-color2;
+            }
+        }
+
+        .audioInterface__likeIcon.active {
+            color: $main-color;
+        }
+    }
+
+    &__likesValue {
+        margin-right: 5px;
+        font-weight: bold;
+    }
+}
+
+.audioInterface--borderSize {
+    width: 337px;
+    padding: 20px;
+}
