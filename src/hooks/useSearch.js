@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { HOST_ADDRESS } from '../config';
 
-export default function useSearch(collection, searchPhrase, page, changedData, wantTypes, dontWantTypes, kind, minRate, maxRate) {
+export default function useSearch(collection, searchPhrase, page, changedData, wantTypes, dontWantTypes, sort, kind, minRate, maxRate) {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
 
     useEffect(() => {
         setData([]);
-    }, [changedData, searchPhrase, wantTypes, dontWantTypes, kind, minRate, maxRate]);
+    }, [changedData, searchPhrase, wantTypes, dontWantTypes, sort, kind, minRate, maxRate]);
 
     useEffect(() => {
         setLoading(true);
@@ -25,6 +25,7 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
                 page,
                 wantTypes,
                 dontWantTypes,
+                sort,
                 kind,
                 minRate,
                 maxRate,
@@ -48,7 +49,7 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
                 setError({ message: e.message });
             });
         return () => cancel();
-    }, [changedData, searchPhrase, wantTypes, dontWantTypes, kind, minRate, maxRate, page]);
+    }, [changedData, searchPhrase, wantTypes, dontWantTypes, sort, kind, minRate, maxRate, page]);
 
     return { loading, error, data, hasMore };
 }

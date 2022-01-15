@@ -21,11 +21,12 @@ const Top = ({main, history, match}) => {
 
     const [wantTypesFilter, setWantTypesFilter] = useState([]);
     const [dontWantTypesFilter, setDontWantTypesFilter] = useState([]);
+    const [sortFilter, setSortFilter] = useState('best');
     const [kindFilter, setKindFilter] = useState('all');
     const [rateMinFilter, setRateMinFilter] = useState('');
     const [rateMaxFilter, setRateMaxFilter] = useState('');
 
-    const { data, hasMore, loading, error } = useSearch('anime/top', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, kindFilter, rateMinFilter, rateMaxFilter);
+    const { data, hasMore, loading, error } = useSearch('anime/top', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, sortFilter, kindFilter, rateMinFilter, rateMaxFilter);
 
     const observer = useRef();
     const lastDataElementRef = useCallback(node => {
@@ -94,6 +95,10 @@ const Top = ({main, history, match}) => {
         setKindFilter(e.target.value);
         setPage(1);
     };
+    const handleFilterSort = (e) => {
+        setSortFilter(e.target.value);
+        setPage(1);
+    };
     const handleFilterRate = (e) => {
         const value = e.target.value;
         const length = value.length;
@@ -140,7 +145,7 @@ const Top = ({main, history, match}) => {
     return ( 
         <div className="top main__content">
             <Search handleSearch={handleSearch} value={searchPhrase}/>
-            <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate}/>
+            <Filter kindFilter={kindFilter} rateMinFilter={rateMinFilter} rateMaxFilter={rateMaxFilter} sortFilter={sortFilter} handleFilterTypes={handleFilterTypes} handleFilterKind={handleFilterKind} handleFilterRate={handleFilterRate} handleFilterSort={handleFilterSort}/>
             {data.length > 0 ? <div className="animeList scrollNav" data-id="3">
                 <ul className="animeList__list">
                     {animeList()}

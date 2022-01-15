@@ -40,32 +40,35 @@
 
     &__image {
         @include image;
-        width: 4.5vw;
-        height: 4.5vw;
-        border-radius: 50%;
-        margin-bottom: 10px;
-        box-shadow: 0 0 10px 2px $main-color;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border-radius: 22px;
+        margin-bottom: 4px;
+        box-shadow: 0 0 6px 3px black;
     }
 
     &__rate {
+        @include page-style;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 26px;
-        border-right: 1px solid $main-color;
-        border-bottom: 1px solid $main-color;
-        border-radius: 10px;
-        margin: 0 8px;
-        box-shadow: 2px 2px 6px 1px black;
+        width: 80px;
+        height: 22px;
+        padding: 0;
+        box-shadow: 0 -22px 0 0 rgba(10, 10, 10, 0.5), 0 -44px 0 0 rgba(10, 10, 10, 0.5);
+        // border-right: 1px solid $main-color;
+        // border-bottom: 1px solid $main-color;
+        // border-radius: 10px;
+        // margin: 0 8px;
+        // box-shadow: 2px 2px 6px 1px black;
         font-size: 15px;
         font-weight: bold;
-    }
 
-    &__rateIcon.MuiSvgIcon-root {
-        width: 25px;
-        height: 25px;
-        margin-left: -4px;
-        color: $special-color;
+        .DA__rateIcon {
+            margin-left: -4px;
+            color: $special-color;
+        }
     }
 
     &__animeTitle {

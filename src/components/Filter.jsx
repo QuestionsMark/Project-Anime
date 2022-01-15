@@ -8,7 +8,7 @@ import CheckBoxOutlineBlankOutlinedIcon from '@material-ui/icons/CheckBoxOutline
 import SingleTypeFilter from './SingleTypeFilter';
 import { HOST_ADDRESS } from '../config';
 
-const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, handleFilterKind, handleFilterRate}) => {
+const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, sortFilter, handleFilterTypes, handleFilterKind, handleFilterRate, handleFilterSort}) => {
 
     const [types, setTypes] = useState([]);
     const getTypes = async () => {
@@ -48,9 +48,9 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
                                 value={kindFilter}
                                 onChange={handleFilterKind}
                                 >
+                                    <MenuItem value="all">Wszystko</MenuItem>
                                     <MenuItem value="series">Seria odcinków</MenuItem>
                                     <MenuItem value="movies">Film</MenuItem>
-                                    <MenuItem value="all">Wszystko</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
@@ -63,23 +63,38 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, handleFilterTypes, ha
                         </div>
                     </div>
                     <div className="filter__container filter__container--part">
-                        <h3 className="filter__filtersTitle filter__filtersTitle--center">Legenda</h3>
-                        <div className="filter__want">
-                            <CheckBoxOutlinedIcon className="filter__instructionIcon" />
-                            <p className="filter__instructionText">Chcę</p>
-                        </div>
-                        <div className="filter__dontWant">
-                            <IndeterminateCheckBoxOutlinedIcon className="filter__instructionIcon" />
-                            <p className="filter__instructionText">Nie chcę</p>
-                        </div>
-                        <div className="filter__indifferent">
-                            <CheckBoxOutlineBlankOutlinedIcon className="filter__instructionIcon" />
-                            <p className="filter__instructionText">Obojętne</p>
+                        <h3 className="filter__filtersTitle filter__filtersTitle--center">Sortowanie</h3>
+                        <div className="filter__kind">
+                            <FormControl>
+                                <Select
+                                value={sortFilter}
+                                onChange={handleFilterSort}
+                                >
+                                    <MenuItem value="best">Najlepsze</MenuItem>
+                                    <MenuItem value="worst">Najgorsze</MenuItem>
+                                    <MenuItem value="new">Najnowsze</MenuItem>
+                                    <MenuItem value="old">Najstarsze</MenuItem>
+                                    <MenuItem value="alphabetically">Alfabetycznie</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
                     </div>
                 </div>
                 <div className="filter__container">
-                    <h3 className="filter__filtersTitle">Gatunki</h3>
+                    <h3 className="filter__filtersTitle">Gatunki 
+                        <div className="filter__legend-item">
+                            <CheckBoxOutlinedIcon className="filter__instructionIcon" />
+                            <p className="filter__instructionText">Chcę</p>
+                        </div>
+                        <div className="filter__legend-item">
+                            <IndeterminateCheckBoxOutlinedIcon className="filter__instructionIcon" />
+                            <p className="filter__instructionText">Nie chcę</p>
+                        </div>
+                        <div className="filter__legend-item">
+                            <CheckBoxOutlineBlankOutlinedIcon className="filter__instructionIcon" />
+                            <p className="filter__instructionText">Obojętne</p>
+                        </div>
+                    </h3>
                     <div className="filter__types">
                         {typesList()}
                     </div>

@@ -44,25 +44,32 @@
 
     &__image {
         @include image;
-        width: 8vw;
-        height: 8vw;
-        border-radius: 10px;
+        position: relative;
+        width: 150px;
+        height: 150px;
+        border-radius: 20px;
     }
 
     &__rate {
+        @include page-style;
         display: flex;
+        justify-content: center;
         align-items: center;
-        height: 3vw;
+        width: 150px;
+        height: 40px;
+        padding: 10px 0 0;
+        box-shadow: 0 -40px 0 0 rgba(10, 10, 10, 0.5);
 
         .AOT__rateIcon {
             width: 2vw;
             height: 2vw;
+            margin-left: -4px;
             color: $special-color;
         }
     }
 
     &__rateValue {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -89,16 +96,7 @@
     }
 
     &__type {
-        padding: 5px 20px;
-        border-bottom: 1px solid $main-color;
-        border-radius: 10px;
-        margin: 0 10px 10px 0;
-        text-decoration: none;
-        color: $font-color;
-
-        &:hover {
-            color: $main-color;
-        }
+        @extend .page__type;
     }
 
     &__description {

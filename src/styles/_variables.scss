@@ -12,6 +12,18 @@ $font-color2: #f0f0f0;
     transform: translate(-50%, -50%);
 }
 
+@mixin curtain {
+    @include position-absolute(50%, 50%);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.6);
+}
+
+@mixin image {
+    background-position: center;
+    background-size: cover;
+}
+
 @mixin main-style {
     border-right: 1px solid $main-color;
     border-bottom: 1px solid $main-color;
@@ -30,14 +42,17 @@ $font-color2: #f0f0f0;
     background-color: rgba(10, 10, 10, 0.5);
 }
 
-@mixin curtain {
-    @include position-absolute(50%, 50%);
-    width: 100%;
-    height: 100%;
-    background-color: rgba(10, 10, 10, 0.6);
-}
+@mixin aside-style {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 5px 5px 10px 5px black;
+    background-color: rgba(10, 10, 10, 0.4);
+    user-select: none;
+    transition: 0.2s;
 
-@mixin image {
-    background-position: center;
-    background-size: cover;
+    &:hover {
+        background-color: rgba(10, 10, 10, 0.5);
+        transform: scale(1.04);
+    }
 }
