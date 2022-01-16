@@ -20,7 +20,6 @@ export function SocketProvider({ children }) {
 
     useEffect(() => {
         if (!socket) return;
-        console.log('połączono');
         socket.emit('set-user', { userId: JSON.parse(localStorage.getItem('animark-user-id')) });
         return () => socket.off('connect');
     }, [socket]);

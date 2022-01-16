@@ -11,7 +11,6 @@ const OnlineUsers = () => {
     const socket = useSocket();
 
     const [onlineUsers, setOnlineUsers] = useState([]);
-    console.log(onlineUsers);
 
     const usersList = () => {
         return onlineUsers.map(u => <SingleOnlineUser key={u.socketId} user={u}/>);
