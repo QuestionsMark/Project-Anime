@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FormControl, FormControlLabel, RadioGroup, Radio, Button } from '@material-ui/core';
+import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
 
 import Audio from '../components/Audio';
 
@@ -9,9 +10,9 @@ import { useLoginPopup } from '../contexts/LoginPopup';
 
 import { HOST_ADDRESS } from '../config';
 
-const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody}) => {
+const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody, handleRollWhatsTheMelody}) => {
 
-    const { user, status } = useUser();
+    const { user, status, authorization } = useUser();
     const { setOpenLoginScreen } = useLoginPopup();
 
     const [vote, setVote] = useState('');
@@ -48,6 +49,9 @@ const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody}) => {
 
     return ( 
         <div className="WTM">
+            {authorization === '3' ? <div className="AOT__adminPanel">
+                <CachedRoundedIcon className="AOT__finish-icon" onClick={handleRollWhatsTheMelody}/>
+            </div> : null}
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
             <div className="WTM__audio">
                 <Audio id={whatsTheMelody.mp3}/>

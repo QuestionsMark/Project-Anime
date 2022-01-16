@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
+import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
 
 import { HOST_ADDRESS } from '../config';
 
@@ -21,7 +22,7 @@ const DailyAnime = ({dailyAnime, handleRollDailyAnime}) => {
     return ( 
         <div className="DA">
             {authorization === '3' ? <div className="AOT__adminPanel">
-                <p className="AOT__finish" onClick={handleRollDailyAnime}>Losuj</p>
+                <CachedRoundedIcon className="AOT__finish-icon" onClick={handleRollDailyAnime}/>
             </div> : null}
             <h3 className="DA__title">Polecane Anime na Dziś!</h3>
             <div className="DA__info">

@@ -18,6 +18,13 @@ export function SocketProvider({ children }) {
         return () => newSocket.close();
     }, []);
 
+    useEffect(() => {
+        if (!socket) return;
+        console.log('połączono');
+        socket.emit('set-user', { userId: JSON.parse(localStorage.getItem('animark-user-id')) });
+        return () => socket.off('connect');
+    }, [socket]);
+
     return (
         <SocketContext.Provider value={socket}>
             {children}

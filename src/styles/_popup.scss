@@ -13,4 +13,15 @@
         stroke-width: 4px;
     }
 
+    &--small {
+
+        &-content {
+            width: 100px;
+            min-width: 100px;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    }
+
 }

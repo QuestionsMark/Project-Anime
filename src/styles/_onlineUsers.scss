@@ -1,0 +1,36 @@
+.online-users {
+    flex-grow: 1;
+
+    &__content {
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        // Trzeba dobracować
+        max-width: 700px;
+        height: 100%;
+        margin: auto;
+        font-weight: bold;
+        overflow: hidden;
+
+        .online-users__icon {
+            width: 3vh;
+            height: calc(3vh - 2px);
+            padding: calc(0.5vh - 2px) 0.5vh;
+        }
+    }
+
+    &__text {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    &__item {
+        flex-shrink: 0;
+        width: 3.5vh;
+        height: 3.5vh;
+        border: 2px solid $main-color;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+    }
+}

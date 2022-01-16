@@ -134,8 +134,9 @@ const AudioComponent = ({id, isUrl = false}) => {
     };
 
     useEffect(() => {
+        setSrc('');
         setSource();
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (!audio) return;

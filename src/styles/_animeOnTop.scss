@@ -3,21 +3,17 @@
 
     &__adminPanel {
         position: absolute;
-        right: 30px;
-        top: 30px;
-    }
+        right: 10px;
+        top: 10px;
 
-    &__finish {
-        padding: 3px 15px;
-        border: 1px solid darken($main-color, 20%);
-        border-radius: 10px;
-        color: darken($main-color, 20%);
-        cursor: pointer;
-        transition: 0.3s;
+        .AOT__finish-icon {
+            color: #404040;
+            cursor: pointer;
 
-        &:hover {
-            color: $main-color;
-            border: 1px solid $main-color;
+            &:hover {
+                color: $main-color;
+                animation: iconRotate 2s infinite linear;
+            }
         }
     }
 

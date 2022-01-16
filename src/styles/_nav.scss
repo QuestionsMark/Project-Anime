@@ -82,6 +82,8 @@
     }
 
     &__item {
+        width: max-content;
+
         &:hover .menu__border {
             width: 100%;
         }

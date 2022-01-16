@@ -1,13 +1,15 @@
 import React from 'react';
 
+import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
+
 import Audio from '../components/Audio';
 import SingleVoteResult from './SingleVoteResult';
 
 import { useUser } from '../contexts/UserProvider';
 
-const WTMResults = ({whatsTheMelody}) => {
+const WTMResults = ({whatsTheMelody, handleRollWhatsTheMelody}) => {
     
-    const { user } = useUser();
+    const { user, authorization } = useUser();
 
     const votesAmount = () => {
         const votesAmount = [];
@@ -41,6 +43,9 @@ const WTMResults = ({whatsTheMelody}) => {
 
     return ( 
         <div className="WTM">
+            {authorization === '3' ? <div className="AOT__adminPanel">
+                <CachedRoundedIcon className="AOT__finish-icon" onClick={handleRollWhatsTheMelody}/>
+            </div> : null}
             <h3 className="WTM__title">Gdzieś to słyszałam/em...</h3>
             <div className="WTM__audio">
                 <Audio id={whatsTheMelody.mp3}/>

@@ -7,6 +7,7 @@ import { useUser } from '../contexts/UserProvider';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import MusicNoteRoundedIcon from '@material-ui/icons/MusicNoteRounded';
 import MovieCreationRoundedIcon from '@material-ui/icons/MovieCreationRounded';
+import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
 
 import { HOST_ADDRESS } from '../config';
 import { useState } from 'react';
@@ -76,7 +77,7 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
     return ( 
         <>
             {authorization === '3' ? <div className="AOT__adminPanel">
-                <p className="AOT__finish" data-id={id} onClick={handleFinishAOT}>Zakończ</p>
+                <CachedRoundedIcon className="AOT__finish-icon" onClick={handleFinishAOT}/>
             </div> : null}
             <div className="AOT__animeContent">
                 <div className="AOT__left">

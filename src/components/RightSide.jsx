@@ -69,6 +69,12 @@ const RightSideV2 = () => {
         });
         getDailyAnime();
     };
+    const handleRollWhatsTheMelody = async () => {
+        await fetch(`${HOST_ADDRESS}/whats-the-melody`, {
+            method: 'POST',
+        });
+        getWhatsTheMelody();
+    };
 
     const scrollDown = () => {
         const scrollValue = document.querySelector('.main__rightSide').scrollHeight;
@@ -91,13 +97,13 @@ const RightSideV2 = () => {
             if (status) {
                 if (isChecked) {
                     if (didUserVote) {
-                        return <WTMResults whatsTheMelody={WTM}/>;
+                        return <WTMResults whatsTheMelody={WTM} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
                     }
-                    return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody}/>;
+                    return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
                 }
                 return <div className="DA"><LoadingSmall /></div>;
             }
-            return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody}/>;
+            return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
         }
         return <div className="DA"><LoadingSmall /></div>;
     };
