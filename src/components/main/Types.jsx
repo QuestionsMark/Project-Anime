@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { withRouter, Link, Switch, Route } from 'react-router-dom';
 
 import Loading from '../Loading';
-import TypePage from '../TypePage';
+import TypePage from './TypePage';
 
 import setMain from '../../utils/setMain';
 import { HOST_ADDRESS } from '../../config';

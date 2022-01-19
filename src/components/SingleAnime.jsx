@@ -16,7 +16,7 @@ import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined'
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleAnime = ({anime, rate, refference}) => {
+const SingleAnime = ({ place, anime, rate, refference }) => {
 
     const { id, title, types, kind, mini } = anime;
 
@@ -138,16 +138,17 @@ const SingleAnime = ({anime, rate, refference}) => {
             setOpenLoginScreen(true);
         }
     };
-
+    
     const animeTypes = () => {
         return types.map(t => <Link to={`/types/${t.name}`} key={t.id} className={`animeList__type ${JSON.stringify(user) !== "{}" ? `${user.favoriteType === t.name ? 'animeList__type--fav' : ''}` : ''}`}>{t.name}</Link>);
     };
 
     return ( 
         <li className="animeList__item" ref={refference ? refference : null}>
+            <p className="animeList__top">{place <= 3 ? <Icon className="fas fa-trophy" /> : place}</p>
             <div className="animeList__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${mini})` }}/>
             <div className="animeList__animeContent">
-                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Popup className="normal-popup" on="hover" position="top center" trigger={<Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" />} mouseEnterDelay={200}>Seria odcinków</Popup> : <Popup className="normal-popup" on="hover" position="top center" trigger={<MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" />} mouseEnterDelay={200}>Film</Popup> }</Link>
+                <Link to={`/anime/${id}`} className="animeList__title">{title} {kind === 'series' ? <Icon className="fas fa-film animeList__kind-icon animeList__kind-icon--awesome" /> : <MovieCreationOutlinedIcon className="animeList__kind-icon animeList__kind-icon--material" /> }</Link>
                 <div className="animeList__types">
                     {animeTypes()}
                 </div>

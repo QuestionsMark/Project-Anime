@@ -169,61 +169,65 @@
         border-top: 2px solid $main-color;
     }
 
-    &__favoriteAnime {
+    &__favorite-anime {
         @include page-style;
-    }
+        padding-bottom: 0;
 
-    &__FA-list {
-        list-style: none;
-    }
-
-    &__FA-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-
-        &:nth-last-of-type(1) {
-            margin-bottom: 0;
+        &-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-    }
 
-    &__FATitle {
-        margin-bottom: 20px;
-    }
+        &-item {
+            position: relative;
+            align-items: center;
+            border-top-left-radius: 16px;
+            margin: 0 10px 20px;
+            overflow: hidden;
+            transition: 0.2s;
 
-    &__FAImage {
-        @include image;
-        width: 4vw;
-        height: 4vw;
-        border-radius: 10px;
-        margin-right: 30px;
-    }
-
-    &__FALink {
-        margin-right: 30px;
-        text-decoration: none;
-        font-size: 20px;
-        color: $font-color2;
-
-        &:hover {
-            text-decoration: underline;
+            &:hover {
+                transform: translate(-3px, -3px);
+                box-shadow: 1px 1px 0 0 $main-color, 2px 2px 0 0 $main-color, 3px 3px 0 0 $main-color, 4px 4px 0 0 $main-color;
+            }
         }
-    }
 
-    &__FARate {
-        display: flex;
-        align-items: center;
-
-        .profile__FARateIcon {
-            width: 30px;
-            height: 30px;
-            color: $special-color;
+        &-title {
+            margin-bottom: 20px;
         }
-    }
 
-    &__FARateValue {
-        font-size: 18px;
-        font-weight: bold;
+        &-image {
+            @include image;
+            width: 80px;
+            height: 80px;
+        }
+
+        &-link {
+            display: block;
+            text-decoration: none;
+            font-size: 20px;
+            color: $font-color2;
+        }
+
+        &-rate {
+            padding: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+
+            .profile__favorite-anime-rate-icon {
+                margin-left: -4px;
+                color: $special-color;
+            }
+        }
+
+        &-rate-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
     }
 }
 

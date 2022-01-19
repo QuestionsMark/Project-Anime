@@ -71,7 +71,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
         return soundtrackPreview.map(p => (
             <div key={p.url} className="changes__preview-item">
                 <p className="changes__size" style={{color: p.size < 8.388608 ? '#5ec45e' : '#d14141'}}>{p.size <= 8.388608 ? `${p.size.toFixed(2)} MB OK!` : `${p.size.toFixed(2)} MB Plik audio jest za duży!`}</p>
-                <Audio mp3={p.url}/>
+                <Audio id={p.url} isUrl={true}/>
             </div>
         ))
     }

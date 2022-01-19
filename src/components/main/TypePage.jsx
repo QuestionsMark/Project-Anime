@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import SingleTopAnime from '../SingleTopAnime';
+import SingleAnime from '../SingleAnime';
 import SingleTypeLover from '../SingleTypeLover';
 
 import { HOST_ADDRESS } from '../../config';
@@ -67,7 +67,7 @@ const TypePage = ({match, history}) => {
                 } else {
                     rate = 0;
                 }
-                return <SingleTopAnime key={a.id} place={i} anime={a} rate={rate}/>
+                return <SingleAnime key={a.id} place={i} anime={a} rate={rate} />
             });
     };
 

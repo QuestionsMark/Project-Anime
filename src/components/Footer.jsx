@@ -19,20 +19,19 @@ const Footer = () => {
                     <h2 className="footer__title">Linki</h2>
                     <div className="footer__linksWrapper">
                         <Link to="/" className="footer__smallLink link">strona główna</Link>
-                        <Link to="/anime" className="footer__smallLink link">lista anime</Link>
-                        <Link to="/top" className="footer__smallLink link">ranking anime</Link>
+                        <Link to="/anime" className="footer__smallLink link">anime</Link>
                         <Link to="/users" className="footer__smallLink link">użytkownicy</Link>
                         <Link to="/types" className="footer__smallLink link">gatunki</Link>
                         <Link to="/galery" className="footer__smallLink link">galeria</Link>
                         <Link to="/rules" className="footer__smallLink link">regulamin</Link>
                         <Link to="/source" className="footer__smallLink link">źródła</Link>
                         <Link to="/achievements" className="footer__smallLink link">osiągnięcia</Link>
+                        <Link to="/my-another-projects" className="footer__smallLink link">projekty</Link>
                     </div>
                 </div>
                 <div className="footer__additions">
                     <h2 className="footer__title">Dodadki/Nowinki</h2>
                     <div className="footer__linksWrapper">
-                        <Link to="/my-another-projects" className="footer__smallLink link">inne projekty</Link>
                         <Link to="/project-ideas" className="footer__smallLink link">pomysły projektów</Link>
                     </div>
                 </div>

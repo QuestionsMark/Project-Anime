@@ -71,10 +71,10 @@ const Nav = ({ history }) => {
                         <NavLink to="/anime" exact className="menu__link"><MovieCreationOutlinedIcon className="menu__icon"/>Anime</NavLink>
                         <div className="menu__border"></div>
                     </li>
-                    <li className="menu__item">
+                    {/* <li className="menu__item">
                         <NavLink to="/top" className="menu__link"><Icon className="fas fa-trophy menu__icon"/>Top</NavLink>
                         <div className="menu__border"></div>
-                    </li>
+                    </li> */}
                     <li className="menu__item">
                         <NavLink to="/news" exact className="menu__link"><RateReviewRounded className="menu__icon"/>Wiadomości</NavLink>
                         <div className="menu__border"></div>

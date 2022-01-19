@@ -15,7 +15,6 @@ import LoginScreen from './LoginScreen';
 import Nav from './Nav';
 import RegisterScreen from './RegisterScreen';
 import Anime from './main/Anime';
-import Top from './main/Top';
 import Users from './main/Users';
 import Galery from './main/Galery';
 import Page from './main/Page';
@@ -90,9 +89,6 @@ function App() {
                     </Route>
                     <Route path="/anime/:animeID">
                         <Page main={main} />
-                    </Route>
-                    <Route path="/top">
-                        <Top main={main} />
                     </Route>
                     <Route path="/users" exact>
                         <Users main={main} />

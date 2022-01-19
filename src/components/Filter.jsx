@@ -9,7 +9,6 @@ import SingleTypeFilter from './SingleTypeFilter';
 import { HOST_ADDRESS } from '../config';
 
 const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, sortFilter, handleFilterTypes, handleFilterKind, handleFilterRate, handleFilterSort}) => {
-
     const [types, setTypes] = useState([]);
     const getTypes = async () => {
         const response = await fetch(`${HOST_ADDRESS}/types`);

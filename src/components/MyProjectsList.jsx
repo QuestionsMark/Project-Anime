@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
 
+import LOLImg from '../media/img/lol-icon.png';
 import QMAImg from '../media/img/icon.jpg';
 import SAOImg from '../media/img/SAOIcon.png';
 import CityDefenceImg from '../media/img/ship.png';
@@ -11,6 +12,17 @@ const MyProjectsList = () => {
     return ( 
         <section className="myProjects main__section scrollNav" data-id="4">
             <h2 className="myProjects__title">Inne Moje Projekty</h2>
+            <div className="myProjects__article">
+                <div className="myProjects__content">
+                    <div className="myProjects__image" style={{ backgroundImage: `url(${CityDefenceImg})` }}/>
+                    <div className="myProjects__info">
+                        <h2 className="myProjects__projectTitle">City Defence</h2>
+                        <p className="myProjects__description">Obroń miasto przed spadającymi meteorytami! Wsiadaj za stery statku kosmicznego i strzelaj bez opamiętania. Ludzkość musi przetrwać za wszelką cenę.</p>
+                    </div>
+                </div>
+                <a href="https://city-defence.herokuapp.com" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Zagraj!</Button></a>
+                <Link to="/planet-defence/ranking" className="myProjects__link"><Button className="button myProjects__button">Ranking</Button></Link>
+            </div>
             <div className="myProjects__article">
                 <div className="myProjects__content">
                     <div className="myProjects__image" style={{ backgroundImage: `url(${SAOImg})` }}/>
@@ -25,17 +37,6 @@ const MyProjectsList = () => {
             </div>
             <div className="myProjects__article">
                 <div className="myProjects__content">
-                    <div className="myProjects__image" style={{ backgroundImage: `url(${CityDefenceImg})` }}/>
-                    <div className="myProjects__info">
-                        <h2 className="myProjects__projectTitle">City Defence</h2>
-                        <p className="myProjects__description">Obroń miasto przed spadającymi meteorytami! Wsiadaj za stery statku kosmicznego i strzelaj bez opamiętania. Ludzkość musi przetrwać za wszelką cenę.</p>
-                    </div>
-                </div>
-                <a href="https://city-defence.herokuapp.com" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Zagraj!</Button></a>
-                <Link to="/planet-defence/ranking" className="myProjects__link"><Button className="button myProjects__button">Ranking</Button></Link>
-            </div>
-            <div className="myProjects__article">
-                <div className="myProjects__content">
                 <div className="myProjects__image" style={{ backgroundImage: `url(${QMAImg})` }}/>
                     <div className="myProjects__info">
                         <h2 className="myProjects__projectTitle">Question Mark's Anime</h2>
@@ -43,6 +44,16 @@ const MyProjectsList = () => {
                     </div>
                 </div>
                 <a href="http://questionmarksanime.pl" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Odwiedź Stronę!</Button></a>
+            </div>
+            <div className="myProjects__article">
+                <div className="myProjects__content">
+                <div className="myProjects__image" style={{ backgroundImage: `url(${LOLImg})` }}/>
+                    <div className="myProjects__info">
+                        <h2 className="myProjects__projectTitle">League of Legend Team Generator</h2>
+                        <p className="myProjects__description">Siedzisz z ziomeczkami na TS i nie macie co robić? Zagrajcie w ligusię przeciwko sobie! Wylosujcie drużyny i do boju!</p>
+                    </div>
+                </div>
+                <a href="http://lol.questionmarksanime.pl" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Losuj Drużyny!</Button></a>
             </div>
         </section>
      );

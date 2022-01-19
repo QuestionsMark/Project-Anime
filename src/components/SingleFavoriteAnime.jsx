@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Popup from 'reactjs-popup';
 
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 
@@ -9,15 +10,22 @@ const SingleFavoriteAnime = ({anime}) => {
 
     const { id, image, title, rate } = anime;
 
+    const favoriteAnimeComponent = () => {
+        return <li className="profile__favorite-anime-item">
+            <Link to={`/anime/${id}`} className="profile__favorite-anime-link" >
+                <div className="profile__favorite-anime-image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${image})` }} />
+                <div className="profile__favorite-anime-rate">
+                    <StarRateRoundedIcon className="profile__favorite-anime-rate-icon"/>
+                    <p className="profile__favorite-anime-rate-value">{rate}</p>
+                </div>
+            </Link>
+        </li>;
+    };
+
     return ( 
-        <li className="profile__FA-item">
-            <div className="profile__FAImage" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${image})` }}/>
-            <Link to={`/anime/${id}`} className="profile__FALink">{title}</Link>
-            <div className="profile__FARate">
-                <StarRateRoundedIcon className="profile__FARateIcon"/>
-                <p className="profile__FARateValue">{rate}</p>
-            </div>
-        </li>
+        <Popup className="normal-popup" trigger={favoriteAnimeComponent()} on="hover" position="top center">
+            {title}
+        </Popup>
      );
 }
  

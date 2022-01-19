@@ -179,13 +179,13 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                             </div>
                         </div>
                     </div>
-                    <div className="profile__favoriteAnime">
-                        <h3 className="profile__FATitle mediumTitle">Ulubione Anime</h3>
-                        {favoriteAnime.length > 0 ? <div className="profile__FAFlex">
-                            <ul className="profile__FA-list">
+                    <div className="profile__favorite-anime">
+                        <h3 className="profile__favorite-anime-title mediumTitle">Ulubione Anime</h3>
+                        {favoriteAnime.length > 0 ? <div className="profile__favorite-anime-Flex">
+                            <ul className="profile__favorite-anime-list">
                                 {favoriteAnimeList()}
                             </ul>
-                        </div> : <div className="profile__FAFlex">
+                        </div> : <div className="profile__favorite-anime-Flex">
                             <p className="profile__noFavorite">Brak ulubionego anime</p>
                         </div>}
                     </div>
