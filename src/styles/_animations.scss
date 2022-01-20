@@ -1,0 +1,22 @@
+@keyframes iconRotate {
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+// transform-origin: center 2px;
+@keyframes pendulum {
+    0% {
+        transform: translate(-50%, -50%) rotate(-35deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(35deg);
+    }
+}
+
+@keyframes grow {
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}

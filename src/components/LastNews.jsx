@@ -34,7 +34,7 @@ const LastNews = () => {
             <div className="news__container">
                 {newsList()}
             </div>
-            <Link to="/news" className="news__link"><Button className="button news__button">Aktualności</Button></Link>
+            <Link to="/news" className="news__link"><Button className="button news__button">Więcej Nowości</Button></Link>
         </section> : <section className="news main__section scrollNav"  data-id="3"><Loading /></section>}
         </>
      );

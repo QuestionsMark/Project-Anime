@@ -72,7 +72,7 @@ const AddComment = ({data, getData, collection}) => {
     return ( 
         <div ref={addCommentDiv} className="addComment">
             <div className="addComment__content">
-                <div className="addComment__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${user.avatar})` }}/>
+                <div className="addComment__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${user.avatar || ''})` }}/>
                 <form className="addComment__form" onSubmit={handleAddComment}>
                     <textarea ref={textarea} className="addComment__textarea" placeholder="Napisz komentarz..." value={text} onChange={handleTextChange} onKeyDown={handleKeyDown} onFocus={handleShowValidate} onBlur={handleHideValidate}/>
                     <button type="submit" className="addComment__btn-submit" onClick={handleAddComment}><SendRoundedIcon className="addComment__sendIcon"/></button>
