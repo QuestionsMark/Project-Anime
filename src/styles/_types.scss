@@ -1,60 +1,133 @@
 .types {
 
-    &__container {
-        @include page-style;
-        padding: 20px;
-    }
+    // &__container {
+    //     @include page-style;
+    //     padding: 20px;
+    // }
 
     &__list {
         list-style: none;
     }
 
     &__item {
-        display: flex;
-        font-size: 18px;
-        font-weight: bold;
+        @include page-style;
+        margin-bottom: 20px;
+
+        &:nth-last-child(1) {
+            margin-bottom: 0;
+        }
     }
 
-    &__index {
-        margin-right: 5px;
-        color: $font-color2;
+    &__info {
+        display: flex;
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: bold;
     }
 
     &__link {
         display: block;
+        width: fit-content;
+        margin-right: 40px;
         text-decoration: none;
-        color: $font-color;
+        font-size: 22px;
+        color: $font-color2;
 
         &:hover {
             text-decoration: underline;
         }
     }
+
+    &__anime-info {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    &__anime-info-value {
+        padding: 0 4px;
+        color: $main-color;
+    }
+
+    &__lovers-info {
+        display: flex;
+        align-items: center;
+
+        .types__lovers-icon {
+            margin-right: 4px;
+            font-size: 18px;
+            color: $main-color;
+        }
+    }
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__lovers,
+    &__anime {
+        display: flex;
+        flex-direction: column;
+        flex-basis: calc(50% - 10px);
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    &__subtitle {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 20px;
+        color: $main-color;
+    }
+
+    &__content-list {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__lover-circle {
+        @include image;
+        display: block;
+        width: 50px;
+        height: 50px;
+        border: 2px solid $main-color;
+        border-radius: 50%;
+    }
+
+    &__username {
+        font-size: 16px;
+        font-weight: bold;
+    }
 }
 
 .typePage {
     &__description {
-        @include main-style;
+        @include page-style;
         padding: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+        text-indent: 20px;
     }
 
     &__bestAnimeWithType {
-        @include main-style;
+        @include page-style;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
         padding: 20px;
-        margin-bottom: 30px;
-
-        &:hover {
-            background-color: transparent;
-        }
+        margin-bottom: 20px;
     }
 
     &__typeLovers {
-        @include main-style;
+        @include page-style;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
         padding: 20px;
-
-        &:hover {
-            background-color: transparent;
-        }
     }
 
     &__BAWTTitle {
@@ -70,23 +143,14 @@
         flex-wrap: wrap;
     }
 
-    &__list--maxHeight {
-        padding-top: 10px;
-        max-height: 300px;
-        overflow-y: scroll;
-    }
-
     &__link {
-        @include main-style;
-        flex-basis: 31.3333%;
-        padding: 10px;
-        margin: 0 1% 20px 1%;
+        @include image;
+        width: 60px;
+        height: 60px;
+        border: 2px solid $main-color;
+        border-radius: 50%;
         text-decoration: none;
         color: $font-color2;
-
-        &:hover {
-            transform: translateY(-5px);
-        }
     }
 
     &__item {
@@ -94,26 +158,20 @@
         align-items: center;
     }
 
-    &__image {
-        @include image;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-right: 20px;
-    }
-
     &__username {
-        width: 150px;
         font-size: 18px;
+        font-weight: bold;
     }
 
     &__likes {
         display: flex;
+        justify-content: center;
         align-items: center;
 
         .typePage__likeIcon {
-            margin-right: 5px;
+            margin-right: 4px;
             color: $main-color;
+            font-size: 18px;
         }
     }
 

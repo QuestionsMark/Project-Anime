@@ -1,62 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import SingleAnime from '../SingleAnime';
 import SingleTypeLover from '../SingleTypeLover';
+import Loading from '../Loading';
 
 import { HOST_ADDRESS } from '../../config';
+import { DefaultArray } from '../../utils/CustomClasses';
 
 const TypePage = ({match, history}) => {
 
+    const componentRef = useRef();
+
     const [typeData, setTypeData] = useState(null);
-    const getType = async () => {
+    const [users, setUsers] = useState(new DefaultArray());
+    const [anime, setAnime] = useState(new DefaultArray());
+    const getType = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/types/${match.params.type}`);
         if (response.ok) {
             const type = await response.json();
+            if (!componentRef.current) return;
             setTypeData(type);
         }
-    };
-
-    const [users, setUsers] = useState([]);
-    const getUsers = async () => {
+    }, [match.params.type]);
+    const getUsers = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/type/${match.params.type}`);
         if (response.ok) {
             const users = await response.json();
+            if (!componentRef.current) return;
             setUsers(users);
         }
-    };
-
-    const [anime, setAnime] = useState([]);
-    const getAnime = async () => {
-        const response = await fetch(`${HOST_ADDRESS}/anime/type/${match.params.type}`);
+    }, [match.params.type]);
+    const getAnime = useCallback(async () => {
+        const response = await fetch(`${HOST_ADDRESS}/anime/type/${match.params.type}/best`);
         if (response.ok) {
             const anime = await response.json();
+            if (!componentRef.current) return;
             setAnime(anime);
         }
-    };
+    }, [match.params.type]);
 
-    const animeList = () => {
-        return [...anime]
-            .sort((a, b) => {
-                let averageA = 0;
-                if (a.rate.length > 0) {
-                    let rateValueA = 0;
-                    a.rate.forEach(r => rateValueA += r.rate);
-                    averageA = (rateValueA / a.rate.length).toFixed(2) * 1;
-                }
-                let averageB = 0;
-                if (b.rate.length > 0) {
-                    let rateValueB = 0;
-                    b.rate.forEach(r => rateValueB += r.rate);
-                    averageB = (rateValueB / b.rate.length).toFixed(2) * 1;
-                }
-                if (averageA < averageB) return 1;
-                if (averageA > averageB) return -1;
-                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1
-                return 0;
-            })
-            .slice(0, 3)
+    const animeList = useCallback(() => {
+        return anime
             .map((a, i) => {
                 let rate; 
                 if (a.rate.length > 0) {
@@ -67,11 +52,11 @@ const TypePage = ({match, history}) => {
                 } else {
                     rate = 0;
                 }
-                return <SingleAnime key={a.id} place={i} anime={a} rate={rate} />
+                return <SingleAnime key={a.id} place={i + 1} anime={a} rate={rate} />
             });
-    };
+    }, [anime]);
 
-    const userList = () => {
+    const userList = useCallback(() => {
         return [...users]
             .sort((a, b) => {
                 if (a.likes > b.likes) return -1;
@@ -79,37 +64,36 @@ const TypePage = ({match, history}) => {
                 return 0;
             })
             .map(u => <SingleTypeLover key={u.id} lover={u}/>);
-    };
+    }, [users]);
 
-    const goUp = history.listen(() => {
+    const animeListComponent = useMemo(() => <ul className="typePage__list column">{animeList()}</ul>, [animeList]);
+    const usersListComponent = useMemo(() => <ul className="typePage__list">{userList()}</ul>, [userList]);
+
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         getType();
         getAnime();
         getUsers();
-    },[match]);
+    },[getAnime, getType, getUsers, goUp, match]);
 
     return ( 
-        <>
-        {typeData ? <div className="typePage">
+        <div ref={componentRef}>
+        {typeData ? <div className="typePage" >
             <h2 className="typePage__title largeTitle scrollNav" data-id="4">{typeData.name}</h2>
             <p className="typePage__description">{typeData.description}</p>
-            {animeList().length > 0 ? <div className="typePage__bestAnimeWithType">
+            <div className="typePage__bestAnimeWithType">
                 <h3 className="typePage__BAWTTitle mediumTitle">Najlepsze anime z tym gatunkiem:</h3>
-                <ul className="typePage__list column">
-                    {animeList()}
-                </ul>
-            </div> : null}
-            {userList().length > 0 ? <div className="typePage__typeLovers">
-                <h3 className="typePage__TLTitle mediumTitle">Type Lovers</h3>
-                <ul className="typePage__list typePage__list--maxHeight">
-                    {userList()}
-                </ul>
-            </div> : null}
+                {!(anime instanceof DefaultArray) ? anime.length === 0 ? 'Brak' : animeListComponent : <Loading />}
+            </div>
+            <div className="typePage__typeLovers">
+                <h3 className="typePage__TLTitle mediumTitle">Miłośnicy Gatunku:</h3>
+                {!(users instanceof DefaultArray) ? users.length === 0 ? 'Brak' : usersListComponent : <Loading />}
+            </div>
         </div> : null}
-        </>
+        </div>
      );
 }
  

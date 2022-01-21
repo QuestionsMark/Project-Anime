@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { withRouter, Link, Switch, Route } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Loading from '../Loading';
 import TypePage from './TypePage';
+import SingleType from '../SingleType';
 
 import setMain from '../../utils/setMain';
 import { HOST_ADDRESS } from '../../config';
@@ -18,32 +19,29 @@ const Types = ({main, history, match}) => {
         }
     };
 
-    const typesList = () => {
+    const typesList = useCallback(() => {
         return types
             .sort((a, b) => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                 if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                 return 0;
             })
-            .map((t, i) => (
-            <li className="types__item" key={t.id}>
-                <p className="types__index">{i + 1 + '.'}</p>
-                <Link to={`/types/${t.name}`} className="types__link">{t.name}</Link>
-            </li>
-            ));
-    };
+            .map((t, i) => <SingleType key={t.name} type={t}/>);
+    }, [types]);
+
+    const typesListComponent = useMemo(() => <ul className="types__list">{typesList()}</ul>, [typesList]);
 
     useEffect(() => {
         getTypes();
     }, []);
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, match, main]);
 
     return ( 
         <>
@@ -52,9 +50,7 @@ const Types = ({main, history, match}) => {
                 <Route path="/types" exact>
                     <div className="types__container">
                         <h2 className="largeTitle types__title scrollNav" data-id="4">Lista Gatunków</h2>
-                        <ul className="types__list">
-                            {typesList()}
-                        </ul>
+                        {typesListComponent}
                     </div>
                 </Route>
                 <Route path="/types/:type">
