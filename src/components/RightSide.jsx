@@ -136,6 +136,24 @@ const RightSideV2 = () => {
 
     useEffect(() => {
         if (socket === null) return;
+        socket.on('whats-the-melody-comment-like', async () => {
+            if (isChecked && didUserVote) {
+                await getWTMComments();
+            }
+        });
+        return () => socket.off('whats-the-melody-comment-like');
+    }, [didUserVote, isChecked, socket]);
+
+    useEffect(() => {
+        if (socket === null) return;
+        socket.on('whats-the-melody-new-vote', async () => {
+            await getWhatsTheMelody();
+        });
+        return () => socket.off('whats-the-melody-new-vote');
+    }, [socket]);
+
+    useEffect(() => {
+        if (socket === null) return;
         socket.on('whats-the-melody-roll', async () => {
             audioRef.current.autoplay = true;
             audioRef.current.src = plum;
@@ -146,20 +164,14 @@ const RightSideV2 = () => {
 
     useEffect(() => {
         if (socket === null) return;
-        socket.on('chat-message', async () => {
+        socket.on('whats-the-melody-new-comment', async () => {
             audioRef.current.autoplay = true;
             audioRef.current.src = plum;
             await getWTMComments();
             scrollDown();
         });
-        return () => socket.off('chat-message');
+        return () => socket.off('whats-the-melody-new-comment');
     }, [socket]);
-
-    useEffect(() => {
-        if (socket == null) return;
-        socket.on('user-connected', message => console.log(message));
-        return () => socket.off('user-connected');
-      }, [socket]);
 
     return ( 
         <div className="main__rightSide">

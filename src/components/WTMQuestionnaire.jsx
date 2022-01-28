@@ -9,8 +9,11 @@ import { useUser } from '../contexts/UserProvider';
 import { useLoginPopup } from '../contexts/LoginPopup';
 
 import { HOST_ADDRESS } from '../config';
+import { useSocket } from '../contexts/SocketProvider';
 
-const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody, handleRollWhatsTheMelody}) => {
+const WTMQuestionnaire = ({whatsTheMelody, handleRollWhatsTheMelody}) => {
+
+    const socket = useSocket();
 
     const { user, status, authorization } = useUser();
     const { setOpenLoginScreen } = useLoginPopup();
@@ -36,7 +39,7 @@ const WTMQuestionnaire = ({whatsTheMelody, getWhatsTheMelody, handleRollWhatsThe
                         vote,
                     }),
                 });
-                getWhatsTheMelody();
+                socket.emit('whats-the-melody-new-vote');
             } else {
                 setOpenLoginScreen(true);
             }

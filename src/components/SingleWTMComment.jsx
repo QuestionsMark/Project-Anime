@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 
-import { HOST_ADDRESS } from '../config';
+import { useSocket } from '../contexts/SocketProvider';
 import { useUser } from '../contexts/UserProvider';
+
+import { HOST_ADDRESS } from '../config';
 
 const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
 
     const { id, userID, text, likes, date} = comment;
 
+    const socket = useSocket();
     const { user } = useUser();
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
@@ -41,7 +44,7 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
                 commentID: id,
             }),
         });
-        getWTMComments();
+        socket.emit('whats-the-melody-comment-like');
     }
 
     useEffect(() => {

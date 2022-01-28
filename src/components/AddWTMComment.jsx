@@ -44,7 +44,7 @@ const AddWTMComment = ({id, getWTMComments}) => {
                 }),
             });
             if (response.ok) {
-                socket.emit('chat-message');
+                socket.emit('whats-the-melody-new-comment');
                 await getWTMComments();
                 scrollDown();
             }
