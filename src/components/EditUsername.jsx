@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -27,7 +27,7 @@ const EditUsername = () => {
         setUsername(e.target.value);
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         if (username.length < 2 || username.length > 50) {
@@ -35,7 +35,7 @@ const EditUsername = () => {
         }
 
         return errors;
-    };
+    }, [username]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -66,7 +66,7 @@ const EditUsername = () => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [username]);
+    }, [checkValidation, username]);
 
     return ( 
         <div className="profileEdit__section">

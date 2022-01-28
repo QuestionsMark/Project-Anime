@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import setMain from '../../utils/setMain';
 
@@ -6,13 +6,13 @@ import SAOClickerRanking from '../SAOClickerRanking';
 
 const SAOClicker = ({main, history, match}) => {
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, main, match]);
 
     return ( 
         <div className="SAOCRanking main__content">

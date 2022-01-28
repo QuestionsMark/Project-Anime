@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router';
 
+import Loading from '../Loading';
 import SingleAchievementsGroup from '../SingleAchievementsGroup';
 
 import setMain from '../../utils/setMain';
-
 import { HOST_ADDRESS } from '../../config';
-import Loading from '../Loading';
+import { DefaultArray } from '../../utils/CustomClasses';
 
 const Achievements = ({main, match, history}) => {
 
-    const [achievements, setAchievements] = useState([]);
+    const componentRef = useRef();
+
+    const [achievements, setAchievements] = useState(new DefaultArray());
     const getAchievements = async () => {
         const response = await fetch(`${HOST_ADDRESS}/achievements`);
         if (response.ok) {
             const achievements = await response.json();
+            if (!componentRef.current) return;
             setAchievements(achievements);
         }
     };
@@ -40,27 +43,30 @@ const Achievements = ({main, match, history}) => {
             .map(g => <SingleAchievementsGroup key={g.name} group={g}/>);
     };
 
+    const achievementsComponent = achievements instanceof DefaultArray ?
+        <Loading />
+        :
+        <div className="achievements__container">
+            {achievementsSections()}
+        </div>;
+
     useEffect(() => {
         getAchievements();
     }, []);
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, main, match]);
 
     return ( 
-        <>
-        {achievements.length > 0 ? <div className="achievements main__content">
+        <div className="achievements main__content" ref={componentRef}>
             <h2 className="achievements__title largeTitle">Osiągnięcia</h2>
-            <div className="achievements__container">
-                {achievementsSections()}
-            </div>
-        </div> : <div className="achievements main__content"><Loading /></div>}
-        </>
+            {achievementsComponent}
+        </div>
      );
 }
  

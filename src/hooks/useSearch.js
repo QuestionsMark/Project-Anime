@@ -49,7 +49,7 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
                 setError({ message: e.message });
             });
         return () => cancel();
-    }, [changedData, searchPhrase, wantTypes, dontWantTypes, sort, kind, minRate, maxRate, page]);
+    }, [changedData, searchPhrase, wantTypes, dontWantTypes, sort, kind, minRate, maxRate, page, collection]);
 
     return { loading, error, data, hasMore };
 }

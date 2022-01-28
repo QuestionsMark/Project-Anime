@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { useUser } from '../contexts/UserProvider';
 
@@ -47,14 +47,14 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
         
     };
 
-    const isUserLover = () => {
+    const isUserLover = useCallback(() => {
         let isUserLover = false;
         const index = likes.findIndex(l => l === JSON.parse(localStorage.getItem('animark-user-id')));
         if (index !== -1 || match.params.id === JSON.parse(localStorage.getItem('animark-user-id'))) {
             isUserLover = true;
         }
         return isUserLover;
-    };
+    }, [likes, match]);
 
     const showRank = () => {
         if (rank === "3") return "Administrator";
@@ -106,7 +106,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
 
     useEffect(() => {
         setIsUserProfileLover(isUserLover());
-    },[profileData]);
+    },[isUserLover, profileData]);
 
     return ( 
         <div className="profile__content">

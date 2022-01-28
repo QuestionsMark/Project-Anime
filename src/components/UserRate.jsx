@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
@@ -169,18 +169,18 @@ const UserRate = ({animeData, getAnime}) => {
         getUser();
     };
 
-    const setRate = () => {
+    const setRate = useCallback(() => {
         const rateIndex = animeData.rate.findIndex(r => r.user === user.id);
         if (rateIndex !== -1) {
             setUserRate(animeData.rate[rateIndex].rate);
         } else {
             setUserRate(0);
         }
-    };
+    }, [animeData, user]);
 
     useEffect(() => {
         setRate();
-    },[animeData]);
+    },[animeData, setRate]);
 
     return ( 
         <div className="page__userPanel">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
@@ -14,14 +14,17 @@ const SingleUser = ({place, user, refference}) => {
 
     const {username, id, background, avatar, likes, favoriteType, favoriteAnime, introduction, points} = user;
 
+    const componentRef = useRef();
+
     const [achievements, setAchievements] = useState([]);
-    const getAchievements = async () => {
+    const getAchievements = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${id}/achievements`);
         if (response.ok) {
             const achievements = await response.json();
+            if (!componentRef.current) return;
             setAchievements(achievements);
         }
-    };
+    }, [id]);
 
     const achievementsList = () => {
         return achievements
@@ -52,7 +55,7 @@ const SingleUser = ({place, user, refference}) => {
 
     useEffect(() => {
         getAchievements();
-    }, []);
+    }, [getAchievements]);
     
     return ( 
         <li className="userList__item" ref={refference ? refference : null} style={{backgroundImage: `url(${HOST_ADDRESS}/images/${background})`}}>
@@ -81,7 +84,7 @@ const SingleUser = ({place, user, refference}) => {
                     </div>
                 </div>
             </header>
-            <section className="userList__lists">
+            <section className="userList__lists" ref={componentRef}>
                 <div className="userList__statistic-list">
                     <h2 className="userList__subtitle">Osiągnięcia:</h2>
                     <ul className="userList__achievements-list">

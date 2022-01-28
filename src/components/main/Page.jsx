@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 import Popup from 'reactjs-popup';
@@ -30,28 +30,33 @@ import ChangesSeason from '../ChangesSeason';
 import ChangesDescription from '../ChangesDescription';
 import SingleGaleryImage from '../SingleGaleryImage';
 import setMain from '../../utils/setMain';
+import Loading from '../Loading';
 
 const Page = ({main, match, history}) => {
+
+    const componentRef = useRef();
 
     const { setOpen, setResponse } = useResponsePopup();
     const { status, authorization, user } = useUser();
 
     const [animeData, setAnimeData] = useState(null);
-    const getAnime = async () => {
+    const getAnime = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime/${match.params.animeID}`);
         if (response.ok) {
             const anime = await response.json();
+            if (!componentRef.current) return;
             setAnimeData(anime);
         }
-    };
+    }, [match]);
     const [author, setAuthor] = useState('');
-    const getUser = async () => {
+    const getUser = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${animeData.description.authorID}`);
         if (response.ok) {
             const { username } = await response.json();
+            if (!componentRef.current) return;
             setAuthor(username);
         }
-    };
+    }, [animeData]);
 
     const showRate = () => {
         if (animeData.rate.length > 0) {
@@ -121,25 +126,25 @@ const Page = ({main, match, history}) => {
         setOpen(true);
     };
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
-
+    }), [history]);
     useEffect(() => {
         if (animeData) {
             getUser();
         }
-    }, [animeData]);
+    }, [animeData, getUser]);
 
     useEffect(() => {
         goUp();
         setMain(main, match);
         getAnime();
-    },[match]);
+    },[getAnime, goUp, main, match]);
 
     return ( 
-        <>
-        {animeData ? <div className="main__content scrollNav" data-id="1">
+        <div className="main__content scrollNav" data-id="1" ref={componentRef}>
+            {animeData ?
+            <>
                 <h2 className="page__title largeTitle">{animeData.title}</h2>
                 <div className="page__content">
                     <div className="page__left">
@@ -248,8 +253,10 @@ const Page = ({main, match, history}) => {
                     </div>
                 </div>
                 <Comments data={animeData} getData={getAnime} collection="anime"/>
-            </div> : <div className="main__content scrollNav" data-id="1" />}
-        </>
+                </>
+                :
+                <Loading />}
+            </div>
      );
 }
  

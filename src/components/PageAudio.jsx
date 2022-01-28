@@ -1,12 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
 
-import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
-import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
-import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
-import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 

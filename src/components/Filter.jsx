@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { FormControl, Select, MenuItem } from '@material-ui/core';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
@@ -9,11 +9,15 @@ import SingleTypeFilter from './SingleTypeFilter';
 import { HOST_ADDRESS } from '../config';
 
 const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, sortFilter, handleFilterTypes, handleFilterKind, handleFilterRate, handleFilterSort}) => {
+
+    const componentRef = useRef();
+
     const [types, setTypes] = useState([]);
     const getTypes = async () => {
         const response = await fetch(`${HOST_ADDRESS}/types`);
         if (response.ok) {
             const types = await response.json();
+            if (!componentRef.current) return;
             setTypes(types);
         }
     };
@@ -33,7 +37,7 @@ const Filter = ({kindFilter, rateMinFilter, rateMaxFilter, sortFilter, handleFil
     }, []);
 
     return ( 
-        <div className="filter scrollNav" data-id="2">
+        <div className="filter scrollNav" ref={componentRef} data-id="2">
             <h3 className="filter__title">Filtry</h3>
             <div className="filter__filters">
                 <div className="filter__others">

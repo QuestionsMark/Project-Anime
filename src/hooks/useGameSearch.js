@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { HOST_ADDRESS, HOST_ADDRESS_PLANET_DEFENCE } from '../config';
 
 export default function useGameSearch(game, collection, page, sort) {
 
-    const getHost = () => {
+    const getHost = useCallback(() => {
         switch (game) {
             case 'city-defence':
                 return HOST_ADDRESS_PLANET_DEFENCE;
@@ -15,7 +15,7 @@ export default function useGameSearch(game, collection, page, sort) {
             default:
                 return;
         }
-    };
+    }, [game]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -56,7 +56,7 @@ export default function useGameSearch(game, collection, page, sort) {
                 setError({ message: e.message });
             });
         return () => cancel();
-    }, [page, sort]);
+    }, [collection, getHost, page, sort]);
 
     return { loading, error, data, hasMore };
 }

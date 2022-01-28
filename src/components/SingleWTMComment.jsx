@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
@@ -14,14 +14,14 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
     const [username, setUsername] = useState('');
-    const getAvatar = async () => {
+    const getAvatar = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${userID}/comment-info`);
         if (response.ok) {
             const { avatar, username } = await response.json();
             setAvatar(avatar);
             setUsername(username);
         }
-    };
+    }, [userID]);
 
     const isActive = () => {
         if (likes.findIndex(l => l === user.id) !== -1) {
@@ -46,7 +46,7 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
 
     useEffect(() => {
         getAvatar();
-    }, []);
+    }, [getAvatar]);
 
     return ( 
         <li className="WTMC__item">

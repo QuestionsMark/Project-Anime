@@ -147,13 +147,13 @@ const Anime = ({main, history, match}) => {
     handleFilterSort={handleFilterSort}
     />, [kindFilter, rateMinFilter, rateMaxFilter, sortFilter]);
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, main, match]);
 
     return ( 
         <div className="top main__content">

@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { useEffect } from 'react';
 
 import { HOST_ADDRESS } from '../config';
 import { useSocket } from '../contexts/SocketProvider';

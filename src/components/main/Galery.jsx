@@ -36,7 +36,7 @@ const Galery = ({main, history, match}) => {
 
     const [columns, setColumns] = useState(null);
 
-    const sortFolders = () => {
+    const sortFolders = useCallback(() => {
         const columns = { column1: [], column2: [], column3: [], column4: [] };
         let counter = 1;
         data
@@ -56,7 +56,7 @@ const Galery = ({main, history, match}) => {
                 }
             });
         setColumns(columns);
-    };
+    }, [data]);
 
     const folderList = (images, column) => {
         return images.map((f, i) => {
@@ -69,15 +69,15 @@ const Galery = ({main, history, match}) => {
         if(data.length > 0) {
             sortFolders();
         }
-    }, [data]);
+    }, [data, sortFolders]);
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, main, match]);
 
     return ( 
         <div className="anime main__content">

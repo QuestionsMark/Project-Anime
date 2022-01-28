@@ -53,6 +53,10 @@ const Nav = ({ history }) => {
         </li> : null;
     };
 
+    const accountStateComponent = () => {
+        return status ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleOpenLoginScreen}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div>;
+    };
+
     return ( 
         <div className="header">
             <Link to="/" className="logo">
@@ -90,7 +94,7 @@ const Nav = ({ history }) => {
                     </li>
                 </ul>
             </nav>
-            {status ? <div className="header__login" onClick={handleLogOut}><Icon className="fas fa-sign-out-alt header__loginIcon" /><span className="header__loginTxt">Wyloguj</span></div> : <div className="header__login" onClick={handleOpenLoginScreen}><Icon className="fas fa-sign-in-alt header__loginIcon" /><span className="header__loginTxt">Zaloguj</span></div> }
+            {accountStateComponent()}
         </div>
      );
 }

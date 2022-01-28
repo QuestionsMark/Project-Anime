@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
@@ -101,7 +101,7 @@ const AudioComponent = ({id, isUrl = false}) => {
         setAudioState();
     };
 
-    const setSource = async () => {
+    const setSource = useCallback(async () => {
         if(isUrl) return setSrc(id);
         const response = await fetch(`${HOST_ADDRESS}/soundtracks/${id}`);
         if (!componentRef.current) return;
@@ -109,19 +109,19 @@ const AudioComponent = ({id, isUrl = false}) => {
             const buffer = await response.arrayBuffer();
             setSrc(URL.createObjectURL(new Blob([buffer])));
         }
-    };
+    }, [id, isUrl]);
 
     const onLoadHandler = (e) => {
         setAudio(new Audio(e.target));
     };
 
-    const setAudioState = () => {
+    const setAudioState = useCallback(() => {
         setIsRunning(audio.isRunning);
         setVolume(audio.getVolume());
         setDuration(audio.getDurationText());
         setCurrentTime(audio.getCurrentTimeText());
         setProgress(audio.getProgress());
-    };
+    }, [audio]);
 
     const togglePlayPauseComponent = () => {
         return isRunning ? <PauseRoundedIcon className="audio__Icon" onClick={handlePlay}/> : <PlayArrowRoundedIcon className="audio__Icon" onClick={handlePlay}/>;
@@ -136,13 +136,13 @@ const AudioComponent = ({id, isUrl = false}) => {
     useEffect(() => {
         setSrc('');
         setSource();
-    }, [id]);
+    }, [id, setSource]);
 
     useEffect(() => {
         if (!audio) return;
         audio.initAudio();
         setAudioState();
-    }, [audio]);
+    }, [audio, setAudioState]);
 
     return ( 
         <div className="audio" ref={componentRef}>

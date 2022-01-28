@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -40,7 +40,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
         setSoundtrack(data);
     }
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         let test = true;
@@ -63,7 +63,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
         }
 
         return errors;
-    };
+    }, [composer, soundtrack, soundtrackPreview, title]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -115,7 +115,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [soundtrack, composer, title]);
+    }, [soundtrack, composer, title, checkValidation]);
 
     return ( 
         <div className="changes__content">

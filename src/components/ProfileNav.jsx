@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { useUser } from '../contexts/UserProvider';
 
@@ -8,17 +8,17 @@ const ProfileNav = ({match}) => {
 
     const [isAuthorized, setIsAuthorized] = useState(false);
 
-    const checkAuthorization = () => {
+    const checkAuthorization = useCallback(() => {
         if (status && match.params.id === JSON.parse(localStorage.getItem('animark-user-id'))) {
             setIsAuthorized(true);
         } else {
             setIsAuthorized(false);
         }
-    }
+    }, [match, status]);
     
     useEffect(() => {
         checkAuthorization();
-    },[match])
+    },[checkAuthorization, match])
 
     return ( 
         <div className="profileNav scrollNav" data-id="3">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import KeyboardArrowLeftRoundedIcon from '@material-ui/icons/KeyboardArrowLeftRounded';
@@ -9,20 +9,23 @@ import { HOST_ADDRESS } from '../config';
 
 const GaleryImages = ({history, match}) => {
 
+    const componentRef = useRef();
+
     const [columns, setColumns] = useState(null);
     const [animeData, setAnimeData] = useState(null);
-    const getAnime = async () => {
+    const getAnime = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime/${match.params.animeID}/galery`);
         if (response.ok) {
             const anime = await response.json();
+            if (!componentRef.current) return;
             setAnimeData(anime);
         }
-    };
+    }, [match]);
     const handleGoBack = () => {
         history.goBack();
     };
 
-    const sortFolders = () => {
+    const sortFolders = useCallback(() => {
         const columns = { column1: [], column2: [], column3: [], column4: [] };
         let counter = 1;
         animeData.images
@@ -42,7 +45,7 @@ const GaleryImages = ({history, match}) => {
                 }
             });
         setColumns(columns);
-    };
+    }, [animeData]);
 
     const folderList = (images) => {
         return images.map(f => <SingleImage key={f.id} id={f.id} fromAnime={f.fromAnime}/>);
@@ -52,14 +55,14 @@ const GaleryImages = ({history, match}) => {
         if(animeData) {
             sortFolders();
         }
-    }, [animeData]);
+    }, [animeData, sortFolders]);
 
     useEffect(() => {
         getAnime();
-    }, [match]);
+    }, [getAnime, match]);
 
     return ( 
-        <>
+        <div ref={componentRef}>
             {animeData ? <><div className="galery__goBack">
                 <KeyboardArrowLeftRoundedIcon className="galery__goBackIcon" onClick={handleGoBack}/>
             </div>
@@ -78,7 +81,7 @@ const GaleryImages = ({history, match}) => {
                     {columns ? folderList(columns.column4) : null}
                 </div>
             </div></> : null}
-        </>
+        </div>
      );
 }
  

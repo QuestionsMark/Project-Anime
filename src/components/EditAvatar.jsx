@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -40,7 +40,7 @@ const EditAvatar = () => {
         }
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         let test = /jpg|jpeg|png|webp|gif/.test(avatarPreview.type);
@@ -54,7 +54,7 @@ const EditAvatar = () => {
         }
 
         return errors;
-    };
+    }, [avatar, avatarPreview]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -96,20 +96,20 @@ const EditAvatar = () => {
         }
     };
 
-    const setEdit = () => {
+    const setEdit = useCallback(() => {
         const { avatar } = user;
         setAvatarPreview({ size: 0, url: `${HOST_ADDRESS}/images/${avatar}`, type: ''});
-    };
+    }, [user]);
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [avatar]);
+    }, [avatar, checkValidation]);
 
     useEffect(() => {
         if (JSON.stringify(user) !== "{}"){
             setEdit();
         }
-    }, [user]);
+    }, [setEdit, user]);
 
     return ( 
         <div className="profileEdit__section">

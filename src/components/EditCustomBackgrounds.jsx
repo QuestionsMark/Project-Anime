@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -41,7 +41,7 @@ const EditAvatar = () => {
         }
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         let test = /jpg|jpeg|png|webp|gif/.test(backgroundPreview.type);
@@ -55,7 +55,7 @@ const EditAvatar = () => {
         }
 
         return errors;
-    };
+    }, [background, backgroundPreview]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -104,7 +104,7 @@ const EditAvatar = () => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [background]);
+    }, [background, checkValidation]);
 
     useEffect(() => {
         setEdit();

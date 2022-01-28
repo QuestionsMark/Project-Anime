@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -8,6 +8,8 @@ import { Button, FormControl, InputLabel, Select, MenuItem, } from '@material-ui
 import { HOST_ADDRESS } from '../config';
 
 const EditFavoriteType = () => {
+
+    const componentRef = useRef();
 
     const { setOpen, setResponse } = useResponsePopup();
     const { user, setUser } = useUser();
@@ -24,6 +26,7 @@ const EditFavoriteType = () => {
         const response = await fetch(`${HOST_ADDRESS}/types`);
         if (response.ok) {
             const types = await response.json();
+            if (!componentRef.current) return;
             setTypes(types);
         }
     };
@@ -36,7 +39,7 @@ const EditFavoriteType = () => {
         setFavoriteType(e.target.value);
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         if (favoriteType === user?.favoriteType) {
@@ -44,7 +47,7 @@ const EditFavoriteType = () => {
         }
 
         return errors;
-    };
+    }, [favoriteType, user]);
 
     const validationList = () => {
         return validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
@@ -63,6 +66,7 @@ const EditFavoriteType = () => {
     const handleSave = async e => {
         e.preventDefault();
         if (validationErrors.length === 0) {
+            if (!componentRef.current) return;
             setFavoriteType('');
             const response = await fetch(`${HOST_ADDRESS}/profile/favorite-type`, {
                 headers: {
@@ -85,10 +89,10 @@ const EditFavoriteType = () => {
         }
     };
 
-    const setEdit = () => {
+    const setEdit = useCallback(() => {
         const favoriteType = user.favoriteType;
         setFavoriteType(favoriteType);
-    };
+    }, [user]);
 
     useEffect(() => {
         getTypes();
@@ -96,16 +100,16 @@ const EditFavoriteType = () => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [favoriteType]);
+    }, [checkValidation, favoriteType]);
 
     useEffect(() => {
         if (JSON.stringify(user) !== "{}" && types.length > 0){
             setEdit();
         }
-    }, [user, types]);
+    }, [user, types, setEdit]);
 
     return ( 
-        <div className="profileEdit__section">
+        <div className="profileEdit__section" ref={componentRef}>
             <h2 className="profileEdit__title mediumTitle">Ulubiony Gatunek</h2>
             <FormControl>
                 <InputLabel id="demo-simple-select-label">Ulubiony Gatunek</InputLabel>

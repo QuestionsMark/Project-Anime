@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import DailyAnime from './DailyAnime';
 import WhatsTheMelodyComments from './WhatsTheMelodyComments';
@@ -48,7 +48,7 @@ const RightSideV2 = () => {
 
     const [didUserVote, setDidUserVote] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
-    const checkDidUserVote = () => {
+    const checkDidUserVote = useCallback(() => {
         const users = [];
         for (const vote of WTM.votes) {
             users.push(...vote.votes);
@@ -61,7 +61,7 @@ const RightSideV2 = () => {
             setDidUserVote(false);
             setIsChecked(true);
         }
-    };
+    }, [WTM, user]);
 
     const handleRollDailyAnime = async () => {
         await fetch(`${HOST_ADDRESS}/daily-anime`, {
@@ -73,7 +73,7 @@ const RightSideV2 = () => {
         await fetch(`${HOST_ADDRESS}/whats-the-melody`, {
             method: 'POST',
         });
-        getWhatsTheMelody();
+        socket.emit('whats-the-melody-roll');
     };
 
     const scrollDown = () => {
@@ -132,7 +132,17 @@ const RightSideV2 = () => {
         if (JSON.stringify(user) === '{}' || !status || !WTM) return;
         checkDidUserVote();
         getWTMComments();
-    }, [user, status, WTM]);
+    }, [user, status, WTM, checkDidUserVote]);
+
+    useEffect(() => {
+        if (socket === null) return;
+        socket.on('whats-the-melody-roll', async () => {
+            audioRef.current.autoplay = true;
+            audioRef.current.src = plum;
+            await getWhatsTheMelody();
+        });
+        return () => socket.off('whats-the-melody-roll');
+    }, [socket]);
 
     useEffect(() => {
         if (socket === null) return;

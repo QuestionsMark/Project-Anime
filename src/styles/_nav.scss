@@ -12,13 +12,14 @@
     &__login {
         display: flex;
         padding: 1vh 1.5vh;
-        width: 5vh;
+        width: 13vh;
+        transform: translateX(8vh);
         overflow: hidden;
         cursor: pointer;
         transition: 0.3s;
 
         &:hover {
-            width: 13vh;
+            transform: translateX(0);
         }
 
         &__loginIcon:hover .header__loginIcon.MuiIcon-root {

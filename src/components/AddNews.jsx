@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -112,7 +112,7 @@ const AddNews = ({close, getNews}) => {
         'Opis wstępny powinien zawierać od 50 do 1000 znaków.',
         'Wybierz grafikę lub grafiki w podanych formatach jpg, jpeg, png, webp, gif.',
     ]);
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         let test = true;
@@ -150,7 +150,7 @@ const AddNews = ({close, getNews}) => {
         }
 
         return errors;
-    };
+    }, [choosedGraphics.length, description, images, intro.length, preview, title.length]);
 
     const validationList = () => {
         return validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
@@ -248,7 +248,7 @@ const AddNews = ({close, getNews}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [title, intro, description, choosedGraphics, images]);
+    }, [checkValidation, title, intro, description, choosedGraphics, images]);
     
     return ( 
         <div className="news__popup-add">

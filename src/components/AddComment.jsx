@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
-
-import img from '../media/img/guest.png';
 
 import { HOST_ADDRESS } from '../config.js';
 import { useUser } from '../contexts/UserProvider';
@@ -22,7 +20,7 @@ const AddComment = ({data, getData, collection}) => {
         setText(e.target.value);
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         if (text.length === 0 || text.length > 3000) {
@@ -30,7 +28,7 @@ const AddComment = ({data, getData, collection}) => {
         }
 
         return errors;
-    };
+    }, [text.length]);
 
     const handleShowValidate = () => {
         addCommentDiv.current.classList.add('show');
@@ -67,7 +65,7 @@ const AddComment = ({data, getData, collection}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [text]);
+    }, [checkValidation, text]);
 
     return ( 
         <div ref={addCommentDiv} className="addComment">

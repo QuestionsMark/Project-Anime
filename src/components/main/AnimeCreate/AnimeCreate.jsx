@@ -1,44 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, FormControl, RadioGroup, Radio, FormLabel, FormControlLabel, Checkbox } from '@material-ui/core';
-import { SRLWrapper } from "simple-react-lightbox";
-import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import { Button } from '@material-ui/core';
 
-import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
-import { useUser } from '../../contexts/UserProvider';
+import Loading from '../../Loading';
+import Kind from './Kind';
+import Seasons from './Seasons';
+import Types from './Types';
+import Link from './Link';
+import Info from './Info';
+import Title from './Title';
+import Graphics from './Graphics';
+import Soundtrack from './Soundtrack';
 
-import Search from '../Search';
-import Audio from '../Audio';
-import NotFound from './NotFound';
+import { useResponsePopup } from '../../../contexts/ResponsePopupProvider';
+import { useUser } from '../../../contexts/UserProvider';
 
-import previewImage from '../../media/img/hos-back20502.webp';
+import { HOST_ADDRESS } from '../../../config';
+import setMain from '../../../utils/setMain';
+import { DefaultArray } from '../../../utils/CustomClasses';
 
-import { HOST_ADDRESS } from '../../config';
-import setMain from '../../utils/setMain';
-import Loading from '../Loading';
+import previewImage from '../../../media/img/hos-back20502.webp';
 
-const PageCreate = ({main, match, history}) => {
+const AnimeCreate = ({main, match, history}) => {
+
+    const componentRef = useRef();
 
     const { setOpen, setResponse } = useResponsePopup();
     const { authorization, user } = useUser();
-    const [anime, setAnime] = useState([]);
+    const [anime, setAnime] = useState(new DefaultArray());
     const getAnime = async () => {
         const response = await fetch(`${HOST_ADDRESS}/anime/title`);
         if (response.ok) {
             const anime = await response.json();
+            if (!componentRef.current) return;
             setAnime(anime);
         }
     };
 
-    const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState(new DefaultArray());
     const getTypes = async () => {
         const response = await fetch(`${HOST_ADDRESS}/types`);
         if (response.ok) {
             const types = await response.json();
+            if (!componentRef.current) return;
             setTypes(types);
         }
     };
-
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const handleSearch = (e) => {
@@ -86,7 +93,7 @@ const PageCreate = ({main, match, history}) => {
     };
 
     const [animeTypes, setAnimeTypes] = useState([]);
-    const handleTypesChange = e => {
+    const handleTypesChange = useCallback(e => {
         const type = e.target.value;
         const typesList = [...animeTypes];
         const typeIndex = typesList.findIndex(t => t.name === type);
@@ -101,10 +108,10 @@ const PageCreate = ({main, match, history}) => {
             return 0;
         });
         setAnimeTypes(sorted);
-    };
+    }, [animeTypes, types]);
 
     const [seasons, setSeasons] = useState([]);
-    const handleSeasonsChange = (e) => {
+    const handleSeasonsChange = useCallback((e) => {
         const seasonsList = [...seasons];
         const seasonIndex = seasonsList.indexOf(e.target.value);
         if (seasonIndex !== -1) {
@@ -113,7 +120,7 @@ const PageCreate = ({main, match, history}) => {
             seasonsList.push(e.target.value);
         }
         setSeasons(seasonsList);
-    };
+    }, [seasons]);
 
     const [mini, setMini] = useState(null);
     const [background, setBackground] = useState(null);
@@ -133,7 +140,7 @@ const PageCreate = ({main, match, history}) => {
         data.append('myImg', file);
         return {preview : {url, size, type}, data};
     };
-    const handleChangeMini = e => {
+    const handleChangeMini = useCallback(e => {
         if (e.target.files.length > 0) {
             console.log(e.target.files);
             const file = e.target.files[0];
@@ -144,8 +151,8 @@ const PageCreate = ({main, match, history}) => {
             setMini(null);
             setMiniPreview({});
         }
-    };
-    const handleChangeBackground = e => {
+    }, []);
+    const handleChangeBackground = useCallback(e => {
         if (e.target.files.length > 0) {
             const file = e.target.files[0];
             const {preview, data} = getFile(file);
@@ -155,8 +162,8 @@ const PageCreate = ({main, match, history}) => {
             setBackground(null);
             setBackgroundPreview({});
         }
-    };
-    const handleChangeBaner = e => {
+    }, []);
+    const handleChangeBaner = useCallback(e => {
         if (e.target.files.length > 0) {
             const file = e.target.files[0];
             const {preview, data} = getFile(file);
@@ -166,8 +173,8 @@ const PageCreate = ({main, match, history}) => {
             setBaner(null);
             setBanerPreview({});
         }
-    };
-    const handleChangeSoundtrack = e => {
+    }, []);
+    const handleChangeSoundtrack = useCallback(e => {
         if (e.target.files.length > 0) {
             const file = e.target.files[0];
             const {preview} = getFile(file);
@@ -176,7 +183,7 @@ const PageCreate = ({main, match, history}) => {
             setSoundtrack(data);
             setSoundtrackPreview(preview);
         }
-    };
+    }, []);
 
     const [validationErrors, setValidationErrors] = useState(
         [
@@ -195,7 +202,7 @@ const PageCreate = ({main, match, history}) => {
             'Wielkość Baneru nie powinna przekraczać 3MB.',
         ]
     );
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
         const numbers = /[^0-9]/g;
         const numbersTest = (string) => {
@@ -286,13 +293,13 @@ const PageCreate = ({main, match, history}) => {
         }
 
         return errors;
-    };
+    }, [animeTypes, background, backgroundPreview, banerPreview, composer, episodeDuration, episodesAmount, hours, kind, link, mini, miniPreview, minutes, productionDate, scenario, soundtrack, soundtrackPreview, soundtrackTitle, title]);
 
     const validationList = () => validationErrors.map((e, i) => {
         return <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>;
     });
 
-    const isChecked = (type, value) => {
+    const isChecked = useCallback((type, value) => {
         if (type === 'type') {
             if (animeTypes.findIndex(t => t.name === value) !== -1) return true;
             return false;
@@ -300,7 +307,7 @@ const PageCreate = ({main, match, history}) => {
             if (seasons.findIndex(a => a === value) !== -1) return true
             return false;
         }
-    };
+    }, [animeTypes, seasons]);
 
     const reset = () => {
         setKind('series');
@@ -320,26 +327,6 @@ const PageCreate = ({main, match, history}) => {
         setBackground(null);
         setBaner(null);
         setSoundtrack(null);
-    };
-
-    const labelTypesList = () => {
-        return types
-            .sort((a, b) => {
-                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-                return 0;
-            })
-            .map(t => <FormControlLabel key={t.id} checked={isChecked('type', t.name)} value={t.name} control={<Checkbox />} label={t.name} onChange={handleTypesChange}/>);
-    };
-    const labelAnimeList =  () => {
-        return anime
-            .filter(a => a.title.toLowerCase().includes(searchPhrase.toLowerCase()))
-            .sort((a, b) => {
-                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
-                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-                return 0;
-            })
-            .map(a => <FormControlLabel key={a.id} checked={isChecked('season', a.id)} value={a.id} control={<Checkbox/>} label={a.title} onChange={handleSeasonsChange}/>);
     };
 
     const handleRemoveSoundtrack = () => {
@@ -484,13 +471,29 @@ const PageCreate = ({main, match, history}) => {
         setSoundtrackPreview({ url: '', size: 0, type: '' });
     };
 
-    const goUp = history.listen(() => {
+    const kindComponent = useMemo(() => <Kind kind={kind} handleInfChange={handleInfChange}/>, [kind]);
+
+    const seasonsComponent = useMemo(() => <Seasons anime={anime} seasons={seasons} searchPhrase={searchPhrase} handleSearch={handleSearch} isChecked={isChecked} handleSeasonsChange={handleSeasonsChange}/>, [anime, handleSeasonsChange, isChecked, searchPhrase, seasons]);
+
+    const typesComponent = useMemo(() => <Types types={types} isChecked={isChecked} handleTypesChange={handleTypesChange}/>, [handleTypesChange, isChecked, types]);
+
+    const linkComponent = useMemo(() => <Link link={link} handleInfChange={handleInfChange}/>, [link]);
+
+    const infoComponent = useMemo(() => <Info scenario={scenario} productionDate={productionDate} kind={kind} episodesAmount={episodesAmount} episodeDuration={episodeDuration} hours={hours} minutes={minutes} handleInfChange={handleInfChange}/>, [episodeDuration, episodesAmount, hours, kind, minutes, productionDate, scenario]);
+
+    const titleComponent = useMemo(() => <Title title={title} handleChangeTitle={handleChangeTitle}/>, [title]);
+
+    const graphicsComponent = useMemo(() => <Graphics mini={mini} miniPreview={miniPreview} background={background} backgroundPreview={backgroundPreview} baner={baner} banerPreview={banerPreview} handleChangeMini={handleChangeMini} handleChangeBackground={handleChangeBackground} handleChangeBaner={handleChangeBaner}/>, [background, backgroundPreview, baner, banerPreview, handleChangeBackground, handleChangeBaner, handleChangeMini, mini, miniPreview]);
+
+    const soundtrackComponent = useMemo(() => <Soundtrack soundtrack={soundtrack} soundtrackPreview={soundtrackPreview} soundtrackTitle={soundtrackTitle} composer={composer} handleInfChange={handleInfChange} handleChangeSoundtrack={handleChangeSoundtrack} handleRemoveSoundtrack={handleRemoveSoundtrack}/>, [composer, handleChangeSoundtrack, soundtrack, soundtrackPreview, soundtrackTitle]);
+
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, main, match]);
 
     useEffect(() => {
         getAnime();
@@ -503,98 +506,22 @@ const PageCreate = ({main, match, history}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [title, kind, scenario, productionDate, episodesAmount, episodeDuration, hours, minutes, link, animeTypes, seasons, mini, background, baner, soundtrack, composer, soundtrackTitle]);
+    }, [title, kind, scenario, productionDate, episodesAmount, episodeDuration, hours, minutes, link, animeTypes, seasons, mini, background, baner, soundtrack, composer, soundtrackTitle, checkValidation]);
 
     return ( 
-        <>
-        {authorization === '2' || authorization === '3' ?
-            <div className="create main__content">
+        <div className="create main__content" ref={componentRef}>
+            {authorization === '2' || authorization === '3' ?
+            <>
                 <h1 className="create__createAnime">Tworzenie Nowego Anime</h1>
                 <div className="create__wrapper">
-                    <div className="create__kind create__section">
-                        <FormControl component="fieldset">
-                            <FormLabel component="legend" className="create__title">Typ anime</FormLabel>
-                            <RadioGroup aria-label="gender" name="gender1" value={kind} onChange={(e) => {handleInfChange("kind", e)}}>
-                                <FormControlLabel value="series" control={<Radio />} label="Seria odcinków" className="create__radioLabel"/>
-                                <FormControlLabel value="movie" control={<Radio />} label="Film" className="create__radioLabel"/>
-                            </RadioGroup>
-                        </FormControl>
-                    </div>
-                    <div className="create__animeTitle create__section">
-                        <h3 className="create__title">Tytuł</h3>
-                        <input type="text" className="create__titleInp create__inputText" placeholder="Tytuł" value={title} onChange={handleChangeTitle}/>
-                    </div>
-                    <div className="create__info create__section">
-                        <h3 className="create__title">Informacje</h3>
-                        <input type="text" className="create__scenarioInp create__inputText" placeholder="scenariusz" value={scenario} onChange={(e) => {handleInfChange("scenario", e)}}/>
-                        <input type="text" className="create__productionDateInp create__inputText" placeholder="Rok produkcji" value={productionDate} onChange={(e) => {handleInfChange("productionDate", e)}}/>
-                        {kind === "series" ? 
-                        <div className="create__seriesKind">
-                            <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość odcinków" value={episodesAmount} onChange={(e) => {handleInfChange("episodesValue", e)}}/>
-                            <input type="text" className="create__duration2Inp create__inputText" placeholder="Czas trwania odcinka w min" value={episodeDuration} onChange={(e) => {handleInfChange("episodeDuration", e)}}/>
-                        </div>
-                        :
-                        <div className="create__seriesKind">
-                            <input type="text" className="create__duration1Inp create__inputText" placeholder="Ilość godzin" value={hours} onChange={(e) => {handleInfChange("hoursValue", e)}}/>
-                            <input type="text" className="create__duration2Inp create__inputText" placeholder="Ilość minut" value={minutes} onChange={(e) => {handleInfChange("minutesValue", e)}}/>
-                        </div> }
-                    </div>
-                    <div className="create__link create__section">
-                        <h3 className="create__title">Link</h3>
-                        <input type="text" className="create__linkInp create__inputText" placeholder="Link do oglądania" value={link} onChange={(e) => {handleInfChange("link", e)}}/>
-                    </div>
-                    <div className="create__types create__section">
-                        <FormControl component="fieldset">
-                            <FormLabel component="legend" className="create__title">Gatunki</FormLabel>
-                            <RadioGroup value={types}>
-                                {types.length > 0 ? labelTypesList() : null}
-                            </RadioGroup>
-                        </FormControl>
-                    </div>
-                    <div className="create__seasons create__section">
-                        <Search handleSearch={handleSearch}/>
-                        <FormControl component="fieldset">
-                            <FormLabel component="legend" className="create__title">*Powiązane Anime</FormLabel>
-                            <RadioGroup value={seasons}>
-                                {anime.length > 0 ? labelAnimeList() : null}
-                            </RadioGroup>
-                        </FormControl>
-                    </div>
-                    <SRLWrapper>
-                        <form className="create__images create__section">
-                            <h3 className="create__title">Grafiki</h3>
-                            <input type="file" id="mini" className="create__imageInp" onChange={handleChangeMini}/>
-                            <label htmlFor="mini" className="create__imageLabel">Wybierz Miniaturę</label>
-                            {mini ? <div className="create__preview">
-                                <p className="changes__size" style={{color: miniPreview.size < 0.524288 ? '#5ec45e' : '#d14141'}}>{miniPreview.size.toFixed(2)} MB {miniPreview.size < 0.524288 ? 'OK' : 'Plik jest za duży!'}</p>
-                                <div className="create__preview-img create__preview-img--square" style={{ backgroundImage: `url(${miniPreview.url})` }}/>
-                            </div> : null}
-                            <input type="file" id="background" className="create__imageInp" onChange={handleChangeBackground}/>
-                            <label htmlFor="background" className="create__imageLabel">Wybierz Tło</label>
-                            {background ? <div className="create__preview">
-                                <p className="changes__size" style={{color: backgroundPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{backgroundPreview.size.toFixed(2)} MB {backgroundPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p>
-                                <div className="create__preview-img create__preview-img--background" style={{ backgroundImage: `url(${backgroundPreview.url})` }}/>
-                            </div> : null}
-                            <input type="file" id="baner" className="create__imageInp" onChange={handleChangeBaner}/>
-                            <label htmlFor="baner" className="create__imageLabel">Wybierz Baner</label>
-                            {baner ? <div className="create__preview">
-                                <p className="changes__size" style={{color: banerPreview.size < 3.145728 ? '#5ec45e' : '#d14141'}}>{banerPreview.size.toFixed(2)} MB {banerPreview.size < 3.145728 ? 'OK' : 'Plik jest za duży!'}</p>
-                                <div className="create__preview-img create__preview-img--background" style={{ backgroundImage: `url(${banerPreview.url})` }}/>
-                            </div> : null}
-                        </form>
-                    </SRLWrapper>
-                    <form className="create__soundtrack create__section">
-                        <h3 className="create__title">*Soundtrack</h3>
-                        <input type="file" id="music" className="create__soundtrackInp" onChange={handleChangeSoundtrack}/>
-                        <label htmlFor="music" className="create__imageLabel">Soundtrack</label>
-                        {soundtrack ? <div className="create__preview">
-                            <p className="changes__size" style={{color: soundtrackPreview.size < 8.388608 ? '#5ec45e' : '#d14141'}}>{soundtrackPreview.size.toFixed(2)} MB {soundtrackPreview.size < 8.388608 ? 'OK' : 'Plik jest za duży!'}</p>
-                            <Audio id={soundtrackPreview.url} isUrl={true}/>
-                            <RemoveRoundedIcon className="create__delete-icon" onClick={handleRemoveSoundtrack}/>
-                        </div> : null}
-                        <input type="text" className="create__composerInp create__inputText" placeholder="Kompozytor" value={composer} onChange={(e) => {handleInfChange("composer", e)}}/>
-                        <input type="text" className="create__soundtrackTitle create__inputText" placeholder="Tytuł utworu" value={soundtrackTitle} onChange={(e) => {handleInfChange("soundtrackTitle", e)}}/>
-                    </form>
+                    {kindComponent}
+                    {titleComponent}
+                    {infoComponent}
+                    {linkComponent}
+                    {typesComponent}
+                    {seasonsComponent}
+                    {graphicsComponent}
+                    {soundtrackComponent}
                 </div>
                 <div className="create__send">
                     <Button className={`button create__add ${validationErrors.length !== 0 ? 'Mui-disabled' : ''}`} onClick={handleAddNewAnime}>Dodaj Nowe Anime</Button>
@@ -602,9 +529,9 @@ const PageCreate = ({main, match, history}) => {
                         {validationList()}
                     </ul>
                 </div>
-            </div> : <div className="create main__content"><Loading /></div>}
-        </>
+            </> : <Loading />}
+        </div>
      );
 }
  
-export default withRouter(PageCreate);
+export default withRouter(AnimeCreate);

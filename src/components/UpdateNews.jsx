@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -17,13 +17,13 @@ const UpdateNews = ({close, getNews, id}) => {
     const { setOpen, setResponse } = useResponsePopup();
 
     const [newsData, setNewsData] = useState({});
-    const getNewsData = async () => {
+    const getNewsData = useCallback(async () => {
         const resposne = await fetch(`${HOST_ADDRESS}/news/${id}`);
         if (resposne.ok) {
             const newsData = await resposne.json();
             setNewsData(newsData);
         }
-    };
+    }, [id]);
 
     const [graphics, setGraphics] = useState([]);
     const getGraphics = async () => {
@@ -121,7 +121,7 @@ const UpdateNews = ({close, getNews, id}) => {
         'Opis wstępny powinien zawierać od 50 do 1000 znaków.',
         'Wybierz grafikę lub grafiki w podanych formatach jpg, jpeg, png, webp, gif.',
     ]);
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         let test = true;
@@ -159,7 +159,7 @@ const UpdateNews = ({close, getNews, id}) => {
         }
 
         return errors;
-    };
+    }, [choosedGraphics, description, images, intro, preview, title]);
     const validationList = () => {
         return validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
     };
@@ -245,7 +245,7 @@ const UpdateNews = ({close, getNews, id}) => {
     useEffect(() => {
         getNewsData();
         getGraphics();
-    }, []);
+    }, [getNewsData]);
 
     useEffect(() => {
         if (JSON.stringify(newsData) !== "{}") {
@@ -286,7 +286,7 @@ const UpdateNews = ({close, getNews, id}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [title, intro, description, choosedGraphics, images]);
+    }, [title, intro, description, choosedGraphics, images, checkValidation]);
 
     return ( 
         <div className="news__popup-add">

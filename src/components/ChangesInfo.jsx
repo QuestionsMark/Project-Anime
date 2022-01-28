@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
@@ -29,7 +29,7 @@ const ChangesInfo = ({close, anime}) => {
         setDuration(e.target.value);
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
         const dateAllowedSigns = /[^0-9]/g;
 
@@ -46,7 +46,7 @@ const ChangesInfo = ({close, anime}) => {
         }
 
         return errors;
-    };
+    }, [duration, productionDate, scenario]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -81,7 +81,7 @@ const ChangesInfo = ({close, anime}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [scenario, productionDate, duration]);
+    }, [scenario, productionDate, duration, checkValidation]);
 
     return ( 
         <div className="changes__content">

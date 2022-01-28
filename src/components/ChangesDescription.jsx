@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useUser } from '../contexts/UserProvider';
 
@@ -21,7 +21,7 @@ const ChangesDescription = ({close, anime}) => {
         setDesription(e.target.value);
     }
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         if (description.length < 50 || description.length > 5000) {
@@ -29,7 +29,7 @@ const ChangesDescription = ({close, anime}) => {
         }
 
         return errors;
-    };
+    }, [description]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -61,7 +61,7 @@ const ChangesDescription = ({close, anime}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [description]);
+    }, [checkValidation, description]);
 
     return ( 
         <div className="changes__content">

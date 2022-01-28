@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { useUser } from '../contexts/UserProvider';
@@ -9,6 +9,8 @@ import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded';
 import { HOST_ADDRESS } from '../config';
 
 const ProfilePrivate = ({match}) => {
+
+    const componentRef = useRef();
 
     const { user } = useUser();
 
@@ -37,16 +39,17 @@ const ProfilePrivate = ({match}) => {
         }
     };
 
-    const getPrivateData = async () => {
+    const getPrivateData = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${user.id}/private`);
         if (response.ok) {
             const {email, login} = await response.json();
+            if (!componentRef.current) return;
             setEmail(email);
             setLogin(login);
             setPreviousEmail(email);
             setPreviousLogin(login);
         }
-    };
+    }, [user]);
 
     const handleChangeVisibility = () => {
         if (inputPassword1.current.type === 'password') {
@@ -90,10 +93,10 @@ const ProfilePrivate = ({match}) => {
         if (JSON.stringify(user) !== "{}" && match.params.userID === user.id) {
             getPrivateData();
         }
-    },[user])
+    },[getPrivateData, match, user])
 
     return ( 
-        <div className="profilePrivate profile__content">
+        <div className="profilePrivate profile__content" ref={componentRef}>
             <form className="profileEdit__section" autoComplete="off">
                 <h2 className="profileEdit__title mediumTitle">Zmień Adres E-mail</h2>
                 <input type="text" className="profileEdit__username" data-type="email" placeholder="Email" value={email} onChange={handleInpChange}/>

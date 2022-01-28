@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { withRouter, Route, Switch } from 'react-router-dom';
 
 import ProfileNav from '../ProfileNav';
@@ -13,6 +13,8 @@ import setMain from '../../utils/setMain';
 import Loading from '../Loading';
 
 const Profile = ({ main, history, match }) => {
+
+    const componentRef = useRef();
 
     const [profileData, setProfileData] = useState({});
     const [searchPhraseAnime, setSearchPhraseAnime] = useState('');
@@ -39,49 +41,54 @@ const Profile = ({ main, history, match }) => {
             })
     };
 
-    const getProfileData = async () => {
+    const getProfileData = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${match.params.id}`);
         if (response.ok) {
             const profileData = await response.json();
+            if (!componentRef.current) return;
             setProfileData(profileData);
         } else {
             history.push('/error/not-found');
         }
-    };
+    }, [history, match]);
 
-    const goUp = history.listen(() => {
+    const profileComponent = JSON.stringify(profileData) === "{}" ?
+        <Loading />
+        :
+        <>
+            <ProfileNav />
+            <Switch>
+                <Route path="/users/:userID" exact>
+                    <ProfileHome profileData={profileData} match={match} getProfileData={getProfileData}/>
+                </Route>
+                <Route path="/users/:userID/user-top">
+                    <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>
+                </Route>
+                <Route path="/users/:userID/achievements">
+                    <ProfileAchievements achievements={achievementsList()} handleSearch={handleSearchAchievement}/>
+                </Route>
+                <Route path="/users/:userID/settings">
+                    <ProfileEdit profileData={profileData} getProfileData={getProfileData} />
+                </Route>
+                <Route path="/users/:userID/private">
+                    <ProfilePrivate />
+                </Route>
+            </Switch>
+        </>;
+
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
-
+    }), [history]);
     useEffect(() => {
         goUp();
         getProfileData();
         setMain(main, match);
-    }, [match]);
+    }, [getProfileData, goUp, main, match]);
 
     return ( 
-        <>
-            {JSON.stringify(profileData) !== "{}" ? <div className="profile main__content">
-                <ProfileNav />
-                <Switch>
-                    <Route path="/users/:userID" exact>
-                        <ProfileHome profileData={profileData} match={match} getProfileData={getProfileData}/>
-                    </Route>
-                    <Route path="/users/:userID/user-top">
-                        <ProfileTop animeList={animeList()} handleSearch={handleSearchAnime}/>
-                    </Route>
-                    <Route path="/users/:userID/achievements">
-                        <ProfileAchievements achievements={achievementsList()} handleSearch={handleSearchAchievement}/>
-                    </Route>
-                    <Route path="/users/:userID/settings">
-                        <ProfileEdit profileData={profileData} getProfileData={getProfileData} />
-                    </Route>
-                    <Route path="/users/:userID/private">
-                        <ProfilePrivate />
-                    </Route>
-                </Switch>
-            </div> : <div className="profile main__content"><Loading /></div>}
-        </>
+        <div className="profile main__content" ref={componentRef}>
+            {profileComponent}
+        </div>
      );
 }
  

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 import { useUser } from '../contexts/UserProvider';
@@ -34,7 +34,7 @@ const ChangesGalery = ({close, animeData}) => {
         setImagesPreview(previewList);
     };
 
-    const checkValidation = () => {
+    const checkValidation = useCallback(() => {
         const errors = [];
 
         let test = true;
@@ -54,7 +54,7 @@ const ChangesGalery = ({close, animeData}) => {
         }
 
         return errors;
-    };
+    }, [images, imagesPreview]);
 
     const validationList = () => validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
 
@@ -116,7 +116,7 @@ const ChangesGalery = ({close, animeData}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [images]);
+    }, [checkValidation, images]);
 
     return ( 
         <div className="changes__content">

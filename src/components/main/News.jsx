@@ -51,13 +51,13 @@ const News = ({main, history, match}) => {
         });
     };
 
-    const goUp = history.listen(() => {
+    const goUp = useCallback(() => history.listen(() => {
         window.scrollTo(0, 0);
-    });
+    }), [history]);
     useEffect(() => {
         goUp();
         setMain(main, match);
-    }, [match]);
+    }, [goUp, main, match]);
 
     return ( 
         <div className="news main__content scrollNav" data-id="4">

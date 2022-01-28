@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
@@ -24,7 +24,7 @@ import News from './main/News';
 import Source from './main/Source';
 import NotFound from './main/NotFound';
 import Profile from './main/Profile';
-import PageCreate from './main/PageCreate';
+import AnimeCreate from './main/AnimeCreate/AnimeCreate';
 import MyProjects from './main/MyProjects';
 import SAOClicker from './main/SAOClicker';
 import Achievements from './main/Achievements';
@@ -53,7 +53,7 @@ function App() {
 
     const { setStatus, setAuthorization, setUser } = useUser();
 
-    const setApp = async () => {
+    const setApp = useCallback(async () => {
         const response = await fetch(`${HOST_ADDRESS}/users/${JSON.parse(localStorage.getItem('animark-user-id'))}/authorization/${JSON.parse(localStorage.getItem('animark-token'))}`);
         if (response.ok) {
             const user = await response.json();
@@ -64,12 +64,12 @@ function App() {
             setStatus(false);
             setAuthorization('1');
         }
-    };
+    }, [setAuthorization, setStatus, setUser]);
 
     useEffect(() => {
         setApp();
         setMain(mainRef.current);
-    }, []);
+    }, [setApp]);
 
     return (
         <Router>
@@ -85,7 +85,7 @@ function App() {
                         <Anime main={main} />
                     </Route>
                     <Route path="/anime/create">
-                        <PageCreate main={main} />
+                        <AnimeCreate main={main} />
                     </Route>
                     <Route path="/anime/:animeID">
                         <Page main={main} />
