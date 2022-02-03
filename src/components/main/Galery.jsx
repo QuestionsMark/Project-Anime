@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { withRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { SRLWrapper } from "simple-react-lightbox";
 
 import SingleFolder from '../SingleFolder';
 import GaleryImages from '../GaleryImages';
 import Search from '../Search';
 
-import setMain from '../../utils/setMain';
 import useSearch from '../../hooks/useSearch';
 import Loading from '../Loading';
 import Error from '../Error';
 
-const Galery = ({main, history, match}) => {
+const Galery = () => {
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const [page, setPage] = useState(1);
@@ -71,14 +70,6 @@ const Galery = ({main, history, match}) => {
         }
     }, [data, sortFolders]);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     return ( 
         <div className="anime main__content">
             <Route path="/galery" exact>
@@ -109,4 +100,4 @@ const Galery = ({main, history, match}) => {
      );
 }
  
-export default withRouter(Galery);
+export default Galery;

@@ -29,10 +29,9 @@ import ChangesSoundtrack from '../ChangesSoundtrack';
 import ChangesSeason from '../ChangesSeason';
 import ChangesDescription from '../ChangesDescription';
 import SingleGaleryImage from '../SingleGaleryImage';
-import setMain from '../../utils/setMain';
 import Loading from '../Loading';
 
-const Page = ({main, match, history}) => {
+const Page = ({match}) => {
 
     const componentRef = useRef();
 
@@ -126,9 +125,6 @@ const Page = ({main, match, history}) => {
         setOpen(true);
     };
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
     useEffect(() => {
         if (animeData) {
             getUser();
@@ -136,10 +132,8 @@ const Page = ({main, match, history}) => {
     }, [animeData, getUser]);
 
     useEffect(() => {
-        goUp();
-        setMain(main, match);
         getAnime();
-    },[getAnime, goUp, main, match]);
+    },[getAnime]);
 
     return ( 
         <div className="main__content scrollNav" data-id="1" ref={componentRef}>

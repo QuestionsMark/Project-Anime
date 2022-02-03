@@ -7,11 +7,22 @@ import LOLImg from '../media/img/lol-icon.png';
 import QMAImg from '../media/img/icon.jpg';
 import SAOImg from '../media/img/SAOIcon.png';
 import CityDefenceImg from '../media/img/ship.png';
+import ReduxBootstrapImg from '../media/img/redux-bootstrap.png';
 
 const MyProjectsList = () => {
     return ( 
         <section className="myProjects main__section scrollNav" data-id="4">
             <h2 className="myProjects__title">Inne Moje Projekty</h2>
+            <div className="myProjects__article">
+                <div className="myProjects__content">
+                    <div className="myProjects__image" style={{ backgroundImage: `url(${ReduxBootstrapImg})` }}/>
+                    <div className="myProjects__info">
+                        <h2 className="myProjects__projectTitle">Bootstrap {'&'} Redux Project</h2>
+                        <p className="myProjects__description">Zabawa bootstrapem i reduxem. Nie wiem co tutaj napisac więcej dlatego nie będę was czarował jakimiś ładnymi słówkami opisu tylko coś tam popiszę żeby kontent wypełnić :) Jeszcze tylko dodam, że to taki typowy CMS.</p>
+                    </div>
+                </div>
+                <a href="http://redux-bootstrap.questionmarksanime.pl" target="_blank" rel="noreferrer" className="myProjects__link"><Button className="button myProjects__button">Przejdź na stronę</Button></a>
+            </div>
             <div className="myProjects__article">
                 <div className="myProjects__content">
                     <div className="myProjects__image" style={{ backgroundImage: `url(${CityDefenceImg})` }}/>

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
@@ -29,15 +29,17 @@ import MyProjects from './main/MyProjects';
 import SAOClicker from './main/SAOClicker';
 import Achievements from './main/Achievements';
 import NewsPage from './NewsPage';
-
-import { HOST_ADDRESS } from '../config';
 import PlanetDefence from './main/PlanetDefence';
+
+import { setMainBackground } from '../utils/setMainBackground';
+import { HOST_ADDRESS } from '../config';
 
 function App() {
 
+    const html = useRef(document.querySelector('html'));
     const mainRef = useRef();
 
-    const [main, setMain] = useState(null);
+    const location = useLocation();
 
     const { open, setOpen } = useResponsePopup();
     const { openLoginScreen, setOpenLoginScreen, openRegistrationScreen, setOpenRegistrationScreen } = useLoginPopup();
@@ -67,67 +69,74 @@ function App() {
     }, [setAuthorization, setStatus, setUser]);
 
     useEffect(() => {
+        html.current.scroll({
+            behavior: 'smooth',
+            top: 0,
+        });
+        setMainBackground(mainRef.current, location)
+    }, [location]);
+
+    useEffect(() => {
         setApp();
-        setMain(mainRef.current);
     }, [setApp]);
 
     return (
-        <Router>
+        <>
             <Nav />
             <main className="main" ref={mainRef}>
                 <div className="curtain"></div>
                 <LeftSide />
                 <Switch>
                     <Route path="/" exact>
-                        <Home main={main} />
+                        <Home />
                     </Route>
                     <Route path="/anime" exact>
-                        <Anime main={main} />
+                        <Anime />
                     </Route>
                     <Route path="/anime/create">
-                        <AnimeCreate main={main} />
+                        <AnimeCreate />
                     </Route>
                     <Route path="/anime/:animeID">
-                        <Page main={main} />
+                        <Page />
                     </Route>
                     <Route path="/users" exact>
-                        <Users main={main} />
+                        <Users />
                     </Route>
                     <Route path="/users/:id">
-                        <Profile main={main} />
+                        <Profile />
                     </Route>
                     <Route path="/galery">
-                        <Galery main={main} />
+                        <Galery />
                     </Route>
                     <Route path="/types">
-                        <Types main={main} />
+                        <Types />
                     </Route>
                     <Route path="/achievements">
-                        <Achievements main={main} />
+                        <Achievements />
                     </Route>
                     <Route path="/news" exact>
-                        <News main={main} />
+                        <News />
                     </Route>
                     <Route path="/news/:id">
-                        <NewsPage main={main} />
+                        <NewsPage />
                     </Route>
                     <Route path="/rules">
-                        <Rules main={main} />
+                        <Rules />
                     </Route>
                     <Route path="/source">
-                        <Source main={main} />
+                        <Source />
                     </Route>
                     <Route path="/my-another-projects">
-                        <MyProjects main={main} />
+                        <MyProjects />
                     </Route>
                     <Route path="/sword-art-online-clicker">
-                        <SAOClicker main={main} />
+                        <SAOClicker />
                     </Route>
                     <Route path="/planet-defence">
-                        <PlanetDefence main={main} />
+                        <PlanetDefence />
                     </Route>
                     <Route path="/">
-                        <NotFound main={main} />
+                        <NotFound />
                     </Route>
                 </Switch>
                 <RightSide />
@@ -145,7 +154,7 @@ function App() {
             <Popup modal closeOnDocumentClick open={openRegistrationScreen} onClose={handleCloseRegistrationScreen}>
                 <RegisterScreen />
             </Popup>
-        </Router>
+        </>
     );
 }
 

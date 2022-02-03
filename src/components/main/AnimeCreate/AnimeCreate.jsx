@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 import Loading from '../../Loading';
@@ -16,12 +15,11 @@ import { useResponsePopup } from '../../../contexts/ResponsePopupProvider';
 import { useUser } from '../../../contexts/UserProvider';
 
 import { HOST_ADDRESS } from '../../../config';
-import setMain from '../../../utils/setMain';
 import { DefaultArray } from '../../../utils/CustomClasses';
 
 import previewImage from '../../../media/img/hos-back20502.webp';
 
-const AnimeCreate = ({main, match, history}) => {
+const AnimeCreate = () => {
 
     const componentRef = useRef();
 
@@ -487,14 +485,6 @@ const AnimeCreate = ({main, match, history}) => {
 
     const soundtrackComponent = useMemo(() => <Soundtrack soundtrack={soundtrack} soundtrackPreview={soundtrackPreview} soundtrackTitle={soundtrackTitle} composer={composer} handleInfChange={handleInfChange} handleChangeSoundtrack={handleChangeSoundtrack} handleRemoveSoundtrack={handleRemoveSoundtrack}/>, [composer, handleChangeSoundtrack, soundtrack, soundtrackPreview, soundtrackTitle]);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     useEffect(() => {
         getAnime();
         getTypes();
@@ -534,4 +524,4 @@ const AnimeCreate = ({main, match, history}) => {
      );
 }
  
-export default withRouter(AnimeCreate);
+export default AnimeCreate;

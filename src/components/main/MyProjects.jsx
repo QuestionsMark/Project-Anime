@@ -1,19 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
-import { withRouter } from 'react-router';
+import React from 'react';
 
 import MyProjectsList from '../MyProjectsList';
 
-import setMain from '../../utils/setMain';
-
-const MyProjects = ({main, history, match}) => {
-
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
+const MyProjects = () => {
 
     return ( 
         <div className="home main__content">
@@ -22,4 +11,4 @@ const MyProjects = ({main, history, match}) => {
      );
 }
  
-export default withRouter(MyProjects);
+export default MyProjects;

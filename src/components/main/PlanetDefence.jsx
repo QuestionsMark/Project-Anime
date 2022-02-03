@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import Popup from 'reactjs-popup';
-import { Route, Switch, withRouter } from 'react-router-dom';
-import setMain from '../../utils/setMain';
+import { Route, Switch } from 'react-router-dom';
 import useGameSearch from '../../hooks/useGameSearch';
 
 import Loading from '../Loading';
 import Error from '../Error';
 
-const PlanetDefence = ({ main, history, match }) => {
+const PlanetDefence = () => {
 
     const [sort, setSort] = useState('overall');
     const handleChangeSort = (newSort) => {
@@ -57,14 +56,6 @@ const PlanetDefence = ({ main, history, match }) => {
         });
     };
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     return ( 
         <div className="planet-defence main__content">
             <h2 className="planet-defence__title largeTitle">City Defence Ranking</h2>
@@ -95,4 +86,4 @@ const PlanetDefence = ({ main, history, match }) => {
      );
 }
  
-export default withRouter(PlanetDefence);
+export default PlanetDefence;

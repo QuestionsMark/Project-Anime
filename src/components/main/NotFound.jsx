@@ -1,19 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
-import { withRouter } from 'react-router';
+import React from 'react';
 
 import SentimentVeryDissatisfiedRoundedIcon from '@material-ui/icons/SentimentVeryDissatisfiedRounded';
 
-import setMain from '../../utils/setMain';
-
-const NotFound = ({main, history, match}) => {
-
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
+const NotFound = () => {
 
     return ( 
         <div className="notFound main__content">
@@ -25,4 +14,4 @@ const NotFound = ({main, history, match}) => {
      );
 }
  
-export default withRouter(NotFound);
+export default NotFound;

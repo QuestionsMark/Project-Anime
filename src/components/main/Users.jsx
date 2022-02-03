@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import useSearch from '../../hooks/useSearch';
 
-import setMain from '../../utils/setMain';
 import Error from '../Error';
 import Loading from '../Loading';
 
 import Search from '../Search';
 import SingleUser from '../SingleUser';
 
-const Users = ({main, history, match}) => {
+const Users = () => {
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const [page, setPage] = useState(1);
@@ -41,14 +39,6 @@ const Users = ({main, history, match}) => {
 
     const usersListComponent = useMemo(() => <ul className="userList__list">{usersList()}</ul>, [usersList]);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     return ( 
         <div className="users main__content">
             <Search handleSearch={handleSearch} value={searchPhrase}/>
@@ -61,4 +51,4 @@ const Users = ({main, history, match}) => {
      );
 }
  
-export default withRouter(Users);
+export default Users;

@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import useSearch from '../../hooks/useSearch';
 
-import setMain from '../../utils/setMain';
 import Error from '../Error';
 
 import Filter from '../Filter';
@@ -10,7 +8,7 @@ import Loading from '../Loading';
 import Search from '../Search';
 import SingleAnime from '../SingleAnime';
 
-const Anime = ({main, history, match}) => {
+const Anime = () => {
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const [page, setPage] = useState(1);
@@ -147,14 +145,6 @@ const Anime = ({main, history, match}) => {
     handleFilterSort={handleFilterSort}
     />, [kindFilter, rateMinFilter, rateMaxFilter, sortFilter]);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     return ( 
         <div className="top main__content">
             {searchComponent}
@@ -170,4 +160,4 @@ const Anime = ({main, history, match}) => {
      );
 }
  
-export default withRouter(Anime);
+export default Anime;

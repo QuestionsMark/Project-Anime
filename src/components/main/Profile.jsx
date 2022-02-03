@@ -9,10 +9,9 @@ import ProfilePrivate from '../ProfilePrivate';
 import ProfileEdit from '../ProfileEdit';
 
 import { HOST_ADDRESS } from '../../config';
-import setMain from '../../utils/setMain';
 import Loading from '../Loading';
 
-const Profile = ({ main, history, match }) => {
+const Profile = ({ history, match }) => {
 
     const componentRef = useRef();
 
@@ -76,14 +75,9 @@ const Profile = ({ main, history, match }) => {
             </Switch>
         </>;
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
     useEffect(() => {
-        goUp();
         getProfileData();
-        setMain(main, match);
-    }, [getProfileData, goUp, main, match]);
+    }, [getProfileData, match]);
 
     return ( 
         <div className="profile main__content" ref={componentRef}>

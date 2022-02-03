@@ -1,17 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
-import { withRouter } from 'react-router';
+import React from 'react';
 
-import setMain from '../../utils/setMain';
-
-const Rules = ({main, history, match}) => {
-
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
+const Rules = () => {
 
     return ( 
         <div className="rules main__content">
@@ -34,4 +23,4 @@ const Rules = ({main, history, match}) => {
      );
 }
  
-export default withRouter(Rules);
+export default Rules;

@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router';
+import React, { useCallback, useRef, useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
 import SingleNews from '../SingleNews';
 
-import setMain from '../../utils/setMain';
 import AddNews from '../AddNews';
 import useSearch from '../../hooks/useSearch';
 import Search from '../Search';
@@ -14,7 +12,7 @@ import Loading from '../Loading';
 import Error from '../Error';
 import { useUser } from '../../contexts/UserProvider';
 
-const News = ({main, history, match}) => {
+const News = () => {
 
     const { status } = useUser();
 
@@ -51,14 +49,6 @@ const News = ({main, history, match}) => {
         });
     };
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     return ( 
         <div className="news main__content scrollNav" data-id="4">
             <Search handleSearch={handleSearch} value={searchPhrase}/>
@@ -74,4 +64,4 @@ const News = ({main, history, match}) => {
      );
 }
  
-export default withRouter(News);
+export default News;

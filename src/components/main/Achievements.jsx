@@ -1,14 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Loading from '../Loading';
 import SingleAchievementsGroup from '../SingleAchievementsGroup';
 
-import setMain from '../../utils/setMain';
 import { HOST_ADDRESS } from '../../config';
 import { DefaultArray } from '../../utils/CustomClasses';
 
-const Achievements = ({main, match, history}) => {
+const Achievements = () => {
 
     const componentRef = useRef();
 
@@ -54,14 +52,6 @@ const Achievements = ({main, match, history}) => {
         getAchievements();
     }, []);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, main, match]);
-
     return ( 
         <div className="achievements main__content" ref={componentRef}>
             <h2 className="achievements__title largeTitle">Osiągnięcia</h2>
@@ -70,4 +60,4 @@ const Achievements = ({main, match, history}) => {
      );
 }
  
-export default withRouter(Achievements);
+export default Achievements;

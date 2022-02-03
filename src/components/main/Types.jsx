@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import Loading from '../Loading';
 import TypePage from './TypePage';
 import SingleType from '../SingleType';
 
-import setMain from '../../utils/setMain';
 import { HOST_ADDRESS } from '../../config';
 import { DefaultArray } from '../../utils/CustomClasses';
 
-const Types = ({main, history, match}) => {
+const Types = () => {
 
     const componentRef = useRef();
 
@@ -54,14 +53,6 @@ const Types = ({main, history, match}) => {
         getTypes();
     }, []);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
-    useEffect(() => {
-        goUp();
-        setMain(main, match);
-    }, [goUp, match, main]);
-
     return ( 
         <div className="types main__content" ref={componentRef}>
             {typesComponent}
@@ -69,4 +60,4 @@ const Types = ({main, history, match}) => {
      );
 }
  
-export default withRouter(Types);
+export default Types;

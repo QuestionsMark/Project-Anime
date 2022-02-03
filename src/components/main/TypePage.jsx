@@ -8,7 +8,7 @@ import Loading from '../Loading';
 import { HOST_ADDRESS } from '../../config';
 import { DefaultArray } from '../../utils/CustomClasses';
 
-const TypePage = ({match, history}) => {
+const TypePage = ({match}) => {
 
     const componentRef = useRef();
 
@@ -69,15 +69,11 @@ const TypePage = ({match, history}) => {
     const animeListComponent = useMemo(() => <ul className="typePage__list column">{animeList()}</ul>, [animeList]);
     const usersListComponent = useMemo(() => <ul className="typePage__list">{userList()}</ul>, [userList]);
 
-    const goUp = useCallback(() => history.listen(() => {
-        window.scrollTo(0, 0);
-    }), [history]);
     useEffect(() => {
-        goUp();
         getType();
         getAnime();
         getUsers();
-    },[getAnime, getType, getUsers, goUp, match]);
+    },[getAnime, getType, getUsers, match]);
 
     return ( 
         <div ref={componentRef}>
