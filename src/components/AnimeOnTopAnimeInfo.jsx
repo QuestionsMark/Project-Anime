@@ -11,6 +11,7 @@ import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
 
 import { HOST_ADDRESS } from '../config';
 import { useState } from 'react';
+import { textHelper } from '../utils/textHelper';
 
 const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
 
@@ -94,7 +95,7 @@ const AnimeOnTopAnimeInfo = ({animeData, setAnimeData, getAnimeOnTop}) => {
                     <div className="AOT__types">
                         {typesList()}
                     </div>
-                    <p className="AOT__description">{description}</p>
+                    <div className="AOT__description text--indent">{textHelper(description)}</div>
                 </div>
                 <div className="AOT__right">
                     <Popup className="normal-popup" on="hover" position="top center" trigger={<div className="AOT__music" onClick={handleMusic} onWheel={handleVolumeChange}>

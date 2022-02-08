@@ -13,6 +13,7 @@ import SingleStatisticAnimeItem from './SingleStatisticAnimeItem';
 
 import { HOST_ADDRESS } from '../config';
 import SingleFavoriteAnime from './SingleFavoriteAnime';
+import { textHelper } from '../utils/textHelper';
 
 const ProfileHome = ({profileData, match, getProfileData}) => {
 
@@ -129,7 +130,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                 <div className="profile__rightSide">
                     <div className="profile__intro">
                         <h3 className="profile__introTitle mediumTitle">{introduction.title}</h3>
-                        <p className="profile__introText">{introduction.description}</p>
+                        <p className="profile__introText">{textHelper(introduction.description)}</p>
                     </div>
                     <div className="profile__statistics">
                         <h3 className="profile__statisticsTitle mediumTitle">Statystyki Anime</h3>

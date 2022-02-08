@@ -1,16 +1,19 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
-import SingleNews from '../SingleNews';
+import SingleNews from '../../SingleNews';
+import Search from '../../Search';
+import Loading from '../../Loading';
+import Error from '../../Error';
+import NewsPage from './NewsPage';
+import AddNews from '../../AddNews';
 
-import AddNews from '../AddNews';
-import useSearch from '../../hooks/useSearch';
-import Search from '../Search';
-import Loading from '../Loading';
-import Error from '../Error';
-import { useUser } from '../../contexts/UserProvider';
+import useSearch from '../../../hooks/useSearch';
+import { useUser } from '../../../contexts/UserProvider';
+
 
 const News = () => {
 
@@ -50,17 +53,24 @@ const News = () => {
     };
 
     return ( 
-        <div className="news main__content scrollNav" data-id="4">
-            <Search handleSearch={handleSearch} value={searchPhrase}/>
-            {status ? <Popup modal nested closeOnDocumentClick={false} trigger={<div className="news__add"><AddRoundedIcon className="news__add-new-news"/> Dodaj Nowość</div>} on="click">
-                {close => <AddNews close={close} getNews={handleChangeData}/>}
-            </Popup> : null}
-            <div className="news__container">
-                {newsList()}
-            </div>
-            {loading ? <Loading /> : null}
-            {error ? <Error error={error}/> : null}
-        </div>
+        <Switch>
+            <Route path="/news" exact>
+                <div className="news main__content scrollNav" data-id="4">
+                    <Search handleSearch={handleSearch} value={searchPhrase}/>
+                    {status ? <Popup modal nested closeOnDocumentClick={false} trigger={<div className="news__add"><AddRoundedIcon className="news__add-new-news"/> Dodaj Nowość</div>} on="click">
+                        {close => <AddNews close={close} getNews={handleChangeData}/>}
+                    </Popup> : null}
+                    <div className="news__container">
+                        {newsList()}
+                    </div>
+                    {loading ? <Loading /> : null}
+                    {error ? <Error error={error}/> : null}
+                </div>
+            </Route>
+            <Route path="/news/:newsId">
+                <NewsPage />
+            </Route>
+        </Switch>
      );
 }
  

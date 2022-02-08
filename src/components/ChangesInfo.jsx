@@ -7,7 +7,7 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesInfo = ({close, anime}) => {
+const ChangesInfo = ({close, id, getAnimeData}) => {
 
     const saveButton = useRef();
 
@@ -62,7 +62,7 @@ const ChangesInfo = ({close, anime}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    animeID: anime.id,
+                    animeID: id,
                     scenario,
                     productionDate,
                     duration
@@ -75,6 +75,7 @@ const ChangesInfo = ({close, anime}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            getAnimeData();
             close();
         }
     };

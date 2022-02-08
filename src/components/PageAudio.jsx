@@ -11,7 +11,7 @@ import Audio from '../components/Audio';
 import { HOST_ADDRESS } from '../config';
 import { useLoginPopup } from '../contexts/LoginPopup';
 
-const PageAudio = ({soundtrack, animeData, getAnime}) => {
+const PageAudio = ({soundtrack, animeId, getAnimeData}) => {
 
     const {id, composer, title, likes} = soundtrack;
 
@@ -28,10 +28,10 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
 
     const handleLikeClick = async () => {
         if (status && JSON.stringify(user) !== "{}") {
-            await fetch(`${HOST_ADDRESS}/soundtracks/like/${id}/${animeData.id}/${user.id}`, {
+            await fetch(`${HOST_ADDRESS}/soundtracks/like/${id}/${animeId}/${user.id}`, {
                 method: 'PUT',
             });
-            getAnime();
+            getAnimeData();
         } else {
             setOpenLoginScreen(true);
         }
@@ -54,7 +54,7 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    animeID: animeData.id,
+                    animeID: animeId,
                     id,
                 }),
             });
@@ -67,8 +67,9 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
         } else {
             const error = await response.json();
             setResponse({status: response.ok, message: error.message});
-        } 
+        }
         setOpen(true);
+        getAnimeData();
     };
 
     return ( 
@@ -82,7 +83,7 @@ const PageAudio = ({soundtrack, animeData, getAnime}) => {
             <p className="audioInterface__soundtrackInfo">{composer}&nbsp;&nbsp;-&nbsp;&nbsp;"{title}"</p>
             <div className="audioInterface__likes">
                 <p className="audioInterface__likesValue">{likes.length}</p>
-                <FavoriteBorderRoundedIcon className={`audioInterface__likeIcon ${JSON.stringify(user) !== "{}" ? isActive() : ''}`} onClick={(e) => {handleLikeClick(e)}}/>
+                <FavoriteBorderRoundedIcon className={`audioInterface__likeIcon ${JSON.stringify(user) !== "{}" ? isActive() : ''}`} onClick={handleLikeClick}/>
             </div>
         </div>
      );

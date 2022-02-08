@@ -5,7 +5,7 @@ import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import { HOST_ADDRESS } from '../config.js';
 import { useUser } from '../contexts/UserProvider';
 
-const AddComment = ({data, getData, collection}) => {
+const AddComment = ({collectionId, getData, collection}) => {
 
     const addCommentDiv = useRef();
     const textarea = useRef();
@@ -54,7 +54,7 @@ const AddComment = ({data, getData, collection}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    collectionID: data.id,
+                    collectionID: collectionId,
                     userID: user.id,
                     text,
                 }),

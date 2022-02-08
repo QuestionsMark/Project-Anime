@@ -10,7 +10,7 @@ import Audio from './Audio';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesSoundtrack = ({close, animeData}) => {
+const ChangesSoundtrack = ({close, id, getAnimeData}) => {
 
     const { setOpen, setResponse } = useResponsePopup();
     const { user } = useUser();
@@ -92,7 +92,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        animeID: animeData.id,
+                        animeID: id,
                         soundtrack,
                         composer,
                         title,
@@ -109,6 +109,7 @@ const ChangesSoundtrack = ({close, animeData}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            getAnimeData();
             close();
         }
     };

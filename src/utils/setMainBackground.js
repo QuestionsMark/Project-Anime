@@ -8,7 +8,7 @@ export async function setMainBackground(main, { pathname }) {
         if (!response.ok) return;
         const background = await response.json();
         main.style.backgroundImage = `url(${HOST_ADDRESS}/images/${background})`;
-    } else if (pathname.includes('/anime/')) {
+    } else if (pathname.includes('/anime/') && !pathname.includes('create')) {
         const animeId = pathname.slice(7, 31);
         const response = await fetch(`${HOST_ADDRESS}/anime/${animeId}/background`);
         if (!response.ok) return;

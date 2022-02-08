@@ -17,10 +17,10 @@ import RegisterScreen from './RegisterScreen';
 import Anime from './main/Anime';
 import Users from './main/Users';
 import Galery from './main/Galery';
-import Page from './main/Page';
+import Page from './main/Page/Page';
 import Types from './main/Types';
 import Rules from './main/Rules';
-import News from './main/News';
+import News from './main/News/News';
 import Source from './main/Source';
 import NotFound from './main/NotFound';
 import Profile from './main/Profile';
@@ -28,7 +28,6 @@ import AnimeCreate from './main/AnimeCreate/AnimeCreate';
 import MyProjects from './main/MyProjects';
 import SAOClicker from './main/SAOClicker';
 import Achievements from './main/Achievements';
-import NewsPage from './NewsPage';
 import PlanetDefence from './main/PlanetDefence';
 
 import { setMainBackground } from '../utils/setMainBackground';
@@ -114,11 +113,8 @@ function App() {
                     <Route path="/achievements">
                         <Achievements />
                     </Route>
-                    <Route path="/news" exact>
+                    <Route path="/news">
                         <News />
-                    </Route>
-                    <Route path="/news/:id">
-                        <NewsPage />
                     </Route>
                     <Route path="/rules">
                         <Rules />

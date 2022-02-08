@@ -10,7 +10,7 @@ import SingleImagePreview from './SingleImagePreview';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesGalery = ({close, animeData}) => {
+const ChangesGalery = ({close, id, getAnimeData}) => {
 
     const { setOpen, setResponse } = useResponsePopup();
     const { user } = useUser();
@@ -94,7 +94,7 @@ const ChangesGalery = ({close, animeData}) => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        animeID: animeData.id,
+                        animeID: id,
                         images,
                     }),
                 });
@@ -110,6 +110,7 @@ const ChangesGalery = ({close, animeData}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            getAnimeData();
             close();
         }
     };

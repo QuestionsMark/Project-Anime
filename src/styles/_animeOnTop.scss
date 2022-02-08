@@ -96,6 +96,7 @@
     }
 
     &__description {
+        @include line-limit(20);
         user-select: text;
     }
 

@@ -59,7 +59,7 @@ const SingleWTMComment = ({comment, getWTMComments, WTMID}) => {
                     <Link to={`/users/${userID}`} className="WTMC__nick">{username}</Link>
                     <p className="WTMC__date">{date}</p>
                 </div>
-                <p className="WTMC__text">{text}</p>
+                <p className="text WTMC__text">{text}</p>
                 <div className="WTMC__like">
                     <p className="WTMC__likeAmount">{likes.length}</p>
                     <FavoriteBorderRoundedIcon className={`WTMC__likeIcon ${isActive()}`} onClick={handleLikeClick}/>

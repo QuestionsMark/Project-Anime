@@ -79,10 +79,9 @@
     }
 
     &__description {
-        height: 114px;
+        @include line-limit(6);
         font-size: 16px;
         text-indent: 20px;
-        overflow: hidden;
     }
 
     &__specifications {

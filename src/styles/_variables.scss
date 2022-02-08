@@ -56,3 +56,12 @@ $font-color2: #f0f0f0;
         transform: scale(1.04);
     }
 }
+
+@mixin line-limit($limit) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $limit;
+    line-clamp: $limit;
+    -webkit-box-orient: vertical;
+}

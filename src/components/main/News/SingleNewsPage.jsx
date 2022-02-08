@@ -1,35 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router';
+import React from 'react';
 import { SRLWrapper } from "simple-react-lightbox";
 
 import RemoveRedEyeRounded from '@material-ui/icons/RemoveRedEyeRounded';
 import ForumRounded from '@material-ui/icons/ForumRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 
-import SingleVideo from './SingleVideo';
-import Comments from './Comments';
-import SingleNewsImage from './SingleNewsImage';
+import SingleVideo from '../../SingleVideo';
+import Comments from '../../Comments';
+import SingleNewsImage from '../../SingleNewsImage';
 
-import { HOST_ADDRESS } from '../config';
 import Popup from 'reactjs-popup';
-import UpdateNews from './UpdateNews';
-import Loading from './Loading';
+import UpdateNews from '../../UpdateNews';
 
-const NewsPage = ({match}) => {
+const SingleNewsPage = ({newsData, getNewsData}) => {
 
-    const componentRef = useRef();
-
-    const [newsData, setNewsData] = useState({});
-    const { id, title, intro, description, createdAt, images, videos, otherLinks, comments, views } = newsData;
-    const getNewsData = useCallback(async () => {
-        const response = await fetch(`${HOST_ADDRESS}/news/${match.params.id}`);
-        if (response.ok) {
-            const news = await response.json();
-            if (!componentRef.current) return;
-            setNewsData(news);
-        }
-    }, [match]);
-
+    const { id, title, intro, description, otherLinks, videos, images, views, comments, createdAt } = newsData;
+    
     const otherLinksList = () => {
         return otherLinks.map(l => <a href={l.link} key={l.id} target="_blank" rel="noreferrer" className="news-page__link">{l.note ? l.note : 'Link'}</a>);
     };
@@ -38,13 +24,10 @@ const NewsPage = ({match}) => {
     };
     const imagesList = () => {
         return images.map(i => <SingleNewsImage key={i.id} id={i.id} _id={i._id} newsID={id} title={title} getNewsData={getNewsData}/>);
-    };
+    }; 
 
-    const newsPageComponent = () => {
-        return JSON.stringify(newsData) === "{}" ?
-            <Loading />
-            :
-            <>
+    return ( 
+        <>
             <h2 className="news-page__title">{title}
                 <Popup modal nested closeOnDocumentClick={false} trigger={<SettingsRoundedIcon className="news-page__update-icon"/>}>
                     {close => <UpdateNews close={close} getNews={getNewsData} id={id}/>}
@@ -79,19 +62,9 @@ const NewsPage = ({match}) => {
                 <p className="news-page__stat"><ForumRounded className="news-page__stat-icon"/>{comments.length}</p>
                 <p className="news-page__stat">{createdAt}</p>
             </div>
-            <Comments data={newsData} getData={getNewsData} collection="news"/>
-        </>;
-    }   
-
-    useEffect(() => {
-        getNewsData();
-    }, [getNewsData]);
-
-    return ( 
-        <div className="news-page main__content" ref={componentRef}>
-            {newsPageComponent()}
-        </div>
+            <Comments id={newsData.id} comments={newsData.comments} collection="news" getData={getNewsData}/>
+        </>
      );
 }
  
-export default withRouter(NewsPage);
+export default SingleNewsPage;

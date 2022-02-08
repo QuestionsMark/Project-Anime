@@ -10,7 +10,7 @@ import { useUser } from '../contexts/UserProvider';
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleComment = ({comment, data, getData, collection}) => {
+const SingleComment = ({comment, collectionId, getData, collection}) => {
 
     const { id, userID, date, text, likes } = comment;
 
@@ -45,7 +45,7 @@ const SingleComment = ({comment, data, getData, collection}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    collectionID: data.id,
+                    collectionID: collectionId,
                     userID: user.id,
                     id,
                 }),
@@ -63,7 +63,7 @@ const SingleComment = ({comment, data, getData, collection}) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                collectionID: data.id,
+                collectionID: collectionId,
                 id,
             }),
         });
@@ -92,7 +92,7 @@ const SingleComment = ({comment, data, getData, collection}) => {
                     <Link to={`/users/${userID}`} className="comments__nick">{username}</Link>
                     <p className="comments__date">{date}</p>
                 </div>
-                <p className="comments__text">{text}</p>
+                <p className="text comments__text">{text}</p>
                 <div className="comments__likes">
                     <p className="comments__likesValue">{likes.length}</p>
                     <FavoriteBorderRoundedIcon className={`comments__likeIcon ${status ? isActive() : ''}`} onClick={handleLikeClick}/>

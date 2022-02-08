@@ -7,7 +7,7 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const SingleGaleryImage = ({image, animeData}) => {
+const SingleGaleryImage = ({image, animeId, getAnimeData}) => {
 
     const { id, fromAnime } = image;
 
@@ -31,7 +31,7 @@ const SingleGaleryImage = ({image, animeData}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    animeID: animeData.id,
+                    animeID: animeId,
                     id,
                 }),
             });
@@ -45,6 +45,7 @@ const SingleGaleryImage = ({image, animeData}) => {
             const error = await response.json();
             setResponse({status: response.ok, message: error.message});
         }
+        getAnimeData();
         setOpen(true);
     }
 

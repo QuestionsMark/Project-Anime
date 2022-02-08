@@ -66,12 +66,13 @@
 
     &__introText {
         user-select: text;
+        text-align: justify;
+        text-indent: 30px;
     }
 
     &__intro {
         @include page-style;
         margin-bottom: 20px;
-        text-indent: 20px;
     }
 
     &__statistics {

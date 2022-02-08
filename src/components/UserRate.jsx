@@ -13,7 +13,7 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
 import { HOST_ADDRESS } from '../config';
 
-const UserRate = ({animeData, getAnime}) => {
+const UserRate = ({id, rate, getAnimeData}) => {
 
     const { user, setUser } = useUser();
     const getUser = async () => {
@@ -34,12 +34,12 @@ const UserRate = ({animeData, getAnime}) => {
             },
             body: JSON.stringify({
                 userID: user.id,
-                animeID: animeData.id,
+                animeID: id,
                 rate,
             }),
         });
         getUser();
-        getAnime();
+        getAnimeData();
     };
 
     const handleMouseEnter = (e) => {
@@ -68,18 +68,18 @@ const UserRate = ({animeData, getAnime}) => {
     const checkActive = (type) => {
         if (JSON.stringify(user) !== "{}") {
             if (type === "favorite") {
-                if (user.favoriteAnime.findIndex(a => a.id === animeData.id) !== -1) return "active";
+                if (user.favoriteAnime.findIndex(a => a.id === id) !== -1) return "active";
             } else if (type === "watched") {
-                const index = user.userAnimeData.watched.findIndex(w => w.id === animeData.id);
+                const index = user.userAnimeData.watched.findIndex(w => w.id === id);
                 if (index !== -1) return "active";
             } else if (type === "stopped") {
-                const index = user.userAnimeData.stopped.findIndex(w => w.id === animeData.id);
+                const index = user.userAnimeData.stopped.findIndex(w => w.id === id);
                 if (index !== -1) return "active";
             } else if (type === "processOfWatching") {
-                const index = user.userAnimeData.processOfWatching.findIndex(w => w.id === animeData.id);
+                const index = user.userAnimeData.processOfWatching.findIndex(w => w.id === id);
                 if (index !== -1) return "active";
             } else if (type === "planned") {
-                const index = user.userAnimeData.planned.findIndex(w => w.id === animeData.id);
+                const index = user.userAnimeData.planned.findIndex(w => w.id === id);
                 if (index !== -1) return "active";
             }
         }
@@ -106,11 +106,11 @@ const UserRate = ({animeData, getAnime}) => {
             },
             body: JSON.stringify({
                 userID: user.id,
-                animeID: animeData.id,
+                animeID: id,
             }),
         });
         getUser();
-        getAnime();
+        getAnimeData();
     };
 
     const handleChangeWatched = async () => {
@@ -121,7 +121,7 @@ const UserRate = ({animeData, getAnime}) => {
             },
             body: JSON.stringify({
                 userID: user.id,
-                animeID: animeData.id,
+                animeID: id,
             }),
         });
         getUser();
@@ -135,7 +135,7 @@ const UserRate = ({animeData, getAnime}) => {
             },
             body: JSON.stringify({
                 userID: user.id,
-                animeID: animeData.id,
+                animeID: id,
             }),
         });
         getUser();
@@ -149,7 +149,7 @@ const UserRate = ({animeData, getAnime}) => {
             },
             body: JSON.stringify({
                 userID: user.id,
-                animeID: animeData.id,
+                animeID: id,
             }),
         });
         getUser();
@@ -163,24 +163,24 @@ const UserRate = ({animeData, getAnime}) => {
             },
             body: JSON.stringify({
                 userID: user.id,
-                animeID: animeData.id,
+                animeID: id,
             }),
         });
         getUser();
     };
 
     const setRate = useCallback(() => {
-        const rateIndex = animeData.rate.findIndex(r => r.user === user.id);
+        const rateIndex = rate.findIndex(r => r.user === user.id);
         if (rateIndex !== -1) {
-            setUserRate(animeData.rate[rateIndex].rate);
+            setUserRate(rate[rateIndex].rate);
         } else {
             setUserRate(0);
         }
-    }, [animeData, user]);
+    }, [rate, user]);
 
     useEffect(() => {
         setRate();
-    },[animeData, setRate]);
+    },[setRate]);
 
     return ( 
         <div className="page__userPanel">

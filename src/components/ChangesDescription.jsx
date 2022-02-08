@@ -8,7 +8,7 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { HOST_ADDRESS } from '../config';
 import { useResponsePopup } from '../contexts/ResponsePopupProvider';
 
-const ChangesDescription = ({close, anime}) => {
+const ChangesDescription = ({close, id, getAnimeData}) => {
 
     const { setOpen, setResponse } = useResponsePopup();
     const { user } = useUser();
@@ -44,7 +44,7 @@ const ChangesDescription = ({close, anime}) => {
                 },
                 body: JSON.stringify({
                     userID: user.id,
-                    animeID: anime.id,
+                    animeID: id,
                     description
                 }),
             });
@@ -55,6 +55,7 @@ const ChangesDescription = ({close, anime}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            getAnimeData();
             close();
         }
     };

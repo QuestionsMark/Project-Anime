@@ -9,7 +9,7 @@ import Search from './Search';
 
 import { HOST_ADDRESS } from '../config';
 
-const ChangesSeason = ({close, animeData}) => {
+const ChangesSeason = ({close, id, getAnimeData}) => {
 
     const { setOpen, setResponse } = useResponsePopup();
 
@@ -82,7 +82,7 @@ const ChangesSeason = ({close, animeData}) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    animeID: animeData.id,
+                    animeID: id,
                     seasons
                 }),
             });
@@ -94,6 +94,7 @@ const ChangesSeason = ({close, animeData}) => {
                 setResponse({status: response.ok, message: error.message});
             }
             setOpen(true);
+            getAnimeData();
             close();
         }
     };
