@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import DailyAnime from './DailyAnime';
-import WhatsTheMelodyComments from './WhatsTheMelodyComments';
-import WTMQuestionnaire from './WTMQuestionnaire';
-import WTMResults from './WTMResults';
 import LoadingSmall from './LoadingSmall';
+import DailyAnime from './DailyAnime';
+import Comments from './WTM/Comments';
+import Questionnaire from './WTM/Questionnaire';
+import Results from './WTM/Results';
 
 import { useSocket } from '../contexts/SocketProvider';
 import { useUser } from '../contexts/UserProvider';
-
 import { HOST_ADDRESS } from '../config';
 
 import plum from '../media/mp3/plum.mp3';
 
-const RightSideV2 = () => {
+const RightSide = () => {
 
     const audioRef = useRef();
 
@@ -97,13 +96,13 @@ const RightSideV2 = () => {
             if (status) {
                 if (isChecked) {
                     if (didUserVote) {
-                        return <WTMResults whatsTheMelody={WTM} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
+                        return <Results whatsTheMelody={WTM} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
                     }
-                    return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
+                    return <Questionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
                 }
                 return <div className="DA"><LoadingSmall /></div>;
             }
-            return <WTMQuestionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
+            return <Questionnaire whatsTheMelody={WTM} getWhatsTheMelody={getWhatsTheMelody} handleRollWhatsTheMelody={handleRollWhatsTheMelody}/>;
         }
         return <div className="DA"><LoadingSmall /></div>;
     };
@@ -112,7 +111,7 @@ const RightSideV2 = () => {
             if (WTM) {
                 if (isChecked) {
                     if (didUserVote) {
-                        return <WhatsTheMelodyComments id={WTM.id} whatsTheMelodyComments={WTMC} getWTMComments={getWTMComments}/>;
+                        return <Comments id={WTM.id} whatsTheMelodyComments={WTMC} getWTMComments={getWTMComments}/>;
                     }
                     return null;
                 }
@@ -183,4 +182,4 @@ const RightSideV2 = () => {
      );
 }
  
-export default RightSideV2;
+export default RightSide;

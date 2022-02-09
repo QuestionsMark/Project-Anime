@@ -2,12 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
-import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
-
-import { HOST_ADDRESS } from '../config';
+import { StarRateRounded, CachedRounded } from '@material-ui/icons';
 
 import { useUser } from '../contexts/UserProvider';
+import { HOST_ADDRESS } from '../config';
 
 const DailyAnime = ({dailyAnime, handleRollDailyAnime}) => {
 
@@ -22,13 +20,13 @@ const DailyAnime = ({dailyAnime, handleRollDailyAnime}) => {
     return ( 
         <div className="DA">
             {authorization === '3' ? <div className="AOT__adminPanel">
-                <CachedRoundedIcon className="AOT__finish-icon" onClick={handleRollDailyAnime}/>
+                <CachedRounded className="AOT__finish-icon" onClick={handleRollDailyAnime}/>
             </div> : null}
             <h3 className="DA__title">Polecane Anime na Dziś!</h3>
             <div className="DA__info">
                 <div className="DA__left">
                     <div className="DA__image" style={{ backgroundImage: `url(${HOST_ADDRESS}/images/${img})` }}/>
-                    <p className="DA__rate"><StarRateRoundedIcon className="DA__rateIcon"/><span className="DA__rateValue">{rate}</span></p>
+                    <p className="DA__rate"><StarRateRounded className="DA__rateIcon"/><span className="DA__rateValue">{rate}</span></p>
                 </div>
                 <div className="DA__right">
                     <Link to={`/anime/${id}`} className="DA__animeTitle">{title}</Link>
