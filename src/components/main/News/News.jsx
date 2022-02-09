@@ -9,7 +9,7 @@ import Search from '../../Search';
 import Loading from '../../Loading';
 import Error from '../../Error';
 import NewsPage from './NewsPage';
-import AddNews from '../../AddNews';
+import AddNews from './AddNews';
 
 import useSearch from '../../../hooks/useSearch';
 import { useUser } from '../../../contexts/UserProvider';

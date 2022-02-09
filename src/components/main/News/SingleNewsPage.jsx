@@ -10,7 +10,7 @@ import Comments from '../../Comments';
 import SingleNewsImage from '../../SingleNewsImage';
 
 import Popup from 'reactjs-popup';
-import UpdateNews from '../../UpdateNews';
+import UpdateNews from './UpdateNews';
 
 const SingleNewsPage = ({newsData, getNewsData}) => {
 

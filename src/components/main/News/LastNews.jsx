@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
 
-import Loading from './Loading';
-import SingleNews from './SingleNews';
+import Loading from '../../Loading';
+import SingleNews from '../../SingleNews';
 
-import { HOST_ADDRESS } from '../config';
+import { HOST_ADDRESS } from '../../../config';
 
-import { DefaultArray } from '../utils/CustomClasses';
+import { DefaultArray } from '../../../utils/CustomClasses';
 
 const LastNews = () => {
 

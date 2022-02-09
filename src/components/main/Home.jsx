@@ -2,7 +2,7 @@ import React from 'react';
 
 import AnimeOnTop from '../AnimeOnTop';
 import RecommendedProfiles from '../RecommendedProfiles';
-import LastNews from '../LastNews';
+import LastNews from './News/LastNews';
 import MyProjectsList from '../MyProjectsList';
 
 const Home = () => {

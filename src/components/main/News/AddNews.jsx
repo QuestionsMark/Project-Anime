@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useResponsePopup } from '../contexts/ResponsePopupProvider';
-import { useUser } from '../contexts/UserProvider';
+import { useResponsePopup } from '../../../contexts/ResponsePopupProvider';
+import { useUser } from '../../../contexts/UserProvider';
 
 import { Button } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
-import { HOST_ADDRESS } from '../config';
+import { HOST_ADDRESS } from '../../../config';
 
-import SingleGraphic from './SingleGraphic';
-import SingleImagePreview from './SingleImagePreview';
+import SingleGraphic from '../../SingleGraphic';
+import SingleImagePreview from '../../SingleImagePreview';
 
 const AddNews = ({close, getNews}) => {
 
@@ -27,15 +27,11 @@ const AddNews = ({close, getNews}) => {
 
     const [searchPhrase, setSearchPhrase] = useState('');
     const [title, setTitle] = useState('');
-    const [intro, setIntro] = useState('');
     const [description, setDescription] = useState('');
     const handleChangeTextData = (e, type) => {
         switch (type) {
             case 'title':
                 setTitle(e.target.value);
-                break;
-            case 'intro':
-                setIntro(e.target.value);
                 break;
             case 'description':
                 setDescription(e.target.value);
@@ -126,10 +122,6 @@ const AddNews = ({close, getNews}) => {
             errors.push('Tytuł powinien zawierać od 1 do 150 znaków.');
         }
 
-        if (intro.length < 50 || intro.length > 1000) {
-            errors.push('Opis wstępny powinien zawierać od 50 do 1000 znaków.');
-        }
-
         if (!(images || choosedGraphics.length > 0) || (images && !test)) {
             errors.push('Wybierz grafikę lub grafiki w podanych formatach jpg, jpeg, png, webp, gif.');
         }
@@ -138,10 +130,8 @@ const AddNews = ({close, getNews}) => {
             errors.push('Wybierz maksymalnie 5 grafik wliczając proponowane grafiki.');
         }
 
-        if (description) {
-            if (description.length > 10000) {
-                errors.push('Opis główny powinien zawierać od 1 do 10000 znaków.');
-            }
+        if (description.length < 50 || description.length > 10000) {
+            errors.push('Opis powinien zawierać od 50 do 10000 znaków.');
         }
 
         const tooBigFiles = preview.filter(p => p.size > 1.048576);
@@ -150,7 +140,7 @@ const AddNews = ({close, getNews}) => {
         }
 
         return errors;
-    }, [choosedGraphics.length, description, images, intro.length, preview, title.length]);
+    }, [choosedGraphics, description, images, preview, title]);
 
     const validationList = () => {
         return validationErrors.map((e, i) => <li key={i} className="changes__validation-item"><p className="changes__error">{e}</p></li>);
@@ -167,9 +157,7 @@ const AddNews = ({close, getNews}) => {
     const handleSave = async e => {
         e.preventDefault();
         if (validationErrors.length === 0) {
-            console.log({title, intro, description, videos, otherLinks, images, choosedGraphics});
             setTitle('');
-            setIntro('');
             setDescription('');
             setVideos(['', '', '']);
             setOtherLinks([
@@ -217,7 +205,6 @@ const AddNews = ({close, getNews}) => {
                     body: JSON.stringify({
                         userID: user.id,
                         title: title.toUpperCase(),
-                        intro,
                         description,
                         videos,
                         otherLinks,
@@ -248,7 +235,7 @@ const AddNews = ({close, getNews}) => {
 
     useEffect(() => {
         setValidationErrors(checkValidation());
-    }, [checkValidation, title, intro, description, choosedGraphics, images]);
+    }, [checkValidation, title, description, choosedGraphics, images]);
     
     return ( 
         <div className="news__popup-add">
@@ -259,14 +246,9 @@ const AddNews = ({close, getNews}) => {
                 <input type="text" className="inputText" placeholder="Tytuł" value={title} onChange={(e) => handleChangeTextData(e, 'title')}/>
             </div>
             <div className="news__popup-add-section">
-                <h3 className="news__popup-add-subtitle">Opis wstępny</h3>
-                <textarea className="textarea news__inp-intro" placeholder="Kilka zdań wprowadzenia..." value={intro} onChange={(e) => handleChangeTextData(e, 'intro')}/>
-                <p className="news__popup-add-validation-text">Opis wstępny powinien zawierać od 50 do 1000 znaków. ( <span style={{color: intro.length < 50 || intro.length > 1000 ? '#d14141' : '#5ec45e'}}>{intro.length}</span> )</p>
-            </div>
-            <div className="news__popup-add-section">
-                <h3 className="news__popup-add-subtitle">Reszta opisu*</h3>
+                <h3 className="news__popup-add-subtitle">Opis</h3>
                 <textarea className="textarea news__inp-description" placeholder="Opis główny..." value={description} onChange={(e) => handleChangeTextData(e, 'description')}/>
-                <p className="news__popup-add-validation-text">Opis główny powinien zawierać do 10000 znaków. ( <span style={{color: description.length > 10000 ? '#d14141' : '#5ec45e'}}>{description.length}</span> )</p>
+                <p className="news__popup-add-validation-text">Opis powinien zawierać od 50 do 10000 znaków. ( <span style={{color: description.length < 50 || description.length > 10000 ? '#d14141' : '#5ec45e'}}>{description.length}</span> )</p>
             </div>
             <div className="news__popup-add-section">
                 <h3 className="news__popup-add-subtitle">Filmy*</h3>
