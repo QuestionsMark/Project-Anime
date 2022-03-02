@@ -6,6 +6,7 @@ import { StarRateRounded, CachedRounded } from '@material-ui/icons';
 
 import { useUser } from '../contexts/UserProvider';
 import { HOST_ADDRESS } from '../config';
+import { textHelper } from '../utils/textHelper';
 
 const DailyAnime = ({dailyAnime, handleRollDailyAnime}) => {
 
@@ -35,7 +36,7 @@ const DailyAnime = ({dailyAnime, handleRollDailyAnime}) => {
                     </ul>
                 </div>
             </div>
-            <p className="DA__description">{description.slice(0, 200)}...</p>
+            <div className="text--indent DA__description">{textHelper(description)}</div>
             <Link to={`/anime/${id}`} className="DA__link"><Button className="button DA__more">Czytaj dalej</Button></Link>
         </div>
      );

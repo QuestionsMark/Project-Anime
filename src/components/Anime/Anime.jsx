@@ -7,6 +7,7 @@ import Search from '../Search';
 import SingleAnime from './SingleAnime';
 
 import useSearch from '../../hooks/useSearch';
+import ResultsAmount from './ResultsAmount';
 
 const Anime = () => {
 
@@ -24,7 +25,7 @@ const Anime = () => {
     const [rateMinFilter, setRateMinFilter] = useState('');
     const [rateMaxFilter, setRateMaxFilter] = useState('');
 
-    const { data, hasMore, loading, error } = useSearch('anime/top', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, sortFilter, kindFilter, rateMinFilter, rateMaxFilter);
+    const { data, amount, hasMore, loading, error } = useSearch('anime/top', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, sortFilter, kindFilter, rateMinFilter, rateMaxFilter);
 
     const observer = useRef();
     const lastDataElementRef = useCallback(node => {
@@ -145,10 +146,13 @@ const Anime = () => {
     handleFilterSort={handleFilterSort}
     />, [kindFilter, rateMinFilter, rateMaxFilter, sortFilter]);
 
+    const resultsComponent = useMemo(() => <ResultsAmount amount={amount}/>, [amount]);
+
     return ( 
         <div className="top main__content">
             {searchComponent}
             {filterComponent}
+            {resultsComponent}
             {data.length > 0 ? <div className="animeList scrollNav" data-id="3">
                 <ul className="animeList__list">
                     {animeList()}

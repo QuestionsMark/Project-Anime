@@ -106,8 +106,8 @@
     }
 
     &__description {
-        font-size: 16px;
-        user-select: text;
+        @include line-limit(10);
+        font-size: 15px;
     }
 
     &__link {

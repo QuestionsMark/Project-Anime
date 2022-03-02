@@ -8,6 +8,7 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
     const [hasMore, setHasMore] = useState(false);
+    const [amount, setAmount] = useState(0);
 
     useEffect(() => {
         setData([]);
@@ -33,23 +34,25 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
             cancelToken: new axios.CancelToken(c => cancel = c),
         })
             .then(res => {
-                setData(prev => [...prev, ...res.data]);
-                setHasMore(res.data.length > 0);
-                if (res.data.length === 0) {
+                console.log(res.data);
+                setLoading(false);
+                setData(prev => [...prev, ...res.data.results]);
+                setHasMore(res.data.results.length > 0);
+                if (res.data.results.length === 0) {
                     if (data.length === 0) {
                         setError({ message: "Nie znalazłam nic co by pasowało..." });
                     } else {
                         setError({ message: "Niestety nie znalazłam nic więcej..." });
                     }
                 }
-                setLoading(false);
+                setAmount(res.data.amount);
             })
             .catch(e => {
                 if (axios.isCancel(e)) return;
-                setError({ message: e.message });
+                setError({ message: 'O nie!@! Coś poszło nie tak!' });
             });
         return () => cancel();
     }, [changedData, searchPhrase, wantTypes, dontWantTypes, sort, kind, minRate, maxRate, page, collection]);
 
-    return { loading, error, data, hasMore };
+    return { loading, error, data, hasMore, amount };
 }

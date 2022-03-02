@@ -8,6 +8,7 @@ import { FavoriteRounded, GradeRounded } from '@material-ui/icons';
 import UserAchievement from './UserAchievement';
 
 import { HOST_ADDRESS } from '../../config';
+import { textHelper } from '../../utils/textHelper';
 
 const SingleUser = ({place, user, refference}) => {
 
@@ -63,7 +64,7 @@ const SingleUser = ({place, user, refference}) => {
                 <div className="userList__avatar" style={{backgroundImage: `url(${HOST_ADDRESS}/images/${avatar})`}}/>
                 <div className="userList__introduction">
                     <Link to={`/users/${id}`} className="userList__username">{username}</Link>
-                    <p className="userList__description">{introduction.description}</p>
+                    <div className="text--indent userList__description">{textHelper(introduction.description)}</div>
                 </div>
                 <div className="userList__specifications">
                     <div className="userList__specification">
