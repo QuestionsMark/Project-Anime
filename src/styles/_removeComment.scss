@@ -1,0 +1,11 @@
+.remove-icon {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: darken($main-color, 20%);
+    cursor: pointer;
+
+    &:hover {
+        color: $main-color;
+    }
+}

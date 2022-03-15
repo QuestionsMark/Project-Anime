@@ -145,14 +145,6 @@ const RightSide = () => {
 
     useEffect(() => {
         if (socket === null) return;
-        socket.on('whats-the-melody-new-vote', async () => {
-            await getWhatsTheMelody();
-        });
-        return () => socket.off('whats-the-melody-new-vote');
-    }, [socket]);
-
-    useEffect(() => {
-        if (socket === null) return;
         socket.on('whats-the-melody-roll', async () => {
             audioRef.current.autoplay = true;
             audioRef.current.src = plum;
@@ -170,6 +162,14 @@ const RightSide = () => {
             scrollDown();
         });
         return () => socket.off('whats-the-melody-new-comment');
+    }, [socket]);
+
+    useEffect(() => {
+        if (socket === null) return;
+        socket.on('whats-the-melody-refresh', async () => {
+            await getWhatsTheMelody();
+        });
+        return () => socket.off('whats-the-melody-refresh');
     }, [socket]);
 
     return ( 

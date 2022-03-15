@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FavoriteBorderRounded } from '@material-ui/icons';
@@ -6,13 +6,14 @@ import { FavoriteBorderRounded } from '@material-ui/icons';
 import { useSocket } from '../../contexts/SocketProvider';
 import { useUser } from '../../contexts/UserProvider';
 import { HOST_ADDRESS } from '../../config';
+import RemoveComment from '../RemoveComment';
 
 const SingleComment = ({comment, WTMID}) => {
 
     const { id, userID, text, likes, date} = comment;
 
     const socket = useSocket();
-    const { user } = useUser();
+    const { user, authorization } = useUser();
 
     const [avatar, setAvatar] = useState('618808b0272a0338bcef2a09');
     const [username, setUsername] = useState('');
@@ -46,6 +47,8 @@ const SingleComment = ({comment, WTMID}) => {
         socket.emit('whats-the-melody-comment-like');
     }
 
+    const removeCommentComponent = useMemo(() => authorization === '2' || authorization === '3' ? <RemoveComment collection="whats-the-melody" collectionId={WTMID} id={id}/> : null, [authorization]);
+
     useEffect(() => {
         getAvatar();
     }, [getAvatar]);
@@ -63,6 +66,7 @@ const SingleComment = ({comment, WTMID}) => {
                     <p className="WTMC__likeAmount">{likes.length}</p>
                     <FavoriteBorderRounded className={`WTMC__likeIcon ${isActive()}`} onClick={handleLikeClick}/>
                 </div>
+                {removeCommentComponent}
             </div>
         </li>
      );
