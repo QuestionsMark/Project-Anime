@@ -34,7 +34,6 @@ export default function useSearch(collection, searchPhrase, page, changedData, w
             cancelToken: new axios.CancelToken(c => cancel = c),
         })
             .then(res => {
-                console.log(res.data);
                 setLoading(false);
                 setData(prev => [...prev, ...res.data.results]);
                 setHasMore(res.data.results.length > 0);

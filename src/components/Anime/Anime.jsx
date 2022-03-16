@@ -25,7 +25,7 @@ const Anime = () => {
     const [rateMinFilter, setRateMinFilter] = useState('');
     const [rateMaxFilter, setRateMaxFilter] = useState('');
 
-    const { data, amount, hasMore, loading, error } = useSearch('anime/top', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, sortFilter, kindFilter, rateMinFilter, rateMaxFilter);
+    const { data, amount, hasMore, loading, error } = useSearch('anime', searchPhrase, page, null, wantTypesFilter, dontWantTypesFilter, sortFilter, kindFilter, rateMinFilter, rateMaxFilter);
 
     const observer = useRef();
     const lastDataElementRef = useCallback(node => {

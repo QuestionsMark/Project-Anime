@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SendRounded } from '@material-ui/icons';
 
 import { useUser } from '../../contexts/UserProvider';
+import { useResponsePopup } from '../../contexts/ResponsePopupProvider';
 import { HOST_ADDRESS } from '../../config.js';
 
 const AddComment = ({collectionId, getData, collection}) => {
@@ -11,6 +12,7 @@ const AddComment = ({collectionId, getData, collection}) => {
     const textarea = useRef();
 
     const { user } = useUser();
+    const { setResponse, setOpen } = useResponsePopup();
 
     const [validationErrors, setValidationErrors] = useState(
         ['Komentarz powinien zawierać od 1 do 3000 znaków.']
@@ -48,7 +50,7 @@ const AddComment = ({collectionId, getData, collection}) => {
         if (validationErrors.length === 0) {
             setText('');
             textarea.current.blur();
-            await fetch(`${HOST_ADDRESS}/${collection}/comment`, {
+            const response = await fetch(`${HOST_ADDRESS}/${collection}/comment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +61,13 @@ const AddComment = ({collectionId, getData, collection}) => {
                     text,
                 }),
             });
-            getData();
+            if (response.ok) {
+                getData();
+            } else {
+                const { message } = await response.json();
+                setResponse({ status: response.ok, message });
+                setOpen(true);
+            }
         }
     };
 

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 
 import { FavoriteBorderRounded } from '@material-ui/icons';
 
+import RemoveComment from '../RemoveComment';
+
 import { useSocket } from '../../contexts/SocketProvider';
 import { useUser } from '../../contexts/UserProvider';
 import { HOST_ADDRESS } from '../../config';
-import RemoveComment from '../RemoveComment';
 
 const SingleComment = ({comment, WTMID}) => {
 
@@ -47,7 +48,7 @@ const SingleComment = ({comment, WTMID}) => {
         socket.emit('whats-the-melody-comment-like');
     }
 
-    const removeCommentComponent = useMemo(() => authorization === '2' || authorization === '3' ? <RemoveComment collection="whats-the-melody" collectionId={WTMID} id={id}/> : null, [authorization]);
+    const removeCommentComponent = useMemo(() => authorization === '2' || authorization === '3' ? <RemoveComment collection="whats-the-melody" collectionId={WTMID} id={id}/> : null, [WTMID, authorization, id]);
 
     useEffect(() => {
         getAvatar();

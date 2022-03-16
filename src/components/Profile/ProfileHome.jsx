@@ -131,7 +131,7 @@ const ProfileHome = ({profileData, match, getProfileData}) => {
                 <div className="profile__rightSide">
                     <div className="profile__intro">
                         <h3 className="profile__introTitle mediumTitle">{introduction.title}</h3>
-                        <p className="profile__introText">{textHelper(introduction.description)}</p>
+                        <div className="profile__introText">{textHelper(introduction.description)}</div>
                     </div>
                     <div className="profile__statistics">
                         <h3 className="profile__statisticsTitle mediumTitle">Statystyki Anime</h3>
